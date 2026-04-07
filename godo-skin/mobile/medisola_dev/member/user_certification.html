@@ -1,0 +1,112 @@
+{*** 본인인증 인증번호 확인 | member/user_certification.php ***}
+{ # header }
+<div class="user_certification">
+	<p class="tit">
+		<strong>{=__('인증수단 선택')}</strong>
+		<span>{=__('본인인증 방법을 선택해 주세요.')}</span>
+	</p>
+	<form id="formAuth" name="formAuth" action="" method="post">
+		<fieldset>
+			<input type="hidden" name="act" value="Y"/>
+			<input type="hidden" name="rncheck" value="none"/>
+			<input type="hidden" name="dupeinfo" value=""/>
+			<input type="hidden" name="token" value="{token}"/>
+			<legend>{=__('비밀번호 찾기')}</legend>
+			<!-- {? emailFl === true}  -->
+			<div class="inp_tx">
+				<span class="inp_rdo">
+					<input type="radio" name="authType" id="authEmail" value="authEmail"/>
+					<label for="authEmail">{=__('이메일 인증')}</label>
+				</span>
+				<strong>( {email} )</strong>
+				<p>{=__('가입시 등록한 이메일로 인증번호가 발송됩니다.')}</p>
+			</div>
+			<!-- {/} -->
+			<!-- {? smsFl === true}  -->
+			<div class="inp_tx">
+				 <span class="inp_rdo">
+				<input type="radio" name="authType" id="authSms" value="authSms"/>
+				<label for="authSms">{=__('SMS 인증')}</label>
+					  </span>
+				<span>( {cellphone} )</span>
+			</div>
+			<!-- {/} -->
+			<!-- {? ipinFl === true}  -->
+			<div class="inp_tx">
+				<span class="inp_rdo">
+					<input type="radio" name="authType" id="authIpin" value="authIpin" />
+					<label for="authIpin">{=__('아이핀 본인인증')}</label>
+				</span>
+			</div>
+			<!-- {/} -->
+			<!-- {? authCellphoneFl === true}  -->
+			<div class="inp_tx">
+				 <span class="inp_rdo">
+					<input type="radio" name="authType" id="authCellphone" value="authCellphone"/>
+					<label for="authCellphone">{=__('휴대폰 본인인증')}</label>
+				 </span>
+			</div>
+			<!-- {/} -->
+			<p class="caution_msg1 dn"></p>
+			<button type="submit" class="pw_find_next_btn">{=__('다음')}</button>
+		</fieldset>
+	</form>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#formAuth').validate({
+            dialog: false,
+            rules: {
+                authType: {
+                    required: true
+                }
+            },
+            messages: {
+                authType: {
+                    required: "{=__('인증수단을 선택해 주세요.')}"
+                }
+            }, submitHandler: function (form) {
+                var params = $(form).serializeArray();
+                params.push({name: "mode", value: "requestAuth"});
+
+                switch ($('input[name=authType]:checked').val()) {
+                    case 'authIpin' :
+						window.open("/member/ipin/ipin_main.php?callType=findpwd");
+                        return;
+                        break;
+                    case 'authCellphone' :
+                        var protocol = location.protocol;
+                        var callbackUrl = "{=domaiUrl}/member/authcellphone/dreamsecurity_result.php";
+						window.open(protocol + "//hpauthdream.godo.co.kr/module/Mobile_hpauthDream_Main.php?callType=findid&shopUrl=" + callbackUrl + "&cpid={=authDataCpCode}");
+                        break;
+                    case 'authEmail':
+                    case 'authSms':
+                        $.post('../member/user_certification_ps.php', params).done(function (data, textStatus, jqXHR) {
+                            console.log('gd_member ajax', data, textStatus, jqXHR);
+                            var code = data.code;
+                            var message = data.message;
+                            if (_.isUndefined(code) && _.isUndefined(message)) {
+                                alert(data);
+                                form.action = '../member/user_certification_confirm.php';
+                                form.submit();
+                            } else {
+                                $('.caution_msg1', form).removeClass('dn').html('<strong>' + message + '</strong>');
+                            }
+                        });
+                        break;
+                    default :
+                }
+
+            }
+        });
+
+        window.addEventListener('message', function (e) {
+            if (e.origin === 'http://hpauthdream.godo.co.kr') {
+                $('#layerSearch').remove();
+            }
+        });
+    });
+</script>
+{ # footer }

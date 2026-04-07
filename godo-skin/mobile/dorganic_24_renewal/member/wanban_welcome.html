@@ -1,0 +1,391 @@
+{*** 완반 회원가입 > 가입완료 | member/wanban_welcome.php ***}
+{ # header }
+
+<style>
+#container #contents{
+	width: 100%;
+	max-width: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+.wanban-mobile-container {
+    min-height: 100vh;
+    width: 100%;
+    background: linear-gradient(135deg, #7EA86B 0%, #D17A47 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3vw;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.wanban-mobile-card {
+    background: white;
+    border-radius: 4vw;
+    box-shadow: 0 5vw 10vw rgba(0, 0, 0, 0.1);
+    padding: 8vw 6vw;
+    width: 100%;
+    max-width: 95vw;
+    max-height: 95vh;
+    overflow-y: auto;
+    text-align: center;
+}
+
+.wanban-mobile-header {
+    text-align: center;
+    margin-bottom: 6vw;
+}
+
+.wanban-mobile-logo {
+    max-width: 20vw;
+    height: auto;
+    border-radius: 2vw;
+    margin-bottom: 4vw;
+}
+
+.wanban-mobile-title h2 {
+    color: #333;
+    font-size: 6vw;
+    font-weight: 700;
+    margin: 0 0 2vw 0;
+    background: linear-gradient(135deg, #7EA86B, #D17A47);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.wanban-mobile-steps {
+    display: flex;
+    justify-content: center;
+    gap: 4vw;
+    margin-bottom: 6vw;
+}
+
+.wanban-mobile-step {
+    display: flex;
+    align-items: center;
+    gap: 2vw;
+    font-size: 3vw;
+    color: #666;
+}
+
+.wanban-mobile-step.active {
+    color: #7EA86B;
+    font-weight: 600;
+}
+
+.wanban-mobile-step-number {
+    background: #e0e0e0;
+    color: #666;
+    width: 6vw;
+    height: 6vw;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3vw;
+    font-weight: 600;
+}
+
+.wanban-mobile-step.active .wanban-mobile-step-number {
+    background: linear-gradient(135deg, #7EA86B, #D17A47);
+    color: white;
+}
+
+.wanban-mobile-welcome-content {
+    text-align: center;
+    padding: 8vw 4vw;
+}
+
+.wanban-mobile-success-icon {
+    width: 20vw;
+    height: 20vw;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #7EA86B, #D17A47);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 6vw;
+    box-shadow: 0 2vw 6vw rgba(126, 168, 107, 0.3);
+}
+
+.wanban-mobile-success-icon::after {
+    content: '✓';
+    color: white;
+    font-size: 10vw;
+    font-weight: bold;
+}
+
+.wanban-mobile-welcome-title {
+    color: #333;
+    font-size: 6vw;
+    font-weight: 700;
+    margin-bottom: 3vw;
+    background: linear-gradient(135deg, #7EA86B, #D17A47);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.wanban-mobile-welcome-message {
+    color: #666;
+    font-size: 4vw;
+    line-height: 1.6;
+    margin-bottom: 6vw;
+}
+
+.wanban-mobile-member-info {
+    background: #f8f9ff;
+    border-radius: 3vw;
+    padding: 4vw;
+    margin-bottom: 6vw;
+    border-left: 1vw solid #7EA86B;
+    text-align: left;
+}
+
+.wanban-mobile-member-info h4 {
+    color: #333;
+    font-size: 4vw;
+    font-weight: 600;
+    margin-bottom: 2vw;
+}
+
+.wanban-mobile-member-info p {
+    color: #666;
+    font-size: 3.5vw;
+    margin: 1vw 0;
+    line-height: 1.4;
+}
+
+.wanban-mobile-restaurant-info {
+    background: #f8f9ff;
+    border-radius: 3vw;
+    padding: 4vw;
+    margin-bottom: 6vw;
+    border-left: 1vw solid #7EA86B;
+    text-align: center;
+}
+
+.wanban-mobile-restaurant-photo {
+    width: 100%;
+    max-width: 60vw;
+    height: 40vw;
+    border-radius: 2vw;
+    object-fit: cover;
+    margin-bottom: 3vw;
+}
+
+.wanban-mobile-restaurant-info h4 {
+    color: #333;
+    font-size: 4vw;
+    font-weight: 600;
+    margin-bottom: 2vw;
+}
+
+.wanban-mobile-restaurant-info p {
+    color: #666;
+    font-size: 3.5vw;
+    line-height: 1.5;
+    text-align: left;
+}
+
+.wanban-mobile-button-group {
+    display: flex;
+    gap: 3vw;
+    margin-top: 6vw;
+}
+
+.wanban-mobile-button {
+    flex: 1;
+    border: none;
+    border-radius: 12vw;
+    padding: 4vw 6vw;
+    font-size: 4vw;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.wanban-mobile-button-primary {
+    background: linear-gradient(135deg, #7EA86B, #D17A47);
+    color: white;
+    box-shadow: 0 2vw 5vw rgba(126, 168, 107, 0.3);
+}
+
+.wanban-mobile-button-primary:hover {
+    transform: translateY(-0.5vw);
+    box-shadow: 0 3vw 6vw rgba(126, 168, 107, 0.4);
+}
+
+.wanban-mobile-button-secondary {
+    background: #f5f5f5;
+    color: #666;
+    border: 0.3vw solid #ddd;
+}
+
+.wanban-mobile-button-secondary:hover {
+    background: #eee;
+    transform: translateY(-0.3vw);
+}
+
+/* Landscape orientation adjustments */
+@media (orientation: landscape) and (max-height: 500px) {
+    .wanban-mobile-container {
+        padding: 2vw;
+    }
+    
+    .wanban-mobile-card {
+        padding: 4vw;
+        border-radius: 3vw;
+        max-height: 98vh;
+    }
+    
+    .wanban-mobile-header {
+        margin-bottom: 4vw;
+    }
+    
+    .wanban-mobile-logo {
+        max-width: 15vw;
+        margin-bottom: 2vw;
+    }
+    
+    .wanban-mobile-title h2 {
+        font-size: 5vw;
+        margin-bottom: 1vw;
+    }
+    
+    .wanban-mobile-steps {
+        gap: 3vw;
+        margin-bottom: 4vw;
+    }
+    
+    .wanban-mobile-welcome-content {
+        padding: 4vw 2vw;
+    }
+    
+    .wanban-mobile-success-icon {
+        width: 15vw;
+        height: 15vw;
+        margin-bottom: 4vw;
+    }
+    
+    .wanban-mobile-success-icon::after {
+        font-size: 7vw;
+    }
+    
+    .wanban-mobile-welcome-title {
+        font-size: 5vw;
+    }
+    
+    .wanban-mobile-member-info,
+    .wanban-mobile-restaurant-info {
+        margin-bottom: 4vw;
+        padding: 3vw;
+    }
+    
+    .wanban-mobile-restaurant-photo {
+        height: 30vw;
+    }
+    
+    .wanban-mobile-button-group {
+        margin-top: 4vw;
+        gap: 2vw;
+    }
+}
+</style>
+
+<div class="wanban-mobile-container">
+    <div class="wanban-mobile-card">
+        <div class="wanban-mobile-header">
+            <img src="https://img.kr.gcp-karroter.net/businessPlatform/bizPlatform/profile/center_biz_1673210/1751352914557/e8692bcfca369a4ef756b7643e143ab91ae282113f6902eb745b90de1e98e0c1.jpeg?q=82&s=640x640&t=crop" 
+                 alt="완반 로고" 
+                 class="wanban-mobile-logo">
+            
+            <div class="wanban-mobile-title">
+                <h2>{=__('완반 회원가입')}</h2>
+            </div>
+            
+            <div class="wanban-mobile-steps">
+                <div class="wanban-mobile-step">
+                    <span class="wanban-mobile-step-number">01</span>
+                    <span>{=__('약관동의')}</span>
+                </div>
+                <div class="wanban-mobile-step">
+                    <span class="wanban-mobile-step-number">02</span>
+                    <span>{=__('정보입력')}</span>
+                </div>
+                <div class="wanban-mobile-step active">
+                    <span class="wanban-mobile-step-number">03</span>
+                    <span>{=__('가입완료')}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="wanban-mobile-welcome-content">
+            <div class="wanban-mobile-success-icon"></div>
+            
+            <h3 class="wanban-mobile-welcome-title">{=__('완반X메디쏠라 회원이 되신 것을 축하합니다!')}</h3>            
+            <p class="wanban-mobile-welcome-message">
+                {=__('지금 고객님께 1000포인트 적립되었습니다.')}<br>
+                {=__('완반에서 사용 가능한 500P 적립')}<br>
+                {=__('메디쏠라에서 사용 가능한 500P 적립')}<br>
+                {=__('(신규 가입시 1회 한정으로 제공됩니다.)')}
+            </p>
+            
+            <div class="wanban-mobile-member-info">
+                <h4>{=__('회원정보')}</h4>
+                <p><strong>{=__('아이디')}:</strong> {=memberInfo.memId}</p>
+                <p><strong>{=__('이름')}:</strong> {=memberInfo.memNm}</p>
+            </div>
+            
+            <div class="wanban-mobile-restaurant-info">
+                <img src="../img/mimg/wanban_store.jpg" 
+                     alt="완반 매장" 
+                     class="wanban-mobile-restaurant-photo">
+                <h4>{=__('완반 매장에서 만나보세요!')}</h4>
+                <p>
+                    {=__('QR코드를 통해 가입해주셔서 감사합니다.')}<br>
+                    {=__('완반 매장에서 직접 만나뵙고 더 맛있는 음식을 제공해드리겠습니다.')}<br>
+                    {=__('온라인 쇼핑몰에서도 완반의 건강한 메뉴를 만나보세요!')}
+                </p>
+            </div>
+        </div>
+
+        <div class="wanban-mobile-button-group">
+            <a href="{=domainUrl}" class="wanban-mobile-button wanban-mobile-button-primary" id="btnGoShopping">
+                {=__('식단 찾기')}
+            </a>
+            <a href="../mypage/index.php" class="wanban-mobile-button wanban-mobile-button-secondary" id="btnMyPage">
+                {=__('마이페이지')}
+            </a>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        // 완반 페이지 브라우저 타이틀 변경
+        document.title = '완반X메디쏠라';
+        
+        amplitude.logEvent('wanban_signup_complete_view', {
+            member_id: '{=memberInfo.memId}',
+            member_name: '{=memberInfo.memNm}',
+            signup_date: '{=memberInfo.regDt}'
+        });
+        
+        $('#btnGoShopping').click(function () {
+            amplitude.logEvent('wanban_signup_complete_shopping_button_click');
+        });
+        
+        $('#btnMyPage').click(function () {
+            amplitude.logEvent('wanban_signup_complete_mypage_button_click');
+        });
+    });
+</script>
+
+{ # footer }

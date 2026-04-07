@@ -1,0 +1,32 @@
+{*** 나만의 식단 플랜 퀴즈 | guide/diet_quiz.html ***}
+{ # header }
+<link rel="stylesheet" href="../css/diet-quiz.css?v=2" />
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    if (window.isEnvDev) {
+        $("body").css("padding-top", 0);
+        $(".preview-title").remove();
+    }
+
+    $("#wrap").css("min-width", 0);
+    $("#mheader").css("display", "none");
+    $(".mh_empty").css("display", "none");
+    $("#container #contents").css({"width":"100%","max-width":"unset","margin":0,"padding":0});
+    $("#mfooter").css("display", "none");
+    $("iframe[src='/blank.php']").css("display", "none");
+
+    DietQuiz.init({
+        goodsNo: '{=goodsNo}',
+        isMobile: true
+    });
+});
+</script>
+
+<main id="diet_quiz" class="dq-app">
+    <div class="dq-screen-container" id="dqScreenContainer">
+        <!-- JS에서 동적 렌더링 -->
+    </div>
+</main>
+
+<script src="../js/diet-quiz.js?v=2"></script>
+{ # footer }

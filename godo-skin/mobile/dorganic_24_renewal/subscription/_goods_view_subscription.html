@@ -1,0 +1,234 @@
+{*** [위젯] 정기결제 옵션 선택 | goods/_goods_display.php ***}
+<link rel="stylesheet" type="text/css" href='../subscription/css/widget/goods_view_subscription.css'>
+<script src='../subscription/js/common.js'></script>
+<div class='goods_view_subscription'>
+<div class='subscription_type_box'>
+     <input type='hidden'  name='subscription_type' class='subscription_type' value='1'>
+    <span class="sel_subscription_type" data-type='0'>1회 구매</span>
+    <span class="sel_subscription_type on" data-type='1'>정기결제</span>
+    <span class='subscription_benefit' onclick="wm.layer.popup('../subscription/subscription_benefit.php?goodsNo={goodsNo}', 320, 260, true);">결제회차별 할인혜택</span>
+</div> <!-- subscription_type -->
+
+<div class='subscription_wrapper'>
+
+<!--{ ? period }-->
+<input type='hidden' name='period' id='subscription_period' value='{period[0][0]}_{period[0][1]}'>
+<div class="subscription_selection">
+	<div class='mtitle_row'>
+		<span class='mtitle'>결제 주기<span class='small_txt'>(신청 후 변경가능)</span></span>
+		<span class='subscription_benefit_inline' >
+			<svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align: middle; margin-right: 3px;">
+				<path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" fill="#000000"/>
+			</svg>
+			결제회차별 할인혜택
+		</span>
+	</div>
+	<div class='selection_rows first'>
+	<!--{ @period }-->
+	<!--{ ? .index_ > 0 && .index_ % 3 == 0 }--></div><div class='selection_rows'><!--{ / }-->
+	<div class='cell_rows'>
+		<div class='sel_period<!--{ ? .index_ == 0 }--> on<!--{ / }-->' data-period='{.value_[0]}_{.value_[1]}'>
+            <div class='box'>
+                <span class='period_content'>
+                    <span class='period_checkmark'>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="8" cy="8" r="8" fill="#253479"/>
+                            <path d="M5 8L7 10L11 5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </span>
+                    <span class='period_text'>{.value_[0]}<!--{ ? .value_[1] == 'month' }-->달<!--{ : }-->주<!--{ / }-->에 한 번</span>
+                </span>
+            </div> <!-- box -->
+        </div> <!-- sel_period -->
+	</div> <!-- cell_rows -->
+	<!--{ / }-->
+    <!--{ ? count(period) % 3 > 0 }-->
+    <!--{ @range(1, 3 - count(period) % 3) }-->
+    <div class='cell_rows'></div>
+    <!--{ / }-->
+    <!--{ / }-->
+	</div> <!-- selection_rows -->
+</div> <!-- subscription_selection -->
+<!--{ / }-->
+</div> <!-- subscription_wrapper -->
+</div> <!-- goods_view_subscription-->
+
+<script>
+$(function() {
+    $(".sel_subscription_type").click(function() {
+        $(".sel_subscription_type").removeClass("on");
+        $(this).addClass("on");
+        var v = $(this).data('type');
+        if (v == '1') {
+            $(".onetime_buy").hide();
+            $(".subscription_buy, .subscription_selection").fadeIn();
+        } else {
+            $(".subscription_buy, .subscription_selection").hide();
+            $(".onetime_buy").fadeIn();
+        }
+
+        $(".subscription_type").val(v);
+    });
+
+    $(".subscription_selection .sel_period").click(function() {
+        $(".subscription_selection .sel_period").removeClass("on");
+        $(this).addClass("on");
+        var period = $(this).data("period");
+        $("#subscription_period").val(period);
+    });
+
+    $(".subscription_buy").click(function() {
+        add_subscription_cart();
+    });
+
+    $(".layer_cartaddcancel").click(function() {
+        $("#addSubCartLayer").addClass("dn");
+    });
+
+    $('.layer_subscriptionconfirm').click(function(){
+        location.href = '../subscription/cart.php';
+        return;
+    });
+
+    $('.subscription_benefit_inline').click(function() {
+        openBenefitLayer('{= goodsNo }');
+    })
+});
+
+function add_subscription_cart()
+{
+    <!--{ ? !gd_is_login() }-->
+    alert("정기결제는 로그인이 필요한 서비스 입니다.");
+    window.location.href='../member/login.php';
+    return;
+    <!--{ / }-->
+    
+    $('#frmView input[name=\'mode\']').val('cartIn');
+    $('#frmView').attr('action','../subscription/cart_ps.php');
+    
+    <!--{ ? goodsView['optionFl'] == 'y'}-->
+    var goodsInfo		= $('#frmView input[name*=\'optionSno[]\']').length;
+    <!--{ : }-->
+    var goodsInfo		= $('#frmView input[name="optionSnoInput"]').val();
+    <!--{ / }-->
+
+    if (goodsInfo == '') {
+       alert('옵션을 선택해주세요!!');
+       return false;
+    }
+    
+    <!--{ ? gd_isset(goodsView['optionTextFl']) == 'y' }-->
+    if(!goodsViewController.option_text_valid("#frmView"))
+    {
+        alert('입력 옵션을 확인해주세요.');
+        return false;
+    }
+   <!--{ / }-->
+    
+    <!--{ ? goodsView['addGoods'] }-->
+     //추가상품
+     if(!goodsViewController.add_goods_valid("#frmView"))
+     {
+        alert('필수 추가 상품을 확인해주세요.');
+        return false;
+     }
+     <!--{ / }-->
+    
+    $('#frmView').attr('target','');
+
+    if(typeof modeStr != 'undefined') {
+        $('#frmView').submit();
+    } else {
+        var params = $( "#frmView" ).serialize();
+
+        $.ajax({
+              method: "POST",
+              cache: false,
+              url: "../subscription/cart_ps.php",
+              data: params,
+              success: function (data) {
+                 if (data == '1') {
+                     <!--{ ? cartInfo.moveCartPageFl == 'y' || (cartInfo.moveCartPageFl == 'n' && cartInfo.moveCartPageDeviceFl == 'pc') }-->
+                     location.href="../subscription/cart.php";
+                    <!--{ : }-->
+                    if ($('.ly_show').length > 0 && $('.ly_show').attr('id') == 'popup-option') {
+                        $('.ly_show .ly_btn_close').trigger('click');
+                    } else {
+                        $('.st-buy-close').trigger('click');
+                    }
+                    $("#addSubCartLayer").removeClass('dn');
+                    $('#layerDim').removeClass('dn');
+
+                    <!--{ / }-->
+                  } else {
+                    alert('정기결제 장바구니 담기에 실패하였습니다.');
+                  }
+                },
+                error: function (data) {
+                    alert(data.message);
+                }
+            });
+    }
+}
+
+const openBenefitLayer = async goodsNo => {
+
+    const optionInputs = document.querySelectorAll("input[name='optionSno[]']");
+
+    if (optionInputs.length === 0) {
+        alert('옵션을 선택해주세요.');
+        return;
+    }
+
+    const params = new URLSearchParams();
+
+    optionInputs.forEach(el => {
+        const optionSno = el.value;
+
+        // 모바일 구조 기준으로 정확하게 부모 찾기
+        const wrapper = el.closest('.option_selected');
+        let qtyInput = null;
+
+        if (wrapper) {
+            qtyInput = wrapper.querySelector(".price_info .count input[name='goodsCnt[]']");
+        }
+
+        const qty = qtyInput ? qtyInput.value : 1;
+
+        params.append("optionSno[]", optionSno);
+        params.append("goodsCnt[" + optionSno + "]", qty);
+    });
+
+    params.append("mode", 'goodsBenefitCheck');
+    params.append("goodsNo", goodsNo);
+
+    try {
+        const response = await fetch('../subscription/ajax.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: params.toString()
+        });
+
+        const result = await response.json();
+
+        if (Array.isArray(result)) {
+            result.forEach(v => {
+                params.append("cartSno[]", v);
+            });
+        }
+
+        wm.layer.popup(
+            '../subscription/subscription_benefit.php?mode=benefitLayer&goodsNo=' +
+            goodsNo + '&' + params.toString(),
+            500,
+            300,
+            true
+        );
+
+    } catch (e) {
+        console.error("비동기 통신 오류:", e);
+        alert('서버 통신 중 오류 발생');
+    }
+};
+
+</script>

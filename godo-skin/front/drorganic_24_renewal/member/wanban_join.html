@@ -1,0 +1,610 @@
+{*** 완반 회원가입 > 정보입력 | member/wanban_join.php ***}
+{ # header }
+
+<style>
+#container #contents{
+	width: 100%;
+	max-width: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+.wanban-container {
+    min-height: 100vh;
+    width: 100%;
+    background: linear-gradient(135deg, #7EA86B 0%, #D17A47 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.wanban-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    max-width: 600px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.wanban-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.wanban-logo {
+    max-width: 120px;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.wanban-title h2 {
+    color: #333;
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0 0 10px 0;
+    background: linear-gradient(135deg, #7EA86B, #D17A47);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.wanban-steps {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.wanban-step {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #666;
+}
+
+.wanban-step.active {
+    color: #7EA86B;
+    font-weight: 600;
+}
+
+.wanban-step-number {
+    background: #e0e0e0;
+    color: #666;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.wanban-step.active .wanban-step-number {
+    background: linear-gradient(135deg, #7EA86B, #D17A47);
+    color: white;
+}
+
+.wanban-form-content {
+    text-align: left;
+}
+
+.wanban-form-title {
+    color: #333;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.wanban-form-row {
+    margin-bottom: 20px;
+}
+
+.wanban-form-label {
+    display: block;
+    color: #333;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.wanban-required {
+    color: #e74c3c;
+    font-weight: 600;
+}
+
+.wanban-form-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+    box-sizing: border-box;
+}
+
+.wanban-form-input:focus {
+    outline: none;
+    border-color: #7EA86B;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.wanban-form-input.error {
+    border-color: #e74c3c;
+}
+
+.wanban-form-group {
+    display: flex;
+    gap: 10px;
+}
+
+.wanban-form-group .wanban-form-input {
+    flex: 1;
+}
+
+.wanban-form-select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 14px;
+    background: white;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+.wanban-form-select:focus {
+    outline: none;
+    border-color: #7EA86B;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.wanban-form-radio-group {
+    display: flex;
+    gap: 20px;
+    margin-top: 8px;
+}
+
+.wanban-form-radio-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.wanban-form-radio {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #ddd;
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.wanban-form-radio.checked {
+    border-color: #7EA86B;
+    background: #7EA86B;
+}
+
+.wanban-form-radio.checked::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
+}
+
+.wanban-form-radio-label {
+    color: #333;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.wanban-error-message {
+    color: #e74c3c;
+    font-size: 12px;
+    margin-top: 5px;
+    display: none;
+}
+
+.wanban-button-group {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.wanban-button {
+    flex: 1;
+    border: none;
+    border-radius: 50px;
+    padding: 16px 32px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.wanban-button-prev {
+    background: #f5f5f5;
+    color: #666;
+    border: 1px solid #ddd;
+}
+
+.wanban-button-prev:hover {
+    background: #eee;
+    transform: translateY(-1px);
+}
+
+.wanban-button-next {
+    background: linear-gradient(135deg, #7EA86B, #D17A47);
+    color: white;
+    box-shadow: 0 8px 20px rgba(126, 168, 107, 0.3);
+}
+
+.wanban-button-next:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 25px rgba(126, 168, 107, 0.4);
+}
+
+.wanban-button-next:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+@media (max-width: 768px) {
+    .wanban-card {
+        padding: 30px 20px;
+        margin: 10px;
+        max-height: 95vh;
+    }
+    
+    .wanban-title h2 {
+        font-size: 24px;
+    }
+    
+    .wanban-steps {
+        gap: 15px;
+    }
+    
+    .wanban-form-group {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .wanban-button {
+        padding: 14px 24px;
+        font-size: 14px;
+    }
+}
+</style>
+
+<div class="wanban-container">
+    <div class="wanban-card">
+        <div class="wanban-header">
+            <img src="https://img.kr.gcp-karroter.net/businessPlatform/bizPlatform/profile/center_biz_1673210/1751352914557/e8692bcfca369a4ef756b7643e143ab91ae282113f6902eb745b90de1e98e0c1.jpeg?q=82&s=640x640&t=crop" 
+                 alt="완반 로고" 
+                 class="wanban-logo">
+            
+            <div class="wanban-title">
+                <h2>{=__('완반 회원가입')}</h2>
+            </div>
+            
+            <div class="wanban-steps">
+                <div class="wanban-step">
+                    <span class="wanban-step-number">01</span>
+                    <span>{=__('약관동의')}</span>
+                </div>
+                <div class="wanban-step active">
+                    <span class="wanban-step-number">02</span>
+                    <span>{=__('정보입력')}</span>
+                </div>
+                <div class="wanban-step">
+                    <span class="wanban-step-number">03</span>
+                    <span>{=__('가입완료')}</span>
+                </div>
+            </div>
+        </div>
+        <form id="frmJoin" name="frmJoin" method="post" action="{joinActionUrl}">
+            <input type="hidden" name="token" value="{token}"/>
+            <input type="hidden" name="mode" value="join"/>
+            <input type="hidden" name="wanban" value="true"/>
+            <input type="hidden" name="wanbanFl" value="y"/>
+            <input type="hidden" name="groupSno" value="20"/>
+            <input type="hidden" name="joinedVia" value="wanban"/>
+
+            <div class="wanban-form-content">
+                <h3 class="wanban-form-title">{=__('회원정보 입력')}</h3>
+
+                <div class="wanban-form-row">
+                    <label class="wanban-form-label">
+                        <span class="wanban-required">(필수)</span> {=__('아이디')}
+                    </label>
+                    <input type="text" name="memId" id="memId" class="wanban-form-input" placeholder="{=__('아이디를 입력하세요')}" maxlength="20" required>
+                    <div class="wanban-error-message" id="memIdError"></div>
+                </div>
+
+                <div class="wanban-form-row">
+                    <label class="wanban-form-label">
+                        <span class="wanban-required">(필수)</span> {=__('비밀번호')}
+                    </label>
+                    <input type="password" name="memPw" id="memPw" class="wanban-form-input" placeholder="{=__('비밀번호를 입력하세요')}" maxlength="20" required>
+                    <div class="wanban-error-message" id="memPwError"></div>
+                </div>
+
+                <div class="wanban-form-row">
+                    <label class="wanban-form-label">
+                        <span class="wanban-required">(필수)</span> {=__('비밀번호 확인')}
+                    </label>
+                    <input type="password" name="memPwRe" id="memPwRe" class="wanban-form-input" placeholder="{=__('비밀번호를 다시 입력하세요')}" maxlength="20" required>
+                    <div class="wanban-error-message" id="memPwReError"></div>
+                </div>
+
+                <div class="wanban-form-row">
+                    <label class="wanban-form-label">
+                        <span class="wanban-required">(필수)</span> {=__('이름')}
+                    </label>
+                    <input type="text" name="memNm" id="memNm" class="wanban-form-input" placeholder="{=__('이름을 입력하세요')}" maxlength="20" value="{?prefillName}{prefillName}{/}" required>
+                    <div class="wanban-error-message" id="memNmError"></div>
+                </div>
+
+                <div class="wanban-form-row">
+                    <label class="wanban-form-label">
+                        <span class="wanban-required">(필수)</span> {=__('휴대폰번호')}
+                    </label>
+                    <input type="text" id="cellPhone" name="cellPhone" class="wanban-form-input" maxlength="12" placeholder="- {=__('없이 입력하세요.')}" data-pattern="gdNum" required>
+                    <div class="form_element" style="margin-top: 10px;">
+                        <input type="checkbox" id="smsFl" name="smsFl" value="y" style="margin-right: 8px;">
+                        <label for="smsFl" style="color: #666; font-size: 14px;">{=__('정보/이벤트 SMS 수신에 동의합니다.')}</label>
+                    </div>
+                    <div class="wanban-error-message" id="cellPhoneError"></div>
+                </div>
+
+                <div class="wanban-form-row">
+                    <label class="wanban-form-label">
+                        {=__('성별')}
+                    </label>
+                    <div class="member_warning">
+                        <div class="form_element">
+                            <ul>
+                                <li>
+                                    <input type="radio" id="sexFlMan" name="sexFl" value="m" />
+                                    <label for="sexFlMan" class="choice_s">{=__('남자')}</label>
+                                </li>
+                                <li>
+                                    <input type="radio" id="sexFlWoman" name="sexFl" value="w" />
+                                    <label for="sexFlWoman" class="choice_s">{=__('여자')}</label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="wanban-error-message" id="sexError"></div>
+                </div>
+
+                <div class="wanban-form-row member_birthday">
+                    <label class="wanban-form-label">
+                        <span>{=__('생일')}</span>
+                    </label>
+                    <div class="wanban-form-group">
+                        <div class="member_warning">
+                            <select id="calendarFl" name="calendarFl" class="chosen-select wanban-form-select">
+                                <option value="">{=__('선택')}</option>
+                                <option value="s">{=__('양력')}</option>
+                                <option value="l">{=__('음력')}</option>
+                            </select>
+                        </div>
+                        <div class="member_warning">{=gd_select_box('birthYear', 'birthYear', DateYear, null, data.birthYear, __('년'), 'style="width: 100px;" class="wanban-form-select"', 'chosen-single')}</div>
+                        <div class="member_warning">{=gd_select_box('birthMonth', 'birthMonth', DateMonth, null, data.birthMonth, __('월'), 'style="width: 80px;" class="wanban-form-select"', 'chosen-single')}</div>
+                        <div class="member_warning">{=gd_select_box('birthDay', 'birthDay', DateDay, null, data.birthDay, __('일'), 'style="width: 80px;" class="wanban-form-select"', 'chosen-single')}</div>
+                    </div>
+                    <div class="wanban-error-message" id="birthDateError"></div>
+                </div>
+            </div>
+
+            <div class="wanban-button-group">
+                <button type="button" id="btnPrevStep" class="wanban-button wanban-button-prev">{=__('이전단계')}</button>
+                <button type="button" id="btnNextStep" class="wanban-button wanban-button-next">{=__('가입완료')}</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        // 완반 페이지 브라우저 타이틀 변경
+        document.title = '완반X메디쏠라';        
+        amplitude.logEvent('wanban_signup_form_view');
+        
+        // Standard radio button functionality for labels
+        $('.choice_s').click(function() {
+            var radioId = $(this).attr('for');
+            $('#' + radioId).prop('checked', true);
+            
+            // Update visual state
+            $('.choice_s').removeClass('on');
+            $(this).addClass('on');
+        });
+
+        // Date selection functionality
+        function sendDateData(year, month, type) {
+            var dayType = '';
+            var params = {
+                year: year,
+                month: month,
+            };
+            $.ajax('../share/date_select_json.php', {
+                data: params,
+                method: "POST",
+                success: function (data) {
+                    if (data !='' && data != null) {
+                        if (type == 'marry') {
+                            dayType = 'marriDay';
+                        } else {
+                            dayType = 'birthDay';
+                        }
+                        $('#'+dayType).empty();
+                        $('#'+dayType).append(data);
+                    }
+                }
+            });
+        }
+
+        $('#birthYear').change(function () {
+            var birthMonthVal = $('#birthMonth').val();
+            if (birthMonthVal != '') {
+                sendDateData($('#birthYear').val(), $('#birthMonth').val(), 'birth');
+            }
+        });
+        $('#birthMonth').change(function () {
+            var birthYearVal = $('#birthYear').val();
+            if (birthYearVal != '') {
+                sendDateData($('#birthYear').val(), $('#birthMonth').val(), 'birth');
+            }
+        });
+
+        // Password validation function
+        function validateMemberPassword(password) {
+            var minLength = 10;
+            var maxLength = 20;
+            var patterns = {
+                alpha: /[a-zA-Z]/,
+                numeric: /[0-9]/,
+                special: /[!@#$%^&*()_+\-=`~]/,
+                allowed: /^[a-zA-Z0-9!@#$%^&*()_+\-=`~]+$/
+            };
+            
+            // Required check
+            if (!password) {
+                return { valid: false, message: '패스워드는 필수 항목입니다.' };
+            }
+            
+            // Length validation
+            if (password.length < minLength) {
+                return { valid: false, message: '패스워드는 ' + minLength + '자 이상 입력하셔야합니다.' };
+            }
+            
+            if (password.length > maxLength) {
+                return { valid: false, message: '패스워드는 ' + maxLength + '자 이하 입력하셔야합니다.' };
+            }
+            
+            // Character validation
+            if (!patterns.allowed.test(password)) {
+                return { valid: false, message: '사용불가한 문자가 포함되어 있습니다. (사용가능 특수문자 : !@#$%^&*()_+-=`~)' };
+            }
+            
+            // Combination validation
+            var hasAlpha = patterns.alpha.test(password);
+            var hasNumeric = patterns.numeric.test(password);
+            var hasSpecial = patterns.special.test(password);
+            
+            var combinationCount = (hasAlpha ? 1 : 0) + (hasNumeric ? 1 : 0) + (hasSpecial ? 1 : 0);
+            
+            if (combinationCount >= 3) {
+                return { valid: true, message: '안전한 비밀번호 입니다.', strength: 'strong' };
+            } else if (combinationCount >= 2) {
+                return { valid: true, message: '안전도 낮음 예상하기 쉬운 비밀번호 입니다.', strength: 'weak' };
+            } else {
+                return { valid: false, message: '사용불가! 영문대/소문자, 숫자, 특수문자 중 2가지 이상 조합하세요.' };
+            }
+        }
+
+        // Form validation
+        function validateForm() {
+            var isValid = true;
+            
+            // Reset all error states
+            $('.wanban-form-input').removeClass('error');
+            $('.wanban-error-message').hide();
+            
+            // ID validation
+            var memId = $('#memId').val().trim();
+            if (!memId) {
+                $('#memId').addClass('error');
+                $('#memIdError').text('아이디를 입력하세요.').show();
+                isValid = false;
+            } else if (memId.length < 4) {
+                $('#memId').addClass('error');
+                $('#memIdError').text('아이디는 4자 이상이어야 합니다.').show();
+                isValid = false;
+            }
+            
+            // Password validation
+            var memPw = $('#memPw').val();
+            var passwordValidation = validateMemberPassword(memPw);
+            if (!passwordValidation.valid) {
+                $('#memPw').addClass('error');
+                $('#memPwError').text(passwordValidation.message).show();
+                isValid = false;
+            } else if (passwordValidation.strength === 'weak') {
+                // Show warning but don't invalidate
+                $('#memPwError').text(passwordValidation.message).css('color', '#f39c12').show();
+            }
+            
+            // Password confirmation validation
+            var memPwRe = $('#memPwRe').val();
+            if (!memPwRe) {
+                $('#memPwRe').addClass('error');
+                $('#memPwReError').text('비밀번호 확인을 입력하세요.').show();
+                isValid = false;
+            } else if (memPw !== memPwRe) {
+                $('#memPwRe').addClass('error');
+                $('#memPwReError').text('비밀번호가 일치하지 않습니다.').show();
+                isValid = false;
+            }
+            
+            // Name validation
+            var memNm = $('#memNm').val().trim();
+            if (!memNm) {
+                $('#memNm').addClass('error');
+                $('#memNmError').text('이름을 입력하세요.').show();
+                isValid = false;
+            }
+            
+            // Phone validation
+            var cellPhone = $('#cellPhone').val().trim();
+            if (!cellPhone) {
+                $('#cellPhone').addClass('error');
+                $('#cellPhoneError').text('휴대폰 번호를 입력하세요.').show();
+                isValid = false;
+            } else if (cellPhone.length < 10) {
+                $('#cellPhone').addClass('error');
+                $('#cellPhoneError').text('올바른 휴대폰 번호를 입력하세요.').show();
+                isValid = false;
+            }
+            
+            
+            return isValid;
+        }
+
+        $('#btnNextStep').click(function () {
+            amplitude.logEvent('wanban_signup_form_submit_button_click');
+            
+            if (validateForm()) {
+                if (confirm('입력하신 정보로 회원가입을 진행하시겠습니까?')) {
+                    $('#frmJoin').submit();
+                }
+            }
+        });
+
+        $('#btnPrevStep').click(function (e) {
+            amplitude.logEvent('wanban_signup_form_prev_button_click');
+            e.preventDefault();
+            window.location.href = '../member/wanban_join_agreement.php';
+        });
+    });
+</script>
+
+{ # footer }

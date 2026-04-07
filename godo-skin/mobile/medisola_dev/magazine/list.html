@@ -1,0 +1,305 @@
+{*** 푸드케어 레터 목록 (모바일) | magazine/list.php ***}
+
+{ # header }
+
+<meta name="description" content="메디쏠라의 건강 정보와 최신 소식을 만나보세요. 건강한 식습관, 영양 정보, 웰빙 라이프스타일 매거진.">
+<meta property="og:title" content="푸드케어 레터 - 건강 정보와 영양 가이드">
+<meta property="og:description" content="메디쏠라의 건강 정보와 최신 소식을 만나보세요. 건강한 식습관, 영양 정보, 웰빙 라이프스타일 매거진.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="푸드케어 레터">
+<meta name="twitter:description" content="건강한 식습관과 영양 정보를 제공하는 푸드케어 레터">
+
+<style>
+/* Mobile Magazine List Styles */
+.magazine-container-mobile {
+    padding: 20px 16px 40px;
+    background: #fff;
+}
+
+.magazine-header-mobile {
+    text-align: center;
+    padding: 20px 0;
+}
+
+.magazine-header-mobile h1 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.magazine-header-mobile p {
+    font-size: 14px;
+    color: #666;
+}
+
+.magazine-error-mobile {
+    text-align: center;
+    padding: 60px 20px;
+    color: #999;
+    font-size: 14px;
+}
+
+/* Magazine List - Single Column */
+.magazine-list-mobile {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* Magazine Card */
+.magazine-card-mobile {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.magazine-card-mobile:active {
+    transform: scale(0.98);
+}
+
+.magazine-card-mobile-image {
+    /* aspect-ratio: 16 / 9; */
+    overflow: hidden;
+    background: #f0f1f3;
+}
+
+.magazine-card-mobile-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.magazine-card-mobile-content {
+    padding: 16px;
+}
+
+.magazine-card-mobile-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #333;
+    line-height: 1.4;
+    margin-bottom: 8px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.magazine-card-mobile-excerpt {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 12px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.magazine-card-mobile-meta {
+    font-size: 12px;
+    color: #999;
+}
+
+/* Featured First Article */
+.magazine-card-mobile-featured {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.magazine-card-mobile-featured .magazine-card-mobile-title {
+    font-size: 20px;
+}
+
+.magazine-card-mobile-featured .magazine-card-mobile-excerpt {
+    font-size: 15px;
+    -webkit-line-clamp: 3;
+}
+
+/* Pagination */
+.magazine-pagination-mobile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 40px;
+    padding: 20px 0;
+}
+
+.magazine-pagination-mobile a,
+.magazine-pagination-mobile span {
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    min-width: 44px;
+    text-align: center;
+}
+
+.magazine-pagination-mobile a {
+    background: #fff;
+    color: #333;
+    border: 1px solid #e0e0e0;
+    text-decoration: none;
+}
+
+.magazine-pagination-mobile a:active {
+    background: #f0f1f3;
+}
+
+.magazine-pagination-mobile .current {
+    background: #3d4f98;
+    color: #fff;
+    border: 1px solid #3d4f98;
+}
+
+.magazine-pagination-mobile .disabled {
+    opacity: 0.4;
+    pointer-events: none;
+}
+
+/* Loading State */
+.magazine-loading {
+    text-align: center;
+    padding: 40px 20px;
+    color: #999;
+}
+
+.magazine-loading::after {
+    content: '...';
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0%, 20% { content: '.'; }
+    40% { content: '..'; }
+    60%, 100% { content: '...'; }
+}
+</style>
+
+<div class="magazine-container-mobile">
+    <div class="magazine-header-mobile">
+        <h1>{=pageTitle}</h1>
+    </div>
+
+    {? hasArticles}
+        <div class="magazine-list-mobile">
+            {? heroArticle}
+            <div class="magazine-card-mobile magazine-card-mobile-featured"
+                 onclick="location.href='/magazine/view.php?id={=heroArticle.articleId}'">
+                {? heroArticle.imageUrl}
+                <div class="magazine-card-mobile-image">
+                    <img src="{=heroArticle.imageUrl}" alt="{=heroArticle.subject}" loading="lazy">
+                </div>
+                {/}
+                <div class="magazine-card-mobile-content">
+                    <h2 class="magazine-card-mobile-title">{=heroArticle.subject}</h2>
+                    <p class="magazine-card-mobile-excerpt">{=heroArticle.summary}</p>
+                    <div class="magazine-card-mobile-meta">
+                        <span>{=heroArticle.regDate}</span>
+                    </div>
+                </div>
+            </div>
+            {/}
+
+            {? twoColArticles}
+            {@ twoColArticles}
+            <div class="magazine-card-mobile"
+                 onclick="location.href='/magazine/view.php?id={=.articleId}'">
+                {? .imageUrl}
+                <div class="magazine-card-mobile-image">
+                    <img src="{=.imageUrl}" alt="{=.subject}" loading="lazy">
+                </div>
+                {/}
+                <div class="magazine-card-mobile-content">
+                    <h2 class="magazine-card-mobile-title">{=.subject}</h2>
+                    <p class="magazine-card-mobile-excerpt">{=.summary}</p>
+                    <div class="magazine-card-mobile-meta">
+                        <span>{=.regDate}</span>
+                    </div>
+                </div>
+            </div>
+            {/}
+            {/}
+
+            {? threeColArticles}
+            {@ threeColArticles}
+            <div class="magazine-card-mobile"
+                 onclick="location.href='/magazine/view.php?id={=.articleId}'">
+                {? .imageUrl}
+                <div class="magazine-card-mobile-image">
+                    <img src="{=.imageUrl}" alt="{=.subject}" loading="lazy">
+                </div>
+                {/}
+                <div class="magazine-card-mobile-content">
+                    <h2 class="magazine-card-mobile-title">{=.subject}</h2>
+                    <p class="magazine-card-mobile-excerpt">{=.summary}</p>
+                    <div class="magazine-card-mobile-meta">
+                        <span>{=.regDate}</span>
+                    </div>
+                </div>
+            </div>
+            {/}
+            {/}
+        </div>
+
+        <!-- Pagination -->
+        {? pagination.totalPages > 1}
+        <div class="magazine-pagination-mobile">
+            {? pagination.hasPrev}
+                <a href="/magazine/list.php?page={=pagination.prevPage}">◀ 이전</a>
+            {:}
+                <span class="disabled">◀ 이전</span>
+            {/}
+
+            <span class="current">{=pagination.currentPage} / {=pagination.totalPages}</span>
+
+            {? pagination.hasNext}
+                <a href="/magazine/list.php?page={=pagination.nextPage}">다음 ▶</a>
+            {:}
+                <span class="disabled">다음 ▶</span>
+            {/}
+        </div>
+        {/}
+    {:}
+        <div class="magazine-error-mobile">
+            {? errorMessage}{=errorMessage}{:}등록된 매거진이 없습니다.{/}
+        </div>
+    {/}
+</div>
+
+<script>
+// Analytics tracking
+$(document).ready(function() {
+    $('.magazine-card-mobile').on('click', function() {
+        const title = $(this).find('.magazine-card-mobile-title').text().trim();
+        if (typeof amplitude !== 'undefined') {
+            amplitude.logEvent('magazine_article_click', {
+                article_title: title,
+                page: '{=pagination.currentPage}',
+                device: 'mobile'
+            });
+        }
+    });
+
+    // Infinite scroll hint (optional future feature)
+    let isLoading = false;
+    $(window).on('scroll', function() {
+        if (isLoading) return;
+
+        const scrollTop = $(window).scrollTop();
+        const windowHeight = $(window).height();
+        const documentHeight = $(document).height();
+
+        if (scrollTop + windowHeight > documentHeight - 200) {
+            // Near bottom - could implement infinite scroll here
+        }
+    });
+});
+</script>
+
+{ # footer }

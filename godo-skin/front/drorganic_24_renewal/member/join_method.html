@@ -1,0 +1,88 @@
+{*** 회원가입 > 가입방법 선택 | member/join_method.php ***}
+{ # header }
+<div class="content_box">
+	<div class="member_wrap">
+		<div class="member_tit">
+			<h2 class="skip">{=__('회원가입')}</h2>
+		</div>
+		<!-- //member_tit -->
+		<div class="member_cont">
+
+			<div class="member_login_box">
+				<div class="member_login_shop">
+					<a href="#" id="btnJoin" class="shop_mall_join" onclick="amplitude.logEvent('signup_method_signup_button_click')"><span>{=__('쇼핑몰 회원가입')}</span></a>
+				</div>
+
+				<div class="member_sns_login">
+					<!--{? usePaycoLogin}-->
+					<a href="#" class="btn_payco_login js_btn_payco_login" data-payco-type="join_method"><img src="../img/etc/pc_payco_join.png" alt="{=__('PAYCO')} {=__('아이디 회원가입')}"></a>
+					<!--{/}-->
+					<!--{? useFacebookLogin}-->
+					<a href="#" class="btn_facebook_login js_btn_facebook_login" data-sns-type="join_method" data-facebook-url="{=facebookUrl}"><img src="../img/etc/pc_facebook_join.png" alt="{=__('FACEBOOK')} {=__('아이디 회원가입')}"></a>
+					<!--{/}-->
+					<!--{? useNaverLogin}-->
+					<a href="#" class="btn_naver_login js_btn_naver_login" data-naver-type="join_method" data-naver-url="{=facebookUrl}"><img src="../img/etc/pc_naver_join.png" alt="{=__('네이버')} {=__('아이디 회원가입')}"></a>
+					<!--{/}-->
+					<!--{? useKakaoLogin}-->
+					<a href="#" class="btn_naver_login js_btn_kakao_login" data-kakao-type="join_method" data-return-url="{=returnUrl}" onclick="amplitude.logEvent('signup_method_kakao_button_click')"><img src="../img/etc/pc_kakao_230302.png" alt="{=__('카카오톡')} {=__('3초 로그인/회원가입')}"></a>
+					<!--{/}-->
+					<!--{? useWonderLogin}-->
+					<a href="#" class="btn_wonder_login js_btn_wonder_login" data-wonder-type="join_method" data-wonder-url="{=wonderReturnUrl}"><img src="../img/etc/pc_wonder_join.png" alt="{=__('위메프')} {=__('아이디 회원가입')}"></a>
+					<!--{/}-->
+					<!--{? useAppleLogin}-->
+					<a href="#" class="btn_apple_login js_btn_apple_login">
+						<img id="apple_btn" src="../img/etc/pc_apple_join.png" alt="{=__('Apple')} {=__('아이디 회원가입')}">
+						<div id="appleid-signin" style="display: none"></div>
+					</a>
+					<!--{/}-->
+				</div>
+
+				<strong class="chk_none">
+					{=__('SNS계정을 연동하여 빠르고 쉽고 안전하게 회원가입 할 수 있습니다.')} <br />
+					{=__('이 과정에서 고객님의 데이터는 철저하게 보호됩니다.')}
+				</strong>
+			</div>
+		</div>
+		<!-- //member_cont -->
+
+		<div class="member_guide_txt">
+			<p>{=__('이미 쇼핑몰 회원이세요?')} <a href="#" id="btnLoginMember">{=__('로그인')}</a></p>
+		</div>
+
+	</div>
+	<!-- //member_wrap -->
+</div>
+<!-- //content_box -->
+<script type="text/javascript">
+	$(document).ready(function () {
+		amplitude.logEvent('signup_method_view');
+		$('#btnJoin').click(function () {
+			location.href = '../member/join_agreement.php?memberFl=personal';
+		});
+		$('#btnLoginMember').click(function () {
+			window.location.href = '../member/login.php';
+		});
+
+		<!--{ ? useAppleLogin }-->
+		$("#apple_btn").on("click", startClicked);
+		function startClicked(){
+			$("#appleid-signin").click();
+		}
+		<!--{ / }-->
+	});
+</script>
+
+<!--{ ? useAppleLogin }-->
+<script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script>
+<script type="text/javascript">
+	AppleID.auth.init({
+		clientId : '{client_id}',
+		scope : 'name email',
+		redirectURI: '{redirectURI}',
+		state: '{state}',
+		// usePopup: true
+	});
+</script>
+<!--{ / }-->
+
+{ # footer }

@@ -1,0 +1,49 @@
+{*** 선물하기 | gift_order/view.php ***}
+{ # share_header }
+<div class='gift_view_page'>
+<!--{ ? cardImage }-->
+<img src='{cardImage}' class='card_image' width='100%'>
+<!--{ / }-->
+<div class='info_box'>
+<!--{ ? items }-->
+<div class='goods_list'>
+<!--{ @ items }-->
+<div class='goods_box'>
+	<div class='cell cell1'>
+		{.goodsImage}
+	</div>
+	<div class='cell cell2'>
+		<!--{ ? .brandNm }-->
+		<div class='brandNm'>{.brandNm}</div>
+		<!--{ / }-->
+		<div class='goodsNm'>{.goodsNm}
+		<!--{ ? .goodsCnt > 1 }--> X  {.goodsCnt}개<!--{ / }-->
+		</div>
+	</div>
+</div>
+<!--// goods_box -->
+<!--{ / }-->
+</div>
+<!--// goods_list -->
+<script>
+$(function() {
+	$(".goods_list").slick({
+		slidesToScroll : 1,
+	});
+});
+</script>
+<!--{ / }-->
+<div class='gift_message'>
+<div class='from'><span class='t1'>From.</span><span class='t2'>{orderName}</span></div>
+<div class='message'>
+{giftMessage}
+</div>
+</div>
+<!--// gift_message -->
+<!--{ ? orderAddressPossible }-->
+<a href='../gift_order/order_address.php?orderNo={orderNo}' class='wbtn1'>배송정보 입력하기</a>
+<!--{ / }-->
+</div> <!--// info_box -->
+</div>
+<!--// gift_view_page -->
+{ # share_footer }

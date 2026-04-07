@@ -1,0 +1,36 @@
+{*** 결제카드 변경 | front/subscription/card_change.php ***}
+{=includeFile('subscription/outline/_popup_header.html')}
+<div class='subscription_popup2'>
+    <div class='mtitle'>결제카드변경</div>
+    <div class='selection_area'>
+        <select name='idx_card' class='idx_card'>
+        <!--{ @cardList }-->
+        <option value='{.idx}'<!--{ ? idx_card == .idx }--> selected<!--{ / }-->>{.cardNm}(등록일 : {=date("Y.m.d", .regStamp)})</option>
+        <!--{ / }-->
+        </select>
+    </div> <!-- selection_area -->
+</div> <!-- subscription_popup2 -->
+
+<script>
+$(function() {
+    $(".idx_card").change(function() {
+        var idx = $(this).val();
+        var uid = '{uid}';
+        $.ajax({
+            url : "../subscription/ajax.php",
+            type : "post",
+            dataType : "text",
+            data : { mode : "changeCard", idx_card : idx, uid : uid },
+            async : false,
+            success: function (data) {
+                parent.location.reload();
+            },
+            error : function (res) {
+                console.log(res);
+            }
+        });
+    });
+});
+</script>
+
+{=includeFile('subscription/outline/_popup_footer.html')}

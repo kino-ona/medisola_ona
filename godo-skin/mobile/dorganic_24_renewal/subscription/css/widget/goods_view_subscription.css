@@ -1,0 +1,205 @@
+/* Mobile Subscription Widget - Redesigned */
+.goods_view_subscription {
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.goods_view_subscription * {
+    box-sizing: border-box;
+}
+
+/* Hide subscription type selector - keep for JavaScript functionality */
+.goods_view_subscription .subscription_type_box {
+    display: none !important;
+}
+
+/* Hide Naver Pay button for subscription products */
+.naver_pay {
+    display: none !important;
+}
+
+/* Subscription Wrapper - No box styling */
+.goods_view_subscription .subscription_wrapper {
+    background: transparent;
+    padding: 0;
+}
+
+/* Selection Section */
+.goods_view_subscription .subscription_selection {
+    display: block;
+    padding: 0 16px;
+    background: transparent;
+    margin: 12px 0;
+}
+
+/* Title Row - Title and Benefit Button on Same Line */
+.goods_view_subscription .subscription_selection .mtitle_row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.goods_view_subscription .subscription_selection .mtitle {
+    font-weight: bold;
+    font-size: 16px;
+    color: #212121;
+    margin: 0;
+}
+
+.goods_view_subscription .subscription_selection .mtitle .small_txt {
+    font-weight: normal;
+    font-size: 11px;
+    color: #888888;
+    margin-left: 4px;
+}
+
+/* Inline Discount Benefit Button */
+.goods_view_subscription .subscription_benefit_inline {
+    font-weight: normal;
+    font-size: 13px;
+    background-color: #ff9900;
+    color: #171a31;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 3px 8px;
+    border-radius: 10px;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    white-space: nowrap;
+}
+
+.goods_view_subscription .subscription_benefit_inline:hover {
+    background-color: #ff8800;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.15);
+}
+
+/* Period Selection Grid */
+.goods_view_subscription .subscription_selection .selection_rows {
+    display: table;
+    width: 100%;
+    margin-top: 8px;
+}
+
+.goods_view_subscription .subscription_selection .selection_rows.first {
+    margin-top: 0;
+}
+
+.goods_view_subscription .subscription_selection .selection_rows .cell_rows {
+    display: table-cell;
+    vertical-align: middle;
+    width: 33.3333%;
+    padding-right: 4px;
+}
+
+/* Period Selection Buttons */
+.goods_view_subscription .subscription_selection .selection_rows .cell_rows .sel_period {
+    border: 2px solid #e0e0e0;
+    color: #555555;
+    background-color: #ffffff;
+    display: table;
+    width: 100%;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.goods_view_subscription .subscription_selection .selection_rows .cell_rows .sel_period:hover {
+    border-color: #253479;
+}
+
+.goods_view_subscription .subscription_selection .selection_rows .cell_rows .sel_period .box {
+    display: table-cell;
+    vertical-align: middle;
+    width: 100%;
+    height: 48px;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+    padding: 8px;
+    position: relative;
+}
+
+/* Period Content Wrapper */
+.goods_view_subscription .subscription_selection .period_content {
+    display: inline-flex;
+    align-items: center;
+    vertical-align: middle;
+    gap: 5px;
+}
+
+/* Checkmark SVG Icon - Inline with text, hidden by default */
+.goods_view_subscription .subscription_selection .period_checkmark {
+    display: none;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+.goods_view_subscription .subscription_selection .period_checkmark svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.goods_view_subscription .subscription_selection .period_text {
+    display: inline-block;
+    line-height: 1.3;
+}
+
+/* Selected State */
+.goods_view_subscription .subscription_selection .selection_rows .cell_rows .sel_period.on {
+    border: 2px solid #253479;
+    background-color: rgba(37, 52, 121, 0.08);
+}
+
+.goods_view_subscription .subscription_selection .selection_rows .cell_rows .sel_period.on .period_text {
+    color: #253479;
+    font-weight: bold;
+}
+
+.goods_view_subscription .subscription_selection .selection_rows .cell_rows .sel_period.on .period_checkmark {
+    display: inline-flex;
+}
+
+/* Legacy styles - kept for backward compatibility */
+.goods-view-subscsription .onetime_buy {
+    display: none;
+}
+
+.goods-view-subscsription .subscription_buy {
+    display: block;
+    background-color: #4d9698;
+    color: #ffffff;
+    text-align: center;
+    height: 48px;
+    font-size: 16px;
+    line-height: 48px;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 0 16px;
+}
+
+/* Subscription Cart Button - Primary Color with 4px Border Radius */
+.subscription_buy {
+    background-color: #253479 !important;
+    border-radius: 4px !important;
+    transition: background-color 0.2s ease;
+}
+
+.subscription_buy:hover {
+    background-color: #1e285f !important;
+}
+
+/* Responsive adjustments for very small screens */
+@media (max-width: 360px) {
+    .goods_view_subscription .subscription_selection .period_text {
+        font-size: 11px;
+    }
+
+    .goods_view_subscription .subscription_selection .selection_rows .cell_rows .sel_period .box {
+        height: 44px;
+    }
+}

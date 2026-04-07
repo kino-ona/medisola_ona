@@ -1,0 +1,153 @@
+{*** 마이페이지 회차배송리스트 | mypage/_scheduled_delivery_list.html ***}
+
+<div class="mypage_table_type">
+    <table>
+        <colgroup>
+            <col style="width:15%"> <!-- 날짜/주문번호 -->
+            <col style="width:15%"> <!-- 상품금액/수량 -->
+            <col> <!-- 상품명/옵션 -->
+            <col style="width:15%"> <!-- 주문상태 -->
+            <col style="width:15%"> <!-- 확인/리뷰 -->
+        </colgroup>
+        <thead>
+            <tr>
+                <th>{=__('날짜/주문번호')}</th>
+                <th>{=__('상품금액/수량')}</th>
+                <th>{=__('상품명/옵션')}</th>
+                <th class="accent">{=__('배송현황')}</th>
+                <th class="accent">{=__('기능')}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!--{ @ scheduledDeliveryList }-->
+            <tr class="row_line" data-order-no="{.orderNo}" data-scheduled-delivery-sno="{.sno}"
+                data-order-status="{.deliveryStatus}">
+                <!--{? .rowspan > 0 }-->
+                <td rowspan="{=.rowspan}" class="order_day_num">
+                    <em>{=gd_date_format('Y/m/d', .orderDate)}</em>
+                    <a href="../mypage/order_view.php?orderNo={.orderNo}" <!--{ ? mode !=='list'
+                        }-->target="_blank"<!--{ / }--> class="order_num_link"><span>{.orderNo}</span></a>
+                </td>
+                <td rowspan="{=.rowspan}" class="order_day_num">
+                    <strong>{=gd_global_order_currency_display(((.goodsPrice + .optionPrice + .optionTextPrice) *
+                        .goodsCnt),.exchangeRate, .currencyPolicy)}</strong> / {.goodsCnt}{=__('개')}
+                </td>
+                <!--{ / }-->
+                <td class="td_left" style="border-right: 1px solid #eee">
+                    <div class="pick_add_cont">
+                        <span class="pick_add_img">
+                            <a href="../goods/goods_view.php?goodsNo={.goodsNo}">{.goodsImage}</a>
+                        </span>
+                        <div class="pick_add_info" style="display:flex; flex-direction:column; gap:4px">
+                            <div style="font-size: 13px">{.goodsNm}</div>
+                            <div style="display: flex; gap: 10px">
+                                <!--{ @ .optionInfo }-->
+                                <span class="text_type_cont">
+                                    {..value_.optionName} : {..value_.optionValue}
+                                    <!--{ ? ..value_.optionRealPrice != 0 && optionPriceFl == 'y' }-->
+                                    (<!--{ ? ..value_.optionRealPrice > 0 }-->+<!--{ / }-->{=gd_global_order_currency_display(..value_.optionRealPrice)})
+                                    <!--{ / }-->
+                                    <!--{ ? ..index_ == ..size_ - 1 }-->
+                                    <!--{ ? empty(..value_.deliveryInfoStr) === false }-->
+                                    [{..value_.deliveryInfoStr}]<!--{ / }-->
+                                    <!--{ / }-->
+                                </span>
+                                <!--{ / }-->
+
+                                <!--{ @ .optionTextInfo }-->
+                                <span class="text_type_cont">
+                                    {..value_.optionName} : {..value_.optionValue}
+                                    <!--{ ? ..value_.optionTextPrice != 0 && optionPriceFl == 'y' }-->
+                                    (<!--{ ? ..value_.optionTextPrice > 0 }-->+<!--{ / }-->{=gd_global_order_currency_display(..value_.optionTextPrice)})
+                                    <!--{ / }-->
+                                </span>
+                                <!--{ / }-->
+                                <span class="text_type_cont"> 중 {.deliveryGoodsCnt - 1}식</span>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div {? .canChange}style="font-size: 13px; font-weight: 500" { / }>{.round}차 {=.deliveryStatusText}
+                    </div>
+                    <div {? .canChange}style="color: #25347a; font-size: 14px; font-weight: 500" { / }>
+                        {.estimatedDeliveryDate}
+                    </div>
+                </td>
+                <td class="btn_gray_list">
+                    {? .invoiceNo && .invoiceCompanyName}
+                    <div>{.invoiceCompanyName}</div>
+                    <a href="#" class="btn_gray_small js_btn_delivery_trace"
+                        data-invoice-company-sno="{.invoiceCompanySno}"
+                        data-invoice-no="{.invoiceNo}"><span>{=__('배송추적')}</span></a>
+                    {/}
+                    {? .canChange && (empty(.firstDelivery) || .firstDelivery == 0) }
+                    <button type="button" class="btn btn_gray_small btn-white btn_open_layer"
+                        href="#estimatedDeliveryDtLayer" data-order-no="{.orderNo}" data-goods-sno="{.orderGoodsSno}" data-first-delivery="{.firstDelivery}">
+                        <span>{=__('배송일 변경')}</span>
+                    </button>
+                    {:}
+                    <span class="text_type_cont">{=__('냉장 배송 변경 불가')}</span>
+                    { / }
+                </td>
+            </tr>
+            <!--{ / // @scheduledDeliveryList }-->
+
+            <!--{ ? !scheduledDeliveryList }-->
+            <tr>
+                <td colspan="5">
+                    <p class="no_data">{=__('조회내역이 없습니다.')}</p>
+                </td>
+            </tr>
+            <!--{ / }-->
+        </tbody>
+    </table>
+</div>
+
+<!-- 배송예정일자 변경 레이어-->
+<div id="estimatedDeliveryDtLayer" class="layer_wrap dn" data-remote="../mypage/layer_estimated_delivery_date.php">
+</div>
+<!-- 배송예정일자 변경 레이어-->
+
+<script type="text/javascript">
+    $(function () {
+        // 배송추적
+        $('.js_btn_delivery_trace').click(function (e) {
+            win = gd_popup({
+                url: '../share/delivery_trace.php?invoiceCompanySno=' + $(this).data('invoice-company-sno') + '&invoiceNo=' + $(this).data('invoice-no'),
+                target: 'trace',
+                width: 650,
+                height: 660,
+                resizable: 'yes',
+                scrollbars: 'yes'
+            });
+            win.focus();
+            return win;
+        });
+
+        // 배송예정일자 변경 레이어 오픈 바인딩
+        $('.btn_open_layer').bind('click', function (e) {
+            e.preventDefault();
+            const obj = $(this);
+            var target = obj.attr('href');
+            var url = $(target).data('remote');
+
+            var params = {
+                orderNo: obj.closest('tr').data('order-no'),
+                scheduledDeliverySno: obj.closest('tr').data('scheduled-delivery-sno'),
+                isFreshDelivery: obj.data('first-delivery') !== null && obj.data('first-delivery') !== 0
+            };
+
+            $(target).empty();
+            $.post(url, params, function (data) {
+                if (!_.isUndefined(data.code) && data.code == 0) {
+                    alert(data.message);
+                    gd_close_layer();
+                    return false;
+                }
+                $(target).empty().html(data);
+                $(target).find('>div').center();
+            });
+        });
+    });
+</script>

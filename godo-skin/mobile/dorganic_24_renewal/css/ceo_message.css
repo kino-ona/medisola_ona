@@ -1,0 +1,59 @@
+/* CEO 메시지 */
+.header_box {display: none;}
+div#container #contents_wrap {overflow: hidden;}
+div#mfooter {margin-top: 0;}
+
+div.text {}
+div.text .t01 {margin-bottom: 40px; font-size: 16px; line-height: 24px; font-weight: 700;}
+div.text .t01_1 {margin-bottom:16px; font-size: 13px; font-weight: 700; line-height: 18px; color: #1A1A1A;}
+div.text .t02 {font-size: 32px; line-height: 40px; font-weight: 700;}
+div.text .t03 {margin-top: 16px; font-size: 14px; line-height: 20px; font-weight: 400;}
+div.text .t03 span + span {margin-top: 24px;}
+
+div.sec01 {padding:40px 0 0; position: relative;}
+div.sec01 .text {text-align: center; width: 100%; box-sizing: border-box;}
+div.sec01 .text .t01 {margin-bottom: 16px; font-size: 13px; line-height: 18px; font-weight: 700; color: #1a1a1a;}
+div.sec01 .text .t02 {font-size: 32px; line-height: 40px; font-weight: 700; color: #324692;}
+div.sec01 .ban {margin:53px 0 0; text-align:center;}
+div.sec01 .ban img {width:100%;}
+
+div.sec02 {margin:53px 0 33px; position: relative;}
+div.sec02 .text {text-align: center;}
+div.sec02 .text.text01 {margin:0 0 50px;}
+div.sec02 .text.text02 {margin:0 24px; word-break: keep-all;}
+div.sec02 .text .t01 {margin:0 0 24px; font-size: 14px; font-weight: 400; line-height: 20px; color: #6A6A6A;}
+div.sec02 .text .t01 .bold {font-size: 20px; font-weight: 700;}
+div.sec02 .text .t02 {display:inline-block; position: relative; font-size: 14px; font-weight: 700; line-height: 20px; color: #324692;}
+div.sec02 .text .t02 .marks {margin:0; position: absolute; top:10px; left:-30px; font-weight: 700; font-size: 30px; line-height: 32px; letter-spacing: 0.05em; font-family: 'Karma';}
+div.sec02 .text .t02 .marks.right {left:auto; right:-30px;}
+div.sec02 .ban {width:calc(100% - 48px); height:109px; margin:60px auto 0; background: #F8F4E4; border-radius: 30px;}
+div.sec02 .ban .text {width:100%; height:100%; position: relative;}
+div.sec02 .ban .text .t01 {margin:0; padding:25px 0 0 22px; font-size: 14px; font-weight: 700; line-height: 20px; color: #324692; text-align:left;}
+div.sec02 .ban .text .more {position: absolute; bottom:23px; right:26px;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

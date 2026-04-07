@@ -1,0 +1,77 @@
+{*** 상품리스트 | goods/goods_recom.php ***}
+{#header}
+<div class="goods_recom">
+	<!--{ ? themeInfo.cateHtml2 }--><div class="user_tune">{=stripslashes(str_replace('&nbsp;', ' ', themeInfo.cateHtml2))}</div><!--{ / }-->
+	<div class="goods_main js_goods_more_list">
+		<div class="goods_list_content">
+			<div class="goods_top_box">
+				<div class="goods_arr_box">
+					<div class="goods_sort">
+						<div class="inp_sel">
+							<select name="goods_sort" onchange="gd_get_list(1);">
+								<option value="">{=__('상품정렬')}</option>
+								<option value="date">{=__('등록순')}</option>
+								<option value="price_asc">{=__('낮은가격순')}</option>
+								<option value="price_dsc">{=__('높은가격순')}</option>
+							</select>
+						</div>
+					</div>
+					<div class="goods_view_type">
+						<input type="hidden" name="displayType" value="{themeInfo.recomTheme.displayType}" />
+						<ul>
+							<li><button class="<!--{ ? recomTheme.displayType =='02' }-->on<!--{ / }-->" data-key="02" >list</button></li>
+							<li><button class="<!--{ ? recomTheme.displayType =='09' }-->on<!--{ / }-->" data-key="09">gallery_type1</button></li>
+							<li><button class="<!--{ ? recomTheme.displayType =='01' }-->on<!--{ / }-->" data-key="01">gallery_type2</button></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="goods_list_box">
+				<ul class="goods_product_list"></ul>
+				<div class="btn_box">
+					<button type="button" class="goods_recom_more_btn btn_main_bottom_more" data-page="2" >{=__('더보기')}</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+    <!--
+    $(document).ready(function(){
+		gd_get_list(1);
+        $('.js_goods_more_list .btn_main_bottom_more').on('click', function(e){
+			gd_get_list($(this).data('page'));
+        });
+		$('.goods_view_type ul li').on('click', function(e){
+            $(".goods_view_type ul li button").removeClass('on');
+            $('input[name="displayType"]').val($(this).find('button').data('key'));
+            $(this).find('button').addClass('on');
+			gd_get_list('1');
+        });
+    });
+
+    function gd_get_list(page){
+
+        var sort =  $('select[name="goods_sort"]').val();
+        var displayType = $('input[name="displayType"]').val();
+
+        $.post('../goods/goods_ps.php', {'mode' : 'get_goods_recom', 'more' : page, 'cateCd' : '{=cateCd}', 'cateType' : '{=cateType}', 'sort' : sort, 'displayType' :displayType}, function (data) {
+
+            $(".goods_product_list").html(data);
+			console.log(data);l
+            console.log($(data).filter("input[name='totalPage']").val());
+
+            if($(data).filter("input[name='totalPage']").val() > 1) {
+                $('.js_goods_more_list .btn_main_bottom_more').show();
+                $('.js_goods_more_list .btn_main_bottom_more').data('page',parseInt(page)+1);
+            } else {
+                $('.js_goods_more_list .btn_main_bottom_more').hide();
+            }
+        });
+    }
+
+    //-->
+</script>
+
+{#footer}

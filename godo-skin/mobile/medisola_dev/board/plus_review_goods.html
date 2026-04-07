@@ -1,0 +1,87 @@
+{*** 플러스리뷰 상품기준 리뷰 게시판 | board/plus_review_goods.php ***}
+{ # header }
+<link type="text/css" rel="stylesheet" href="\{=c.PATH_MOBILE_SKIN}css/gd_plus_review.css">
+<style>
+    .plus_review_goods_option > div:first-child{width:100%; float:left;}
+</style>
+<form id="searchForm">
+    <div class="plus_review_goods_option">
+        <div class="inp_sel">
+            <select name="cateGoods[]">
+                <option value="">=카테고리선택=</option>
+                <!--{@ category}-->
+                <option value="{=.cateCd}">{=.cateNm}</option>
+                <!--{/}-->
+            </select>
+        </div>
+    </div>
+</form>
+<div class="plus_review_loading"><img src="../img/etc/plus_loading.gif" alt="{=__('로딩중')}" /></div>
+<div class="plus_review_goods js_pr_list"></div>
+{ # footer }
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.js_pr_list').on('click','.plus_review_goods_list .row img', function() {
+            location.href='../goods/goods_view.php?goodsNo='+$(this).data('goodsno');
+        });
+        $('.js_pr_list').on('click','.prev_btn', function() {
+            if ($(this).data('page') > 0) {
+                var searchFormData = $("#searchForm").serialize();
+                gd_load_plus_review_list($(this).data('page'),searchFormData);
+            }
+        });
+        $('.js_pr_list').on('click','.next_btn', function() {
+            if ($(this).data('page') <= totalPage) {
+                var searchFormData = $("#searchForm").serialize();
+                gd_load_plus_review_list($(this).data('page'),searchFormData);
+            }
+        });
+
+        gd_load_plus_review_list(1);
+
+        $('select[name=\'cateGoods[]\']').change(function() {
+            page=1;
+            var searchFormData = $("#searchForm").serialize();
+            console.log(searchFormData);
+            gd_load_plus_review_list(page,searchFormData);
+        });
+    })
+
+    var gd_load_plus_review_list = function (page,searchFormData) {
+        gd_list_init();
+        $.ajax({
+            url: '../board/plus_review_goods_list.php',
+            data: {page: page,searchFormData :searchFormData},
+            method: 'get',
+            type: 'text',
+            cache: false,
+        }).success(function (result) {
+            $('.js_pr_list').html(result);
+            totalPage = $(result).find('#totalPage').text();
+            gd_grid_start();
+        }).error(function (e) {
+            console.log(e);
+        });
+    }
+
+    var totalPage = {=data.cnt.totalPage};
+    function gd_grid_start() {
+        setTimeout(function () {
+            $('.plus_review_loading').addClass('dn');
+            $('.js_pr_list').removeClass('dn');
+            $('.plus_review_goods_list').pinterest_grid({
+                no_columns: 2,
+                padding_x: 10,
+                padding_y: 20,
+                margin_bottom: $('.plus_review_goods_list .row').length * 9,
+                single_column_breakpoint: 0
+            });
+        }, 1000);
+    }
+
+    function gd_list_init() {
+        $('.plus_review_loading').removeClass('dn');
+        $('.js_pr_list').html('');
+        $('.js_pr_list').addClass('dn');
+    }
+</script>

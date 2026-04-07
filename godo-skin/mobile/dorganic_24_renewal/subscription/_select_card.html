@@ -1,0 +1,97 @@
+{*** [위젯] 정기결제 주문서 카드 선택 | goods/_select_card.php ***}
+<link rel="stylesheet" type="text/css" href='js/swiper.min.css'>
+<link rel="stylesheet" type="text/css" href='css/widget/select_card.css'>
+<script src='js/swiper.min.js'></script>
+<div class='card_list_page' style='margin-top: 10px;'>
+    <input type='hidden' name='idx_card' class='idx_card' value=''>
+    <input type='hidden' name='settleKind' class='settleKind' value='pc'>
+    <div class='card_selection_box'>
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <!--{ @list }-->
+                <div class="swiper-slide card" data-idx='{.idx}'>
+                    <div class='select_card'></div>
+                    <div class='cardNm'>{.cardNm}</div>
+                    <div class='cardInfo'>등록일 : {=date("Y.m.d", .regStamp)}</div>
+                </div> <!-- cardNm -->
+                <!--{ / }-->
+                <div class="swiper-slide addCard">
+                    <!--<a class='inner_box' href='../subscription/card_list.php' target='_blank'>
+                        <img src='img/card/plus.png' width='30'>
+                        <div class='text'>결제카드추가</div>
+                    </a>-->
+
+                    <div class="inner_box js_add_card_order_btn">
+                        <img src='img/card/plus.png' width='30'>
+                        <div class='text'>결제카드추가</div>
+                    </div>
+                </div>  <!-- addCard -->
+            </div>
+        </div> <!-- swiper-container -->
+    </div> <!-- card_selection_box -->
+
+
+    <script>
+        var swiper = new Swiper('.card_selection_box .swiper-container', {
+            slidesPerView: 'auto',
+            spaceBetween: 10
+        });
+
+        $(function () {
+            $(".card_selection_box .card").click(function () {
+                if ($(this).hasClass("disabled"))
+                    return false;
+
+                var idx = "";
+                if ($(this).hasClass("on")) {
+                    $(this).removeClass("on");
+                } else {
+                    $(".card_selection_box .card").removeClass("on");
+                    $(this).addClass("on");
+                    idx = $(this).data("idx");
+                }
+
+                $(".idx_card").val(idx);
+            });
+        });
+
+        function pgRegisterCallbackOrder(pass) {
+
+            if (typeof pass == "undefined" || pass == "") {
+                alert("결제 비밀번호를 등록하세요.");
+                wm.layer.close();
+                return false;
+            }
+
+            var idx_card = $(".idx_card").val();
+            if (typeof idx_card == "undefined" || idx_card == "") {
+                alert("결제카드를 선택하세요.");
+                wm.layer.close();
+                return false;
+            }
+
+            /* 결제 비밀번호 체크 */
+            $.ajax({
+                url: "../subscription/ajax.php",
+                type: "post",
+                dataType: "text",
+                data: {mode: "chkCardPassword", idx_card: idx_card, password: pass},
+                async: false,
+                success: function (data) {
+                    if (data == '1') {
+                        changePaymentButton(0);
+
+
+                        frmOrder.target = 'ifrmProcess';
+                        frmOrder.submit();
+                    } else {
+                        alert("결제 비밀번호가 일치하지 않습니다.");
+                    }
+                },
+                error: function (res) {
+                    console.log(res);
+                }
+            });
+        }
+    </script>
+</div>

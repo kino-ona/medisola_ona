@@ -1,0 +1,21 @@
+@charset "utf-8";
+
+/**
+ * custom css 입니다. 추가적인 css는 여기에 작성을 해주세요.
+ */
+
+.js-eta-dateperiod label.active,
+.js-eta-dateperiod-months label.active
+{
+    background: #666666 !important;
+    border-color: #666666;
+    color: #FFFFFF;
+}
+
+.js-eta-dateperiod-statistics label.active,
+.js-eta-dateperiod-statistics-months label.active
+{
+    background: #666666 !important;
+    border-color: #666666;
+    color: #FFFFFF;
+}

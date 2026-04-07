@@ -1,0 +1,42 @@
+{*** [위젯] 푸드케어 레터 홈 섹션 | front/magazine/_magazine_home.html ***}
+<section class="home-magazine">
+    {? hasMagazines}
+    <div class="magazine_inner">
+        <div class="magazine_title_area">
+            <div class="t01">푸드케어 레터</div>
+            <div class="t02">영양이 담긴 식사로,<br>일상 속 푸드케어를 전해요</div>
+            <div class="home-view-more home-view-more--top">
+                <a href="/magazine/list.php">VIEW MORE &gt;</a>
+            </div>
+        </div>
+        <div class="magazine_scroll">
+            {@ magazines}
+            <div class="magazine_card_mobile" onclick="location.href='/magazine/view.php?id={=.articleId}'">
+                {? .imageUrl}
+                <div class="magazine_image_mobile">
+                    <img src="{=.imageUrl}" alt="{=.subject}" loading="lazy">
+                </div>
+                {/}
+                <div class="magazine_content_mobile">
+                    <h3>{=.subject}</h3>
+                    <p>{=.summary}</p>
+                </div>
+            </div>
+            {/}
+        </div>
+    </div>
+    {/}
+</section>
+
+<script>
+$(document).ready(function() {
+    $('.home-magazine .magazine_card_mobile').on('click', function() {
+        var title = $(this).find('h3').text().trim();
+        if (typeof amplitude !== 'undefined') {
+            amplitude.logEvent('home_magazine_click', {
+                article_title: title
+            });
+        }
+    });
+});
+</script>

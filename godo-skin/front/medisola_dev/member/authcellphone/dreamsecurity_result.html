@@ -1,0 +1,123 @@
+{ # header }
+<!--{ ? strReqNum == clntReqNum}-->
+<script type="text/javascript">
+    function loadAction() {
+        var strResult = "{=strRetDtlCd}";		// 결과코드
+        var di = "{=dupeInfo}";			// 중복가입확인정보(DI)
+        var adultFl = "{=adultFl}";			// 중복가입확인정보(DI)
+        var strName = "{=strName}";			// 이름
+        var birthday = "{=birthday}";		// 생년월일
+        var birthYear = "{=birthYear}";		// 생년
+        var birthMonth = "{=birthMonth}";	// 월
+        var birthDay = "{=birthDay}";		// 일
+        var phoneNo = "{=phoneNum}";		// 휴대폰번호
+        var phoneService = "{=strPhoneCorp}"; //통신사
+        var foreigner = "{=foreigner}";		// 내외국인정보
+        var sex = "{=sex}";		// 성별
+        var dupeExistsYn = "{=memExist}";		// 가입된 횟수
+        var callType = "{=callType}";		// 호출유형
+        var certificationType = "{=certificationType}";		// 인증유형
+        //나이정보
+        //        var checkAge = "{=checkAge}";
+        //        var limitAge = "{=limitAge}";
+        //        var age = "{age}";
+        // var under14Code = "{=$under14Code}";	// 만14세 미만 회원가입 허용상태코드
+
+        if (strResult != '00') { // 휴대폰인증 성공이 아니면
+            alert('휴대폰인증이 실패했습니다.\n\n'); //결과 메시지 출력
+            return;
+        }
+        // 휴면회원해제 인증의 경우 session에 인증 타입을 저장한다.
+        if (callType == "wakeMember") {
+            opener.window.location.href = '/member/wake.php';
+
+        } else {
+            alert("휴대폰인증이 정상처리 되었습니다."); //결과 메시지 출력
+            // 아이디/비밀번호 찾기에서 호출한 경우, opener 에 callType 엘레먼트가 있다.
+
+            if (callType == "certAdult") {
+                if (adultFl == 'y') {
+                    opener.window.location.href = "{=returnUrl}";
+                    console.log("{=returnUrl}");
+                }
+            } else if (callType == "findid" || callType == "findpwd") {
+                opener.document.formAuth.action = '/member/find_password_reset.php';
+                // opener.document.formAuth.target = '';
+                opener.document.formAuth.rncheck.value = 'authCellphone';
+                opener.document.formAuth.dupeinfo.value = di;
+                opener.document.formAuth.submit();
+
+            } else if (callType == "modifymember") {
+                //회원정보 수정시 휴대폰본인인증후 인증된 휴대폰번호&정보 업데이트
+                opener.document.formJoin.rncheck.value = 'authCellphone';
+                opener.document.formJoin.dupeinfo.value = di;
+                opener.document.formJoin.memNm.value = strName;
+                if (opener.document.getElementById('cellPhone')) {
+                    opener.document.formJoin.cellPhone.value = phoneNo;
+                }
+                if (opener.document.getElementById('birthDt')) {
+                    opener.document.formJoin.birthDt.value = birthday;
+                }
+                if (opener.document.getElementById('birthYear')) {
+                    opener.document.formJoin.birthYear.value = birthYear;
+                }
+                if (opener.document.getElementById('birthMonth')) {
+                    opener.document.formJoin.birthMonth.value = birthMonth;
+                }
+                if (opener.document.getElementById('birthDay')) {
+                    opener.document.formJoin.birthDay.value = birthDay;
+                }
+                if (opener.document.getElementById('sexFlMan') || opener.document.getElementById('sexFlWoman')) {
+                    if (sex == 'M') {
+                        opener.document.getElementById('sexFlMan').disabled = false;
+                        opener.document.getElementById('sexFlWoman').disabled = true;
+                        opener.document.getElementById('sexFlMan').click();
+                    } else {
+                        opener.document.getElementById('sexFlMan').disabled = true;
+                        opener.document.getElementById('sexFlWoman').disabled = false;
+                        opener.document.getElementById('sexFlWoman').click();
+                    }
+                }
+            }
+            else if (callType == "certGuest") {
+                opener.document.getElementById('cert_txt').innerHTML="본인인증이 완료되었습니다.";
+                opener.document.getElementById('btn_cert').style.display="none"; // 본인인증 버튼 숨김.
+                opener.document.getElementById('orderName').readOnly = true; // 본인인증 완료 후 readonly
+                opener.document.getElementById('mobileNum').readOnly = true; // 본인인증 완료 후 readonly
+                opener.document.frmOrder.mobileNum.value = phoneNo; // 전화번호
+                opener.document.frmOrder.orderName.value = strName; // 이름
+                opener.document.getElementById('orderName').style.backgroundColor = '#eeeeee'; // 색상
+                opener.document.getElementById('mobileNum').style.backgroundColor = '#eeeeee'; // 색상
+            }
+            else { // default 회원가입
+                //            if (dupeExistsYn == 'y') { alert("이미 가입이 되어 있습니다."); return true; } if (checkAge == 'n') { alert(limitAge +"미만은 가입하실 수 없습니다."); return; }
+
+                //   var targetWindow = (opener) ? opener : opener;
+                // alert( "휴대폰인증이 정상처리 되었습니다." ); //결과 메시지 출력
+                opener.document.formTerms.action = '/member/join.php';
+                opener.document.formTerms.target = '';
+                opener.document.formTerms.rncheck.value = 'authCellphone';
+                opener.document.formTerms.nice_nm.value = strName;
+                opener.document.formTerms.mobile.value = phoneNo;
+                opener.document.formTerms.mobileService.value = phoneService;
+                opener.document.formTerms.birthday.value = birthday;
+                opener.document.formTerms.adultFl.value = adultFl;
+                opener.document.formTerms.sex.value = sex;
+                opener.document.formTerms.dupeinfo.value = di;
+                opener.document.formTerms.foreigner.value = foreigner;
+                opener.document.formTerms.submit();
+
+
+            }
+            self.close();
+        }
+    }
+</script>
+<!--{:}-->
+<script type="text/javascript">
+    alert("잘못된 접근입니다.");
+</script>
+<!--{/}-->
+
+<body onload="javascript:loadAction();"></body>
+</html>

@@ -1,0 +1,75 @@
+{*** 회원가입 이벤트 | proc/_simple_join_push.html ***}
+<!--{ ? joinEventPush }-->
+<link type="text/css" rel="stylesheet" href="{=setBrowserCache('../css/gd_simple_join_push.css')}">
+<div class="simple_join_push {=joinEventPush.position}" style="background:{=joinEventPush.bgColor};">
+    <div class="inner <!--{ ? joinEventPush.pushDescriptionType == 'image' }-->type2<!--{ / }-->">
+        <!--{ ? joinEventPush.iconType != 'false' }-->
+        <div class="sj_icon_box">
+            <!--{ ? joinEventPush.iconType == 'basic' }-->
+            <img src="../img/etc/icon_default_push.png" alt="{=__('푸쉬아이콘')}"/>
+            <!--{ : joinEventPush.iconType == 'self' }-->
+            <img src="{=joinEventPush.pushIcon}" alt="{=__('푸쉬아이콘')}"/>
+            <!--{ / }-->
+        </div>
+        <!--{ / }-->
+
+        <!--{ ? joinEventPush.pushDescriptionType == 'text' }-->
+        <div class="sj_txt_box">
+            <div class="txt_area" style="color:{=joinEventPush.textColor}">{=joinEventPush.pushDescriptionText}</div>
+        </div>
+        <!--{ : joinEventPush.pushDescriptionType == 'image' }-->
+        <div class="sj_img_box">
+            <img src="{=joinEventPush.pushDescriptionImagePc}" alt="{=__('회원가입 유도 푸쉬 내용')}"/>
+        </div>
+        <!--{ / }-->
+        <span class="ly_sj_close"><img src="../img/etc/btn_ly_sj_close.png" alt="{=__('닫기')}"></span>
+    </div>
+</div>
+<script type="text/javascript">
+    //회원가입 유도 푸시
+    var icon_h = $('.simple_join_push.type2 .sj_icon_box').innerHeight();
+    var icon_h_s = icon_h/2;
+    $('.simple_join_push.type2 .sj_icon_box').css('margin-top',-icon_h_s);
+
+    function sj_swing_up() {
+        var _height = 0;
+
+        if($('#shop_cart_wrap').is(":visible")) {
+            _height = $('#shop_cart_wrap').innerHeight() + 15;
+        } else {
+            _height =  + 15;
+        }
+
+        $('.simple_join_push').animate({'bottom':_height},1000);
+    }
+    sj_swing_up();
+
+    $('.ly_sj_close').on({
+        'click':function(e){
+            e.stopPropagation();
+            var data = {
+                mode: 'setSimpleJoinPushClosed'
+            }
+            var $ajax = $.ajax('../member/member_ps.php', {type: "post", data: data});
+            $ajax.done(function () {
+                var _height = $('.simple_join_push').innerHeight() + 2;
+                $('.simple_join_push').animate({'bottom':-_height},800);
+            });
+        }
+    });
+
+    $('.simple_join_push').on({
+        'click':function(e){
+            e.stopPropagation();
+            var data = {
+                mode: 'setSimpleJoinPushLog',
+                eventType: 'click'
+            }
+            var $ajax = $.ajax('../member/member_ps.php', {type: "post", data: data});
+            $ajax.done(function () {
+                location.href = '../member/join_method.php';
+            });
+        }
+    });
+</script>
+<!--{ / }-->

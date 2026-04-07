@@ -1,0 +1,111 @@
+{*** 하단 기본타입 | main/index.php ***}
+</div>
+	<!-- //contents_wrap -->
+</div>
+<!-- //container -->
+
+<div class="mf_quick">
+	<ul>
+		<!-- Fixed SNS -->
+		<!-- <li><a href="#none"><img src="../../img/mimg/mf_quick01.png"></a></li> -->
+		<li><a href="//pf.kakao.com/_axexgxnK" target="_blank"><img src="../../img/mimg/mf_quick02.png"></a></li>
+	</ul>
+	<img src="../../img/mimg/mf_quick.png">
+</div>
+
+<div id="mfooter">
+	<div class="inner">
+		<!-- 하단01 : 하단 링크 -->
+		<div class="mf_link">
+			<a href="../service/agreement.php">이용약관</a>
+			{=includeFile('/img/mimg/slash.svg')}
+			<a href="../service/private.php" class="privacy">개인정보처리방침</a>
+			{=includeFile('/img/mimg/slash.svg')}
+			<a href="../service/guide.php">이용안내</a>
+		</div>
+		<div class="mf_link">
+			<a href="https://weare.medisola.co.kr/philosophy">브랜드 스토리</a>
+			{=includeFile('/img/mimg/slash.svg')}
+			<a href="https://weare.medisola.co.kr/">메디쏠라 주식회사</a>
+		</div>
+
+		<!-- 하단02 : 하단 로고 -->
+		<div class="mf_logo"><img src="../../img/mimg/mf_logo.svg" /></div>
+
+		<!-- 하단03 : 회사정보 -->
+		<div class="mf_info">
+			<div>
+				상호. {=gMall.companyNm} 
+				{=includeFile('/img/mimg/slash.svg')}
+				CEO. {=gMall.ceoNm}
+			</div>
+			<div>
+				사업자등록번호. {=gMall.businessNo}<a href="#" class="btn_licensee_info" onclick="gd_popup_bizInfo('{=str_replace('-', '', gMall.businessNo)}'); return false;">[사업자정보확인]</a>
+			</div>
+			<div>
+				통신판매업신고번호. {=gMall.onlineOrderSerial}
+			</div>
+			<div>
+				개인정보관리책임자. {=gMall.ceoNm}
+			</div>
+			<div>
+				이메일. {=gMall.email}
+			</div>
+			<div>
+				주소. {=gMall.address} {=gMall.addressSub}
+			</div>
+			<div>
+				Hosting by 엔에이치엔커머스(주)
+			</div>
+		</div>
+
+		<!-- 하단04 : 운영시간 -->
+		<div class="mf_time">
+			고객센터. 1577-4180
+			<span>평일 (토,일,공휴일 휴무) 오전 9시~12시, 오후 1시~6시</span>
+		</div>
+
+		<!-- 하단05 : 카피라이트 -->
+		<div class="mf_copy">©2022 {=gMall.companyNm}. ALL RIGHTS RESERVED. <br/> designed by morenvy</div>
+
+		<!-- 하단06 : SNS -->
+		<div class="mf_sns">
+			<a href="//www.facebook.com/people/medisola/100071263807660/?mibextid=LQQJ4d" target="_blank"><img src="../../img/mimg/mf_sns01.png" /></a>
+			<a href="//www.instagram.com/medisola" target="_blank"><img src="../../img/mimg/mf_sns02.png" /></a>
+			<a href="//www.youtube.com/channel/UCLJmNysUeksBscc9Xh0EyxQ" target="_blank"><img src="../../img/mimg/mf_sns03.png" /></a>
+		</div>
+	</div>
+</div><!-- //mfooter -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="footer">
+	<footer>
+		<div class="foot_certify">
+			<!--{? gFairTrade['logoFl'] == 'default'}-->
+			<span><a href="https://www.ftc.go.kr/www/cop/bbs/selectBoardList.do?key=201&bbsId=BBSMSTR_000000002320&bbsTyCode=BBST01" target="_blank"><img alt="{=__('공정거래위원회')}" src="../../img/certify/logo_kftc.png"></a></span>
+			<!--{: gFairTrade['logoFl'] == 'upload'}-->
+			<span><img alt="{=__('공정거래위원회')}" src="{=gFairTrade['uploadLogoPath']}"></span>
+			<!--{/}-->
+			<span>{=displaySSLSeal}</span>
+			<span>{=dataEggBanner()}</span>
+			<span>{=dataReceiptBanner}</span>
+		</div>
+		<!-- //foot_certify -->
+	</footer>
+</div>
+<!-- //footer -->

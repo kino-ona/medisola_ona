@@ -1,0 +1,156 @@
+{*** 구매확정 레이어 | mypage/layer_order_settle.php ***}
+<div class="layer_wrap_cont">
+    <div class="ly_tit">
+        <h4>
+            구매확정
+        </h4>
+    </div>
+    <div class="ly_cont mypage_table_type">
+        <form name="frmSettleRegist" id="frmSettleRegist" method="post" action="../mypage/order_ps.php">
+            <input type="hidden" name="orderNo" value="{orderNo}"/>
+            <input type="hidden" name="mode" value="settleRegistAll"/>
+            <table class="order_table">
+                <colgroup>
+                    <col style="width:5%">  <!-- 체크박스 -->
+                    <col style="width:30%"> <!-- 상품명/옵션 -->
+                    <col style="width:15%"> <!-- 주문상태 -->
+                    <col style="width:20%"> <!-- 상품금액/수량 -->
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>
+                        <div class="form_element">
+                            <input type="checkbox" id="allCheck" class="gd_checkbox_all" data-target-id="goodsno_" data-target-form="#frmSettleRegist" />
+                            <label for="allCheck" class="check_s"></label>
+                        </div>
+                    </th>
+                    <th>{=__('상품명/옵션')}</th>
+                    <th>{=__('주문상태')}</th>
+                    <th>{=__('상품금액/수량')}</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <!--{ ? orderData }-->
+                <!--{ @ orderData }-->
+                <!--{ @ .goods }-->
+                <tr>
+                    <td>
+                        <div class="form_element">
+                            <input type="checkbox" name="orderGoodsNo[]" value="{..sno}" id="goodsno_{..sno}" data-order-status="{..orderStatus}"/>
+                            <label for="goodsno_{..sno}" class="check_s"></label>
+                        </div>
+                    </td>
+                    <td class="td_left">
+                        <div class="pick_add_cont">
+                            <span class="pick_add_img">
+                                <a href="../goods/goods_view.php?goodsNo={..goodsNo}">{..goodsImage}</a>
+                            </span>
+                            <div class="pick_add_info">
+                                <!--{ ? ..goodsType === 'addGoods' }-->
+                                <a href="../goods/goods_view.php?goodsNo={..parentGoodsNo}"><em>{..goodsNm}</em></a>
+                                <!--{ : }-->
+                                <a href="../goods/goods_view.php?goodsNo={..goodsNo}"><em>{..goodsNm}</em></a>
+                                <!--{ / }-->
+
+                                <!--{ @ ..optionInfo }-->
+                                <span class="text_type_cont">{...value_.optionName} : {...value_.optionValue}
+                                    <!--{ ? ...value_.optionRealPrice != 0 && optionPriceFl == 'y' }-->
+                                     (<!--{ ? ...value_.optionRealPrice > 0 }-->+<!--{ / }-->{=gd_global_order_currency_display(...value_.optionRealPrice)})
+                                    <!--{ / }-->
+                                    <!--{ ? ...index_ == ...size_ - 1 }-->
+                                    <!--{ ? empty(...value_.deliveryInfoStr) === false }--> [{...value_.deliveryInfoStr}]<!--{ / }-->
+                                    <!--{ / }-->
+                                </span>
+                                <!--{ / }-->
+                                <!--{ ? ..optionTextInfo }-->
+                                <!--{ @ ..optionTextInfo }-->
+                                <span class="text_type_cont">{...value_.optionName} : {...value_.optionValue}
+                                    <!--{ ? ...value_.optionTextPrice != 0 && optionPriceFl == 'y' }-->
+                                    (<!--{ ? ...value_.optionTextPrice > 0 }-->+<!--{ / }-->{=gd_global_order_currency_display(...value_.optionTextPrice)})
+                                    <!--{ / }-->
+                                </span>
+                                <!--{ / }-->
+                                <!--{ / }-->
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <em>
+                            <!--{ ? ..orderStatus == 'd2' }-->
+                            {eachOrderStatus.d2.name}
+                            <!--{ : ..orderStatus == 'b4' }-->
+                            {eachOrderStatus.b4.name}
+                            <!--{ : ..orderStatus == 'e5' }-->
+                            {eachOrderStatus.e5.name}
+                            <!--{ : ..orderStatus == 'r3' }-->
+                            {eachOrderStatus.r3.name}
+                            <!--{ : }-->
+                            {..orderStatusStr}
+                            <!--{ ?  ..naverpayStatus.code == 'DelayProductOrder'}-->
+                            ({=..naverpayStatus.notice})
+                            <!--{ / }-->
+                            <!--{ / }-->
+                        </em>
+                    </td>
+                    <td><strong>{=gd_global_order_currency_display(((..goodsPrice + ..optionPrice + ..optionTextPrice) * ..goodsCnt),.exchangeRate, .currencyPolicy)}</strong> / {..goodsCnt}{=__('개')}</td>
+                </tr>
+                <!--{ / }-->
+                <!--{ / }-->
+                <!--{ : }-->
+                <tr>
+                    <td colspan="6"><p class="no_data">{=__('조회내역이 없습니다.')}</p></td>
+                </tr>
+                <!--{ / }-->
+                </tbody>
+            </table>
+
+            <div class="btn_center_box">
+                <button class="btn_ly_cancel layer_close"><strong>{=__('취소')}</strong></button>
+                <button type="submit" class="btn_ly_ok"><strong>{=__('확인')}</strong></button>
+            </div>
+        </form>
+    </div>
+    <!-- //ly_cont -->
+    <a href="#close" class="ly_close layer_close"><img src="../img/common/layer/btn_layer_close.png" alt="{=__('닫기')}"></a>
+</div>
+<!-- //layer_wrap_cont -->
+<script type="text/javascript">
+    $(function(){
+        gd_checkbox_all();
+
+        $('#frmSettleRegist').validate({
+            submitHandler: function (form) {
+                if (!$('input[name*="orderGoodsNo"]:checkbox:checked').length) {
+                    alert("{=__('구매확정 할 상품을 선택하세요.')}");
+                    return false;
+                }
+
+                if (confirm("{=__('구매확정 처리를 하시겠습니까?')}")) {
+                    form.target = 'ifrmProcess';
+                    form.submit();
+                }
+            }
+        });
+    });
+
+    function gd_checkbox_all() {
+        // 체크박스 전체 선택 이벤트
+        if ($(':checkbox.gd_checkbox_all').length > 0) {
+            // 이벤트 중복 실행을 막아준다.
+            $(':checkbox.gd_checkbox_all').off('click');
+            $(':checkbox.gd_checkbox_all').click(function (e) {
+                var $target = $(e.target);
+                var targetName = $target.data('target-name');
+                var targetId = $target.data('target-id');
+                var targetFormName = $target.data('target-form');
+                if (typeof targetFormName == 'undefined') targetFormName = "";
+                if (_.isUndefined(targetId)) {
+                    $(targetFormName + ' :checkbox[name="' + targetName + '"]').prop('checked', !$target.prop('checked')).trigger('click');
+                } else {
+                    $(targetFormName + ' :checkbox[id*="' + targetId + '"]').prop('checked', !$target.prop('checked')).trigger('click');
+                }
+            });
+        }
+    }
+</script>

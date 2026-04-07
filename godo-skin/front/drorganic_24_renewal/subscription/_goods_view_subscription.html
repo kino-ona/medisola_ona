@@ -1,0 +1,237 @@
+{*** [위젯] 정기결제 옵션 선택 | goods/_goods_display.php ***}
+<link rel="stylesheet" type="text/css" href='../subscription/css/widget/goods_view_subscription.css'>
+<script src='../subscription/js/common.js'></script>
+<div class='goods_view_subscription'>
+<div class='subscription_type_box choice-check'>
+    <div class="rows rows1 form_element">
+        <input type='radio' class='radio' name='subscription_type' class='subscription_type' id='subscription_type0' value='0'>
+        <label for='subscription_type0' class='choice' data-type='0'><span class='text'>1회 구매</span></label>
+    </div>
+	<div style='clear: left;'></div>
+    <div class="rows rows2 form_element">
+       <input type='radio' class='radio' name='subscription_type' class='subscription_type' id='subscription_type1' value='1' checked>
+       <label for='subscription_type1' class='choice on' data-type='1'><span class='text'>정기결제</span></label>
+       
+       <span class='subscription_benefit' onclick="wm.layer.popup('../subscription/subscription_benefit.php?goodsNo={goodsNo}', 500, 300, true);">결제회차별 할인혜택</span>
+    </div>
+</div> <!-- subscription_type -->
+
+<div class='subscription_wrapper'>
+
+<!--{ ? period }-->
+<input type='hidden' name='period' id='subscription_period' value='{period[0][0]}_{period[0][1]}'>
+<div class="subscription_selection">
+	<div class='mtitle_row'>
+		<span class='mtitle'>결제 주기<span class='small_txt'>(신청 후 변경가능)</span></span>
+		<span class='subscription_benefit_inline' onclick="openBenefitLayer('{= goodsNo }')">
+			<svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align: middle; margin-right: 4px;">
+				<path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" fill="#000000"/>
+			</svg>
+			결제회차별 할인혜택
+		</span>
+	</div>
+	<div class='selection_rows first'>
+	<!--{ @period }-->
+	<!--{ ? .index_ > 0 && .index_ % 3 == 0 }--></div><div class='selection_rows'><!--{ / }-->
+	<div class='cell_rows'>
+		<div class='sel_period<!--{ ? .index_ == 0 }--> on<!--{ / }-->' data-period='{.value_[0]}_{.value_[1]}'>
+            <div class='box'>
+                <span class='period_content'>
+                    <span class='period_checkmark'>
+                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="9" cy="9" r="9" fill="#253479"/>
+                            <path d="M5 9L8 12L13 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </span>
+                    <span class='period_text'>{.value_[0]}<!--{ ? .value_[1] == 'month' }-->달<!--{ : }-->주<!--{ / }-->에 한 번</span>
+                </span>
+            </div> <!-- box -->
+        </div> <!-- sel_period -->
+	</div> <!-- cell_rows -->
+	<!--{ / }-->
+    <!--{ ? count(period) % 3 > 0 }-->
+    <!--{ @range(1, 3 - count(period) % 3) }-->
+    <div class='cell_rows'></div>
+    <!--{ / }-->
+    <!--{ / }-->
+	</div> <!-- selection_rows -->
+</div> <!-- subscription_selection -->
+<!--{ / }-->
+</div> <!-- subscription_wrapper -->
+
+</div> <!-- goods_view_subscription-->
+<!-- 장바구니 담기 레이어 -->
+<div id="addSubCartLayer" class="layer_wrap dn">
+    <div class="box add_cart_layer" style="position: absolute; margin: 0px; top: 279.5px; left: 651px;">
+        <div class="view">
+            <h2>{=__('정기결제 장바구니 담기')}</h2>
+            <div class="scroll_box">
+                <p class="success"><strong>{=__('상품이 정기결제 장바구니에 담겼습니다.')}</strong><br>{=__('바로 확인하시겠습니까?')}</p>
+            </div>
+            <div class="btn_box">
+                <button class="btn_cancel"><span>{=__('취소')}</span></button>
+                <button class="btn_subscriptionconfirm"><span>{=__('확인')}</span></button>
+            </div>
+            <!-- //btn_box -->
+            <button title="{=__('닫기')}" class="close layer_close" type="button">{=__('닫기')}</button>
+        </div>
+    </div>
+</div>
+
+<script>
+$(function() {
+    $(".subscription_type_box label").click(function() {
+        var v = $(this).data('type');
+        if (v == '1') {
+            $(".onetime_buy").hide();
+            $(".subscription_buy, .subscription_selection").fadeIn();
+        } else {
+            $(".subscription_buy, .subscription_selection").hide();
+            $(".onetime_buy").fadeIn();
+        }
+    });
+    
+    $(".subscription_selection .sel_period").click(function() {
+        $(".subscription_selection .sel_period").removeClass("on");
+        $(this).addClass("on");
+        var period = $(this).data("period");
+        $("#subscription_period").val(period);
+    });
+    
+    $(".subscription_buy").click(function() {
+        add_subscription_cart();
+    });
+    
+    $('.btn_subscriptionconfirm').click(function(){
+		location.href = '../subscription/cart.php';
+        return false;
+    });
+	$(".subscription_type_box label").trigger("click");
+});
+
+function add_subscription_cart()
+{
+    <!--{ ? !gd_is_login() }-->
+    alert("정기결제는 로그인이 필요한 서비스 입니다.");
+    window.location.href='../member/login.php';
+    return;
+    <!--{ / }-->
+    
+    $('#frmView input[name=\'mode\']').val('cartIn');
+    $('#frmView').attr('action','../subscription/cart_ps.php');
+    
+    <!--{ ? goodsView['optionFl'] == 'y'}-->
+    var goodsInfo		= $('#frmView input[name*=\'optionSno[]\']').length;
+    <!--{ : }-->
+    var goodsInfo		= $('#frmView input[name="optionSnoInput"]').val();
+    <!--{ / }-->
+
+    if (goodsInfo == '') {
+       alert('옵션을 선택해주세요!!');
+       return false;
+    }
+    
+    <!--{ ? gd_isset(goodsView['optionTextFl']) == 'y' }-->
+    if(!goodsViewController.option_text_valid("#frmView"))
+    {
+        alert('입력 옵션을 확인해주세요.');
+        return false;
+    }
+   <!--{ / }-->
+    
+    <!--{ ? goodsView['addGoods'] }-->
+     //추가상품
+     if(!goodsViewController.add_goods_valid("#frmView"))
+     {
+        alert('필수 추가 상품을 확인해주세요.');
+        return false;
+     }
+     <!--{ / }-->
+    
+    var params = $( "#frmView" ).serialize();
+
+    $.ajax({
+        method: "POST",
+        cache: false,
+        url: "../subscription/cart_ps.php",
+        data: params,
+        success: function (data) {		
+			if (data == '1') {
+			<!--{ ? cartInfo.moveCartPageFl == 'y' }-->
+				location.href="../subscription/cart.php";
+            <!--{ : }-->
+                $("#addSubCartLayer").removeClass('dn');
+                $('#layerDim').removeClass('dn');
+                $("#addSubCartLayer").find('> div').center();
+            <!--{ / }-->
+            } else {
+				alert('정기결제 장바구니 담기에 실패하였습니다.');
+            }
+        },
+        error: function (data) {
+			alert(data.message);
+        }
+	});
+}
+
+const openBenefitLayer = async goodsNo => {
+
+    const optionInputs = document.querySelectorAll("input[name='optionSno[]']");
+
+    if (optionInputs.length === 0) {
+        alert('옵션을 선택해주세요.');
+        return;
+    }
+
+    const params = new URLSearchParams();
+
+    // 옵션 sno & 해당 수량 추가
+    optionInputs.forEach(function (el) {
+        const optionSno = el.value;
+        const tbody = el.closest('tbody');
+        const qtyInput = tbody.querySelector("input[name='goodsCnt[]']");
+        const qty = qtyInput ? qtyInput.value : 1;
+
+        params.append("optionSno[]", optionSno);
+        params.append("goodsCnt[" + optionSno + "]", qty);
+    });
+
+    params.append("mode", 'goodsBenefitCheck');
+    params.append("goodsNo", goodsNo);
+
+
+
+    try {
+        const response = await fetch('../subscription/ajax.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: params.toString()
+        });
+
+        const result = await response.json();
+        // console.log("비동기 결과:", result);
+
+        if (Array.isArray(result)) {
+            result.forEach(v => {
+                params.append("cartSno[]", v);
+            });
+        }
+
+        // ② 서버 체크 후 팝업 오픈
+        wm.layer.popup(
+            '../subscription/subscription_benefit.php?mode=benefitLayer&goodsNo='
+            + goodsNo + '&' + params.toString(),
+            500,
+            300,
+            true
+        );
+
+    } catch (e) {
+        console.error("비동기 통신 오류:", e);
+        alert('서버 통신 중 오류 발생');
+    }
+
+
+    // wm.layer.popup('../subscription/subscription_benefit.php?mode=benefitLayer&goodsNo=' + goodsNo + '&' + params.toString(), 500, 300, true);
+}
+</script>

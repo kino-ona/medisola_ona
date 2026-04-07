@@ -1,0 +1,468 @@
+{*** 완반 회원가입 > 약관동의 | member/wanban_join_agreement.php ***}
+{ # header }
+
+<style>
+#container #contents{
+	width: 100%;
+	max-width: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+.wanban-mobile-container {
+    min-height: 100vh;
+    width: 100%;
+    background: linear-gradient(135deg, #7EA86B 0%, #D17A47 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3vw;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.wanban-mobile-card {
+    background: white;
+    border-radius: 4vw;
+    box-shadow: 0 5vw 10vw rgba(0, 0, 0, 0.1);
+    padding: 8vw 6vw;
+    width: 100%;
+    max-width: 95vw;
+    max-height: 95vh;
+    overflow-y: auto;
+}
+
+.wanban-mobile-header {
+    text-align: center;
+    margin-bottom: 6vw;
+}
+
+.wanban-mobile-logo {
+    max-width: 20vw;
+    height: auto;
+    border-radius: 2vw;
+    margin-bottom: 4vw;
+}
+
+.wanban-mobile-title h2 {
+    color: #333;
+    font-size: 6vw;
+    font-weight: 700;
+    margin: 0 0 2vw 0;
+    background: linear-gradient(135deg, #7EA86B, #D17A47);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.wanban-mobile-steps {
+    display: flex;
+    justify-content: center;
+    gap: 4vw;
+    margin-bottom: 6vw;
+}
+
+.wanban-mobile-step {
+    display: flex;
+    align-items: center;
+    gap: 2vw;
+    font-size: 3vw;
+    color: #666;
+}
+
+.wanban-mobile-step.active {
+    color: #7EA86B;
+    font-weight: 600;
+}
+
+.wanban-mobile-step-number {
+    background: #e0e0e0;
+    color: #666;
+    width: 6vw;
+    height: 6vw;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3vw;
+    font-weight: 600;
+}
+
+.wanban-mobile-step.active .wanban-mobile-step-number {
+    background: linear-gradient(135deg, #7EA86B, #D17A47);
+    color: white;
+}
+
+.wanban-mobile-agreement-content {
+    text-align: left;
+}
+
+.wanban-mobile-agreement-title {
+    color: #333;
+    font-size: 5vw;
+    font-weight: 600;
+    margin-bottom: 4vw;
+    text-align: center;
+}
+
+.wanban-mobile-agreement-box {
+    background: #f8f9ff;
+    border-radius: 3vw;
+    padding: 4vw;
+    margin-bottom: 3vw;
+    border-left: 1vw solid #7EA86B;
+}
+
+.wanban-mobile-checkbox-group {
+    display: flex;
+    align-items: flex-start;
+    gap: 3vw;
+    margin-bottom: 3vw;
+}
+
+.wanban-mobile-checkbox {
+    width: 5vw;
+    height: 5vw;
+    border: 0.5vw solid #ddd;
+    border-radius: 1vw;
+    cursor: pointer;
+    position: relative;
+    flex-shrink: 0;
+    margin-top: 0.5vw;
+}
+
+.wanban-mobile-checkbox.checked {
+    background: linear-gradient(135deg, #7EA86B, #D17A47);
+    border-color: #7EA86B;
+}
+
+.wanban-mobile-checkbox.checked::after {
+    content: '✓';
+    color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 3vw;
+    font-weight: bold;
+}
+
+.wanban-mobile-checkbox-label {
+    flex: 1;
+    color: #333;
+    font-size: 3.5vw;
+    line-height: 1.5;
+    cursor: pointer;
+}
+
+.wanban-mobile-required {
+    color: #e74c3c;
+    font-weight: 600;
+}
+
+.wanban-mobile-optional {
+    color: #666;
+    font-weight: 500;
+}
+
+.wanban-mobile-agreement-text {
+    background: white;
+    border: 0.3vw solid #e0e0e0;
+    border-radius: 2vw;
+    padding: 3vw;
+    max-height: 30vw;
+    overflow-y: auto;
+    font-size: 3vw;
+    line-height: 1.4;
+    color: #666;
+    margin-top: 2vw;
+}
+
+.wanban-mobile-button-group {
+    display: flex;
+    gap: 3vw;
+    margin-top: 6vw;
+}
+
+.wanban-mobile-button {
+    flex: 1;
+    border: none;
+    border-radius: 12vw;
+    padding: 4vw 6vw;
+    font-size: 4vw;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.wanban-mobile-button-prev {
+    background: #f5f5f5;
+    color: #666;
+    border: 0.3vw solid #ddd;
+}
+
+.wanban-mobile-button-prev:hover {
+    background: #eee;
+    transform: translateY(-0.3vw);
+}
+
+.wanban-mobile-button-next {
+    background: linear-gradient(135deg, #7EA86B, #D17A47);
+    color: white;
+    box-shadow: 0 2vw 5vw rgba(126, 168, 107, 0.3);
+}
+
+.wanban-mobile-button-next:hover {
+    transform: translateY(-0.5vw);
+    box-shadow: 0 3vw 6vw rgba(126, 168, 107, 0.4);
+}
+
+.wanban-mobile-error {
+    color: #e74c3c;
+    font-size: 3.5vw;
+    text-align: center;
+    margin-top: 3vw;
+    display: none;
+}
+
+/* Landscape orientation adjustments */
+@media (orientation: landscape) and (max-height: 500px) {
+    .wanban-mobile-container {
+        padding: 2vw;
+    }
+    
+    .wanban-mobile-card {
+        padding: 4vw;
+        border-radius: 3vw;
+        max-height: 98vh;
+    }
+    
+    .wanban-mobile-header {
+        margin-bottom: 4vw;
+    }
+    
+    .wanban-mobile-logo {
+        max-width: 15vw;
+        margin-bottom: 2vw;
+    }
+    
+    .wanban-mobile-title h2 {
+        font-size: 5vw;
+        margin-bottom: 1vw;
+    }
+    
+    .wanban-mobile-steps {
+        gap: 3vw;
+        margin-bottom: 4vw;
+    }
+    
+    .wanban-mobile-agreement-box {
+        padding: 3vw;
+        margin-bottom: 2vw;
+    }
+    
+    .wanban-mobile-button-group {
+        margin-top: 4vw;
+        gap: 2vw;
+    }
+}
+</style>
+
+<div class="wanban-mobile-container">
+    <div class="wanban-mobile-card">
+        <div class="wanban-mobile-header">
+            <img src="https://img.kr.gcp-karroter.net/businessPlatform/bizPlatform/profile/center_biz_1673210/1751352914557/e8692bcfca369a4ef756b7643e143ab91ae282113f6902eb745b90de1e98e0c1.jpeg?q=82&s=640x640&t=crop" 
+                 alt="완반 로고" 
+                 class="wanban-mobile-logo">
+            
+            <div class="wanban-mobile-title">
+                <h2>{=__('완반 회원가입')}</h2>
+            </div>
+            
+            <div class="wanban-mobile-steps">
+                <div class="wanban-mobile-step active">
+                    <span class="wanban-mobile-step-number">01</span>
+                    <span>{=__('약관동의')}</span>
+                </div>
+                <div class="wanban-mobile-step">
+                    <span class="wanban-mobile-step-number">02</span>
+                    <span>{=__('정보입력')}</span>
+                </div>
+                <div class="wanban-mobile-step">
+                    <span class="wanban-mobile-step-number">03</span>
+                    <span>{=__('가입완료')}</span>
+                </div>
+            </div>
+        </div>
+
+        <form id="formTerms" name="formTerms" method="post" action="../member/wanban_join.php">
+            <input type="hidden" name="token" value="{token}"/>
+            <input type="hidden" name="mode" value="chkRealName"/>
+            <input type="hidden" name="rncheck" value="none"/>
+            <input type="hidden" name="nice_nm" value=""/>
+            <input type="hidden" name="pakey" value=""/>
+            <input type="hidden" name="birthday" value=""/>
+            <input type="hidden" name="mobile" value=""/>
+            <input type="hidden" name="mobileService" value=""/>
+            <input type="hidden" name="sex" value=""/>
+            <input type="hidden" name="dupeinfo" value=""/>
+            <input type="hidden" name="foreigner" value=""/>
+            <input type="hidden" name="adultFl" value=""/>
+            <input type="hidden" name="phone" value=""/>
+            <input type="hidden" name="type" />
+            <input type="hidden" name="memberCode" value="{=memberCode}" />
+            <input type="hidden" name="wanbanFl" value="y" />
+
+            <div class="wanban-mobile-agreement-content">
+                <h3 class="wanban-mobile-agreement-title">{=__('약관동의')}</h3>
+
+                <!--{? under14ConsentFl == 'y'}-->
+                <div class="wanban-mobile-agreement-box">
+                    <div class="wanban-mobile-checkbox-group">
+                        <div class="wanban-mobile-checkbox" data-checkbox="termsAgree"></div>
+                        <label class="wanban-mobile-checkbox-label" for="termsAgree">
+                            <span class="wanban-mobile-required">(필수)</span> 만 14세 이상입니다
+                        </label>
+                        <input type="checkbox" id="termsAgree" name="under14ConsentFl" style="display: none;"/>
+                    </div>
+                </div>
+                <!--{/}-->
+
+                <div class="wanban-mobile-agreement-box">
+                    <div class="wanban-mobile-checkbox-group">
+                        <div class="wanban-mobile-checkbox" data-checkbox="allAgree"></div>
+                        <label class="wanban-mobile-checkbox-label" for="allAgree">
+                            완반의 모든 약관을 확인하고 전체 동의합니다.
+                            <div style="font-size: 3vw; color: #999; margin-top: 1vw;">(전체동의, 선택항목도 포함됩니다.)</div>
+                        </label>
+                        <input type="checkbox" id="allAgree" style="display: none;"/>
+                    </div>
+                </div>
+
+                <div class="wanban-mobile-agreement-box">
+                    <div class="wanban-mobile-checkbox-group">
+                        <div class="wanban-mobile-checkbox require" data-checkbox="termsAgree1"></div>
+                        <div class="wanban-mobile-checkbox-label">
+                            <span class="wanban-mobile-required">(필수)</span> {=__('이용약관')}
+                            <div class="wanban-mobile-agreement-text">
+                                {=nl2br(agreementInfo['content'])}
+                            </div>
+                        </div>
+                        <input type="checkbox" id="termsAgree1" name="agreementInfoFl" class="require" style="display: none;"/>
+                    </div>
+                </div>
+
+                <div class="wanban-mobile-agreement-box">
+                    <div class="wanban-mobile-checkbox-group">
+                        <div class="wanban-mobile-checkbox require" data-checkbox="termsAgree2"></div>
+                        <div class="wanban-mobile-checkbox-label">
+                            <span class="wanban-mobile-required">(필수)</span> {=__('개인정보 수집 및 이용')}
+                            <div class="wanban-mobile-agreement-text">
+                                {=nl2br(privateApproval['content'])}
+                            </div>
+                        </div>
+                        <input type="checkbox" id="termsAgree2" name="privateApprovalFl" class="require" style="display: none;"/>
+                    </div>
+                </div>
+
+                <!-- {? privateApprovalOption[0]['modeFl']=='y'} -->
+                <div class="wanban-mobile-agreement-box">
+                    <div class="wanban-mobile-checkbox-group">
+                        <div class="wanban-mobile-checkbox" data-checkbox="termsAgree3"></div>
+                        <div class="wanban-mobile-checkbox-label">
+                            <span class="wanban-mobile-optional">(선택)</span> {=__('개인정보 수집 및 이용')}
+                            <div class="wanban-mobile-agreement-text">
+                                <!-- {@ privateApprovalOption} -->
+                                {=nl2br(.content)}
+                                <!-- {/} -->
+                            </div>
+                        </div>
+                        <input type="checkbox" id="termsAgree3" style="display: none;"/>
+                    </div>
+                </div>
+                <!-- {/} -->
+
+                <div class="wanban-mobile-error" id="errorMessage">
+                    {=__('이용약관과 개인정보 수집 및 이용에 대한 안내 모두 동의해주세요.')}
+                </div>
+            </div>
+
+            <div class="wanban-mobile-button-group">
+                <button type="button" id="btnPrevStep" class="wanban-mobile-button wanban-mobile-button-prev">{=__('이전단계')}</button>
+                <button type="button" id="btnNextStep" class="wanban-mobile-button wanban-mobile-button-next">{=__('다음단계')}</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        // 완반 페이지 브라우저 타이틀 변경
+        document.title = '완반X메디쏠라';
+        amplitude.logEvent('wanban_signup_agreement_view');
+        
+        // Custom checkbox functionality
+        $('.wanban-mobile-checkbox').click(function() {
+            var checkboxId = $(this).data('checkbox');
+            var hiddenCheckbox = $('#' + checkboxId);
+            var isChecked = $(this).hasClass('checked');
+            
+            if (isChecked) {
+                $(this).removeClass('checked');
+                hiddenCheckbox.prop('checked', false).val('n');
+            } else {
+                $(this).addClass('checked');
+                hiddenCheckbox.prop('checked', true).val('y');
+            }
+            
+            // Handle all agree functionality
+            if (checkboxId === 'allAgree') {
+                if (!isChecked) {
+                    $('.wanban-mobile-checkbox').addClass('checked');
+                    $(':checkbox').prop('checked', true).val('y');
+                } else {
+                    $('.wanban-mobile-checkbox').removeClass('checked');
+                    $(':checkbox').prop('checked', false).val('n');
+                }
+            }
+        });
+
+        $('#btnNextStep').click(function () {
+            amplitude.logEvent('wanban_signup_agreement_next_button_click');
+            var pass = true;
+            
+            // Check required agreements
+            $('.wanban-mobile-checkbox.require').each(function (idx, item) {
+                if (!$(this).hasClass('checked')) {
+                    pass = false;
+                }
+            });
+
+            // Check 14+ age agreement if exists
+            if ($("#termsAgree").length > 0) {
+                if (!$('#termsAgree').prop('checked')) {
+                    pass = false;
+                    alert("{=__('만 14세 이상임에 동의해 주세요.')}");
+                    return false;
+                }
+            }
+
+            if (pass) {
+                $('#errorMessage').hide();
+                $('form').submit();
+            } else {
+                $('#errorMessage').show();
+                $('html, body').animate({
+                    scrollTop: $('#errorMessage').offset().top - 100
+                }, 500);
+            }
+        });
+
+        $('#btnPrevStep').click(function (e) {
+            amplitude.logEvent('wanban_signup_agreement_prev_button_click');
+            e.preventDefault();
+            window.location.href = '../member/wanban_join_method.php';
+        });
+    });
+</script>
+
+{ # footer }

@@ -1,0 +1,369 @@
+#find_my_meal {
+  --color-blue-1: #042878;
+  --color-text-1: #413c39;
+  --color-health-care: #FCF5ED;
+  --color-disease-care: #F4EBE0;
+  --color-morning-delivery: #FCF5ED;
+  --color-supplements: #F4EBE0;
+  --color-resources: #FCF5ED;
+}
+
+#find_my_meal * {
+  box-sizing: border-box;
+}
+
+#find_my_meal strong {
+  font-weight: 600;
+}
+
+#find_my_meal .color-blue-1 {
+  color: var(--color-blue-1);
+}
+
+#find_my_meal .bg-blue-1 {
+  background-color: var(--color-blue-1);
+}
+
+#find_my_meal .color-text-1 {
+  color: var(--color-text-1);
+}
+
+#find_my_meal section .icon-container {
+  position: absolute;
+  top: 50%;
+  right: 0.5rem;
+  transform: translateY(-50%);
+  width: 1.5rem;
+  height: 1.5rem;
+  display: flex;
+}
+
+#find_my_meal section#main-image {
+  background: #ddddddeb;
+}
+
+#find_my_meal section:not(#main-image) {
+  padding: 2rem 1rem;
+}
+
+#find_my_meal section .category-background-imagebox {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+#find_my_meal section .category-background-imagebox > img {
+  width: 50vw;
+  height: 35vw;
+  object-fit: cover;
+}
+
+#find_my_meal section .category-background-imagebox .gradient {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(
+      to right,
+      var(--color-gradient),
+      transparent,
+      transparent
+    ),
+    linear-gradient(to bottom, transparent, transparent, var(--color-gradient));
+}
+
+#find_my_meal section .tag {
+  padding: 4px 8px;
+  border-radius: 24px;
+  min-width: 80px;
+  text-align: center;
+}
+
+#find_my_meal section .sticky-header {
+  margin-bottom: 0.7rem;
+}
+
+#find_my_meal section .category-title-container > :not(:last-child) {
+  margin-block-end: 0.5rem;
+}
+
+#find_my_meal section .category-main-textbox > :not(:last-child) {
+  margin-block-end: 0.7rem;
+}
+
+#find_my_meal section .category-main-textbox {
+  margin-block-end: 1.5rem;
+}
+
+#find_my_meal section .meals-column > .meals-title {
+  padding: 0.5rem;
+}
+
+#find_my_meal section .meals-column .meals-item {
+  background-color: white;
+  padding: 0.8rem;
+}
+
+#find_my_meal section .meals-column .meals-item-image {
+  width: 20vw;
+  height: 20vw;
+  object-fit: cover;
+  margin-inline-end: 1rem;
+}
+
+#find_my_meal section#type_form {
+  background: #eeeeee;
+}
+
+#find_my_meal section#type_form .main-textbox {
+  margin-block-end: 1rem;
+}
+
+#find_my_meal section#type_form .main-textbox > :not(:last-child) {
+  margin-block-end: 0.5rem;
+}
+
+#find_my_meal section#type_form .type-form-link {
+  padding: 0.8rem;
+  background-color: var(--color-blue-1);
+  color: white;
+  border-radius: 8px;
+}
+
+#find_my_meal section#health_care {
+  background: var(--color-health-care);
+  --color-gradient: var(--color-health-care);
+}
+
+#find_my_meal section#health_care .category-contentbox {
+  color: var(--color-blue-1)
+}
+
+#find_my_meal section#health_care .tag {
+  color: white;
+  background-color: var(--color-blue-1)
+}
+
+#find_my_meal section#health_care .meals-column:nth-of-type(1) > .meals-title {
+  background: #F5E6D3;
+}
+
+#find_my_meal section#health_care .meals-column:nth-of-type(2) > .meals-title {
+  background: #F9EFE5;
+}
+
+#find_my_meal section#health_care .meals-item-title {
+  color: var(--color-blue-1);
+}
+
+#find_my_meal section#disease_care {
+  background: var(--color-disease-care);
+  --color-gradient: var(--color-disease-care);
+}
+
+#find_my_meal section#disease_care .category-title {
+  color: var(--color-blue-1);
+}
+
+#find_my_meal section#disease_care .category-title-desc,
+#find_my_meal section#disease_care .category-main-textbox {
+  color: #5669A1;
+}
+
+#find_my_meal section#disease_care .tag {
+  color: white;
+  background-color: #5669A1;
+}
+
+#find_my_meal section#disease_care .meals-column:nth-of-type(1) > .meals-title {
+  background: #7C91C8;
+  color: white;
+}
+
+#find_my_meal section#disease_care .meals-column:nth-of-type(1) .meals-item-title {
+  color: #7C91C8;
+}
+
+#find_my_meal section#disease_care .meals-column:nth-of-type(2) > .meals-title {
+  background: #5063A5;
+  color: white;
+}
+
+#find_my_meal section#disease_care .meals-column:nth-of-type(2) .meals-item-title {
+  color: #5063A5;
+}
+
+#find_my_meal section#morning_delivery {
+  background: var(--color-morning-delivery);
+  --color-gradient: var(--color-morning-delivery);
+}
+
+#find_my_meal section#morning_delivery .sticky-header,
+#find_my_meal section#morning_delivery .category-main-textbox,
+#find_my_meal section#morning_delivery .meals-item-title {
+  color: #4F4506;
+}
+
+#find_my_meal section#morning_delivery .tag {
+  background-color: #FFED7F;
+  color: #8F7E0A; 
+}
+
+#find_my_meal section#supplements {
+  background: var(--color-supplements);
+  --color-gradient: var(--color-supplements);
+}
+
+#find_my_meal section#supplements .sticky-header,
+#find_my_meal section#supplements .category-main-textbox,
+#find_my_meal section#supplements .meals-item-title {
+  color: #563005;
+}
+
+#find_my_meal section#supplements .tag {
+  background-color: #FFC27C;
+  color: #7C4A10;
+}
+
+#find_my_meal section#resources {
+  background: var(--color-resources);
+  --color-gradient: var(--color-resources);
+}
+
+#find_my_meal section#resources .sticky-header {
+ color: #2659AE;
+}
+
+#find_my_meal section#resources .category-main-textbox {
+  color: #678BC6;
+}
+
+#find_my_meal section#resources .cards > :not(:last-child) {
+  margin-block-end: 1rem;
+}
+
+#find_my_meal section#resources .card {
+  background-color: white;
+  padding: 1rem;
+}
+
+#find_my_meal section#resources .card-main {
+  margin-block-end: 1.5rem;
+}
+
+#find_my_meal section#resources .card-qr-image {
+  margin-inline-end: 1rem;
+}
+
+#find_my_meal section#resources .card-title {
+  margin-block-end: 0.5rem;
+}
+
+#find_my_meal section#resources .card-desc {
+  margin-block-end: 0.8rem;
+}
+
+#find_my_meal section#resources .card-item:not(:last-of-type) {
+  margin-block-end: 0.5rem;
+}
+
+#find_my_meal section#resources .card-item > :not(:last-child) {
+  margin-inline-end: 0.3rem;
+}
+
+#find_my_meal section#resources .card-link {
+  padding: 0.8rem;
+  border-radius: 8px;
+}
+
+#find_my_meal section#resources .medi-talktalk .card-item {
+  color: #678BC6;
+}
+
+#find_my_meal section#resources .medi-talktalk .card-link {
+  background-color: #678BC6;
+  color: white;
+}
+
+#find_my_meal section#resources .solamate .card-item {
+  color: #2659AE;
+}
+
+#find_my_meal section#resources .solamate .card-link {
+  background-color: #2659AE;
+  color: white;
+}
+
+#find_my_meal .relative {
+  position: relative;
+}
+
+#find_my_meal .w-full {
+  width: 100%;
+}
+
+#find_my_meal .block {
+  display: block;
+}
+
+#find_my_meal .flex {
+  display: flex;
+}
+
+#find_my_meal .flex-col {
+  flex-direction: column;
+}
+
+#find_my_meal .justify-center {
+  justify-content: center;
+}
+
+#find_my_meal .items-center {
+  align-items: center;
+}
+
+#find_my_meal .flex-grow {
+  flex-grow: 1;
+}
+
+#find_my_meal .gap-small {
+  gap: 0.3rem;
+}
+
+#find_my_meal .gap-normal {
+  gap: 0.9rem;
+}
+
+#find_my_meal .text-sm {
+  font-size: 0.75rem;
+}
+
+#find_my_meal .text-normal {
+  font-size: 1rem;
+}
+
+#find_my_meal .text-lg {
+  font-size: 1.2rem;
+}
+
+#find_my_meal .text-xl {
+  font-size: 1.5rem;
+}
+
+#find_my_meal .text-2xl {
+  font-size: 2rem;
+}
+
+#find_my_meal .text-center {
+  text-align: center;
+}
+
+#find_my_meal .font-lightbold {
+  font-weight: 500;
+}
+
+#find_my_meal .font-semibold {
+  font-weight: 600;
+}
+
+#find_my_meal .font-bold {
+  font-weight: 700;
+}

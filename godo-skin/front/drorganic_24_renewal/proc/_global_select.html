@@ -1,0 +1,51 @@
+{*** [위젯] 해외몰 상점 설정 | proc/_global_select.html ***}
+<!--{ ? mallCnt > 1}-->
+<!--{ ? iconType == 'check' }-->
+<div class="top_country_list0">
+    <ul>
+        <!--{ @ mallList }-->
+        <li><a href="#" class="js_mall" data-domain-fl="{.value_.domainFl}" data-domain="{.value_.domain}"><img src="{=uriCommon}/{=mallIcon[.key_]}" alt="{=mallNm[.key_]}"></a></li>
+        <!--{ / }-->
+    </ul>
+</div>
+<!--{ : iconType == 'select_flag' }-->
+<div class="top_country_list1">
+    <div class="country_tit"><a href="#"><img src="{=uriCommon}/{=mallIcon[nowMall]}" alt="{=mallNm[nowMall]}"></a></div>
+    <ul style="display:none;">
+        <!--{ @ mallList }-->
+        <li><a href="#" class="js_mall" data-domain-fl="{.value_.domainFl}" data-domain="{.value_.domain}"><img src="{=uriCommon}/{=mallIcon[.key_]}" alt="{=mallNm[.key_]}"></a></li>
+        <!--{ / }-->
+    </ul>
+</div>
+<!--{ : iconType == 'select_language' }-->
+<div class="top_country_list2">
+    <div class="country_tit"><a href="#"><img src="{=uriCommon}/{=mallIcon[nowMall]}" alt="{=mallNm[nowMall]}"><span>{=mallList[nowMall].languageFl}</span></a></div>
+    <ul style="display:none;">
+        <!--{ @ mallList }-->
+        <li><a href="#" class="js_mall" data-domain-fl="{.value_.domainFl}" data-domain="{.value_.domain}"><img src="{=uriCommon}/{=mallIcon[.key_]}" alt="{=mallNm[.key_]}"><span>{=.value_.languageFl}</span></a></li>
+        <!--{ / }-->
+    </ul>
+</div>
+<!--{ / }-->
+<!-- //top_country_list -->
+
+<script type="text/javascript">
+    $(function(){
+        $('.js_mall').click(function(){
+            var url = $(this).data('domain');
+            var lastStr = url.substr(url.length - 1);
+            if (lastStr != '/') {
+                url = url+'/';
+            }
+            switch($(this).data('domain-fl')) {
+                case 'kr':
+                    window.open(url+'main/index.php', "_blank");
+                    break;
+                default:
+                    window.open(url, "_blank");
+                    break;
+            }
+        });
+    })
+</script>
+<!--{ / }-->

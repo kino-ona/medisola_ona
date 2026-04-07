@@ -1,0 +1,232 @@
+{*** 배송예정(희망)일 변경 레이어 | mypage/layer_estimated_delivery_date.html ***}
+<div class="layer_estimated_delivery_date">
+    <div class="ly_head">
+        <h1 class="h_tit elp">{=__('배송예정일 변경')}</span></h1>
+    </div>
+    <div class="ly_ct estimated-delivery-date" >
+        <div id="datetimepicker">
+            <div></div>
+        </div>
+        <ul class="notice">
+            {? isFreshDelivery == 'false' }
+            <li>
+                첫 배송일은 결제완료 기준 D+2일 자동으로 설정됩니다.
+            </li>
+            {/}
+            <li>
+                {? isFreshDelivery == 'true'}
+                배송 예정일 기준 D-3일까지 수정 가능합니다.<br/>
+                <small>예) 11월 12일 배송 예정상품은 11월 9일까지 수정 가능</small>
+                {:}
+                배송 예정일 기준 D-2일까지 수정 가능합니다.<br/>
+                <small>예) 11월 12일 배송 예정상품은 11월 10일까지 수정 가능</small>
+                {/}
+            </li>
+            <li>
+                {? isFreshDelivery == 'true'}
+                배송 예정일 변경 이후 잔여 식단의 배송 예정일도 일괄 변경됩니다.
+                {:}
+                가장 빠른 차수의 배송일 기준으로 잔여 식단들의 배송 예정일도<br/> 
+                7일 주기로 일괄 변경할 수 있습니다.
+                {/}
+            </li>
+            <li>
+                기타 문의사항은 1:1 게시판 또는 고객센터(1577-4180)로<br/> 문의 바랍니다.
+            </li>
+        </ul>
+        <div class="layer-delivery-btn-area">
+            <input hidden type="text" id="currentEstimatedDeliveryDate" name="currentEstimatedDeliveryDate" value="{=scheduledDelivery.estimatedDeliveryDt}">
+            <input hidden type="text" id="estimatedDeliveryDate" name="estimatedDeliveryDate" value="{=scheduledDelivery.estimatedDeliveryDt}">
+            <input hidden type="text" id="scheduledDeliverySno" name="scheduledDeliverySno" value="{=scheduledDelivery.sno}">
+            <button id="submit" type="button" class="delivery_method_confirm_btn ly_btn_close"><em>{=__('변경하기')}</em></button>
+        </div>
+    </div>
+    <div class="close_btn"><button type="button" class="lys_close_btn ly_btn_close">{=__('닫기')}</button></div>
+</div>
+
+
+<script type="text/javascript">
+    
+    const isFreshDelivery = {=isFreshDelivery};
+    const nonBusinessDayOfWeeks = [0, 1]; // Sunday, Monday
+    const nonFreshDeliveryDayOfWeeks = [0, 2, 3, 5, 6]; // Only Monday, Thursday available
+
+    // 최단 배송일은 오늘로부터 냉동 2일, 냉장 3일 이후부터 선택 가능, 일요일, 월요일은 배송일이 아님
+    let minDate = moment().startOf('day').add(isFreshDelivery ? 3 : 2, 'days');
+    let maxDate = moment().add(2, 'months');
+    
+    while (nonBusinessDayOfWeeks.includes(minDate.day())) {
+        minDate.add(1, 'days');
+    }
+    
+    while (nonBusinessDayOfWeeks.includes(maxDate.day())) {
+        maxDate.add(1, 'days');
+    }
+
+    $(function () {
+        setEstimatedDeliveryDate();
+
+        $('#submit').click(function (e) {
+            if ($('#scheduledDeliverySno').val() === '') {
+                alert("{=__('알 수 없는 이유로 배송예정일을 변경할 수 없습니다.')}"); 
+                return;
+            }
+
+            if ($('#estimatedDeliveryDate').val() === '') {
+                alert("{=__('배송예정일을 선택해주세요.')}"); 
+                return;
+            }
+
+            const selectedDate = moment($('#estimatedDeliveryDate').val());
+
+            if (selectedDate.isBefore(minDate)) {
+                alert("{=__('배송예정일은 오늘로부터 2일 이후부터 선택 가능합니다.')}"); 
+                return;
+            }
+
+            if (selectedDate.isAfter(maxDate)) {
+                alert("{=__('배송예정일은 오늘로부터 2개월 이내로 선택 가능합니다.')}"); 
+                return;
+            }
+        
+            if ($('#currentEstimatedDeliveryDate').val() === $('#estimatedDeliveryDate').val()) {
+                alert("{=__('같은 배송예정일입니다.')}"); 
+                return;
+            }
+
+            if (confirm("{=__('배송예정일을 변경하시겠습니까?')}")) {
+                let updateFollowings = 0;
+                if ({= count(followingScheduledDeliveries)}) {
+                    if (isFreshDelivery) {
+                        alert("{=__('잔여 식단의 배송 예정일도 일괄 변경됩니다.')}");
+                        updateFollowings = 1;
+                    } else {
+                        updateFollowings = confirm("{=__('잔여 식단의 배송 예정일도 7일 주기로 변경 하시겠습니까?')}") ? 1 : 0;
+                    }
+                }
+                
+                var params = {
+                    mode: 'changeEstimatedDeliveryDate',
+                    scheduledDeliverySno: $('#scheduledDeliverySno').val(),
+                    estimatedDeliveryDate: $('#estimatedDeliveryDate').val(),
+                    orderNo: $('#orderNo').val(),
+                    updateFollowings: updateFollowings,
+                    isFreshDelivery: isFreshDelivery ? 1 : 0,
+                };
+
+                $.post('../mypage/order_ps.php', params, function (data) {
+                    alert(data.message);
+                    if (data.code == 200) {
+                        location.reload(true);
+                    }
+                });
+            }
+        });
+    });
+
+    function setEstimatedDeliveryDate() {
+        const holidays = [
+            {@holidays}
+                moment('{.date}'),
+            {/}
+        ];
+        ///////////////////////////////////////////
+
+        let currentEstimatedDeliveryDate = $('#currentEstimatedDeliveryDate').val();
+
+        if (moment(currentEstimatedDeliveryDate).isBefore(minDate)) {
+            currentEstimatedDeliveryDate = minDate;
+        }
+
+        if (moment(currentEstimatedDeliveryDate).isAfter(maxDate)) {
+            currentEstimatedDeliveryDate = maxDate;
+        }
+
+        let scheduledDeliveryDates = [
+            {'{scheduledDelivery.estimatedDeliveryDt}': '{scheduledDelivery.round}차'},
+            {@followingScheduledDeliveries}
+                {'{.estimatedDeliveryDt}': '{.round}차'},
+            {/}
+        ];
+
+        scheduledDeliveryDates = scheduledDeliveryDates.reduce((acc, item) => {
+            const key = Object.keys(item)[0];
+            const value = item[key];
+            const formattedKey = key.replace(/-/g, '.');
+            if (acc[formattedKey]) {
+                acc[formattedKey] = acc[formattedKey].split('차')[0] + ',' + value;
+            } else {
+                acc[formattedKey] = value;
+            }
+            return acc;
+        }, {});
+
+        $('#estimatedDeliveryDate').val(currentEstimatedDeliveryDate.format("YYYY-MM-DD"));
+        $('#datetimepicker div').datetimepicker({
+            timeZone: 'Asia/Seoul',
+            locale: '{=gGlobal.locale}',
+            dayViewHeaderFormat: 'YYYY, MMMM',
+            format: 'YYYY-MM-DD',
+            viewMode: 'days',
+            inline: true,
+            daysOfWeekDisabled: isFreshDelivery ? nonFreshDeliveryDayOfWeeks : nonBusinessDayOfWeeks,
+            minDate: minDate,
+            maxDate: maxDate,
+            disabledDates: holidays,
+            defaultDate: currentEstimatedDeliveryDate,
+        });
+
+        
+        const displayScheduledDate = (scheduledDeliveryDates) => {
+
+            $('#datetimepicker .scheduled').remove();
+            const selectedDate = $('#estimatedDeliveryDate').val().replace(/-/g, '.');
+            const targetDate = '{scheduledDelivery.estimatedDeliveryDt}';
+
+            $('#datetimepicker .day').each(function (i, e) {
+                const date = $(e).data('day');
+                if (scheduledDeliveryDates[date]) {
+                    const isSelectedDate = selectedDate === date;
+                    const isTargetDate = targetDate.replace(/-/g, '.') === date;
+                    const overlay = $('<div>').addClass('scheduled').css({
+                        position: 'absolute',
+                        top: $(e).position().top + 2, 
+                        left: $(e).position().left + 2,  
+                        width: $(e).width() + (3 * 2), // 4 is padding top
+                        height: ($(e).height() + (3 * 2)) - 2, // 5 is padding left
+                    })
+
+                    if (isSelectedDate) {
+                        overlay.addClass('selected');
+                    }
+
+                    if (isTargetDate) {
+                        overlay.addClass('first');
+                    }
+                    
+                    overlay.append($('<div>').text(scheduledDeliveryDates[date]));
+
+                    $('#datetimepicker').append(overlay);
+                }
+            });
+        }
+
+        setTimeout(() => {
+            displayScheduledDate(scheduledDeliveryDates);
+        }, 100);
+
+        $('#datetimepicker').on("dp.update", function (e) {
+            displayScheduledDate(scheduledDeliveryDates);
+        });
+
+        $('#datetimepicker').on("dp.change", function (e) {
+            const selectedDate = e.date.format("YYYY-MM-DD");
+            $('#estimatedDeliveryDate').val(selectedDate);
+            displayScheduledDate(scheduledDeliveryDates);
+        });
+
+        $('#datetimepicker').on("dp.error", function (e) {
+            console.error(e);
+        });
+    }
+</script>

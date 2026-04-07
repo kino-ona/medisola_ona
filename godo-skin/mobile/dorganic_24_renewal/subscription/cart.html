@@ -1,0 +1,799 @@
+{*** 장바구니 | mobile/order/cart.php ***}
+{ # header }
+<link rel="stylesheet" type="text/css" href='css/style.css'>
+<link rel="stylesheet" type="text/css" href="../css/order/order.css">
+<script src='js/common.js'></script>
+
+<ul class="cart_tab" style="margin-top: 20px">
+	<li class="on">장바구니</li>
+	<li onclick="window.location.href='../gift_order/cart.php';">선물함</li>
+</ul>
+
+<div class="cart">
+    {=includeWidget('subscription/_cart_tab.html', 'tab', 'subscription')}
+	<form id="frmCart" name="frmCart" method="post" target="ifrmProcess" action='../subscription/indb.php' autocomplete='off'>
+		<input type="hidden" name="mode" value=""/>
+		<input type="hidden" name="cart[cartSno]" value=""/>
+		<input type="hidden" name="cart[goodsNo]" value=""/>
+		<input type="hidden" name="cart[goodsCnt]" value=""/>
+		<input type="hidden" name="cart[addGoodsNo]" value=""/>
+		<input type="hidden" name="cart[addGoodsCnt]" value=""/>
+		<!--{ ? couponUse == 'y' }-->
+		<input type="hidden" name="cart[couponApplyNo]" value=""/>
+		<!--{ / }-->
+		<input type="hidden" name="useBundleGoods" value="1" />
+		<!-- 장바구니 상품리스트 시작 -->
+        <!--{ ? newCartInfo }-->
+        <!--{ @ newCartInfo }-->
+        <!--{ @.value_ }-->
+        <div class="cart_content_box" data-key='{..key_}_{.key_}' data-period='{.key_}'>
+            <!-- 전체채크 -->
+            <div class="allchk">
+				<div class="inp_chk">
+					<input type="checkbox" id="allCheck_{..key_}_{.key_}"  class="sp gd_select_all_goods sel_{..key_}_{.key_}" data-key="{..key_}_{.key_}" data-target-id="cartSno{..key_}_{.key_}" data-target-form="#frmCart"<!--{ ? .index_ == 0 }--> checked<!--{ / }-->>
+                    <label class="buyall" for="allCheck_{..key_}">
+                    <!--{ @explode("_", .key_) }-->
+                     <!--{ ? ...index_ == 0 }-->{...value_}<!--{ : }--><!--{ ? ...value_ == 'month' }-->달<!--{ : }-->주<!--{ / }-->에 한번 결제상품<!--{ / }-->
+                     <!--{ / }-->
+                     </label>
+					<!--{ ? cartScmCnt > 1 && !gGlobal.isFront }-->
+					<label class="buyall" for="allCheck_{..key_}">{=cartScmInfo[..key_]['companyNm']} {=__('배송상품')}</label>
+					<!--{ / }-->
+                    
+				</div>
+			</div> <!-- allchk -->
+            <ul class="my_goods">
+                <!--{ @ ..value_ }-->
+				<!--{ @ ...value_ }-->
+                <li style="margin-top:10px">
+                    <div class="btn_list">
+                        <!--{ ? (couponUse == 'y' && couponConfig['chooseCouponMemberUseType'] != 'member') && ....couponBenefitExcept == 'n' }-->
+						<div id="coupon_apply_{...idx}" class="coupon_btn">
+							<!--{ ? gd_is_login() === false }-->
+							<button class="cart_coupon_apply btn_alert_login">{=__('쿠폰적용')}</button>
+							<!--{ : }-->
+							<!--{ ? ....memberCouponNo }-->
+							<button class="cart_coupon_cancel btn_coupon_cancel"  data-cartsno="{....idx}"  >{=__('쿠폰취소')}</button>
+							<button data-action="couponApplyLayer" class="cart_coupon_modify js_coupon_order_apply" data-cartsno="{....idx}" >{=__('쿠폰변경')}</button>
+							<!--{ : }-->
+							<button data-action="couponApplyLayer" class="cart_coupon_apply js_coupon_order_apply" data-cartsno="{....idx}">{=__('쿠폰적용')}</button>
+							<!--{ / }-->
+							<!--{ / }-->
+						</div>
+						<!--{ / }-->
+                        <div class="option_btn">
+							<button data-key="optionViewLayer" class="cart_option_modify js_option_layer"  <!--{ ? ....memberCouponNo }--> data-coupon='use' <!--{ : }--> data-goodsno="{....goodsNo}" data-sno="{....idx}"  <!--{ / }-->>
+							{=__('옵션변경')}
+							</button>
+						</div>
+                        <div class="select_del_box"><button type="button" class="cart_onedel_btn del" data-target-id="cartSno{..key_}_{.key_}_{=....idx}" data-cartsno="{....idx}">{=__('삭제')}</button></div>
+                    </div> <!-- btn_list -->
+                    <div class="mid_box">
+                        <div class="left_box">
+							<div class="inp_chk">
+							   <input type="checkbox" name="cartSno[]" class='sel_{..key_}_{.key_}' id="cartSno{..key_}_{.key_}_{=....idx}" value="{=....idx}" class="sp"<!--{ ? .index_ == 0 }--> checked<!--{ / }--> data-price="{=....price.goodsPriceSubtotal}" data-mileage="{=(....mileage.goodsMileage + ....mileage.memberMileage)}" data-goodsdc="{=....price.goodsDcPrice}" data-memberdc="{=(....price.memberDcPrice + ....price.memberOverlapDcPrice)}" data-coupondc="{....price.couponGoodsDcPrice}" data-possible="{=....orderPossible}" data-goods-key="{=....goodsKey}" data-goods-no="{=....goodsNo}" data-goods-nm="{=gd_remove_only_tag(....goodsNm)}" data-option-nm="{=....optionNm}" data-fixed-sales="{=....fixedSales}" data-sales-unit="{=....salesUnit}" data-fixed-order-cnt="{=....fixedOrderCnt}" data-min-order-cnt="{=....minOrderCnt}" data-max-order-cnt="{=....maxOrderCnt}" data-default-goods-cnt="{=....goodsCnt}"/>
+                                 <label for="cartSno{..key_}_{.key_}_{=....idx}" class="blind">{=__('선택')}</label>
+							</div>
+						</div> <!-- left_box -->
+                        <div class="right_box">
+                            <div class="info">
+									<!--{ ? ....orderPossibleMessageList }-->
+									<div class="order_possible_list">
+										<div class="inner_title">
+											<span class="icon_exclamationmark"></span><strong>{=__('구매 이용 조건 안내')}</strong><button type="button" class="pm_more_btn js_possible_list_toggle">더보기</button>
+											<ul class="dn">
+												<li class="title">{=__('결제 제한 조건 사유')}</li>
+												<!--{@ ....orderPossibleMessageList }-->
+												<li>{=.....value_}</li>
+												<!--{/}-->
+											</ul>
+										</div>
+									</div>
+									<!--{ / }-->
+									<div>
+										<div class="itemhead">
+                                           <a href="../goods/goods_view.php?goodsNo={=....goodsNo}">
+											<div class="thmb_box">
+												<div class="thmb">{=....goodsImage}
+													<!--{ ? ....timeSaleFl }-->
+													<div class="timesale_box">
+														<img src="../img/icon/icon_timesale.png" alt="{=__('타임세일')}">
+														<span class="timetext">{=__('타임세일')}</span>
+													</div>
+													<!--{ / }-->
+												</div>
+											</div>
+                                            </a>
+										</div>
+										<div class="itembody">
+                                             <a href="../goods/goods_view.php?goodsNo={=....goodsNo}">
+											<p class="name">{=....goodsNm}</p>
+											<p>{=__('주문수량')} : {=number_format(....goodsCnt)}</p>
+											<!--{ @ ....option }-->
+											<!--{ ? .....optionName }-->
+											<p>
+												{=.....optionName} :
+												{=.....optionValue}
+												<!--{ ? ((.....index_ + 1) == .....size_) && .....optionPrice != 0 }-->
+												(<!--{ ? .....optionPrice > 0 }-->+<!--{ / }-->{=gd_global_currency_display(.....optionPrice)})
+												<!--{ / }-->
+											</p>
+											<!--{ / }-->
+											<!--{ / }-->
+											<!--{ @ ....optionText }-->
+											<!--{ ? .....optionValue }-->
+											<p>
+												{=.....optionName} :
+												{=.....optionValue}
+												<!--{ ? .....optionTextPrice != 0 }-->
+												(<!--{ ? .....optionTextPrice > 0 }-->+<!--{ / }-->{=gd_global_currency_display(.....optionTextPrice)})
+												<!--{ / }-->
+											</p>
+											<!--{ / }-->
+											<!--{ / }-->
+										<strong class="prc">
+											<!--{ ? empty(....goodsPriceString) === false }-->
+											{=....goodsPriceString}
+											<!--{ : }-->
+											{=gd_global_currency_display((....price['goodsPriceSum'] + ....price['optionPriceSum'] + ....price['optionTextPriceSum']))}
+											<!--{ ? gGlobal.isFront }-->
+											<br><small>{=gd_global_add_currency_display((....price['goodsPriceSum'] + ....price['optionPriceSum'] + ....price['optionTextPriceSum']))}</small>
+											<!--{ / }-->
+											<!--{ / }-->
+										</strong>
+                                        </a>
+                                        <span class='blue_txt'>
+                                        <!--{@explode("_", ....period) }-->
+                                            <!--{ ? .....index_ == 0 }-->{.....value_}<!--{ : }--><!--{ ? .....value_ == 'month' }-->달<!--{ : }-->주<!--{ / }-->에 한번 결제<!--{ / }-->
+                                        <!--{ / }-->
+                                        </span>
+                                        <span class='change_period_btn' onclick="wm.layer.popup('../subscription/change_period.php?idx={....idx}', 320, 280, true);">결제주기 변경</span>
+									</div>
+                                </div>
+								
+                                <!--{ ? empty(....addGoods) === false }-->
+								<div class="add_goods_box">
+									<p class="add_title">{=__('추가상품')}</p>
+									<ul class="add_goods_list">
+										<!--{ @ ....addGoods }-->
+										<li>
+											<a href="#goods">
+												<div class="add_goods_img">{=.....addGoodsImage}</div>
+												<div class="add_goods_content">
+													<span class="title">{=.....addGoodsNm} {=.....optionNm}</span>
+													<!--{ ? .....optionNm }-->
+													<div class="add_goods_option">옵션: {=.....optionNm}</div>
+													<!--{ / }-->
+													<div class="add_goods_text">
+														<span class="goods_number">{=__('주문 수량')} : <em>{=number_format(.....addGoodsCnt)}</em>{=__('개')}</span>
+														<span class="goods_price"><em>
+															<!--{ ? empty(....goodsPriceString) === false }-->
+                                        					{=gd_global_currency_display(0)}
+															<!--{ : }-->
+															{=gd_global_currency_display((.....addGoodsPrice * .....addGoodsCnt))}<!--{ / }--></em></span>
+													</div>
+												</div>
+											</a>
+										</li>
+										<!--{ / }-->
+									</ul>
+								</div>
+								<!--{ / }-->
+                            </div> <!-- info -->
+                        </div> <!-- right_box -->
+                    </div> <!-- mid_box -->
+                </li>
+                <!--{ / }--> <!-- ...value_ -->
+                <!--{ / }--> <!-- ..value_ -->
+            </ul> <!-- my_goods -->
+            <!--{ ? cartScmCnt > 1 }-->
+            <div class="supplier_total">
+                <span>{=__('총 %s개의 상품금액', '<strong>' + number_format(cartScmGoodsCnt[..key_]) + '</strong>')} {=gd_global_currency_symbol()}<strong>{=gd_global_money_format(totalScmGoodsPrice[..key_])}</strong>{=gd_currency_string()}</span>
+                <!--{ ? totalScmGoodsDcPrice[..key_] > 0 }-->
+				<span>- {=__('상품할인')} {=gd_global_currency_symbol()}<strong>{=gd_global_money_format(totalScmGoodsDcPrice[..key_])}</strong>{=gd_global_currency_string()}</span>
+				<!--{ / }-->
+                <!--{ ? (totalScmMemberDcPrice[..key_] + totalScmMemberOverlapDcPrice[..key_]) > 0 }-->
+				<span>- {=__('회원할인')} {=gd_global_currency_symbol()}<strong>{=gd_global_money_format((totalScmMemberDcPrice[..key_] + totalScmMemberOverlapDcPrice[..key_]))}</strong>{=gd_global_currency_string()}</span>
+				<!--{ / }-->
+                
+                <!--{ ? totalScmCouponGoodsDcPrice[..key_] > 0 }-->
+				<span>- {=__('쿠폰할인')} {=gd_global_currency_symbol()}<strong>{=gd_global_money_format(totalScmCouponGoodsDcPrice[..key_])}</strong>{=gd_global_currency_string()}</span>
+				<!--{ / }-->
+                <!--{ ? !gGlobal.isFront }-->
+				<span> + {=__('배송비')} {=gd_global_currency_symbol()}<strong>{=gd_global_money_format(totalScmGoodsDeliveryCharge[..key_])}</strong>{=gd_global_currency_string()}</span>
+				<!--{ / }-->
+                <span class="c_red"> = {=gd_global_currency_symbol()}<strong class="total">{=gd_global_money_format(totalScmGoodsPrice[..key_] - totalScmGoodsDcPrice[..key_] - totalScmMemberDcPrice[..key_] - totalScmMemberOverlapDcPrice[..key_] - totalScmCouponGoodsDcPrice[..key_] + totalScmGoodsDeliveryCharge[..key_])}</strong>{=gd_global_currency_string()}</span>
+            </div> <!-- supplier_total -->
+            <!--{ / }--> <!-- cartScmCnt -->
+        </div> <!-- cart_content_box -->
+        <!--{ / }--> <!-- .value_ -->
+        <!--{ / }--> <!-- loop newCartInfo -->
+        <div class="my_buy">
+            <dl>
+				<dt>{=__('총 상품금액')}</dt>
+				<dd><strong>{=gd_global_currency_symbol()}<span id="totalGoodsPrice">{=gd_global_money_format(totalGoodsPrice)}</span>{=gd_global_currency_string()}</strong></dd>
+			</dl>
+            <!--{ ? totalGoodsDcPrice > 0 }-->
+			<dl>
+				<dt>{=__('정기결제할인')}</dt>
+				<dd><strong>(-) {=gd_global_currency_symbol()}<span id="totalGoodsDcPrice">{=gd_global_money_format(totalGoodsDcPrice)}</span>{=gd_global_currency_string()}</strong></dd>
+			</dl>
+			<!--{ / }-->
+            <!--{ ? totalSumMemberDcPrice > 0 }-->
+			<dl>
+				<dt>{=__('회원할인')}</dt>
+				<dd><strong>(-) {=gd_global_currency_symbol()}<span id="totalMinusMember">{=gd_global_money_format(totalSumMemberDcPrice)}</span>{=gd_global_currency_string()}</strong></dd>
+			</dl>
+			<!--{ / }-->
+            <!--{ ? totalCouponGoodsDcPrice > 0 }-->
+			<dl>
+				<dt>{=__('쿠폰할인')}</dt>
+				<dd><strong>(-) {=gd_global_currency_symbol()}<span id="totalCouponGoodsDcPrice">{=gd_global_money_format(totalCouponGoodsDcPrice)}</span>{=gd_global_currency_string()}</strong></dd>
+			</dl>
+			<!--{ / }-->
+            <!--{ ? !gGlobal.isFront }-->
+			<dl>
+				<dt>{=__('배송비')}</dt>
+				<dd id="deliveryCalculateNone">
+					<strong>{=gd_global_currency_symbol()}<span id="totalDeliveryCharge">{=gd_global_money_format(totalDeliveryCharge)}</span>{=gd_global_currency_string()}</strong>
+				</dd>
+			</dl>
+			<!--{ ? gd_is_login() === true && mileage.useFl == 'y' }-->
+			<dl>
+
+				<dt>{=__('적립예정')} {=mileage.name}</dt>
+				<dd><strong> <span id="totalGoodsMileage">{=gd_global_money_format(totalMileage)}</span> {=mileage.unit}</strong></dd>
+			</dl>
+			<!--{ / }-->
+			<!--{ / }-->
+            <dl class="total">
+				<dt>{=__('총 합계금액')}</dt>
+				<dd>
+					<strong>{=gd_global_currency_symbol()}<span id="totalSettlePrice">{=gd_global_money_format(totalSettlePrice)}</span>{=gd_global_currency_string()}<br><small>{=gd_global_add_currency_display(totalSettlePrice)}</small></strong>
+				</dd>
+			</dl>
+            <span id="deliveryChargeText"></span>
+            <!--{ ? totalMemberBankDcPrice > 0 }-->
+			<span style="float:right; padding-bottom:5px;">
+				({=__('무통장결제 추가 할인')} : <label style="color:#e91818;" id="totalMemberBankDcPrice"> - {=gd_currency_symbol()}{=gd_money_format(totalMemberBankDcPrice)}</label>{=gd_currency_string()}) <br />
+			</span>
+			<!--{ / }-->
+        </div> <!-- my_buy -->
+        
+        <input type='hidden' name='period' class='subscription_period' value='{periodList[0]}'>
+        <table class='subscription_selection_table mt15 mb20' cellpadding=0 cellspacing=0 width='100%'>
+           <tr class='tr_head'>              
+              <td>
+                <div class='mtitle'>결제횟수</div>
+               <!--{ @subCfg.deliveryEa }-->
+               <span class='select_box inp_rdo'>
+                <input type='radio' name='deliveryEa' class='radio sp deliveryEa' id='delivery_ea_{.value_}' value='{.value_}'<!--{ ? .index_ ==  0 }--> checked<!--{ / }-->><label for='delivery_ea_{.value_}' class='choice<!--{ ? .index_ ==  0 }--> on<!--{ / }-->'>{.value_}회 배송</label>
+              </span>
+               <!--{ / }-->
+              </td>
+           </tr>
+           <tr>
+               <td>
+                    <div class='mtitle'>결제일정</div>
+                    <table cellpadding=0 cellspacing=0 width='100%' class='schedule_list_table'>
+                        <thead>
+                        <tr>
+                            <td width='50' align='center' nowrap>회차</td>
+                            <td width='90' align='center' nowrap>결제예정일</td>
+                            <td width='90' align='center' nowrap>예상배송일</td>
+                            <td align='center' nowrap>결제금액</td>
+                            <td align='center' nowrap>할인금액</td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!--{ @ scheduleList }-->
+                        <tr>
+                            <td align='center' nowrap>{.index_ + 1}회</td>
+                            <td align='center' nowrap>
+                                <!--{ ? .index_ == 0 }--><span style='color: red; font-weight: bold;'>주문시 결제</span><!--{ : }-->{=date("Y.m.d", .stamp)}<!--{ / }-->
+                            </td>
+                            <td align='center' nowrap>{=date("Y.m.d", .delivery_stamp)}</td>
+                            <td align='center' nowrap>{=number_format(.price - .discount)}원</td>
+                            <td align='center' nowrap>{=number_format(.discount)}원</td>
+                        </tr>
+                        <!--{ / }-->
+                        </tbody>
+                    </table>
+
+               </td>
+           </tr>
+		</table>
+        
+        <div class="btn_wish_bx">
+			<ul class="btn_bx">
+				<li><button type="button" class="cart_select_del_btn" data-action="cartDelete">{=__('선택상품 삭제')}</button></li>
+				<li><button type="button" class="cart_all_order_btn" data-action="orderSelect">{=__('정기결제 신청')}</button></li>
+			</ul>
+		</div>
+        
+        <!--{ : }-->
+        <div class="no_data">
+			<p><strong>{=__('장바구니에 담긴 상품이 없습니다.')}</strong></p>
+		</div>
+        <!--{ / }--> <!-- newCartInfo -->
+	</form>
+</div>
+
+<script type="text/javascript">
+    <!--
+    $(document).ready(function () {
+		updateCartSettle();
+        
+		$(".cart_select_del_btn").click(function() {
+            if (confirm('정말 삭제하시겠습니까?')) {
+                frmCart.mode.value = 'delete_cart';
+                frmCart.submit();
+            }
+        });
+		
+        $(".my_goods .del").on('click',function (e){
+            $this = $(this);
+            if (confirm('정말 삭제하시겠습니까?')) {
+                $('input:checkbox').prop("checked",false);
+                $("#"+$this.data('target-id')).prop("checked",true);
+                frmCart.mode.value = 'delete_cart';
+                frmCart.submit();
+            }
+        });
+
+        //$(".btn_wish_bx button").on('click',function (e){
+		$(".cart_all_order_btn").on('click',function(e){
+
+            if($(this).data('action') =='orderAll') {
+                gd_order_all();
+            } else {
+                gd_cart_process($(this).data('action'));
+            }
+        });
+        <!--{ ? couponUse == 'y' }-->
+        // 쿠폰 적용/변경 레이어
+        $('.js_coupon_order_apply').on('click', function(e){
+
+            var params = {
+                mode: 'coupon_apply',
+                cartSno: $(this).data('cartsno'),
+            };
+
+            $('#popupCouponApply').modal({
+                remote: '../subscription/layer_coupon_apply.php',
+                cache: false,
+                type : 'post',
+                params: params,
+                show: true
+            });
+        });
+
+        // 쿠폰 취소
+        $('.btn_coupon_cancel').bind('click', function(e){
+            var cartSno = $(this).data('cartsno');
+            $('[name="cart[cartSno]"]').val(cartSno);
+            $('#frmCart input[name=\'mode\']').val('coupon_delete');
+            $('#frmCart').attr('method', 'post');
+            $('#frmCart').attr('target', 'ifrmProcess');
+            $('#frmCart').attr('action', '../subscription/indb.php');
+            $('#frmCart').submit();
+
+            return false;
+        });
+        <!--{ / }-->
+        // 로그인 서비스에 대한 체크
+        $(document).on('click','.btn_alert_login',function (e){
+            alert("{=__('로그인하셔야 본 서비스를 이용하실 수 있습니다.')}");
+            document.location.href = "../member/login.php";
+            return false;
+        });
+        // 숫자 체크
+        //$('input[name*=\'goodsCnt\']').number_only();
+
+        <!--{ ? empty(cartCnt) === false }-->
+        // 선택한 상품에 따른 금액 계산
+        var totalDeliveryCharge = numeral().unformat($('#totalDeliveryCharge').text());
+        $('.gd_select_all_goods, input:checkbox[name="cartSno[]"]').click(function () {
+            // 체크박스 전체 선택상태에 따른 체크박스 변경처리
+            var checkedCount = 0;
+            
+            /* 선택 테이블 이외 상품은 uncheck 처리 */
+            $obj = $(this).closest('.cart_content_box');
+           var table_key = $obj.data("key");
+           var period = $obj.data("period");
+           $(".subscription_period").val(period);
+           
+            $chkList = $('input[name="cartSno[]"]:checkbox, .gd_select_all_goods:checkbox');
+            if ($chkList.length > 0) {
+                for (var i = 0; i < $chkList.length; i++) {
+                    $o = $chkList.eq(i);
+                    if (!$o.hasClass("sel_" + table_key)) {
+                        $o.prop("checked", false);
+                        $o.siblings("label").removeClass("on");
+                    }
+                }
+            }
+            
+            var $eachCheckBox = $(this).closest('.cart_content_box').find('ul.my_goods li input[name="cartSno[]"]:checkbox');
+            // 전체 및 개별 상품 선택 처리
+            if ($(this).hasClass('gd_select_all_goods')) {
+                var allCheckFl = $(this).prop('checked');
+                $eachCheckBox.each(function() {
+                    $(this).prop('checked', allCheckFl);
+                });
+            } else {
+                $eachCheckBox.each(function(idx) {
+                    if ($(this).prop('checked') === true) {
+                        checkedCount++;
+                    }
+                });
+                if ($eachCheckBox.length == checkedCount) {
+                    $(this).closest('.cart_content_box').find('.allchk input[id*=allCheck_]').prop('checked', true);
+                } else {
+                    $(this).closest('.cart_content_box').find('.allchk input[id*=allCheck_]').prop('checked', false);
+                }
+            }
+
+            window.setTimeout(function(){
+                updateCartSettle(); 
+            }, 200);
+        });
+
+        <!--{ / }-->
+
+
+        $('.js_option_layer').on('click', function(e){
+            if($(this).data('coupon') == 'use') {
+                alert("{=__('쿠폰 적용 취소 후 옵션 변경 가능합니다.')}")
+                return false;
+            } else {
+                var params = {
+                    type : 'cart',
+                    sno: $(this).data('sno'),
+                    goodsNo: $(this).data('goodsno')
+                };
+
+                $('#popupOption').modal({
+                    remote: '../subscription/layer_option.php',
+                    cache: false,
+                    params: params,
+                    type : 'POST',
+                    show: true
+                });
+
+            }
+        });
+
+		$('.js_possible_list_toggle').bind('click',function (e) {
+			e.preventDefault();
+			if($(this).closest('div').find('ul').is(':visible')){
+				$(this).removeClass('active');
+			}
+			else {
+				$(this).addClass('active');
+			}
+
+			$(this).closest('div').find('ul').toggle();
+		})
+        
+        $(".subscription_selection_table .select_box input[type='radio']").click(function() {
+            updateScheduleList();  
+        });
+    });
+
+
+
+    /**
+     * 선택 상품 처리
+     */
+    function gd_cart_process(mode) {
+        <!--{ ? empty(cartCnt) === true }-->
+        alert("{=__('장바구니에 담겨있는 상품이 없습니다.')}");
+        <!--{ : }-->
+        // 선택한 상품 개수
+        var checkedCnt = $('input:checkbox[name="cartSno[]"]:checked').length;
+
+        // 모드에 따른 메시지 및 처리
+        if (mode == 'cartDelete') {
+            msg = "{=__('상품을 장바구니에서 삭제 하시겠습니까?')}";
+        } else if (mode == 'cartToWish') {
+            msg = "{=__('상품을 찜리스트에 담으시겠습니까?')}";
+        } else if (mode == 'orderSelect') {
+            msg = "{=__('상품만 주문합니다.')}";
+
+            var alertMsg = gd_cart_cnt_info();
+            if (alertMsg) {
+                alert(alertMsg);
+                return false;
+            }
+
+            // 구매 불가 체크
+            var orderPossible = 'y';
+            $('input:checkbox[name="cartSno[]"]:checked').each(function() {
+                if ($(this).data('possible') == 'n') {
+                    orderPossible = 'n';
+                }
+            });
+            if (orderPossible == 'n') {
+                alert("{=__('구매 불가능한 상품이 존재합니다.%s장바구니 상품을 확인해 주세요!', '\n')}");
+                return false;
+            }
+			
+			/* 정기결제 카드가 등록이 되었는지 체크 */
+			if (!chkCardExists()) {
+				alert("결제카드를 등록해 주세요.");
+				window.location.href='../subscription/card_list.php?returnUrl=../../subscription/cart.php';
+				return false;
+			}
+			
+            if (parseInt(checkedCnt) == parseInt({=cartCnt})) {
+                $('#frmCart input:checkbox[name="cartSno[]"]').prop("checked", false);
+				$('#frmCart').attr('method', 'post');
+				$('#frmCart').attr('target', '_self');
+				$('#frmCart').attr('action', '../subscription/order.php');
+				$('#frmCart').submit();
+                return true;
+            }
+        } else {
+            return false;
+        }
+
+        if (checkedCnt == 0) {
+            alert("{=__('선택하신 상품이 없습니다.')}");
+            return false;
+        } else {
+			
+			/* 정기결제 카드가 등록이 되었는지 체크 */
+			if (!chkCardExists()) {
+				alert("결제카드를 등록해 주세요.");
+				window.location.href='../subscription/card_list.php?returnUrl=../../subscription/cart.php';
+				return false;
+			}
+			
+            if (confirm(__('선택하신 %i개', checkedCnt) + " " + msg) === true) {
+                $('#frmCart input[name=\'mode\']').val(mode);
+				$('#frmCart').attr('method', 'post');
+				$('#frmCart').attr('target', '_self');
+				$('#frmCart').attr('action', '../subscription/order.php');
+				$('#frmCart').submit();
+            }
+            return true;
+        }
+        <!--{ / }-->
+    }
+
+    /**
+     * 전체 상품 주문
+     *
+     */
+    function gd_order_all() {
+        <!--{ ? empty(cartCnt) === true }-->
+        alert("{=__('장바구니에 담겨있는 상품이 없습니다.')}");
+        <!--{ : }-->
+        var alertMsg = gd_cart_cnt_info('all');
+        if (alertMsg) {
+            alert(alertMsg);
+            return false;
+        }
+        <!--{ ? orderPossible === true }-->
+		
+		/* 정기결제 카드가 등록이 되었는지 체크 */
+        if (!chkCardExists()) {
+			alert("결제카드를 등록해 주세요.");
+            window.location.href='../subscription/card_list.php?returnUrl=../../subscription/cart.php';
+            return false;
+         }
+         
+         $('#frmCart input:checkbox[name="cartSno[]"]').prop("checked", false);
+         $('#frmCart').attr('method', 'post');
+         $('#frmCart').attr('target', '_self');
+         $('#frmCart').attr('action', '../subscription/order.php');
+         $('#frmCart').submit();
+		 
+        <!--{ : }-->
+        <!--{ ? orderPossibleMessage }-->
+        alert("{=__(orderPossibleMessage)}");
+        <!--{ : }-->
+        alert("{=__('구매 불가능한 상품이 존재합니다.%s장바구니 상품을 확인해 주세요!', '\n')}");
+        <!--{ / }-->
+        <!--{ / }-->
+        <!--{ / }-->
+    }
+
+    function gd_cart_cnt_info(mode) {
+        var target = 'input[name="cartSno[]"]';
+        if (mode != 'all') target += ':checked';
+
+        var goodsCntData = [];
+        $.each($(target), function(){
+            var $goodsCnt = $(this);
+            var goodsKey = $goodsCnt.data('goods-key');
+            if (goodsCntData[goodsKey]) {
+                goodsCntData[goodsKey] += $goodsCnt.data('default-goods-cnt');
+            } else {
+                goodsCntData[goodsKey] = $goodsCnt.data('default-goods-cnt');
+            }
+        });
+
+        var msgByUnit = [];
+        var msgByCnt = [];
+        var msg;
+        $.each(goodsCntData, function(index, value){
+            if (_.isUndefined(value)) return true;
+
+            var $data = $(target + '[data-goods-key="' + index + '"]');
+
+            if ($data.data('fixed-sales') == 'goods') {
+                if (value % $data.data('sales-unit') > 0) {
+                    msg = $data.data('goods-nm') + ' ' + $data.data('sales-unit') + __('개');
+                    msgByUnit['goods'] = msgByUnit['goods'] ? msgByUnit['goods'] + '\n' + msg : msg;
+                }
+            } else {
+                $.each($data, function(){
+                    if ($(this).data('default-goods-cnt') % $(this).data('sales-unit') > 0) {
+                        msg = $(this).data('goods-nm') + '(' + $(this).data('option-nm') + ')' + ' ' + $(this).data('sales-unit') + __('개');
+                        msgByUnit['option'] = msgByUnit['option'] ? msgByUnit['option'] + '\n' + msg : msg;
+                    }
+                });
+            }
+            if ($data.data('fixed-order-cnt') == 'goods') {
+                if ($data.data('min-order-cnt') > 1 && $data.data('min-order-cnt') > value) {
+                    msg = __('%1$s 최소 %2$s개 이상', [$data.data('goods-nm'), $data.data('min-order-cnt')]);
+                    msgByCnt['goods'] = msgByCnt['goods'] ?  msgByCnt['goods'] + '\n' + msg : msg;
+                }
+                if ($data.data('max-order-cnt') > 0 && $data.data('max-order-cnt') < value) {
+                    msg = __('%1$s 최대 %2$s개 이하', [$data.data('goods-nm'), $data.data('max-order-cnt')]);
+                    msgByCnt['goods'] = msgByCnt['goods'] ?  msgByCnt['goods'] + '\n' + msg : msg;
+                }
+            } else {
+                $.each($data, function(){
+                    if ($(this).data('min-order-cnt') > 1 && $(this).data('min-order-cnt') > $(this).data('default-goods-cnt')) {
+                        msg = __('%1$s(%2$s) 최소 %3$s개 이상', [$(this).data('goods-nm'), $(this).data('option-nm'), $(this).data('min-order-cnt')]);
+                        msgByCnt['option'] = msgByCnt['option'] ?  msgByCnt['option'] + '\n' + msg : msg;
+                    }
+                    if ($(this).data('max-order-cnt') > 0 && $(this).data('max-order-cnt') < $(this).data('default-goods-cnt')) {
+                        msg = __('%1$s(%2$s) 최대 %3$s개 이하', [$(this).data('goods-nm'), $(this).data('option-nm'), $(this).data('max-order-cnt')]);
+                        msgByCnt['option'] = msgByCnt['option'] ?  msgByCnt['option'] + '\n' + msg : msg;
+                    }
+                });
+            }
+        });
+
+        var alertMsg = [];
+        if (msgByUnit['option']) {
+            msg = __('옵션기준');
+            msg += '\n';
+            msg += __('%1$s단위로 묶음 주문 상품입니다.', msgByUnit['goods']);
+            alertMsg.push(msg);
+        }
+        if (msgByUnit['goods']) {
+            msg = __('상품기준');
+            msg += '\n';
+            msg += __('%1$s단위로 묶음 주문 상품입니다.', msgByUnit['goods']);
+            alertMsg.push(msg);
+        }
+        if (alertMsg.length) {
+            return alertMsg.join('\n\n');
+        }
+
+        if (msgByCnt['option']) {
+            alertMsg.push(__('옵션기준\n%s구매가능합니다.', msgByCnt['option']));
+        }
+        if (msgByCnt['goods']) {
+            alertMsg.push(__('상품기준\n%s구매가능합니다.', msgByCnt['goods']));
+        }
+        if (alertMsg.length) {
+            return alertMsg.join('\n\n');
+        }
+    }
+    //-->
+	
+	function updateScheduleList()
+    {
+        var ea = $('.subscription_selection_table .deliveryEa:checked').val();
+        var period = $(".subscription_period").val();
+        var cartSno = [];
+        $obj = $('#frmCart input:checkbox[name="cartSno[]"]:checked');
+        if ($obj.length > 0) {
+            for (var i = 0; i < $obj.length; i++) {
+                $o = $obj.eq(i);
+                var sno = $o.val();
+                cartSno.push(sno);
+            }
+        }
+        
+       if (typeof period == "undefined" || period == "" || cartSno.length == 0) {
+          //alert("정기결제 신청할 상품을 선택하세요.");
+          return false;
+        }
+        
+        if (typeof ea != "undefined" && ea != "" && typeof period != "undefined" && period != "") {
+            var html = "";
+            $.ajax({
+                 url : "../subscription/ajax.php",
+                 type : "post",
+                 dataType : "json",
+                 data : { mode : "getSchedule", ea : ea, period : period, cartSno : cartSno },
+                 async : false, 
+                 success : function (data) {
+                   if (data.length > 0) {
+                        for (var i = 0; i < data.length; i++) {
+                            var d = data[i];
+                            html += "<tr>";
+                            html += "<td align='center'>" + (i + 1) + "회</td>";
+                            html += "<td align='center'>";
+                            if (i == 0 ) {
+                                html += "<span style='color: red; font-weight: bold;'>주문시 결제</span>";
+                            } else {
+                                html += "" + d.date;
+                            }
+                            html += "</td>";
+                            html += "<td align='center'>" + d.delivery_date + "</td>";
+                            html += "<td align='center'>" + numeral(d.price - d.discount).format() + "원</td>";
+                            html += "<td align='center'>" + numeral(d.discount).format() + "원</td>";
+                            html += "<td></td>";
+                            html += "</tr>";
+                        }
+                        
+                        $(".schedule_list_table tbody").html(html);
+                   }
+                 },
+                 error : function (res) {
+                    console.log(res);
+                 }
+             });
+         }
+    }
+    
+    function chkCardExists()
+    {
+        var isPass = false;
+        $.ajax({
+            url : "../subscription/ajax.php",
+            type : "post",
+            dataType : "text",
+            data : { mode : "chkCardExists" },
+            async : false, 
+            success : function (data) {
+                if (data == "1")
+                    isPass = true;
+            },
+            error : function (res) {
+                console.log(res);
+            }
+         });
+         
+         return isPass;
+    }
+    
+    function updateCartSettle()
+    {
+        $.ajax({
+            method: "POST",
+            cache: false,
+            url: "../subscription/cart_ps.php",
+            data: "mode=cartSelectCalculation&" + $('#frmCart input:checkbox[name="cartSno[]"]:checked').serialize(),
+            dataType: 'json',
+            beforeSend: function(){
+                $('input[name="cartSno[]"], .gd_select_all_goods').prop('disabled', true);
+            }
+        }).success(function (data) {
+           $('#totalGoodsCnt').html(numeral(data.cartCnt).format());
+           $('#totalGoodsPrice').html(gd_money_format(data.totalGoodsPrice));
+           $('#totalGoodsDcPrice').html(gd_money_format(data.totalGoodsDcPrice));
+           $('#totalMinusMember').html(gd_money_format(data.totalMemberDcPrice));
+           $('#totalCouponGoodsDcPrice').html(gd_money_format(data.totalCouponGoodsDcPrice));
+           $('#totalSettlePrice').html(gd_money_format(data.totalSettlePrice));
+           $('#totalGoodsMileage').html(gd_money_format(data.totalMileage));
+           $('#deliveryChargeText').html('');
+           $('#totalDeliveryCharge').html(gd_money_format(data.totalDeliveryCharge));
+           $('#totalMemberBankDcPrice').html(numeral(data.totalMemberBankDcPrice).format());
+           $('input[name="cartSno[]"], .gd_select_all_goods').prop('disabled', false);
+        }).error(function (e) {
+           alert(e);
+           $('input[name="cartSno[]"], .gd_select_all_goods').prop('disabled', false);
+        });
+    }
+</script>
+{=fbCartScript}
+{ # footer }

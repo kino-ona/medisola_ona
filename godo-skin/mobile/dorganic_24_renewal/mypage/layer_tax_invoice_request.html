@@ -1,0 +1,265 @@
+{*** 세금계산서 신청 레이어 | mypage/layer_tax_invoice_request.php ***}
+<div class="layer_tax_invoice_request">
+	<div class="ly_head">
+		<h1>{=__('세금계산서 발행')}</h1>
+	</div>
+	<div class="ly_content">
+	<form id="frmTaxInvoiceRequest" name="frmTaxInvoiceRequest" action="../mypage/order_ps.php" method="post" target="ifrmProcess">
+		<input type="hidden" name="mode" value="taxInvoiceRequest"/>
+		<input type="hidden" name="orderNo" value="{orderInfo.orderNo}"/>
+		<table width="100%" cellspacing="0" cellpadding="0" class="table_style0">
+			<caption>{=__('세금계산서 발행 입력 영역')}</caption>
+			<colgroup>
+				<col width="30%">
+				<col width="70%">
+			</colgroup>
+			<tbody>
+			<tr>
+				<th scope="row"><label for="taxBusiNo">{=__('사업자번호')}</label></th>
+				<td><input type="text" name="taxBusiNo" id="taxBusiNo" placeholder="{=__('- 없이 입력하세요')}" class="text" maxlength="10" value="{=str_replace('-', '', gd_isset(memberInvoiceInfo['tax']['taxBusiNo']))}"/></td>
+			</tr>
+			<tr>
+				<th scope="row"><label for="taxCompany">{=__('회사명')}</label></th>
+				<td><input type="text" name="taxCompany" id="taxCompany" class="text" value="{=gd_isset(memberInvoiceInfo['tax']['company'])}" maxlength="50" data-pattern="gdMemberNmGlobal"/></td>
+			</tr>
+			<tr>
+				<th scope="row"><label for="taxCeoNm">{=__('대표자명')}</label></th>
+				<td><input type="text" name="taxCeoNm" id="taxCeoNm" class="text" value="{=gd_isset(memberInvoiceInfo['tax']['ceo'])}"/></td>
+			</tr>
+			<tr>
+				<th scope="row"><label for="taxService">{=__('업태')}</label></th>
+				<td><input type="text" name="taxService" id="taxService" class="text" value="{=gd_isset(memberInvoiceInfo['tax']['service'])}"/></td>
+			</tr>
+			<tr>
+				<th scope="row"><label for="taxItem">{=__('종목')}</label></th>
+				<td><input type="text" name="taxItem" id="taxItem" class="text" value="{=gd_isset(memberInvoiceInfo['tax']['item'])}"/></td>
+			</tr>
+			<!--{ ? taxInfo.eTaxInvoiceFl == 'y' }-->
+			<tr>
+				<th scope="row"><label for="mail">{=__('발행 이메일')}</label></th>
+				<td>
+					<ul class="tax_mail">
+						<li class="cell"><input type="text" name="taxEmail" id="taxEmail" value="{=gd_isset(memberInvoiceInfo['tax']['email'])}" placeholder="{=__('미입력 시 주문자의 이메일로 발행')}"/></li>
+						<li class="cell">
+							<div class="inp_sel">
+								<select id="taxEmailDomain" name="email2" title="{=__('이메일 주소')}">
+									<!--{ @ emailDomain }-->
+									<option value="{=.key_}">{=.value_}</option>
+									<!--{ / }-->
+								</select>
+							</div>
+						</li>
+					</ul>
+				</td>
+			</tr>
+			<!--{ / }-->
+			<tr>
+				<th scope="row"><label for="taxItem">{=__('사업장주소')}</label></th>
+				<td>
+					<div class="zipcode_box">
+						<div class="zipcode_top">
+							<div class="zipcode_num">
+								<label for="" class="zipcode"><input type="text" name="taxZonecode" value="{=gd_isset(memberInvoiceInfo['tax']['comZonecode'])}" readonly="readonly" class="text"/></label>
+								<input type="hidden" name="taxZipcode" value="{=gd_isset(memberInvoiceInfo['tax']['comZipcode'])}"/>
+								<span id="taxrZipcodeText" class="text"></span>
+							</div>
+							<div class="zipcode_btn_box"><button type="button" onclick="gd_postcode_search('taxZonecode', 'taxAddress', 'taxZipcode');" class="zipcode_btn">{=__('우편번호')}</button></div>
+						</div>
+						<input type="text"  name="taxAddress" readonly="readonly" value="{=gd_isset(memberInvoiceInfo['tax']['comAddress'])}"/>
+						<input type="text"  name="taxAddressSub" value="{=gd_isset(memberInvoiceInfo['tax']['comAddressSub'])}"/>
+					</div>
+				</td>
+			</tr>
+			</tbody>
+		</table>
+		<ul class="btn_box">
+			<!--{ ? memberInvoiceInfo['tax']['memberTaxInfoFl'] == 'y' }-->
+			<li><button class="btn btn-gray tax_info_init">{=__('초기화')}</button></li>
+			<!--{ / }-->
+			<li><button type="submit" class="tax_invoice_btn">{=__('발행 요청')}</button></li>
+		</ul>
+	</form>
+	</div>
+	<div class="close_btn">
+		<button type="button" class="lys_close_btn ly_btn_close">{=__('닫기')}</button>
+	</div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        <!--{ ? (receipt['taxFl'] == 'y' && orderInfo.receiptFl == 'n') }-->
+        <!--{ ? taxInfo.eTaxInvoiceFl == 'y' }-->
+        $.validator.addMethod(
+            'taxEmailChk', function (value, element) {
+                if ($('input[name="taxEmail"]').val() !==  '' && !$.validator.methods.email.call(this, $.trim(value), element)) {
+                    $.validator.messages.taxEmailChk =  __('[세금계산서] 발행 이메일을 정확하게 입력하여 주세요.');
+                    return false;
+                }
+                return true;
+            },'');
+        <!--{ / }-->
+
+        // 세금계산서 신청
+        $('#frmTaxInvoiceRequest').validate({
+            onkeyup: onkeyup,
+            submitHandler: function (form) {
+                <!--{ ? taxInfo.eTaxInvoiceFl == 'y' }-->
+                if($('#taxEmail').val().length==0){
+                    $('#taxEmail').val('{orderInfo.orderEmail}');
+                }
+                <!--{ / }-->
+                form.target = 'ifrmProcess';
+                form.submit();
+            },
+            rules: {
+                taxBusiNo: {
+                    required: true,
+                    businessnoKR: true
+                },
+                taxCompany: {
+                    required: true
+                },
+                taxCeoNm: {
+                    required: true
+                },
+                taxService: {
+                    required: true
+                },
+                taxItem: {
+                    required: true
+                },
+                <!--{ ? taxInfo.eTaxInvoiceFl == 'y' }-->
+                taxEmail: {
+                    taxEmailChk: true
+                },
+                <!--{ / }-->
+                taxAddress: {
+                    required: true
+                }
+            },
+            messages: {
+                taxBusiNo: {
+                    required: "{=__('[세금계산서] 사업자번호를 입력하세요.')}"
+                },
+                taxCompany: {
+                    required: "{=__('[세금계산서] 회사명을 입력하세요.')}"
+                },
+                taxCeoNm: {
+                    required: "{=__('[세금계산서] 대표자명을 입력하세요.')}"
+                },
+                taxService: {
+                    required: "{=__('[세금계산서] 업태를 입력하세요.')}"
+                },
+                taxItem: {
+                    required: "{=__('[세금계산서] 종목을 입력하세요.')}"
+                },
+                taxAddress: {
+                    required: "{=__('[세금계산서] 사업장주소를 입력하세요.')}"
+                }
+            }
+        });
+
+		gd_select_email_domain('taxEmail','taxEmailDomain');
+
+        <!--{ ? memberInvoiceInfo['tax']['memberTaxInfoFl'] == 'y' }-->
+        // 세금계산서 입력 정보 초기화
+        $('.tax_info_init').on('click', function (e) {
+            e.preventDefault();
+            $('#frmTaxInvoiceRequest').find('input').val('');
+        });
+        <!--{ / }-->
+        <!--{ / }-->
+
+        // 세금계산서 발행 팝업 스크롤 생성
+        var height = $('.ly_content').height();
+        $('.ly_content').height(height+700);
+    });
+
+    /**
+     * validator onkeyup 함수
+     * @param element
+     * @param event
+     * @returns {boolean}
+     */
+    function onkeyup(element, event) {
+        if (check_key_code2(event)) {
+            return true;
+        }
+        if ($.isFunction(replace_keyup[$(element).data('pattern')])) {
+            replace_keyup[$(element).data('pattern')](element);
+        }
+    }
+
+    var regexp_test = function (string, pattern) {
+        if (string === undefined || string.length < 1) {
+            return false;
+        }
+        return pattern.test(string);
+    };
+
+    var replace_pattern = function (string, pattern, c) {
+        if (string === undefined || string.length < 1) {
+            return '';
+        }
+        return string.replace(pattern, c);
+    };
+
+    var replace_keyup = {
+        gdEngNum: function (element) {
+            element.value = replace_pattern(element.value, /[^\da-zA-Z]/g, '');
+        },
+        gdEngKor: function (element) {
+            // IE11에서 초중종성 분리되는 현상때문에 test 후 replace 처리로 변경
+            if (regexp_test(element.value, /[^a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣\u119E\u11A2]/)) {
+                element.value = replace_pattern(element.value, /[^a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣\u119E\u11A2]/g, '');
+            }
+        },
+        gdEngKorNum: function (element) {
+            // IE11에서 초중종성 분리되는 현상때문에 test 후 replace 처리로 변경
+            if (regexp_test(element.value, /[^a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣0-9\u119E\u11A2]/)) {
+                element.value = replace_pattern(element.value, /[^a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣0-9\u119E\u11A2]/g, '');
+            }
+
+        },
+        gdNum: function (element) {
+            element.value = replace_pattern(element.value, /[^\d]/g, '');
+        },
+        gdEng: function (element) {
+            element.value = replace_pattern(element.value, /[^a-zA-Z]/g, '');
+        },
+        gdKor: function (element) {
+            if (regexp_test(element.value, /[^가-힣ㄱ-ㅎㅏ-ㅣ\u119E\u11A2]/)) {
+                element.value = replace_pattern(element.value, /[^가-힣ㄱ-ㅎㅏ-ㅣ\u119E\u11A2]/g, '');
+            }
+        },
+        gdMemberId: function (element) {
+            element.value = replace_pattern(element.value, /[^\da-zA-Z\.\-_@]/g, '');
+        },
+        gdMemberNmGlobal: function (element) {
+            // IE11에서 초중종성 분리되는 현상때문에 test 후 replace 처리로 변경
+            if (regexp_test(element.value, /[\/\'\"\\\|]/)) {
+                element.value = replace_pattern(element.value, /[\/\'\"\\\|]/g, '');
+            }
+        }
+    };
+
+    /**
+     * jquery validation의 키 체크 함수
+     * @param event
+     * @returns {boolean}
+     */
+    function check_key_code2(event) {
+        // Avoid revalidate the field when pressing one of the following keys
+		/* Shift       => 16 Ctrl        => 17 Alt         => 18
+		 Caps lock   => 20 End         => 35 Home        => 36
+		 Left arrow  => 37 Up arrow    => 38 Right arrow => 39
+		 Down arrow  => 40 Insert      => 45 Num lock    => 144 AltGr key   => 225*/
+        var excludedKeys = [
+            16, 17, 18, 20, 35, 36, 37,
+            38, 39, 40, 45, 144, 225
+        ];
+
+        return event.which === 9 || $.inArray(event.keyCode, excludedKeys) !== -1;
+    }
+</script>
+<script type="text/javascript" src="../js/jquery/validation/additional/businessnoKR.js"></script>

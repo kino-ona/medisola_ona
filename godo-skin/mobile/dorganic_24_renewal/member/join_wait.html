@@ -1,0 +1,33 @@
+{*** 회원가입 > 승인대기 | member/join_wait.php ***}
+{ # header }
+<div class="join_wait">
+	<div class="msg">
+		<strong>{=__('회원가입 승인이 %s대기%s 되었습니다.', '<span>', '</span>')}</strong>
+		<p>{=__('%s은 회원가입 승인이 필요합니다. %s빠른시일 내에 처리될 수 있도록 노력하겠습니다.', mallNm, '<br/>')}</p>
+	</div>
+	{? join.under14Fl != 'n' && join.limitAge == '14' && join.appUseFl != 'company'}
+	<div class="msg-14old">
+		<strong>{=__('14세 미만 회원가입 안내')}</strong>
+		<p>{=__('정보통신망법 제 31조 제 1항에 따라 만 14세 미만의 아동은 법정대리인의 동의를 확인 후 회원가입 할 수 있습니다.')}</p>
+		<a href="#" class="detail">{=__('관련법규 전문보기')} &gt;</a><br/> <a href="#" class="btn btn_w" id="btnUnder14Download">{=__('14세 미만 회원가입 동의서 다운')}</a>
+	</div>
+	{/}
+	<div class="btn"><a href="#" class="join_ok_btn" id="btnConfirm">{=__('확인')}</a></div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#btnConfirm').click(function (e) {
+            top.location.href = '../main/index.php';
+            e.preventDefault();
+        });
+        $('.detail').click(function (e) {
+            window.open('http://www.law.go.kr/lsInfoP.do?lsiSeq=111970#0000');
+            e.preventDefault();
+        });
+        $('#btnUnder14Download').click(function (e) {
+            window.open('../member/member_ps.php?mode=under14Download');
+            e.preventDefault();
+        });
+    });
+</script>
+{ # footer }

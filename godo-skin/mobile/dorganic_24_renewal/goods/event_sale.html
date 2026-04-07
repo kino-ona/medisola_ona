@@ -1,0 +1,15 @@
+{*** 기획전 | goods/event_sale.php ***}
+{ # header }
+<section id="main" class="content">
+	<!--{ ? data.displayCategory == 'g' }-->
+		<!-- 기획전 그룹형 상품+리뷰 노출 -->
+		{=includeWidget('goods/_goods_display_group_review.html','sno',sno,'reviewLimit',3,'initialVisibleCount',3)}
+		<!-- 기획전 그룹형 상품+리뷰 노출 -->
+	<!--{ : }-->
+		<!-- 기획전 일반형 상품 노출 -->
+		{=includeWidget('goods/_goods_display_main.html','sno',sno,'isMobile',isMobile,'viewType','all')}
+		<!-- 기획전 일반형 상품 노출 -->
+	<!--{ / }-->
+</section>
+
+{ # footer }

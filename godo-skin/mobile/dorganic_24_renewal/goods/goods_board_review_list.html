@@ -1,0 +1,98 @@
+{*** 상품상세 - 상품 후기 목록 | goods/goods_board_review_list.php ***}
+<div class="goods_board_review_list">
+<!--{? bdList.noticeList }-->
+    <!--{ @ bdList.noticeList }-->
+    <ul>
+        <li>
+			<div class="item_list_summary">
+				<div class="board_left">
+					<div class="author_box">
+						<span class="name">{.writer}</span>
+						<span class="date"> {.regDate}</span>
+					</div>
+					<p class="title">
+						<span><img src="{bdList.cfg.iconImage.notice.url}" alt="{=__('공지')}"/></span><a class="js_board_review_detail js_{req.bdId}_detail_{.sno}" data-bdid="{req.bdId}" data-sno="{.sno}" data-auth="{.auth.view}" data-goodsno="{.goodsNo}" data-notice="y"><strong>{.subject}</strong></a>
+					</p>
+				</div>
+				<div class="board_right">
+					<button type="button" class="detail_write_more_btn js_board_review_detail" data-bdid="{req.bdId}" data-sno="{.sno}" data-auth="{.auth.view}" data-goodsno="{.goodsNo}" data-notice="y">상품후기 더보기</button>
+				</div>
+			</div>
+			<div class="js_goodsreview_{.sno}" data-notice="y"></div>
+        </li>
+    </ul>
+    <!--{/}-->
+<!--{/}-->
+<!--{? bdList.list }-->
+	<!--{ @ bdList.list }-->
+	<ul>
+		<li>
+			<div class="item_list_summary">
+				<div class="board_left">
+					<div class="author_box">
+						<span class="name">{.writer}</span> |
+						<span class="date"> {.regDate}</span>
+					</div>
+					<p class="title">
+						{.gapReply}
+						<span <!--{ ? .groupThread }-->class="reply" <!--{/}-->>
+							<!--{ ? .isSecret == 'y' }--><img src="{bdList.cfg.iconImage.secret.url}" alt="{=__('비밀글')}"> <!--{ / }-->
+							<a class="js_board_review_detail js_{req.bdId}_detail_{.sno}" data-bdid="{req.bdId}" data-sno="{.sno}" data-auth="{.auth.view}" data-goodsno="{.goodsNo}" data-notice="n">{.subject}</a>
+							<!--{ ? .isFile == 'y' }--><img src="{bdList.cfg.iconImage.attach_file.url}" alt="{=__('파일첨부 있음')}"/><!--{/}-->
+							<!--{ ? .isImage == 'y' }--><img src="{bdList.cfg.iconImage.attach_img.url}" alt="{=__('이미지첨부 있음')}"/><!--{/}-->
+							<!--{ ? .isNew == 'y' }--><img src="{bdList.cfg.iconImage.new.url}" alt="{=__('신규 등록글')}"/><!--{/}-->
+						</span>
+					</p>
+					<div class="star_box"><span class="star_li" style="width:{.goodsPt*20}%;">{=__('별점')} {=.goodsPt}</span></div>
+				</div>
+				<div class="board_right">
+					<button type="button" class="detail_write_more_btn js_board_review_detail" data-bdid="{req.bdId}" data-sno="{.sno}" data-auth="{.auth.view}" data-goodsno="{.goodsNo}" data-notice="n">상품후기 더보기</button>
+				</div>
+			</div>
+			<div class="js_goodsreview_{.sno}" data-notice="n"></div>
+		</li>
+	</ul>
+	<!--{/}-->
+<!--{:}-->
+	<p class="no_data">{=__('등록된 상품후기가 없습니다.')}</p>
+<!--{/}-->
+	<div class="btn_box js_board_goodsreview_more">
+		<button type="button" data-next-page="{pageData.next}" class="detail_more_btn">{=__('더보기')} {pageData.listCount}<span>/</span>{pageData.total}</button>
+	</div>
+</div>
+
+<!--{? pageData.now =='1' }-->
+<script type="text/javascript" src="\{=c.PATH_MOBILE_SKIN}js/gd_board_view.js" charset="utf-8"></script>
+<script type="text/javascript">
+    <!--
+	$(document).ready(function () {
+		$('.js_board_goodsreview_view').off().on('touchstart', '.js_board_review_detail', function (e) {
+			e.stopPropagation();
+			e.preventDefault();
+			var notice = $(this).data('notice');
+			if($(".js_goodsreview_"+$(this).data('sno')+"[data-notice="+notice+"]").html().trim() !='') {
+				$(".js_goodsreview_"+$(this).data('sno')+"[data-notice="+notice+"]").html('');
+				$(this).closest("li").removeClass("selected");
+				$(this).closest("li").find('.detail_write_more_btn').removeClass("detail_write_more_btn_on");
+			} else {
+				gd_view_goods_board($(this).data('bdid'),$(this).data('sno'),$(this).data('auth'),$(this).data('goodsno'),notice);
+				$(".js_goodsreview_"+$(this).data('sno')+"[data-notice="+notice+"]").slideDown();
+			}
+		});
+		$('.js_board_goodsreview_view').on('click', '.js_board_goodsreview_more button', function (e) {
+			if($(this).data('next-page') > 0 ) {
+				gd_load_goods_board_list('{req.bdId}','{req.goodsNo}',$(this).data('next-page'));
+			}
+		});
+		$('.js_board_goodsreview_view').on("DOMSubtreeModified", '.goods_board_review_list ul > li > div:last-child',function() {
+			if ($(this).children('#boardContent').length > 0) {
+				if ($(this).data('auth') != 'n'){
+					$(this).closest("li").addClass("selected");
+					$(this).closest("li").find('.detail_write_more_btn').addClass("detail_write_more_btn_on");
+				}
+			}
+		});
+    });
+    //-->
+</script>
+<!--{/}-->

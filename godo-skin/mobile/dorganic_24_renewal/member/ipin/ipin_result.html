@@ -1,0 +1,86 @@
+<!-- { ? strResultCode == 1 && sCPRequest == strCPRequest } -->
+<script type="text/javascript">
+    var _joinGubun = "{=joinGubun}";
+    function loadAction() {
+        var strRetCd = "{=strResultCode}";		// '1' 이어야 한다.
+        var strMsg = "{=sRtnMsg}";
+
+        var strName = "{=strUserName}";					// 이름
+        var birthday = "{=strBirthDate}";				// 생년월일
+        var sex = "{=strGender}";			// 성별
+        var dupeInfo = "{=strDupInfo}";					// 아이핀 중복 조회 코드
+        var foreigner = "{=strNationalInfo}";			// 내국인/외국인 정보
+        var dupeCount = "{=chkCount}";					// 가입된 횟수
+        var nice_minoryn = "{=ipin['nice_minoryn']}";	// 성인인증
+        var under14Code = "{=under14Code}";				// 만14세 미만 회원가입 허용상태코드
+        var adultFl = "{=strAdult}";					// 아이핀 중복 조회 코드
+        //        var checkAge = "{=checkAge}";
+        //        var limitAge = "{=limitAge}";
+        //        var age = "{age}";
+        // 호출유형을 찾는다.
+        var callType = "{=ssCallType}";
+
+        if (strRetCd != "1") // 아이핀인증 실패 시
+        {
+            alert("{=__('아이핀인증이 실패했습니다.')}\n\n" + strMsg); //결과 메시지 출력
+            return;
+        }
+
+        alert("{=__('아이핀인증이 정상처리 되었습니다.')}"); //결과 메시지 출력
+        // 아이디 찾기에서 호출한 경우, opener 에 act 엘레먼트가 있다.
+        if (callType == "certAdult") {
+            if (adultFl == 'y') {
+                opener.document.location.href = "{=returnUrl}";
+            }
+        } else if (callType == "findid" || callType == "findpwd") {
+
+            opener.document.formAuth.action = '/member/find_password_reset.php';
+            opener.document.formAuth.target = '';
+            opener.document.formAuth.rncheck.value = 'ipin';
+            opener.document.formAuth.dupeinfo.value = dupeInfo;
+            opener.document.formAuth.submit();
+        } else if (callType == "certGuest") {
+            opener.document.getElementById('cert_txt').innerHTML="본인인증이 완료되었습니다.";
+            opener.document.getElementById('btn_cert').style.display="none"; // 본인인증 버튼 숨김.
+            opener.document.getElementById('ordr_nm').readOnly = true; // 본인인증 완료 후 readonly
+            opener.document.frmOrder.orderName.value = strName; //  이름
+            opener.document.getElementById('ordr_nm').style.backgroundColor = '#eeeeee'; // 색상
+        } else {
+            // default 회원가입
+            //            if (dupeCount > 0) {
+            //                alert("이미 가입이 되어 있습니다.");
+            //                return;
+            //            }
+            //            if(checkAge == 'n') {
+            //                alert(limitAge+"미만은 가입하실 수 없습니다.");
+            //                return;
+            //            }
+
+            // TODO: 아이핀 인증 성공 후 인증을 한 이유에 따라 동작을 다르게 해야함... 휴면해제의 경우 해제 로직을 다시 타야함
+            opener.document.formTerms.action = '/member/join.php';
+            opener.document.formTerms.target = '';
+            opener.document.formTerms.rncheck.value = 'ipin';
+            opener.document.formTerms.nice_nm.value = strName;
+            opener.document.formTerms.birthday.value = birthday;
+            opener.document.formTerms.sex.value = sex;
+            opener.document.formTerms.dupeinfo.value = dupeInfo;
+            opener.document.formTerms.foreigner.value = foreigner;
+            opener.document.formTerms.adultFl.value = adultFl;
+            opener.document.formTerms.submit();
+        }
+        self.close();
+    }
+
+    document.onload = loadAction();
+</script>
+    <!--{ ? adultBridgeScript }-->
+        {=adultBridgeScript}
+    <!--{/}-->
+<!-- { : } -->
+<script type="text/javascript">
+    alert("{=__('오류가 발생하였습니다.')}");
+    self.close();
+</script>
+{=strResultCode}<br>
+{=sCPRequest}
+<!-- { / } -->

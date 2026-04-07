@@ -1,0 +1,76 @@
+/* 메디쏠라 소개 */
+.header_box {display: none;}
+div#container #contents_wrap {overflow: hidden;}
+div#mfooter {margin-top: 0;}
+
+div.text {}
+div.text .t01 {margin-bottom: 40px; font-size: 16px; line-height: 24px; font-weight: 700;}
+div.text .t01_1 {margin-bottom:16px; font-size: 13px; font-weight: 700; line-height: 18px; color: #1A1A1A;}
+div.text .t02 {font-size: 32px; line-height: 40px; font-weight: 700;}
+div.text .t03 {margin-top: 16px; font-size: 14px; line-height: 20px; font-weight: 400;}
+div.text .t03 span + span {margin-top: 24px;}
+
+div.sec01 {padding:40px 0 0; position: relative;}
+div.sec01 .text {text-align: center; box-sizing: border-box;}
+div.sec01 .text .t01 {margin-bottom: 16px; font-size: 13px; line-height: 18px; font-weight: 700; color: #1a1a1a;}
+div.sec01 .text .t02 {font-size: 20px; line-height: 40px; font-weight: 700; color: #324692;}
+div.sec01 .text .t03 {display: inline-block; margin-top: 56px; position: relative; font-size: 14px; line-height: 20px; font-weight: 400; color: #6a6a6a;}
+div.sec01 .text .t03 .marks {margin:0; position: absolute; top:0; left:-20px; font-weight: 700; font-size: 30px; line-height: 32px; letter-spacing: 0.05em; color: #6A6A6A; font-family: 'Karma';}
+div.sec01 .text .t03 .marks.right {left:auto; right:-20px;}
+div.sec01 .text .t03 .bold {font-weight:700;}
+div.sec01 .ban {margin:23px 0 0; text-align:center;}
+div.sec01 .ban img {width:100%;}
+
+div.sec01_2 .text {padding:56px 0; background: #47599D; text-align:center;}
+div.sec01_2 .text .t01 {margin-bottom:20px; font-size: 20px; font-weight: 700; line-height: 24px; color: #FFFFFF;}
+div.sec01_2 .text .t02 {font-size: 14px; font-weight: 400; line-height: 20px; color: #FFFFFF;}
+
+
+div.sec02 {margin:34px auto 0;}
+div.sec02 .ban {margin:0 24px; position: relative;}
+div.sec02 .ban img {width:100%; border-radius: 50px; background: rgba(0, 0, 0, 0.03);}
+div.sec02 .ban .text {display:flex; flex-direction: column; justify-content: center; align-items: center; width:100%; height:100%; position: absolute; top:0; text-align:center; font-family: 'Karma';}
+div.sec02 .ban .text .t01 {display: inline-block; margin-bottom: 24px; position: relative; font-size: 30px; line-height: 35px; font-weight: 700; color: #47599D; letter-spacing: 0.03em;}
+div.sec02 .ban .text .t01 .marks {margin:0; position: absolute; top:-14px; left:-34px; font-weight: 700; font-size: 70px; line-height: 72px; letter-spacing: 0.05em; color: #324692; font-family: 'Karma';}
+div.sec02 .ban .text .t01 .marks.right {left:auto; right:-34px;}
+div.sec02 .ban .text .t02 {font-size: 14px; font-weight: 400; line-height: 20px; color: #000000;}
+
+
+div.sec03 {margin:58px auto 0;}
+div.sec03 .text {text-align:center; margin:0 0 120px;}
+div.sec03 .text .t01 {margin-bottom:40px; font-size: 20px; font-weight: 700; line-height: 40px; color: #000000;}
+div.sec03 .text .t02 {display:flex; justify-content: center; align-items: center; flex-direction: column; font-size: 14px; font-weight: 400; line-height: 32px; color: #1A1A1A;}
+div.sec03 .text .t02 .dot {display:inline-block; margin:26px 0; width:4px; height:4px; background: #1A1A1A; border-radius: 8px;}
+div.sec03 .ban {margin:0 24px 58px;}
+div.sec03 .ban .right {text-align:right;}
+div.sec03 .ban img {max-height:238px;}
+div.sec03 .ban .text {margin-top:-12px; text-align:left;}
+div.sec03 .ban.ban_left .text {text-align:right;}
+div.sec03 .ban .text .t01 {margin:0 0 16px; font-size: 13px; font-weight: 700; line-height: 18px; color: #1A1A1A;}
+div.sec03 .ban .text .t02 {display:block; margin:0 0 16px; font-size: 32px; font-weight: 700; line-height: 40px; color: #1A1A1A;}
+div.sec03 .ban .text .t03 {margin:0 0 20px; font-size: 14px; font-weight: 400; line-height: 20px; color: #6A6A6A;}
+div.sec03 .ban .text .t04 li {list-style: inside; font-size: 14px; font-weight: 400; line-height: 20px; color: #6A6A6A;}
+div.sec03 .ban:last-child .text {margin:0 0 58px;}
+
+div.sec04 {padding:55px 0; background: #47599D;}
+div.sec04 .text {color: #FFFFFF; text-align: center;}
+div.sec04 .text .t01 {margin-bottom:7px; font-size: 13px; font-weight: 700; line-height: 18px;}
+div.sec04 .text .t02 {margin-bottom:28px; font-size: 20px; font-weight: 700; line-height: 40px;}
+div.sec04 .text .t03 {display: inline-block; margin:0; position: relative; font-size: 14px; font-weight: 400; line-height: 20px;}
+div.sec04 .text .t03 .marks {margin:0; position: absolute; top:0px; left:-20px; font-weight: 400; font-size: 30px; line-height:20px; letter-spacing: 0.05em; font-family: 'Karma';}
+div.sec04 .text .t03 .marks.right {left:auto; right:-20px;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

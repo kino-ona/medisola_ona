@@ -1,0 +1,257 @@
+/* Desktop Subscription Widget - Redesigned */
+.goods_view_subscription {
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.goods_view_subscription * {
+    box-sizing: border-box;
+}
+
+/* Hide subscription type selector - keep for JavaScript functionality */
+.goods_view_subscription .subscription_type_box {
+    display: none !important;
+}
+
+/* Hide Naver Pay button for subscription products */
+.naver_pay {
+    display: none !important;
+}
+
+/* Subscription Wrapper - No box styling */
+.goods_view_subscription .subscription_wrapper {
+    background: transparent;
+    padding: 0;
+}
+
+/* Selection Section */
+.goods_view_subscription .subscription_selection {
+    display: block;
+    padding: 0;
+    background: transparent;
+    border: none;
+    margin: 15px 0;
+}
+
+/* Title Row - Title and Benefit Button on Same Line */
+.goods_view_subscription .subscription_selection .mtitle_row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.goods_view_subscription .subscription_selection .mtitle {
+    font-weight: bold;
+    font-size: 18px;
+    color: #212121;
+    margin: 0;
+}
+
+.goods_view_subscription .subscription_selection .mtitle .small_txt {
+    font-weight: normal;
+    font-size: 12px;
+    color: #888888;
+    margin-left: 6px;
+}
+
+/* Inline Discount Benefit Button */
+.goods_view_subscription .subscription_benefit_inline {
+    font-weight: normal;
+    font-size: 15px;
+    background-color: #ff9900;
+    color: #171a31;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 4px 10px;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.goods_view_subscription .subscription_benefit_inline:hover {
+    background-color: #ff8800;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+/* Period Selection Grid */
+.goods_view_subscription .subscription_selection .selection_rows {
+    display: table;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.goods_view_subscription .subscription_selection .selection_rows.first {
+    margin-top: 0;
+}
+
+.goods_view_subscription .subscription_selection .selection_rows .cell_rows {
+    display: table-cell;
+    vertical-align: middle;
+    width: 33.3333%;
+    padding: 0 5px;
+}
+
+/* Period Selection Buttons */
+.goods_view_subscription .subscription_selection .selection_rows .cell_rows .sel_period {
+    border: 2px solid #e0e0e0;
+    color: #555555;
+    background-color: #ffffff;
+    display: table;
+    width: 100%;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.goods_view_subscription .subscription_selection .selection_rows .cell_rows .sel_period:hover {
+    border-color: #253479;
+}
+
+.goods_view_subscription .subscription_selection .selection_rows .cell_rows .sel_period .box {
+    display: table-cell;
+    vertical-align: middle;
+    width: 100%;
+    height: 52px;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    padding: 10px;
+    position: relative;
+}
+
+/* Period Content Wrapper */
+.goods_view_subscription .subscription_selection .period_content {
+    display: inline-flex;
+    align-items: center;
+    vertical-align: middle;
+    gap: 6px;
+}
+
+/* Checkmark SVG Icon - Inline with text, hidden by default */
+.goods_view_subscription .subscription_selection .period_checkmark {
+    display: none;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+.goods_view_subscription .subscription_selection .period_checkmark svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.goods_view_subscription .subscription_selection .period_text {
+    display: inline-block;
+    line-height: 1.3;
+}
+
+/* Selected State */
+.goods_view_subscription .subscription_selection .selection_rows .cell_rows .sel_period.on {
+    border: 2px solid #253479;
+    background-color: rgba(37, 52, 121, 0.08);
+}
+
+.goods_view_subscription .subscription_selection .selection_rows .cell_rows .sel_period.on .period_text {
+    color: #253479;
+    font-weight: bold;
+}
+
+.goods_view_subscription .subscription_selection .selection_rows .cell_rows .sel_period.on .period_checkmark {
+    display: inline-flex;
+}
+
+/* Legacy styles - kept for backward compatibility */
+.goods_view_subscription .subscription_type_box .choice {
+    padding: 0 !important;
+    cursor: pointer;
+}
+
+.goods_view_subscription .subscription_type_box .rows1 {
+    margin-bottom: 5px;
+}
+
+.goods_view_subscription .subscription_type_box .rows {
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.goods_view_subscription .subscription_type_box .choice.on .text {
+    color: #ab3e55;
+}
+
+.goods_view_subscription .subscription_type_box .choice .text {
+    padding-left: 30px;
+}
+
+.goods_view_subscription .subscription_type_box .subscription_benefit {
+    font-weight: normal;
+    font-size: 12px;
+    background-color: #ff9900;
+    color: #ffffff;
+    display: inline-block;
+    cursor: pointer;
+    padding: 3px 10px;
+    margin-left: 10px;
+}
+
+.goods-view-subscsription .onetime_buy {
+    display: none;
+}
+
+.goods-view-subscsription .subscription_buy {
+    display: block;
+    background-color: #4d9698;
+    color: #ffffff;
+    text-align: center;
+    height: 48px;
+    font-size: 15px;
+    line-height: 48px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+    width: 100%;
+}
+
+/* Subscription Cart Button - Primary Color with 4px Border Radius */
+.subscription_buy {
+    background-color: #253479 !important;
+    border-radius: 4px !important;
+    transition: background-color 0.2s ease;
+}
+
+.subscription_buy:hover {
+    background-color: #1e285f !important;
+}
+
+.onfixed .subscription_buy {
+    position: fixed;
+    bottom: 30px;
+    right: 10px;
+    width: 290px;
+}
+
+.onfixed .subscription_selection {
+    position: fixed;
+    bottom: 80px;
+    right: 10px;
+    width: 290px;
+}
+
+.add_cart_layer .btn_subscriptionconfirm {
+    min-width: 74px;
+    padding: 10px 10px 9px 10px;
+    margin: 0 0 0 6px;
+    border: 1px solid #ab3e55;
+    color: #ffffff;
+    background: #ab3e55;
+    font-weight: bold;
+}
+
+.add_cart_layer .btn_subscriptionconfirm:hover {
+    border: 1px solid #9b344a;
+    background: #9b344a;
+}

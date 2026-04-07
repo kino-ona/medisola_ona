@@ -1,0 +1,38 @@
+<!--{ ? data.list }-->
+<div class="photo_wrap">
+    <!--{ @ data.list}-->
+    <div class="photo" id="plus_reivew_focus_{.sno}">
+        <a href="../board/plus_review_view.php?sno={.sno}" data-cache="false"  data-toggle="modal" data-target="#popupBoardView" data-focus="{.sno}" class="more">
+            <div class="img">
+                <img src="{=.uploadHeadImage.src}" alt="{=.uploadHeadImage.uploadFileNm}">
+                <strong>+{=count(.uploadedFile)}</strong>
+            </div>
+            <div class="text">{=.listContents}</div>
+        </a>
+        <a href="../goods/goods_view.php?goodsNo={=.goodsNo}">
+            <div class="cont_wrap">
+                <div class="img"><img src="{=.goodsImageSrc}" alt="{=.goodsNm}"></div>
+                <div class="cont">
+                    <strong>{=.goodsNm}</strong>
+                    <ul>
+                        <li><span class="tit">평가</span><span class="con">{=.avgGoodsPt}</span></li>
+                        <li><span class="tit">리뷰</span><span class="con">{=.plusReviewCnt}</span></li>
+                    </ul>
+                </div>
+            </div>
+        </a>
+    </div>
+    <!--{/}-->
+</div>
+<div class="page_btn_box">
+    <button type="button" class="prev_btn" data-page="{req.page - 1}">{=__('이전')}</button>
+    <span class="page_number"><strong>{req.page}</strong> / {=data.cnt.totalPage}</span>
+    <button type="button" class="next_btn" data-page="{req.page + 1}">{=__('이후')}</button>
+</div>
+<!--{:}-->
+<div class="no_list">
+    {=__('게시글이 존재하지 않습니다.')}
+</div>
+<script>$('.plus_review_loading').addClass('dn');</script>
+<!--{/}-->
+<div class="dn"><li id="totalPage">{=data['cnt']['totalPage']}</li></div>

@@ -1,0 +1,81 @@
+{*** 방문수령 주소 레이어 | mypage/layer_visit_address.php ***}
+
+<div class="layer_wrap_cont">
+    <div class="ly_tit">
+        <h4>
+            {=__('상품별 방문 수령지 주소')}
+        </h4>
+    </div>
+    <form id="frmAddressList" name="frmAddressList">
+        <div class="ly_cont">
+            <div class="scroll_box">
+                <div class="left_table_type">
+                    <table class="table table-rows table-fixed">
+                        <colgroup>
+                            <col style="width:10%"/>
+                            <col/>
+                        </colgroup>
+                        <tbody>
+                        <!--{ ? data }-->
+                        <!--{ @ data }-->
+                        <!--{ @ .value_ }-->
+                        <tr>
+                            <td align="center" style="padding:5px;">{..goodsImage}</td>
+                            <td>
+                                {..goodsNmStandard}
+                                <!--{ ? ..optionInfo }-->
+                                <span style="color:#999999; font-size:11px;">
+                            <!--{ @ ..optionInfo }-->
+                                    <!--{  ? ...key_ > 0}--> / <!--{ / }-->{...optionName } : {...optionValue}
+                                    <!--{ / }-->
+                            </span>
+                                <!--{ / }-->
+                            </td>
+                        </tr>
+                        <tr>
+                            <th colspan="2" align="left">방문 수령지 주소 : {..visitAddress}</th>
+                        </tr>
+                        <!--{ / }-->
+                        <!--{ / }-->
+                        <!--{ : }-->
+                        <tr>
+                            <td class="center" colspan="3">검색된 페이지가 없습니다.</td>
+                        </tr>
+                        <!--{ / }-->
+                        </tbody>
+                    </table>
+                    <div id="layerAddressPagination" class="center">{page->getPage()}</div>
+                </div>
+            </div>
+            <div class="btn_center_box">
+                <button type="button" class="btn_ly_ok layer_close"><strong>{=__('확인')}</strong></button>
+            </div>
+        </div>
+    </form>
+    <a href="#close" class="ly_close layer_close"><img src="../img/common/layer/btn_layer_close.png" alt="{=__('닫기')}"></a>
+</div>
+<script type="text/javascript">
+    $(function() {
+        $('#layerAddressPagination > div > ul > li > a').click(function (e) {console.log('aaa');
+            e.preventDefault();
+            var href = $(this).attr('href');
+            var page = 1;
+
+            if (href.indexOf('?') !== -1) {
+                page = href.split('?');
+                page = page[1].split('page=');
+                page = page[1].split('&');
+                page = page[0];
+            }
+
+            var params = {orderNo:'{value.orderNo}', goodsSno:'{=json_encode(value.goodsSno)}', page: page};
+console.log(params);
+            $.get('../mypage/layer_visit_address.php', params, function (data) {
+                $('#visitAddressLayer').html(data).find('>div').center();
+                return false;
+            });
+        });
+    });
+</script>
+
+

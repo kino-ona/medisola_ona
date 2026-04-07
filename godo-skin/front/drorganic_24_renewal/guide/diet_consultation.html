@@ -1,0 +1,73 @@
+{*** 전문 상담 안내 | guide/diet_consultation.html ***}
+{ # header }
+<link rel="stylesheet" href="../css/diet-quiz.css?v=3" />
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    if (window.isEnvDev) {
+        $("body").css("padding-top", 0);
+        $(".preview-title").remove();
+    }
+    $("#wrap").css("min-width", 0);
+    $("#mheader").css("display", "none");
+    $(".mh_blank").css("display", "none");
+    $("#container #contents").css({"width":"100%","max-width":"unset","margin":0,"padding":0});
+    $("#mfooter").css("display", "none");
+    $("iframe[src='/blank.php']").css("display", "none");
+});
+</script>
+
+<main class="dq-app">
+  <div class="dq-consultation-page">
+    <!-- Header -->
+    <div class="dq-consult-header">
+      <button class="dq-consult-back" onclick="history.back()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+      </button>
+      <span class="dq-consult-title">전문 상담 안내</span>
+      <span style="width:24px"></span>
+    </div>
+
+    <!-- Main Content -->
+    <div class="dq-consult-body">
+      <!-- Icon -->
+      <div class="dq-consult-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#6366F1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg>
+      </div>
+
+      <!-- Title -->
+      <h1 class="dq-consult-main-title">복합 질환 관리는<br>전문 상담을 추천드려요</h1>
+      <p class="dq-consult-subtitle">
+        2가지 이상의 질환을 함께 관리하시는 경우,<br>
+        임상영양 전문가의 1:1 맞춤 상담을 통해<br>
+        더 정확한 식단 설계가 가능합니다.
+      </p>
+
+      <!-- Info Card -->
+      <div class="dq-consult-card">
+        <div class="dq-consult-card-badge">무료 상담</div>
+        <h2 class="dq-consult-card-title">메디톡톡 1:1 영양상담</h2>
+        <ul class="dq-consult-card-list">
+          <li>임상영양 전문가의 1:1 무료 상담</li>
+          <li>복합 질환에 맞는 맞춤형 식단 설계</li>
+          <li>지속적인 영양 관리 및 모니터링</li>
+        </ul>
+      </div>
+
+      <!-- CTA Button -->
+      <a href="https://pf.kakao.com/_axexgxnK"
+         target="_blank"
+         rel="noopener noreferrer"
+         class="dq-consult-cta">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C6.5 3 2 6.58 2 11c0 2.83 1.87 5.32 4.68 6.72l-.96 3.56c-.07.25.2.46.42.33L10.3 19c.55.07 1.12.1 1.7.1 5.5 0 10-3.58 10-8s-4.5-8-10-8z"/></svg>
+        메디톡톡 상담 바로가기
+      </a>
+
+      <!-- Secondary Action -->
+      <button class="dq-consult-secondary" onclick="history.back()">
+        질환을 다시 선택할게요
+      </button>
+    </div>
+  </div>
+</main>
+
+{ # footer }

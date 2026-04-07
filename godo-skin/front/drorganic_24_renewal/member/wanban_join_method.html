@@ -1,0 +1,275 @@
+{*** 완반 회원가입 > 가입방법 선택 | member/wanban_join_method.php ***}
+{ # header }
+
+<style>
+#container #contents{
+	width: 100%;
+	max-width: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+.member-container {
+    min-height: 100vh;
+		width: 100%;
+    background: linear-gradient(135deg, #7EA86B 0%, #D17A47 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.member-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+}
+
+.wanban-logo {
+    max-width: 120px;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.member-title {
+    margin-bottom: 30px;
+}
+
+.member-title h2 {
+    color: #333;
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0;
+    background: linear-gradient(135deg, #7EA86B, #D17A47);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.member-subtitle {
+    color: #666;
+    font-size: 16px;
+    margin-top: 10px;
+    font-weight: 400;
+}
+
+.join-button {
+    background: linear-gradient(135deg, #7EA86B, #D17A47);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 16px 32px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    margin-bottom: 30px;
+    box-shadow: 0 8px 20px rgba(126, 168, 107, 0.3);
+}
+
+.join-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 25px rgba(126, 168, 107, 0.4);
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    margin: 30px 0;
+    color: #999;
+    font-size: 14px;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #e0e0e0;
+}
+
+.divider span {
+    padding: 0 15px;
+}
+
+.sns-buttons {
+    display: grid;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.sns-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* padding: 14px; */
+    border: 2px solid #f0f0f0;
+    border-radius: 12px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.sns-button:hover {
+    border-color: #7EA86B;
+    transform: translateY(-1px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.sns-button img {
+    /* height: 24px; */
+    width: auto;
+    transition: transform 0.3s ease;
+}
+
+.sns-button:hover img {
+    transform: scale(1.05);
+}
+
+.sns-button.btn_kakao {
+    background: #FEE500;
+    border-color: #FEE500;
+}
+
+.sns-button.btn_naver {
+    background: #03C75A;
+    border-color: #03C75A;
+}
+
+.sns-button.btn_facebook {
+    background: #1877F2;
+    border-color: #1877F2;
+}
+
+.sns-button.btn_payco {
+    background: #FF6B35;
+    border-color: #FF6B35;
+}
+
+.sns-button.btn_wonder {
+    background: #2D50FF;
+    border-color: #2D50FF;
+}
+
+.sns-button.btn_apple {
+    background: #000;
+    border-color: #000;
+}
+
+.sns-button.btn_apple img {
+    filter: brightness(0) invert(1);
+}
+
+.info-text {
+    background: #f8f9ff;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 25px 0;
+    border-left: 4px solid #7EA86B;
+}
+
+.info-text strong {
+    color: #555;
+    font-size: 14px;
+    line-height: 1.6;
+    font-weight: 500;
+}
+
+.login-link {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.login-link p {
+    color: #666;
+    font-size: 15px;
+    margin: 0;
+}
+
+.login-link a {
+    color: #7EA86B;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.login-link a:hover {
+    color: #D17A47;
+}
+
+@media (max-width: 768px) {
+    .member-card {
+        padding: 30px 20px;
+        margin: 10px;
+    }
+    
+    .member-title h2 {
+        font-size: 24px;
+    }
+    
+    .join-button {
+        padding: 14px 24px;
+        font-size: 16px;
+    }
+}
+</style>
+
+<div class="member-container">
+    <div class="member-card">
+		<img src="https://img.kr.gcp-karroter.net/businessPlatform/bizPlatform/profile/center_biz_1673210/1751352914557/e8692bcfca369a4ef756b7643e143ab91ae282113f6902eb745b90de1e98e0c1.jpeg?q=82&s=640x640&t=crop" 
+             alt="완반 로고" 
+             class="wanban-logo">
+        <div class="member-title">
+            <h2>{=__('완반X메디쏠라 회원가입')}</h2>
+            <div class="member-subtitle">{=__('신규 회원 가입시 1,000포인트 적립')}</div>
+        </div>
+
+        <button id="btnJoin" class="join-button" onclick="amplitude.logEvent('signup_wanban_method_signup_button_click')">
+            {=__('완반 회원가입')}
+        </button>
+
+        <div class="divider">
+            <span>{=__('또는')}</span>
+        </div>
+
+        <div class="sns-buttons">
+            <!--{? useKakaoLogin}-->
+            <a href="#" class="sns-button btn_kakao js_btn_kakao_login" data-kakao-type="join_method" data-return-url="{=returnUrl}" data-wanban="true" onclick="amplitude.logEvent('signup_method_kakao_button_click')">
+                <img src="../img/etc/pc_kakao_230302.png" alt="{=__('카카오톡')} {=__('3초 로그인/회원가입')}">
+            </a>
+            <!--{/}-->
+        </div>
+
+        <div class="info-text">
+            <strong>
+                {=__('SNS계정을 연동하여 빠르고 쉽고 안전하게 회원가입 할 수 있습니다.')} <br />
+                {=__('이 과정에서 고객님의 데이터는 철저하게 보호됩니다.')}
+            </strong>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function () {
+		// 완반 페이지 브라우저 타이틀 변경
+		document.title = '완반X메디쏠라';
+		
+		amplitude.logEvent('wanban_signup_method_view');
+		$('#btnJoin').click(function () {
+			location.href = '../member/wanban_join_agreement.php';
+		});
+	});
+</script>
+
+{ # footer }

@@ -1,0 +1,50 @@
+<!--{ @ headerScript }-->
+<script type="text/javascript" src="{=.value_}"></script>
+<!--{ / }-->
+<script>
+    const returnUrl = "{returnUrl}";
+
+    function redirectWithParentCheck(url) {
+        if (window.opener) {
+            window.opener.location.href = url;
+            window.close();
+        } else {
+            window.location.replace(url);
+        }
+    }
+
+    $(document).ready(function() {
+        $.ajax({
+            url: '../member/member_ps.php',
+            type: 'post',
+            data: {
+                mode: 'join',
+                joinType: 'kakaoSync',
+                returnUrl: returnUrl
+            },
+            success: function(data) {
+                const defaultRedirectUrl = '../member/login.php?returnUrl=' + returnUrl;
+                const successMessage = '회원가입이 완료 되었습니다.';
+                const defaultErrorMessage = '회원가입에 실패 하였습니다.';
+
+                if (data.result === 'success') {
+                    alert(data.message || successMessage);
+                    redirectWithParentCheck(data.returnUrl || returnUrl);
+                } else {
+                    alert(data.message || defaultErrorMessage);
+                    redirectWithParentCheck(defaultRedirectUrl);
+                }
+            },
+            error: function(xhr) {
+                const defaultErrorMessage = '회원가입 처리 중 오류가 발생했습니다.';
+                alert(xhr.responseJSON?.message || defaultErrorMessage);
+                if (window.opener) {
+                    window.close();
+                } else {
+                    window.location.replace(url);
+                }
+            }
+        });
+    });
+</script>
+

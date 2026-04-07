@@ -1,0 +1,2431 @@
+@charset "utf-8";
+
+/*** 마이페이지 요약정보 | mypage/_member_summay.html ***/
+.member_summary {
+}
+/* 등급 혜택 */
+.member_summary .member_name {
+    display: table;
+    width: 100%;
+}
+.member_summary .member_name span {
+    display: table-cell;
+    width: 70%;
+    font-size: 14px;
+    vertical-align: middle;
+}
+.member_summary .member_name span strong {
+    font-size: 15px;
+}
+.member_summary .member_name span.member_modify {
+    width: 30%;
+    text-align: right;
+}
+.member_summary .member_grade {
+    width: 100%;
+    padding: 20px 0 20px 0;
+    margin: 5px 0 14px 0;
+    border: 1px solid #999999;
+    box-sizing: border-box;
+}
+.member_summary .member_grade .grade_text {
+    display: table;
+    width: 80%;
+    margin: 0 auto;
+    vertical-align: middle;
+    color: #222222;
+}
+.member_summary .member_grade .grade_text span {
+    display: table-cell;
+    font-weight: bold;
+    font-size: 14px;
+    color: #3e3d3c;
+    vertical-align: middle;
+}
+.member_summary .member_grade .grade_text span strong {
+    font-size: 16px;
+    color: #ab3e55;
+}
+.member_summary .member_grade .grade_text .grade_img {
+    padding: 0 10px 0 0;
+    text-align: right;
+}
+.member_summary .member_grade .grade_text .grade_img img {
+    width: 70px;
+    height: 70px;
+}
+.member_summary .member_grade .grade_text1 {
+    text-align: center;
+}
+.member_summary .mypage_number_summary {
+    padding: 15px 0 15px 0;
+    border: 1px solid #999999;
+}
+.member_summary .mypage_number_summary ul {
+    display: table;
+    width: 100%;
+}
+.member_summary .mypage_number_summary ul li {
+    display: table-cell;
+    width: 33.3%;
+    text-align: center;
+    vertical-align: top;
+}
+.member_summary .mypage_number_summary ul li a {
+    display: block;
+    width: 100%;
+    padding: 10px 0 10px 0;
+    font-size: 13px;
+    color: #444444;
+}
+.member_summary .mypage_number_summary ul li a span {
+    display: block;
+    padding: 0px 0 0 0;
+}
+.member_summary .mypage_number_summary ul li a span strong {
+    font-size: 21px;
+    color: #222222;
+}
+.member_summary .mypage_number_summary ul li:nth-child(2) {
+    width: 34%;
+    border-left: 1px solid #e3e3e3;
+    border-right: 1px solid #e3e3e3;
+}
+
+/*** 주문목록 / 배송조회 && 주문내역 상세보기 | mypage/_order_goods_list.html | mypage/order_list.html && mypage/order_view.html 와 같이 쓰임 ***/
+.order_goods_list {
+}
+/* 리스트 상단*/
+.order_goods_list .order_top_date {
+    padding: 10px 10px 10px 10px;
+    font-weight: bold;
+    border-top: 1px solid #cccccc;
+    border-bottom: 1px solid #cccccc;
+    background: #f2f3f3;
+    color: #333333;
+    font-size: 14px;
+}
+.order_goods_list .order_top_date strong {
+    color: #ab3e55;
+}
+.order_goods_list .orderlist_wrap {
+    background: #f2f3f3;
+}
+.order_goods_list .orderlist_wrap .order_number_box {
+    padding: 0 10px 0 10px;
+    font-size: 14px;
+    line-height: 30px;
+    font-weight: bold;
+}
+.order_goods_list .orderlist_wrap .order_number_box .order_number {
+    display: table;
+    width: 100%;
+}
+.order_goods_list .orderlist_wrap .order_number_box .order_number_left {
+    display: table-cell;
+    width: 70%;
+}
+.order_goods_list .orderlist_wrap .order_number_box .order_number_right {
+    display: table-cell;
+    width: 50%;
+    text-align: right;
+}
+.order_goods_list .orderlist_wrap .order_number_box ul {
+}
+.order_goods_list .orderlist_wrap .order_number_box ul li {
+    display: inline-block;
+}
+/* 리스트 반복 */
+.order_goods_list .my_goods {
+    padding: 0px 10px 10px 10px;
+}
+.order_goods_list .my_goods ul {
+}
+.order_goods_list .my_goods .info {
+    background: #fff;
+    border: 1px solid #cccccc;
+}
+.order_goods_list .my_goods .info {
+    padding: 10px 10px 10px 10px;
+}
+.order_goods_list .my_goods .info > a {
+    display: block;
+}
+.order_goods_list .my_goods .info .btn_bx {
+    text-align: left;
+}
+.order_goods_list .my_goods .info .btn_bx li {
+    display: inline-block;
+    padding: 2px 0 2px 0;
+    vertical-align: top;
+}
+.order_goods_list .my_goods .info .itemhead {
+    display: table-cell;
+    width: 20%;
+    padding-bottom: 5px;
+    vertical-align: top;
+}
+.order_goods_list .my_goods .info .itemhead .img {
+}
+.order_goods_list .my_goods .info .itemhead .img img {
+    width: 90px;
+    border: 1px solid #e5e5e5;
+}
+.order_goods_list .my_goods .info .itembody {
+    display: table-cell;
+    width: 80%;
+    padding: 0 10px 0 10px;
+    vertical-align: middle;
+}
+.order_goods_list .my_goods .info .itembody dl {
+}
+.order_goods_list .my_goods .info .itembody dl dt {
+    font-weight: bold;
+}
+.order_goods_list .my_goods .info .itembody dl dd {
+    color: #9d9d9d;
+}
+.order_goods_list .my_goods .info .order_info {
+    width: 100%;
+    padding: 10px 0 0 0;
+    border-top: 1px solid #e5e5e5;
+}
+.order_goods_list .my_goods .info .order_info .info_box {
+    display: table;
+    width: 100%;
+}
+.order_goods_list .my_goods .info .order_info .info_box .info2 {
+    display: table-cell;
+    width: 70%;
+}
+.order_goods_list .my_goods .info .order_info .info_box .ing_chk {
+    display: table-cell;
+    width: 30%;
+    text-align: right;
+}
+.order_goods_list .my_goods .info .order_info .deliver_info_box {
+    display: table;
+    width: 100%;
+}
+.order_goods_list .my_goods .info .order_info .deliver_info_box .info2 {
+    display: table-cell;
+}
+.order_goods_list .my_goods .info .order_info .deliver_info_box .ing_chk {
+    display: table-cell;
+    text-align: right;
+}
+.order_goods_list .my_goods .info .order_info .d_causation {
+    padding: 4px 0 2px 0;
+    text-align: right;
+}
+.order_goods_list .my_goods .info .exchange_add_info {
+    margin-bottom: 2px;
+}
+.order_goods_list .my_goods .info .exchange_add_info span {
+    background-color: #337ab7;
+    display: inline;
+    color: #ffffff;
+    white-space: nowrap;
+    font-weight: bold;
+    line-height: 1;
+    vertical-align: baseline;
+    text-align: center;
+    font-size: 11px;
+    padding: 2px;
+}
+
+/* 반품 / 교환 */
+.order_goods_list .my_goods .claim_info {
+    border-top: none;
+    display: table;
+    width: 100%;
+    box-sizing: border-box;
+}
+.order_goods_list .my_goods .claim_info .claim_left {
+    display: table-cell;
+    width: 50%;
+    vertical-align: middle;
+}
+.order_goods_list .my_goods .claim_info .claim_right {
+    display: table-cell;
+    width: 50%;
+    text-align: right;
+}
+.order_goods_list .my_goods .claim_info .claim_right .count {
+    overflow: hidden;
+    font-size: 0;
+}
+.order_goods_list .my_goods .claim_info .claim_right input {
+    display: inline-block;
+    height: 34px;
+    font-size: 12px;
+    border: 1px solid #ccc;
+    text-align: center;
+    border-right: none;
+    border-left: none;
+    box-sizing: border-box;
+    vertical-align: middle;
+}
+.order_goods_list .my_goods .claim_info .claim_right .up {
+    display: inline-block;
+    width: 34px;
+    height: 34px;
+    background: url("../../img/btn/btn_plus.png") no-repeat center;
+    background-size: 34px;
+    font-size: 0;
+    border: none;
+}
+.order_goods_list .my_goods .claim_info .claim_right .down {
+    display: inline-block;
+    width: 34px;
+    height: 34px;
+    background: url("../../img/btn/btn_minus.png") no-repeat center;
+    background-size: 34px;
+    font-size: 0;
+    border: none;
+}
+/* 구매확정 */
+.order_goods_list .my_goods .info .item_check {
+    float: left;
+    margin-right: 2px;
+}
+
+/*** 쿠폰 | mypage/coupon.html ***/
+.coupon {
+}
+.coupon h3 {
+    border-bottom: 1px solid #cccccc;
+    text-indent: 10px;
+    background: #f2f3f3;
+    color: #333333;
+    font-size: 14px;
+    line-height: 36px;
+}
+.coupon h3 span {
+    color: #9d9d9d;
+}
+.coupon h3 span strong {
+    color: #ab3e55;
+}
+.coupon .my_coupon {
+    border-bottom: 1px solid #cccccc;
+    text-align: center;
+}
+.coupon .my_coupon fieldset {
+    padding: 22px 30px 0 30px;
+}
+.coupon .my_coupon fieldset legend {
+    display: none;
+}
+.coupon .my_coupon fieldset .inp_tx input {
+    width: 100%;
+    height: 39px;
+    margin: 0 0 5px 0;
+    border: 1px solid #c3c3c3;
+    font-size: 14px;
+    box-sizing: border-box;
+    text-align: center;
+}
+.coupon .my_coupon .tx {
+    display: inline-block;
+    margin: 8px 0 22px 0;
+    font-size: 11px;
+    line-height: 15px;
+    color: #9d9d9d;
+    text-align: left;
+}
+/* 쿠폰 리스트 */
+.coupon .coupon_bx {
+    padding: 5px 5px 7px;
+    background: #ddd;
+}
+.coupon .coupon_bx li {
+    margin: 7px 0 0 0;
+    border: 1px solid #ccc;
+    -webkit-box-shadow: 0 1px 0 rgba(204, 204, 204, 0.5);
+    background: #fff;
+}
+.coupon .coupon_bx li:first-child {
+    margin-top: 0;
+}
+.coupon .coupon_bx dl {
+}
+.coupon .coupon_bx dl dt {
+    height: 40px;
+    padding: 0 15px;
+    margin: 0 0 12px 0;
+    border-bottom: 1px solid #e5e5e5;
+    line-height: 42px;
+    color: #333;
+    font-size: 15px;
+    font-weight: bold;
+}
+.coupon .coupon_bx dl dd {
+    padding: 0 15px 0 15px;
+    color: #5e5e5e;
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 18px;
+}
+.coupon .coupon_bx dl dd:last-child {
+    margin-bottom: 10px;
+}
+.coupon .coupon_bx dd strong {
+    display: inline-block;
+    min-width: 44px;
+    margin: 0 10px 0 0;
+    color: #a0a0a0;
+    font-size: 11px;
+}
+.coupon .coupon_bx .limit {
+    color: #ab3e55;
+}
+/* 쿠폰 내역이 없을경우 */
+.coupon .no {
+    padding: 41px 0 42px 0;
+    text-align: center;
+    font-size: 14px;
+}
+
+/*** 예치금 | mypage/deposit.html ***/
+.deposit {
+}
+.deposit .money_search {
+}
+.deposit .money_search fieldset legend {
+    display: none;
+}
+.deposit .money_search fieldset > div {
+    padding: 5px 10px 0 10px;
+}
+.deposit .my_money {
+    display: table;
+    width: 100%;
+}
+.deposit .my_money p {
+    display: table-cell;
+    width: 50%;
+}
+.deposit .my_money p.tit {
+    padding: 0 0 0 10px;
+    font-size: 14px;
+    color: #333;
+    line-height: 38px;
+    font-weight: bold;
+}
+.deposit .my_money p.money {
+    padding: 0 10px 0 0;
+    text-align: right;
+    color: #ab3e55;
+    font-size: 16px;
+    line-height: 38px;
+    font-weight: bold;
+}
+.deposit h3 {
+    text-indent: 10px;
+    font-size: 14px;
+    color: #333;
+    line-height: 36px;
+    border-top: 1px solid #cccccc;
+    border-bottom: 1px solid #cccccc;
+    background: #f2f3f3;
+}
+.deposit .money_history {
+    margin: 5px 10px 5px 10px;
+    border: 1px solid #cccccc;
+}
+.deposit .no {
+    padding: 41px 0 42px 0;
+    text-align: center;
+    font-size: 14px;
+}
+.deposit td.content {
+    font-weight: normal;
+    text-align: left;
+}
+.deposit td.minus {
+    color: #ab3e55;
+}
+
+/*** 회원가입 승인대기 | mypage/index.html ***/
+.mypage_index {
+    padding: 15px 15px 15px 15px;
+}
+.mypage_index .mypage_menu {
+    padding: 20px 0 0 0;
+}
+.mypage_index .mypage_menu h3 {
+    border-bottom: 1px solid #999999;
+    text-indent: 5px;
+    line-height: 36px;
+    font-size: 15px;
+    color: #222222;
+}
+.mypage_index .mypage_menu ul {
+}
+.mypage_index .mypage_menu ul li {
+    position: relative;
+}
+/* 기본 */
+.mypage_index .mypage_menu ul li a {
+    display: block;
+    padding: 10px 0 10px 0;
+    text-indent: 5px;
+    font-size: 14px;
+    color: #222222;
+    border-bottom: 1px solid #efefef;
+}
+/*하위 메뉴 */
+.mypage_index .mypage_menu ul li.depth1_list {
+}
+.mypage_index .mypage_menu ul li.depth1_list > a span {
+    display: inline;
+    padding: 0 20px 0 0;
+    background: url("../../img/icon/icon_arrow1.png") no-repeat right center;
+    background-size: 9px 5px;
+}
+.mypage_index .mypage_menu ul li.depth1_list ul {
+    background: #efefef;
+}
+.mypage_index .mypage_menu ul li.depth1_list ul li a {
+    font-size: 12px;
+    color: #555555;
+    text-indent: 15px;
+}
+
+/*** 현금영수증 신청 | mypage/layer_cash_receipt_request.html ***/
+.layer_cash_receipt_request {
+    position: relative;
+    background: #fff;
+}
+.layer_cash_receipt_request .ly_content {
+    padding: 15px 15px 15px 15px;
+}
+.layer_cash_receipt_request .close_btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 100;
+}
+.layer_cash_receipt_request td input[type="text"] {
+    width: 100%;
+    height: 36px;
+    text-indent: 10px;
+    border: 1px solid #c3c3c3;
+    box-sizing: border-box;
+}
+
+/*** 반품신청 레이어 | mypage/layer_order_back_regist.php ***/
+.layer_order_back_regist {
+    position: relative;
+}
+.layer_order_back_regist .my_tit {
+    text-indent: 10px;
+    color: #333;
+    font-size: 14px;
+    line-height: 36px;
+    background: #f2f3f3;
+    border-top: 1px solid #cccccc;
+    border-bottom: 1px solid #cccccc;
+}
+.layer_order_back_regist .content_box {
+    padding: 10px 10px 10px 10px;
+}
+.layer_order_back_regist .content_box dl {
+    display: table;
+    width: 100%;
+    padding: 0 0 10px 0;
+}
+.layer_order_back_regist .content_box dl dt {
+    display: table-cell;
+    width: 20%;
+    font-size: 14px;
+    padding: 5px 0 0 0;
+    color: #333333;
+    font-weight: bold;
+    vertical-align: top;
+}
+.layer_order_back_regist .content_box dl dd {
+    display: table-cell;
+    width: 70%;
+    vertical-align: top;
+}
+.layer_order_back_regist .content_box dl dd .input_content {
+}
+.layer_order_back_regist .content_box dl dd .input_content textarea {
+    width: 100%;
+    height: 150px;
+    padding: 10px 10px 10px 10px;
+    box-sizing: border-box;
+    border: 1px solid #c3c3c3;
+}
+.layer_order_back_regist .content_box dl dd .input_content input {
+    width: 100%;
+    height: 31px;
+    padding: 0 10px;
+    font-size: 13px;
+    box-sizing: border-box;
+    border: 1px solid #c3c3c3;
+}
+.layer_order_back_regist .close_btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 100;
+}
+.layer_order_back_regist .caution {
+    padding: 0 0 5px 0;
+    text-align: center;
+}
+.layer_order_back_regist .btn_bx2 {
+    width: 100%;
+    padding: 10px 0 10px 0;
+    text-align: center;
+}
+.layer_order_back_regist .btn_bx2 li {
+    display: inline-block;
+    width: 48%;
+}
+
+/*** 교환신청 레이어 | mypage/layer_order_exchange_regist.php ***/
+.layer_order_exchange_regist {
+    position: relative;
+}
+.layer_order_exchange_regist .my_tit {
+    text-indent: 10px;
+    color: #333;
+    font-size: 14px;
+    line-height: 36px;
+    background: #f2f3f3;
+    border-top: 1px solid #cccccc;
+    border-bottom: 1px solid #cccccc;
+}
+.layer_order_exchange_regist .content_box {
+    padding: 10px 10px 10px 10px;
+}
+.layer_order_exchange_regist .content_box dl {
+    display: table;
+    width: 100%;
+    padding: 0 0 10px 0;
+}
+.layer_order_exchange_regist .content_box dl dt {
+    display: table-cell;
+    width: 20%;
+    font-size: 14px;
+    padding: 5px 0 0 0;
+    color: #333333;
+    font-weight: bold;
+    vertical-align: top;
+}
+.layer_order_exchange_regist .content_box dl dd {
+    display: table-cell;
+    width: 70%;
+    vertical-align: top;
+}
+.layer_order_exchange_regist .content_box dl dd .input_content {
+}
+.layer_order_exchange_regist .content_box dl dd .input_content textarea {
+    width: 100%;
+    height: 150px;
+    padding: 10px 10px 10px 10px;
+    box-sizing: border-box;
+    border: 1px solid #c3c3c3;
+}
+.layer_order_exchange_regist .close_btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 100;
+}
+.layer_order_exchange_regist .btn_bx2 {
+    width: 100%;
+    padding: 10px 0 10px 0;
+    text-align: center;
+}
+.layer_order_exchange_regist .btn_bx2 li {
+    display: inline-block;
+    width: 48%;
+}
+
+/*** 발송지연 사유 레이어 | mypage/layer_order_naverpay_reason.html ***/
+.layer_order_naverpay_reason {
+}
+.layer_order_naverpay_reason {
+    position: relative;
+    background: #fff;
+}
+.layer_order_naverpay_reason .ly_content {
+}
+.layer_order_naverpay_reason .input_wrap {
+    display: table;
+    width: 100%;
+    margin: 0;
+    padding: 10px 15px;
+    box-sizing: border-box;
+    border-bottom: 1px solid #e1e1e1;
+}
+.layer_order_naverpay_reason .input_wrap .input_title {
+    display: table-cell;
+    width: 27%;
+    min-width: 80px;
+    font-size: 12px;
+    color: #5e5e5e;
+    vertical-align: top;
+    box-sizing: border-box;
+}
+.layer_order_naverpay_reason .input_wrap .input_content {
+    display: table-cell;
+    width: 73%;
+    vertical-align: middle;
+}
+.layer_order_naverpay_reason .btn_box {
+    width: 100%;
+    padding: 10px 10px 0 10px;
+    box-sizing: border-box;
+}
+.layer_order_naverpay_reason .close_btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 100;
+}
+
+/*** 사유 레이어 | mypage/layer_order_refund_reason.php ***/
+.layer_order_refund_reason {
+    position: relative;
+}
+.layer_order_refund_reason .my_tit {
+    text-indent: 10px;
+    color: #333;
+    font-size: 14px;
+    line-height: 36px;
+    background: #f2f3f3;
+    border-top: 1px solid #cccccc;
+    border-bottom: 1px solid #cccccc;
+}
+.layer_order_refund_reason .content_box {
+    padding: 10px 10px 10px 10px;
+}
+.layer_order_refund_reason .content_box dl {
+    display: table;
+    width: 100%;
+    padding: 0 0 10px 0;
+}
+.layer_order_refund_reason .content_box dl dt {
+    display: table-cell;
+    width: 20%;
+    font-size: 14px;
+    padding: 5px 0 0 0;
+    color: #333333;
+    font-weight: bold;
+    vertical-align: top;
+}
+.layer_order_refund_reason .content_box dl dd {
+    display: table-cell;
+    width: 70%;
+    font-size: 14px;
+    padding: 5px 0 0 5px;
+    vertical-align: top;
+}
+.layer_order_refund_reason .close_btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 100;
+}
+.layer_order_refund_reason .btn_bx2 {
+    width: 100%;
+    padding: 10px 0 10px 0;
+    text-align: center;
+}
+.layer_order_refund_reason .btn_bx2 li {
+    display: inline-block;
+    width: 48%;
+}
+
+/*** 환불신청 레이어 | mypage/layer_order_refund_regist.php ***/
+.layer_order_refund_regist {
+    position: relative;
+}
+.layer_order_refund_regist .my_tit {
+    text-indent: 10px;
+    color: #333;
+    font-size: 14px;
+    line-height: 36px;
+    background: #f2f3f3;
+    border-top: 1px solid #cccccc;
+    border-bottom: 1px solid #cccccc;
+}
+.layer_order_refund_regist .content_box {
+    padding: 10px 10px 10px 10px;
+}
+.layer_order_refund_regist .content_box dl {
+    display: table;
+    width: 100%;
+    padding: 0 0 10px 0;
+}
+.layer_order_refund_regist .content_box dl dt {
+    display: table-cell;
+    width: 20%;
+    font-size: 14px;
+    padding: 5px 0 0 0;
+    color: #333333;
+    font-weight: bold;
+    vertical-align: top;
+}
+.layer_order_refund_regist .content_box dl dd {
+    display: table-cell;
+    width: 70%;
+    vertical-align: top;
+}
+.layer_order_refund_regist .content_box dl dd .input_content {
+}
+.layer_order_refund_regist .content_box dl dd .input_content textarea {
+    width: 100%;
+    height: 150px;
+    padding: 10px 10px 10px 10px;
+    box-sizing: border-box;
+    border: 1px solid #c3c3c3;
+}
+.layer_order_refund_regist .content_box dl dd .input_content input {
+    width: 100%;
+    height: 31px;
+    font-size: 13px;
+    color: #333333;
+    padding: 0 10px 0 10px;
+    box-sizing: border-box;
+    border: 1px solid #c3c3c3;
+}
+.layer_order_refund_regist .caution {
+    padding: 0 10px 0 10px;
+}
+.layer_order_refund_regist .close_btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 100;
+}
+.layer_order_refund_regist .btn_bx2 {
+    width: 100%;
+    padding: 10px 0 10px 0;
+    text-align: center;
+}
+.layer_order_refund_regist .btn_bx2 li {
+    display: inline-block;
+    width: 48%;
+}
+
+/*** 배송지 관리 | mypage/layer_shipping_address_regist.html : css/gd_common.css 에내용 있음 ***/
+
+/*** 세금계산서 발행 | mypage/layer_tax_invoice_request.html ***/
+.layer_tax_invoice_request {
+    position: relative;
+    background: #fff;
+}
+.layer_tax_invoice_request .ly_content {
+    padding: 15px 15px 15px 15px;
+}
+.layer_tax_invoice_request .close_btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 100;
+}
+.layer_tax_invoice_request td input[type="text"] {
+    width: 100%;
+    height: 36px;
+    text-indent: 10px;
+    border: 1px solid #c3c3c3;
+    box-sizing: border-box;
+}
+.layer_tax_invoice_request .tax_mail li {
+    display: table-cell;
+    vertical-align: top;
+}
+.layer_tax_invoice_request .tax_mail li:first-child {
+    padding-right: 5px;
+}
+.layer_tax_invoice_request .tax_mail li .inp_sel select {
+    height: 36px;
+    background-size: 400px 36px;
+}
+.layer_tax_invoice_request .tax_mail li input[type="text"] {
+    /*margin:0 0 5px 0;*/
+}
+.layer_tax_invoice_request .zipcode_box .zipcode_top {
+    position: relative;
+    padding-right: 70px;
+}
+.layer_tax_invoice_request .zipcode_box .zipcode_top .zipcode_num {
+}
+.layer_tax_invoice_request .zipcode_box .zipcode_top .zipcode_btn_box {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 66px;
+}
+.layer_tax_invoice_request .zipcode_box input {
+    margin: 0 0 5px 0;
+}
+.layer_tax_invoice_request .btn_box {
+    display: table;
+    width: 100%;
+    padding: 12px 0 12px 0;
+    text-align: center;
+}
+.layer_tax_invoice_request .btn_box li {
+    display: table-cell;
+    width: 50%;
+}
+.layer_tax_invoice_request .btn_box li:nth-child(1) {
+    padding-right: 2px;
+}
+.layer_tax_invoice_request .btn_box .tax_info_init {
+    display: block;
+    width: 100%;
+    height: auto;
+    padding: 10px 0 10px 0;
+    background: #dddddd;
+    border: 1px solid #ab3e55;
+    color: #444444;
+    font-weight: bold;
+    box-sizing: border-box;
+}
+
+/*** 마일리지 | mypage/mileage.html ***/
+.mileage {
+}
+.mileage .money_search {
+}
+.mileage .money_search fieldset legend {
+    display: none;
+}
+.mileage .money_search fieldset > div {
+    padding: 5px 10px 0 10px;
+}
+.mileage .my_money {
+    display: table;
+    width: 100%;
+}
+.mileage .my_money p {
+    display: table-cell;
+    width: 50%;
+}
+.mileage .my_money p.tit {
+    padding: 0 0 0 10px;
+    font-size: 14px;
+    color: #333;
+    line-height: 38px;
+    font-weight: bold;
+}
+.mileage .my_money p.money {
+    padding: 0 10px 0 0;
+    text-align: right;
+    color: #ab3e55;
+    font-size: 16px;
+    line-height: 38px;
+    font-weight: bold;
+}
+.mileage h3 {
+    text-indent: 10px;
+    font-size: 14px;
+    color: #333;
+    line-height: 36px;
+    border-top: 1px solid #cccccc;
+    border-bottom: 1px solid #cccccc;
+    background: #f2f3f3;
+}
+.mileage .money_history {
+    margin: 5px 10px 5px 10px;
+    border: 1px solid #cccccc;
+}
+.mileage .no {
+    padding: 41px 0 42px 0;
+    text-align: center;
+    font-size: 14px;
+}
+.mileage td.content {
+    font-weight: normal;
+    text-align: left;
+}
+.mileage td.minus {
+    color: #ab3e55;
+}
+
+/*** 회원정보수정 | member/my_page.html ***/
+.my_page {
+}
+.my_page .modify_content_box {
+}
+.my_page .modify_content_box .modify_content {
+    padding: 10px 10px 10px 10px;
+}
+.my_page .modify_content_box .modify_btn_box {
+    padding: 20px 10px 10px 10px;
+}
+
+/*** 회원 비밀번호 검증 | mypage/my_page_password.html ***/
+.my_page_password {
+    padding: 28px 30px 28px 30px;
+}
+.my_page_password .text {
+    margin: 0 0 12px 0;
+    color: #333;
+    font-size: 14px;
+    font-weight: bold;
+    word-break: keep-all;
+}
+.my_page_password fieldset {
+}
+.my_page_password fieldset legend {
+    display: none;
+}
+.my_page_password fieldset .sns_box {
+    padding: 0 0 10px 0;
+}
+.my_page_password fieldset .sns_box .btn {
+    padding: 4px 0 0 0;
+}
+.my_page_password fieldset .sns_box .sns_payco {
+    padding: 10px 0 10px 0;
+    border: 1px solid #c3c3c3;
+    text-align: center;
+}
+.my_page_password fieldset .sns_box .sns_payco img {
+    width: 53px;
+}
+.my_page_password fieldset .sns_box .sns_facebook {
+    padding: 10px 0 10px 0;
+    border: 1px solid #c3c3c3;
+    text-align: center;
+}
+.my_page_password fieldset .sns_box .sns_facebook img {
+    width: 73px;
+}
+.my_page_password fieldset .sns_box .sns_naver {
+    padding: 10px 0 10px 0;
+    border: 1px solid #c3c3c3;
+    text-align: center;
+}
+.my_page_password fieldset .sns_box .sns_naver img {
+    width: 65px;
+}
+.my_page_password fieldset .sns_box .sns_kakao {
+    padding: 10px 0 10px 0;
+    border: 1px solid #c3c3c3;
+    text-align: center;
+}
+.my_page_password fieldset .sns_box .sns_kakao img {
+    width: 102px;
+}
+.my_page_password fieldset .sns_box .sns_wonder {
+    padding: 10px 0 10px 0;
+    border: 1px solid #c3c3c3;
+    text-align: center;
+}
+.my_page_password fieldset .sns_box .sns_wonder img {
+    width: 102px;
+}
+.my_page_password fieldset .sns_box .sns_apple {
+    padding: 10px 0 10px 0;
+    border: 1px solid #c3c3c3;
+    text-align: center;
+}
+.my_page_password fieldset .sns_box .sns_apple img {
+    width: 56px;
+}
+.my_page_password fieldset dl {
+    display: table;
+    width: 100%;
+}
+.my_page_password fieldset dl dt {
+    display: table-cell;
+    width: 20%;
+    font-weight: bold;
+    font-size: 14px;
+}
+.my_page_password fieldset dl dd {
+    display: table-cell;
+    font-weight: bold;
+    font-size: 14px;
+}
+.my_page_password fieldset dl.pw {
+    padding: 10px 0 10px 0;
+}
+.my_page_password fieldset dl.pw dt {
+    display: none;
+}
+.my_page_password fieldset dl.pw dd {
+    width: 100%;
+}
+.my_page_password fieldset dl.pw dd input {
+    width: 100%;
+    height: 39px;
+    border: 1px solid #c3c3c3;
+    text-indent: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    box-sizing: border-box;
+}
+.my_page_password .c_msg {
+    margin: 0 0 12px 0;
+    font-size: 14px;
+    color: #ab3e55;
+    font-weight: bold;
+}
+
+/*** 주문목록/배송조회 | mypage/order_list.html ***/
+.order_list {
+}
+.order_list .form_box {
+    background: #f2f3f3;
+}
+.order_list .form_box fieldset {
+}
+.order_list .form_box fieldset legend {
+    display: none;
+}
+.order_list .form_box fieldset .inp_sel {
+    padding: 10px 10px 10px 10px;
+}
+.order_list .btn {
+    padding: 10px 10px 10px 10px;
+}
+.order_list .no {
+    padding: 20px 0 20px 0;
+    text-align: center;
+    font-size: 14px;
+}
+
+/*** 주문내역 상세보기 | mypage/order_view.html ***/
+.order_view {
+}
+.order_view h3 {
+    text-indent: 10px;
+    line-height: 32px;
+    border-top: 1px solid #cccccc;
+    border-bottom: 1px solid #cccccc;
+    background: #f2f3f3;
+    font-size: 14px;
+    font-weight: bold;
+}
+/* 사은품 */
+.order_view .view_box2 {
+    padding: 12px 15px 12px 15px;
+}
+.order_view .view_box2 .orinfo {
+}
+.order_view .view_box2 .orinfo li {
+    padding: 5px 0 5px 0;
+}
+.order_view .view_box2 .orinfo li dl {
+    display: table;
+    width: 100%;
+}
+.order_view .view_box2 .orinfo li dl dt {
+    display: table-cell;
+    vertical-align: middle;
+    font-size: 13px;
+    font-weight: bold;
+    color: #5e5e5e;
+}
+.order_view .view_box2 .orinfo li dl dd {
+    display: table-cell;
+    vertical-align: middle;
+}
+.order_view .view_box2 .orinfo li dl dd.img {
+    width: 60px;
+    font-size: 0;
+    line-height: 0;
+}
+/* 결제정보 */
+.order_view .view_box {
+    padding: 12px 15px 12px 15px;
+}
+.order_view .view_box dl {
+    display: table;
+    width: 100%;
+    padding: 5px 0 5px 0;
+    font-size: 0;
+}
+.order_view .view_box dl:last-child {
+    border-bottom: none;
+}
+.order_view .view_box dl dt {
+    display: table-cell;
+    width: 100px;
+    font-size: 13px;
+    font-weight: bold;
+    color: #5e5e5e;
+}
+.order_view .view_box dl dd {
+    display: table-cell;
+    font-size: 13px;
+    color: #5e5e5e;
+}
+.order_view .view_box dl dd ul.discount {
+}
+.order_view .view_box dl dd ul.discount li {
+    position: relative;
+    padding: 0 0 0 14px;
+    color: #9c9c9c;
+    font-size: 13px;
+    line-height: 19px;
+}
+.order_view .view_box dl dd ul.discount li:before {
+    position: absolute;
+    top: 4px;
+    left: 2px;
+    width: 8px;
+    height: 6px;
+    background: url("../../img/icon/icon_add_discount.png") no-repeat;
+    background-size: 8px 6px;
+    content: "";
+}
+
+/*** 배송지 관리 | mypage/shipping.html ***/
+.shipping {
+    padding: 5px 5px 5px 5px;
+}
+.shipping .s_content {
+    border: 1px solid #cccccc;
+}
+.shipping .s_content .s_tit {
+    padding: 10px 0 10px 0;
+    font-weight: bold;
+    border-bottom: 1px solid #cccccc;
+    background: #f2f3f3;
+    text-indent: 10px;
+}
+.shipping .s_content .s_address {
+    padding: 10px 10px 10px 10px;
+    border-bottom: 1px dashed #cccccc;
+    word-break: keep-all;
+}
+.shipping .s_content .s_data {
+    padding: 10px 10px 10px 10px;
+}
+.shipping .s_content .s_data dl {
+    display: table;
+    width: 100%;
+}
+.shipping .s_content .s_data dl dt {
+    display: table-cell;
+    width: 50%;
+    vertical-align: middle;
+}
+.shipping .s_content .s_data dl dd {
+    display: table-cell;
+    width: 50%;
+    text-align: right;
+    vertical-align: middle;
+}
+.shipping .s_content .s_btn {
+    display: table;
+    width: 100%;
+    padding: 5px 0 0 0;
+}
+.shipping .s_content .s_btn li {
+    display: table-cell;
+    width: 50%;
+}
+.shipping .s_content .s_btn li:last-child {
+    text-align: right;
+}
+.shipping .btn_box {
+    padding: 5px 0 0 0;
+}
+.shipping .no {
+    text-align: center;
+    padding: 50px 0;
+}
+
+/*** 위시리스트 | mypage/wish_list.html ***/
+.wish_list {
+}
+.wish_list .wish_content_box {
+    background: #f2f3f3;
+}
+.wish_list .wish_content_box .allchk {
+    margin: 0 0 5px 0;
+    padding: 10px 10px 10px 10px;
+}
+.wish_list .wish_content_box .my_goods {
+    padding: 0 0 5px 0;
+}
+.wish_list .wish_content_box .my_goods > li {
+    position: relative;
+    margin: 0 10px 10px 10px;
+    border: 1px solid #cccccc;
+    background: #fff;
+}
+.wish_list .wish_content_box .my_goods li .info {
+    display: table;
+    width: 100%;
+    padding: 10px 0 10px 0;
+}
+.wish_list .wish_content_box .my_goods li .info > a {
+    display: inline-block;
+    width: calc(100% - 80px);
+    margin: 0 10px 0 40px;
+    box-sizing: border-box;
+}
+.wish_list .wish_content_box .my_goods li .info .select_del_box {
+    position: absolute;
+    top: 8px;
+    right: 5px;
+}
+.wish_list .wish_content_box .my_goods li .info .itemhead {
+    display: table-cell;
+    vertical-align: top;
+}
+.wish_list .wish_content_box .my_goods li .info .itemhead .thmb_box {
+    position: relative;
+    line-height: 0;
+}
+.wish_list .wish_content_box .my_goods li .info .itemhead .thmb_box .thmb {
+    line-height: 0;
+    font-size: 0;
+}
+.wish_list .wish_content_box .my_goods li .info .itemhead .thmb_box .thmb img {
+    width: 90px;
+}
+.wish_list
+    .wish_content_box
+    .my_goods
+    li
+    .info
+    .itemhead
+    .thmb_box
+    .timesale_box {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px 0 10px 0;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.5);
+}
+.wish_list
+    .wish_content_box
+    .my_goods
+    li
+    .info
+    .itemhead
+    .thmb_box
+    .timesale_box
+    img {
+    width: 15px;
+    height: 15px;
+    vertical-align: -3px;
+}
+.wish_list
+    .wish_content_box
+    .my_goods
+    li
+    .info
+    .itemhead
+    .thmb_box
+    .timesale_box
+    .timetext {
+    color: #fff;
+}
+.wish_list .wish_content_box .my_goods li .info .itembody {
+    display: table-cell;
+    padding: 0 0 0 15px;
+    vertical-align: middle;
+}
+.wish_list .wish_content_box .my_goods li .info .itembody .name {
+    word-break: break-all;
+}
+.wish_list .wish_content_box .my_goods li .info .itembody .prc {
+    font-weight: bold;
+}
+.wish_list .wish_content_box .my_goods li .info .icon_exclamationmark {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background: url("../../img/icon/icon_exclamationmark.png") no-repeat center;
+    background-size: 10px;
+}
+/* 구매 이용 조건 안내 */
+.wish_list .wish_content_box .my_goods li .info .order_possible_list {
+    width: 100%;
+    color: #333;
+    min-height: 30px;
+}
+.wish_list
+    .wish_content_box
+    .my_goods
+    li
+    .info
+    .order_possible_list
+    .inner_title {
+    position: relative;
+    width: 100%;
+    line-height: 22px;
+}
+.wish_list
+    .wish_content_box
+    .my_goods
+    li
+    .info
+    .order_possible_list
+    .inner_title
+    strong {
+    padding: 0 0 0 2px;
+}
+.wish_list
+    .wish_content_box
+    .my_goods
+    li
+    .info
+    .order_possible_list
+    .inner_title
+    ul {
+    margin: 0 0 10px 0;
+}
+.wish_list
+    .wish_content_box
+    .my_goods
+    li
+    .info
+    .order_possible_list
+    .inner_title
+    ul
+    li {
+    padding: 5px 5px 5px 5px;
+    border-bottom: 1px solid #f2f3f3;
+}
+.wish_list
+    .wish_content_box
+    .my_goods
+    li
+    .info
+    .order_possible_list
+    .inner_title
+    ul
+    li.title {
+    margin: 10px 0 0 0;
+    font-weight: bold;
+    background: #f2f3f3;
+}
+/* 구매 이용 조건 안내 더보기 버튼 */
+.pm_more_btn {
+    position: absolute;
+    top: 0;
+    right: 0px;
+    width: 24px;
+    height: 24px;
+    border: none;
+    font-size: 0;
+    background: url("../../img/icon/icon_box_arrow.gif") no-repeat center;
+    background-size: 24px;
+}
+.pm_more_btn.active {
+    background: url("../../img/icon/icon_box_arrow_on.gif") no-repeat center;
+    background-size: 24px;
+}
+.wish_list .wish_content_box .my_goods li .chk_box {
+    position: absolute;
+    top: 22px;
+    left: 10px;
+    margin: -10px 0 0 0;
+}
+.wish_list .wish_content_box .my_goods li .chk_box label {
+    display: none;
+}
+.wish_list .btn_wish_bx {
+    padding: 5px 8px 5px 8px;
+}
+.wish_list .btn_wish_bx ul {
+    display: table;
+    width: 100%;
+}
+.wish_list .btn_wish_bx ul li {
+    display: table-cell;
+    width: 50%;
+    padding: 2px;
+}
+.wish_list .no_bx {
+    text-align: center;
+    padding: 50px 0;
+}
+/* 추가 상품 */
+.add_goods_box {
+    padding: 15px 0 0 70px;
+    margin: 15px 0 0 0;
+    border-top: 1px solid #cccccc;
+}
+.add_goods_box .add_title {
+    display: block;
+    padding: 0 0 5px 0;
+    font-size: 13px;
+    font-weight: bold;
+    color: #5e5e5e;
+}
+.add_goods_box .add_goods_list {
+}
+.add_goods_box .add_goods_list li {
+}
+.add_goods_box .add_goods_list li .add_goods_img {
+    display: table-cell;
+    width: 60px;
+}
+.add_goods_box .add_goods_list li .add_goods_img img {
+    width: 60px;
+}
+.add_goods_box .add_goods_list li .add_goods_content {
+    display: table-cell;
+    padding: 0 0 0 15px;
+    vertical-align: middle;
+}
+.add_goods_box .add_goods_list li .add_goods_content .title {
+    display: block;
+    padding-bottom: 3px;
+    font-size: 12px;
+    color: #5e5e5e;
+}
+.add_goods_box .add_goods_list li .add_goods_content .add_goods_text {
+    display: table;
+    width: 100%;
+}
+.add_goods_box
+    .add_goods_list
+    li
+    .add_goods_content
+    .add_goods_text
+    .goods_number {
+    display: block;
+    font-size: 11px;
+    color: #9d9d9d;
+}
+.add_goods_box
+    .add_goods_list
+    li
+    .add_goods_content
+    .add_goods_text
+    .goods_price {
+    display: block;
+    font-size: 14px;
+    color: #606060;
+}
+.add_goods_box
+    .add_goods_list
+    li
+    .add_goods_content
+    .add_goods_text
+    .goods_price
+    em {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* 배송방식 레이어팝업 */
+.layer-delivery-method {
+    width: 100%;
+    position: relative;
+}
+.layer-delivery-method .input_wrap {
+    display: table;
+    width: 100%;
+    margin: 0;
+    padding: 10px 15px;
+    box-sizing: border-box;
+    border-bottom: 1px solid #e1e1e1;
+}
+.layer-delivery-method .input_wrap .input_title {
+    display: table-cell;
+    width: 27%;
+    min-width: 80px;
+    font-size: 12px;
+    color: #5e5e5e;
+    vertical-align: top;
+    box-sizing: border-box;
+}
+.layer-delivery-method .input_wrap .input_content {
+    display: table-cell;
+    width: 73%;
+    vertical-align: middle;
+}
+.layer-delivery-method .layer-delivery-btn-area {
+    margin-top: 20px;
+}
+.layer-delivery-method .close_btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 100;
+}
+
+/* 회원탈퇴페이지 */
+.dropOut h3 {
+    text-indent: 10px;
+    font-size: 14px;
+    color: #333;
+    line-height: 36px;
+    border-top: 1px solid #cccccc;
+    border-bottom: 1px solid #cccccc;
+    background: #f2f3f3;
+}
+.dropOut h3:first-child {
+    border-top: none;
+}
+.dropOut_terms {
+    padding: 10px;
+    margin-bottom: 20px;
+    color: #707070;
+    height: 180px;
+    overflow: auto;
+}
+.dropOut_form {
+    padding: 10px 10px 15px;
+}
+.dropOut_form .input_wrap {
+    display: table;
+    width: 100%;
+    padding: 5px 0 0 0;
+}
+.dropOut_form .input_wrap .input_title {
+    display: table-cell;
+    width: 27%;
+    min-width: 80px;
+    padding: 8px 0 0 0;
+    font-size: 12px;
+    color: #5e5e5e;
+    vertical-align: top;
+}
+.dropOut_form .input_wrap .input_content {
+    display: table-cell;
+    width: 73%;
+    vertical-align: middle;
+}
+.dropOut_form .input_wrap .input_content .inp_rdo label {
+    font-weight: bold;
+}
+.dropOut_form .input_wrap .input_content .inp_chk label {
+    font-weight: bold;
+}
+.dropOut_form .input_wrap .input_content input[type="text"],
+input[type="password"],
+input[type="email"] {
+    width: 100%;
+    height: 33px;
+    text-indent: 10px;
+    border: 1px solid #c3c3c3;
+    box-sizing: border-box;
+}
+.dropOut_form .input_wrap .input_content textarea {
+    width: 100%;
+    height: 100px;
+    box-sizing: border-box;
+    padding: 5px 10px;
+    border: 1px solid #c3c3c3;
+}
+.dropOut .btn_box {
+    padding: 10px 10px;
+}
+
+.coupon-li {
+    width: 100%;
+    position: relative;
+}
+.coupon-li .coupon_gift_before_use {
+    display: inline-block;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 60px;
+    padding: 5px 10px 6px 10px;
+    color: #ffffff;
+    font-size: 11px;
+    border: 1px solid #ab3e55;
+    background: #ab3e55;
+    text-align: center;
+    line-height: 1;
+}
+
+/* 쿠폰 사용가능 및 불가 탭 */
+.coupon .tab_menu {
+    padding: 5px 5px 0 5px;
+    background: #ddd;
+}
+.coupon .tab_menu ul {
+    display: table;
+    width: 100%;
+}
+.coupon .tab_menu ul li {
+    display: table-cell;
+    width: 50%;
+    border: 1px solid #c7c7c7;
+    border-left: none;
+    background: #ffffff;
+    vertical-align: middle;
+}
+.coupon .tab_menu ul li a {
+    display: block;
+    padding: 10px 7px;
+    color: #333333;
+    text-align: center;
+    border-left: none;
+    box-sizing: border-box;
+}
+.coupon .tab_menu ul li:first-child {
+    border-left: 1px solid #c7c7c7;
+}
+.coupon .tab_menu ul li.active {
+    background: #ab3e55;
+}
+.coupon .tab_menu ul li.active a {
+    color: #fff;
+    font-weight: bold;
+}
+.coupon .coupon_bx dl dd {
+    position: relative;
+}
+.coupon .coupon_bx dl dd a img {
+    width: 70px;
+}
+.coupon .coupon_bx dl dd a.detail {
+    position: absolute;
+    left: 145px;
+    top: -6px;
+}
+
+.order_view h3 {
+    text-indent: 10px;
+    line-height: 42px;
+    background: #f2f3f3;
+    font-size: 14px;
+    font-weight: bold;
+}
+.order_view .view_box {
+    margin: 2px 0 0 0;
+}
+.order_view .view_box dl {
+    display: table;
+    width: 100%;
+    font-size: 0;
+    border-bottom: 1px solid #e8e8e8;
+}
+.order_view .view_box dl dt {
+    display: table-cell;
+    width: 120px;
+    font-size: 13px;
+    font-weight: bold;
+    color: #111;
+    vertical-align: top;
+    padding: 10px 10px 10px 10px;
+    border-right: 1px solid #e8e8e8;
+}
+.order_view .view_box dl dd {
+    display: table-cell;
+    font-size: 13px;
+    color: #555;
+    padding: 10px 10px 10px 10px;
+}
+.order_view .view_box dl dd ul li {
+    margin: 0 0 5px 0;
+}
+
+/*** 배송일자 변경 레이어 | mypage/layer_estimated_delivery_date.php ***/
+.layer_estimated_delivery_date {
+    position: relative;
+}
+
+.layer_estimated_delivery_date .close_btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 100;
+}
+
+/* ------------- 마이페이지 > 회차배송 관리 > 배송예정일 변경 레이어 ------------- */
+.estimated-delivery-date {
+    padding: 4px 20px;
+}
+
+.estimated-delivery-date .notice {
+    padding-left: 20px;
+    list-style: disc;
+    margin-bottom: 12px;
+}
+
+.estimated-delivery-date .notice li {
+    list-style: disc;
+}
+
+.estimated-delivery-date button {
+    margin-top:20px;
+    margin-bottom:20px;
+    width: 90%;
+}
+
+.estimated-delivery-date button em{
+    font-style: normal;
+}
+
+.estimated-delivery-date #datetimepicker {
+    position: relative;
+}
+
+
+/* ------------- 마이페이지 > 회차배송 관리 > 배송예정일 변경 캘린더 ------------- */
+/* bootstrap-datetimepicker css overriding */
+.estimated-delivery-date .bootstrap-datetimepicker-widget .datepicker-days {
+    padding: 10px 0 22px 0;
+}
+
+.estimated-delivery-date .scheduled {
+    outline: 1px solid #ececec;
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    pointer-events: none;
+    border-radius: 50%;
+}
+
+.estimated-delivery-date .scheduled div {
+    color: rgb(187, 185, 185);
+    font-size: 11px;
+}
+
+.estimated-delivery-date .scheduled.first {
+    outline: 2px solid #8a8db1;
+}
+
+.estimated-delivery-date .scheduled.first div{
+    color:#4352f9;
+}
+
+.estimated-delivery-date .scheduled.selected div {
+    color: white;
+}
+
+.estimated-delivery-date .dow:first-child {
+    color: red !important;
+    font-weight: 700 !important;
+}
+
+.estimated-delivery-date .dow:last-child {
+    color: rgb(15, 15, 198) !important;
+    font-weight: 700 !important;
+}
+
+.estimated-delivery-date .bootstrap-datetimepicker-widget table tr:first-child th:nth-child(2) {
+    padding: 10px 0;
+}
+
+.estimated-delivery-date .bootstrap-datetimepicker-widget table tr:nth-child(2) th {
+    color: #999;
+    font-weight: 400;
+}
+
+.estimated-delivery-date .bootstrap-datetimepicker-widget table td {
+    font-size: 15px;
+    border-radius: 12px;
+    height: 40px !important;
+    width: 40px !important;
+    line-height: normal;
+}
+
+.estimated-delivery-date .bootstrap-datetimepicker-widget table td:last-child {
+    color: rgb(15, 15, 198);
+}
+
+.estimated-delivery-date .bootstrap-datetimepicker-widget table td.active {
+    background-color: #007bff; 
+    border-radius: 50%; 
+    color: white;
+}
+
+.estimated-delivery-date .bootstrap-datetimepicker-widget table td.disabled {
+    color: #ccc !important;
+}
+
+.estimated-delivery-date .bootstrap-datetimepicker-widget table td.disabled:hover {
+    background-color: rgb(236, 235, 235) !important;
+}
+
+.estimated-delivery-date .bootstrap-datetimepicker-widget table td.day:hover {
+    background-color: #007bff; 
+    border-radius: 50%; 
+    color: white;
+}
+
+.estimated-delivery-date .bootstrap-datetimepicker-widget table td.active:hover {
+    border-radius: 50%;
+    background-color: #e4eff9;
+    color: black;
+}
+
+/* ================================================== */
+/* plugins/bootstrap-datetimepicker-standalone.css    */
+/* ================================================== */
+/*!
+ * Datetimepicker for Bootstrap 3
+ * version : 4.17.37
+ * https://github.com/Eonasdan/bootstrap-datetimepicker/
+ */
+/*@font-face {*/
+    /*font-family: 'Glyphicons Halflings';*/
+    /*src: url('../fonts/glyphicons-halflings-regular.eot');*/
+    /*src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');*/
+/*}*/
+
+/*.glyphicon {*/
+    /*position: relative;*/
+    /*top: 1px;*/
+    /*display: inline-block;*/
+    /*font-family: 'Glyphicons Halflings';*/
+    /*font-style: normal;*/
+    /*font-weight: normal;*/
+    /*line-height: 1;*/
+    /*-webkit-font-smoothing: antialiased;*/
+    /*-moz-osx-font-smoothing: grayscale;*/
+/*}*/
+
+/*.glyphicon-time:before {*/
+    /*content: "\e023";*/
+/*}*/
+
+/*.glyphicon-chevron-left:before {*/
+    /*content: "\e079";*/
+/*}*/
+
+/*.glyphicon-chevron-right:before {*/
+    /*content: "\e080";*/
+/*}*/
+
+/*.glyphicon-chevron-up:before {*/
+    /*content: "\e113";*/
+/*}*/
+
+/*.glyphicon-chevron-down:before {*/
+    /*content: "\e114";*/
+/*}*/
+
+/*.glyphicon-calendar:before {*/
+    /*content: "\e109";*/
+/*}*/
+
+/*.btn {*/
+    /*display: inline-block;*/
+    /*padding: 6px 12px;*/
+    /*margin-bottom: 0;*/
+    /*font-size: 14px;*/
+    /*font-weight: normal;*/
+    /*line-height: 1.42857143;*/
+    /*text-align: center;*/
+    /*white-space: nowrap;*/
+    /*vertical-align: middle;*/
+    /*-ms-touch-action: manipulation;*/
+    /*touch-action: manipulation;*/
+    /*cursor: pointer;*/
+    /*-webkit-user-select: none;*/
+    /*-moz-user-select: none;*/
+    /*-ms-user-select: none;*/
+    /*user-select: none;*/
+    /*background-image: none;*/
+    /*border: 1px solid transparent;*/
+    /*border-radius: 4px;*/
+/*}*/
+.table-condensed > thead > tr > th,
+.table-condensed > tbody > tr > th,
+.table-condensed > tfoot > tr > th,
+.table-condensed > thead > tr > td,
+.table-condensed > tbody > tr > td,
+.table-condensed > tfoot > tr > td {
+    padding: 4px 5px;
+    border-radius: 0;
+}
+.collapse {
+    display: none;
+}
+
+    .collapse.in {
+        display: block;
+    }
+
+.dropdown-menu {
+    position: absolute;
+    left: 0;
+    z-index: 1000;
+    display: none;
+    float: left;
+    min-width: 160px;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    font-size: 12px;
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, .15);
+}
+
+.list-unstyled {
+    padding-left: 0;
+    list-style: none;
+}
+
+.bootstrap-datetimepicker-widget table td.weekend:first-child {
+    color: #ff4c2e;
+}
+
+.bootstrap-datetimepicker-widget table td.active,
+.bootstrap-datetimepicker-widget table td.active:hover,
+.bootstrap-datetimepicker-widget table td span.active {
+    background-color: #ff4c2e;
+}
+
+.bootstrap-datetimepicker-widget table td.today:before {
+    border-bottom-color: #ff4c2e;
+}
+
+.bootstrap-datetimepicker-widget table td{
+    width: 42px;
+    height: 32px;
+    line-height: 32px;
+}
+
+.bootstrap-datetimepicker-widget table td span {
+    width: 42px;
+    height: 32px;
+    line-height: 32px;
+    border-radius: 0;
+}
+
+.picker-switch {
+    padding: 6px auto;
+}
+
+.datepicker-days {
+    padding: 22px;
+}
+.datepicker-days .picker-switch {
+    color: #333;
+    font-size: 16px;
+}
+
+.datepicker-months,
+.datepicker-years,
+.datepicker-decades {
+    padding: 20px 10px;
+}
+.datepicker-months .picker-switch {
+    color: #333;
+    font-size: 24px;
+}
+.bootstrap-datetimepicker-widget .datepicker-months .month {
+    width: 45px;
+}
+
+.datepicker-years .picker-switch,
+.datepicker-decades .picker-switch {
+    color: #333;
+    font-size: 20px;
+}
+
+.bootstrap-datetimepicker-widget .datepicker-decades .decade {
+    width: 54px;
+    height: 45px;
+    line-height: 45px;
+    border-radius: 0;
+    margin: 0 2px;
+}
+
+.bootstrap-datetimepicker-widget th:hover {
+    background-color: transparent;
+}
+
+.bootstrap-datetimepicker-widget .prev {
+    background: transparent url('../../img/btn/gv-thumbnail-prev.png') no-repeat 50% 50%;
+}
+
+.bootstrap-datetimepicker-widget .next {
+    background: transparent url('../../img/btn/gv-thumbnail-next.png') no-repeat 50% 50%;
+}
+/* ======================================================================================= */
+
+
+/* ================================================== */
+/* plugins/bootstrap-datetimepicker.min.css           */
+/* ================================================== */
+/*!
+ * Datetimepicker for Bootstrap 3
+ * version : 4.17.37
+ * https://github.com/Eonasdan/bootstrap-datetimepicker/
+ */
+ .bootstrap-datetimepicker-widget {
+    list-style: none;
+  }
+  .bootstrap-datetimepicker-widget.dropdown-menu {
+    margin: 2px 0;
+    padding: 4px;
+    width: 19em;
+  }
+  @media (min-width: 768px) {
+    .bootstrap-datetimepicker-widget.dropdown-menu.timepicker-sbs {
+      width: 38em;
+    }
+  }
+  @media (min-width: 992px) {
+    .bootstrap-datetimepicker-widget.dropdown-menu.timepicker-sbs {
+      width: 38em;
+    }
+  }
+  @media (min-width: 1200px) {
+    .bootstrap-datetimepicker-widget.dropdown-menu.timepicker-sbs {
+      width: 38em;
+    }
+  }
+  .bootstrap-datetimepicker-widget.dropdown-menu:before,
+  .bootstrap-datetimepicker-widget.dropdown-menu:after {
+    content: '';
+    display: inline-block;
+    position: absolute;
+  }
+  .bootstrap-datetimepicker-widget.dropdown-menu.bottom:before {
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-bottom: 7px solid #cccccc;
+    border-bottom-color: rgba(0, 0, 0, 0.2);
+    top: -7px;
+    left: 7px;
+  }
+  .bootstrap-datetimepicker-widget.dropdown-menu.bottom:after {
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid white;
+    top: -6px;
+    left: 8px;
+  }
+  .bootstrap-datetimepicker-widget.dropdown-menu.top:before {
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-top: 7px solid #cccccc;
+    border-top-color: rgba(0, 0, 0, 0.2);
+    bottom: -7px;
+    left: 6px;
+  }
+  .bootstrap-datetimepicker-widget.dropdown-menu.top:after {
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid white;
+    bottom: -6px;
+    left: 7px;
+  }
+  .bootstrap-datetimepicker-widget.dropdown-menu.pull-right:before {
+    left: auto;
+    right: 6px;
+  }
+  .bootstrap-datetimepicker-widget.dropdown-menu.pull-right:after {
+    left: auto;
+    right: 7px;
+  }
+  .bootstrap-datetimepicker-widget .list-unstyled {
+    margin: 0;
+  }
+  .bootstrap-datetimepicker-widget a[data-action] {
+    padding: 6px 0;
+  }
+  .bootstrap-datetimepicker-widget a[data-action]:active {
+    box-shadow: none;
+  }
+  .bootstrap-datetimepicker-widget .timepicker-hour,
+  .bootstrap-datetimepicker-widget .timepicker-minute,
+  .bootstrap-datetimepicker-widget .timepicker-second {
+    width: 54px;
+    font-weight: bold;
+    font-size: 1.2em;
+    margin: 0;
+  }
+  .bootstrap-datetimepicker-widget button[data-action] {
+    padding: 6px;
+  }
+  .bootstrap-datetimepicker-widget .btn[data-action="incrementHours"]::after {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+    content: "Increment Hours";
+  }
+  .bootstrap-datetimepicker-widget .btn[data-action="incrementMinutes"]::after {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+    content: "Increment Minutes";
+  }
+  .bootstrap-datetimepicker-widget .btn[data-action="decrementHours"]::after {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+    content: "Decrement Hours";
+  }
+  .bootstrap-datetimepicker-widget .btn[data-action="decrementMinutes"]::after {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+    content: "Decrement Minutes";
+  }
+  .bootstrap-datetimepicker-widget .btn[data-action="showHours"]::after {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+    content: "Show Hours";
+  }
+  .bootstrap-datetimepicker-widget .btn[data-action="showMinutes"]::after {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+    content: "Show Minutes";
+  }
+  .bootstrap-datetimepicker-widget .btn[data-action="togglePeriod"]::after {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+    content: "Toggle AM/PM";
+  }
+  .bootstrap-datetimepicker-widget .btn[data-action="clear"]::after {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+    content: "Clear the picker";
+  }
+  .bootstrap-datetimepicker-widget .btn[data-action="today"]::after {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+    content: "Set the date to today";
+  }
+  .bootstrap-datetimepicker-widget .picker-switch {
+    text-align: center;
+  }
+  .bootstrap-datetimepicker-widget .picker-switch::after {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+    content: "Toggle Date and Time Screens";
+  }
+  .bootstrap-datetimepicker-widget .picker-switch td {
+    padding: 0;
+    margin: 0;
+    height: auto;
+    width: auto;
+    line-height: inherit;
+  }
+  .bootstrap-datetimepicker-widget .picker-switch td span {
+    line-height: 2.5;
+    height: 2.5em;
+    width: 100%;
+  }
+  .bootstrap-datetimepicker-widget table {
+    width: 100%;
+    margin: 0;
+  }
+  .bootstrap-datetimepicker-widget table td,
+  .bootstrap-datetimepicker-widget table th {
+    text-align: center;
+    border-radius: 4px;
+  }
+  .bootstrap-datetimepicker-widget table th {
+    height: 20px;
+    line-height: 20px;
+    width: 20px;
+  }
+  .bootstrap-datetimepicker-widget table th.picker-switch {
+    width: 145px;
+  }
+  .bootstrap-datetimepicker-widget table th.disabled,
+  .bootstrap-datetimepicker-widget table th.disabled:hover {
+    background: none;
+    color: #777777;
+    cursor: not-allowed;
+  }
+  .bootstrap-datetimepicker-widget table th.prev::after {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+    content: "Previous Month";
+  }
+  .bootstrap-datetimepicker-widget table th.next::after {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+    content: "Next Month";
+  }
+  .bootstrap-datetimepicker-widget table thead tr:first-child th {
+    cursor: pointer;
+  }
+  /* .bootstrap-datetimepicker-widget table thead tr:first-child th:hover {
+    background: #eeeeee;
+  } */
+  .bootstrap-datetimepicker-widget table td {
+    height: 54px;
+    line-height: 54px;
+    width: 54px;
+  }
+  .bootstrap-datetimepicker-widget table td.cw {
+    font-size: .8em;
+    height: 20px;
+    line-height: 20px;
+    color: #777777;
+  }
+  .bootstrap-datetimepicker-widget table td.day {
+    height: 20px;
+    line-height: 20px;
+    width: 20px;
+  }
+  .bootstrap-datetimepicker-widget table td.day:hover,
+  .bootstrap-datetimepicker-widget table td.hour:hover,
+  .bootstrap-datetimepicker-widget table td.minute:hover,
+  .bootstrap-datetimepicker-widget table td.second:hover {
+    background: #eeeeee;
+    cursor: pointer;
+  }
+  .bootstrap-datetimepicker-widget table td.old,
+  .bootstrap-datetimepicker-widget table td.new {
+    color: #777777;
+  }
+  .bootstrap-datetimepicker-widget table td.today {
+    position: relative;
+  }
+  .bootstrap-datetimepicker-widget table td.today:before {
+    content: '';
+    display: inline-block;
+    border: solid transparent;
+    border-width: 0 0 7px 7px;
+    border-bottom-color: #337ab7;
+    border-top-color: rgba(0, 0, 0, 0.2);
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+  }
+  .bootstrap-datetimepicker-widget table td.active,
+  .bootstrap-datetimepicker-widget table td.active:hover {
+    background-color: #337ab7;
+    color: #ffffff;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  }
+  .bootstrap-datetimepicker-widget table td.active.today:before {
+    border-bottom-color: #fff;
+  }
+  .bootstrap-datetimepicker-widget table td.disabled,
+  .bootstrap-datetimepicker-widget table td.disabled:hover {
+    background: none;
+    color: #777777;
+    cursor: not-allowed;
+  }
+  .bootstrap-datetimepicker-widget table td span {
+    display: inline-block;
+    width: 54px;
+    height: 54px;
+    line-height: 54px;
+    margin: 2px 1.5px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  .bootstrap-datetimepicker-widget table td span:hover {
+    background: #eeeeee;
+  }
+  .bootstrap-datetimepicker-widget table td span.active {
+    background-color: #337ab7;
+    color: #ffffff;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  }
+  .bootstrap-datetimepicker-widget table td span.old {
+    color: #777777;
+  }
+  .bootstrap-datetimepicker-widget table td span.disabled,
+  .bootstrap-datetimepicker-widget table td span.disabled:hover {
+    background: none;
+    color: #777777;
+    cursor: not-allowed;
+  }
+  .bootstrap-datetimepicker-widget.usetwentyfour td.hour {
+    height: 27px;
+    line-height: 27px;
+  }
+  .bootstrap-datetimepicker-widget.wider {
+    width: 21em;
+  }
+  .bootstrap-datetimepicker-widget .datepicker-decades .decade {
+    line-height: 1.8em !important;
+  }
+  .input-group.date .input-group-addon {
+    cursor: pointer;
+  }
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+  }
+  
+/* ======================================================================================= */

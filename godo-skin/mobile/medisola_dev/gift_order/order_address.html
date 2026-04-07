@@ -1,0 +1,105 @@
+{*** 선물하기 주소입력 | gift_order/order_address.php ***}
+{ # share_header }
+<style>
+hr { display: none; }
+body { background-color: #fbf8f3; }
+</style>
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
+<link rel="stylesheet" type='text/css'  href='../css/gift_order/gift_order.css'>
+<div class='gift_view_page gift_order_addess_page'>
+	<a class="back_btn xi-angle-left" href="../gift_order/view.php?orderNo={orderNo}"></a>
+	<div class='top_title'>배송정보 입력</div>
+	<div class='inner'>
+		<form id="frmOrderAddress" method='post' action='../gift_order/update_address.php' target='ifrmProcess' autocomplete='off'>
+			<input type='hidden' name='orderNo' value='{orderNo}'>
+			<input type='hidden' name='giftCard' value='1'>
+			<input type='hidden' name='changeData' value=''>
+			<div class="required_guide">
+				<span class='dot'></span>
+				필수 입력사항입니다.
+			</div>
+	
+			<div class='stitle'><span class='dot'></span>수령자명</div>
+			<div class='list_rows1'>
+				<input type='text' name='receiverName' value='{receiverName}'>
+			</div>
+			
+			<div class='stitle'><span class='dot'></span>배송지</div>
+			<div class='list_rows2 list_rows3'>
+				<div class='cell cell1'>
+					<input type="text" name="receiverZonecode" readonly="readonly" value="{receiverZonecode}" class='zipcode'>
+				<input type="hidden" name="receiverZipcode" value="{receiverZipcode}">
+				</div>
+				<div class='cell cell2'>
+					<span class="search_address" onclick="gd_postcode_search('receiverZonecode', 'receiverAddress', 'receiverZipcode');">우편번호 검색</span>
+				</div>
+			</div>
+			<div class='list_rows2'>
+				<input type="text" name="receiverAddress" readonly="readonly" value="{receiverAddress}" class='address'>
+			</div>
+			<div class='list_rows1' style='margin-bottom: 15px;'>
+				<input type="text" name="receiverAddressSub" value="{receiverAddressSub}" class='address_sub'>
+			</div>
+			
+			<div style='margin-bottom: 10px;'>
+				<span style="color: #ff4500; font-weight: bold;">배송기한 주소입력일 기준으로 7일전후로 배송됩니다.</span>
+			</div>
+			
+			<div class='stitle'><span class='dot'></span>연락처 </div>
+			<div class='list_rows1'>
+				<input type="text" name="receiverCellPhone" value='{receiverCellPhone}'>
+			</div>
+	
+			<div class='stitle'>요청사항</div>
+			<div class='list_rows1 list_rows4'>
+				<input type="text" id="orderMemo" name="orderMemo" value="{orderMemo}">
+			</div>
+			
+			<!--{ ? orderAddressPossible }-->
+			<input type='button' class='wbtn1' value='입력완료' onclick="checkOrderStatus();">
+			<!--{ / }-->
+		</form>
+	</div>
+	<!--// inner -->
+</div>
+<!--// gift_order_addess_page -->
+
+<script type="text/javascript">
+    /* 2023-03-23 웹앤모바일 submit 전후 데이터 비교 */
+    $(document).ready(function () {
+        var oriData = $('#frmOrderAddress').serialize();
+        $('.wbtn1').on('click', function () {
+            var Data = $('#frmOrderAddress').serialize();
+            if (oriData !== Data) {
+                $('input[name="changeData"]').val('1');
+            }
+        });
+    });
+    /* 2023-03-23 웹앤모바일 submit 전후 데이터 비교 끝 */
+
+    /* 2023-03-23 submit 되기 전에 orderStatus 한번더 확인 */
+    function checkOrderStatus(){
+        $.ajax({
+            url: 'indb_gift_order.php',
+            method : 'POST',
+            data : {
+                'mode': 'checkOrderStatus',
+                'orderNo': {orderNo}
+            },
+            success: function (data) {
+                data = data.replace(/\"/g ,'');
+                if(data === 'd1'){
+                    alert('배송지 변경이 불가능합니다\n쇼핑몰 고객센터에 문의해주시기 바랍니다.');
+                    return false;
+                }else {
+                    $('#frmOrderAddress').submit();
+                }
+            },
+            error: function (data) {
+                alert(data.message);
+            }
+        })
+    }
+    /* 2023-03-23 submit 되기 전에 orderStatus 한번더 확인 끝 */
+</script>
+{ # share_footer }

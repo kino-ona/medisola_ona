@@ -1,0 +1,342 @@
+{*** 완반 회원가입 > 가입방법 선택 | member/wanban_join_method.php ***}
+{ # header }
+
+<style>
+#container #contents {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.mobile-member-container {
+    min-height: 100vh;
+    width: 100%;
+    background: linear-gradient(135deg, #7EA86B 0%, #D17A47 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4vw;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    box-sizing: border-box;
+}
+
+.mobile-member-card {
+    background: white;
+    border-radius: 5vw;
+    box-shadow: 0 5vw 10vw rgba(0, 0, 0, 0.1);
+    padding: 8vw 6vw;
+    width: 100%;
+    max-width: 90vw;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.wanban-mobile-logo {
+    max-width: 20vw;
+    height: auto;
+    border-radius: 2vw;
+    margin-bottom: 4vw;
+}
+
+.mobile-member-title {
+    margin-bottom: 6vw;
+}
+
+.mobile-member-title h1 {
+    font-size: clamp(28px, 8vw, 40px);
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 4vw;
+    background: linear-gradient(135deg, #7EA86B, #D17A47);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.mobile-member-title h2 {
+    color: #333;
+    font-size: clamp(16px, 4.5vw, 22px);
+    font-weight: 600;
+    margin: 0 0 2vw 0;
+}
+
+.mobile-member-subtitle {
+    color: #666;
+    font-size: clamp(12px, 3.5vw, 16px);
+    font-weight: 400;
+}
+
+.mobile-join-button {
+    background: linear-gradient(135deg, #7EA86B, #D17A47);
+    color: white;
+    border: none;
+    border-radius: 12vw;
+    padding: 4vw 6vw;
+    font-size: clamp(14px, 4vw, 18px);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    margin-bottom: 6vw;
+    box-shadow: 0 2vw 5vw rgba(126, 168, 107, 0.3);
+    text-decoration: none;
+    display: block;
+    box-sizing: border-box;
+}
+
+.mobile-join-button:hover {
+    transform: translateY(-1vw);
+    box-shadow: 0 3vw 6vw rgba(126, 168, 107, 0.4);
+}
+
+.mobile-divider {
+    display: flex;
+    align-items: center;
+    margin: 6vw 0;
+    color: #999;
+    font-size: clamp(11px, 3vw, 14px);
+}
+
+.mobile-divider::before,
+.mobile-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #e0e0e0;
+}
+
+.mobile-divider span {
+    padding: 0 3vw;
+}
+
+.mobile-sns-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 3vw;
+    margin-bottom: 5vw;
+}
+
+.mobile-sns-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4vw;
+    border: 2px solid #f0f0f0;
+    border-radius: 3vw;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.mobile-sns-button:hover {
+    border-color: #7EA86B;
+    transform: translateY(-0.5vw);
+    box-shadow: 0 1vw 3vw rgba(0, 0, 0, 0.1);
+}
+
+.mobile-sns-button img {
+    height: 42px;
+    width: auto;
+    transition: transform 0.3s ease;
+}
+
+.mobile-sns-button:hover img {
+    transform: scale(1.05);
+}
+
+.mobile-sns-button.btn_kakao {
+    border-color: #FEE500;
+		background:url('../img/etc/ico_mo_kakao.png') left top no-repeat; 
+		background-size: auto 42px; 
+		height: 42px; 
+		padding-left: 43px;
+}
+
+.mobile-info-text {
+    background: #f8f9ff;
+    border-radius: 3vw;
+    padding: 4vw;
+    margin: 5vw 0;
+    border-left: 1vw solid #7EA86B;
+}
+
+.mobile-info-text strong {
+    color: #555;
+    font-size: clamp(11px, 3vw, 14px);
+    line-height: 1.5;
+    font-weight: 500;
+}
+
+/* Extra small devices (phones, 320px and down) */
+@media (max-width: 320px) {
+    .mobile-member-container {
+        padding: 3vw;
+    }
+    
+    .mobile-member-card {
+        padding: 6vw 4vw;
+        border-radius: 4vw;
+    }
+    
+    .mobile-member-title h1 {
+        font-size: 24px;
+    }
+    
+    .mobile-member-title h2 {
+        font-size: 14px;
+    }
+    
+    .mobile-join-button {
+        padding: 3vw 4vw;
+        font-size: 13px;
+    }
+}
+
+/* Small devices (phones, 321px to 480px) */
+@media (min-width: 321px) and (max-width: 480px) {
+    .mobile-member-card {
+        max-width: 85vw;
+    }
+}
+
+/* Medium devices (tablets, 481px to 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+    .mobile-member-container {
+        padding: 3vw;
+    }
+    
+    .mobile-member-card {
+        max-width: 80vw;
+        padding: 6vw 5vw;
+    }
+    
+    .mobile-member-title h1 {
+        font-size: 36px;
+    }
+    
+    .mobile-member-title h2 {
+        font-size: 20px;
+    }
+    
+    .mobile-join-button {
+        padding: 3vw 5vw;
+        font-size: 16px;
+    }
+}
+
+/* Large devices (tablets, 769px and up) */
+@media (min-width: 769px) {
+    .mobile-member-container {
+        padding: 2vw;
+    }
+    
+    .mobile-member-card {
+        max-width: 70vw;
+        padding: 5vw 4vw;
+    }
+    
+    .mobile-member-title h1 {
+        font-size: 40px;
+    }
+    
+    .mobile-member-title h2 {
+        font-size: 22px;
+    }
+    
+    .mobile-join-button {
+        padding: 2.5vw 4vw;
+        font-size: 18px;
+    }
+}
+
+/* Landscape orientation adjustments */
+@media (orientation: landscape) and (max-height: 500px) {
+    .mobile-member-container {
+        padding: 2vw;
+    }
+    
+    .mobile-member-card {
+        padding: 4vw 6vw;
+    }
+    
+    .mobile-member-title {
+        margin-bottom: 3vw;
+    }
+    
+    .mobile-member-title h1 {
+        margin-bottom: 2vw;
+    }
+    
+    .mobile-join-button {
+        margin-bottom: 3vw;
+    }
+    
+    .mobile-divider {
+        margin: 3vw 0;
+    }
+    
+    .mobile-sns-buttons {
+        margin-bottom: 3vw;
+    }
+    
+    .mobile-info-text {
+        margin: 3vw 0;
+        padding: 3vw;
+    }
+}
+</style>
+
+<div class="mobile-member-container">
+    <div class="mobile-member-card">
+        <img src="https://img.kr.gcp-karroter.net/businessPlatform/bizPlatform/profile/center_biz_1673210/1751352914557/e8692bcfca369a4ef756b7643e143ab91ae282113f6902eb745b90de1e98e0c1.jpeg?q=82&s=640x640&t=crop" 
+             alt="완반 로고" 
+             class="wanban-mobile-logo">
+        <div class="mobile-member-title">
+            <h2>{=__('완반X메디쏠라 회원가입')}</h2>
+            <div class="mobile-member-subtitle">{=__('신규 회원 가입시 1,000포인트 적립')}</div>
+        </div>
+
+        <a href="javascript://" id="btnJoin" class="mobile-join-button" onclick="amplitude.logEvent('wanban_signup_method_signup_button_click')">
+            {=__('완반 회원가입')}
+        </a>
+
+        <div class="mobile-divider">
+            <span>{=__('또는')}</span>
+        </div>
+
+        <div class="mobile-sns-buttons">
+            <!--{? useKakaoLogin}-->
+            <a href="#" class="mobile-sns-button btn_kakao js_btn_kakao_login" style="background-color: #FEE500;" data-kakao-type="join_method" data-return-url="{=returnUrl}" data-wanban="true" onclick="amplitude.logEvent('signup_method_kakao_button_click')">
+                <img src="../img/etc/txt_mo_kakao_230302.png" alt="{=__('카카오톡')} {=__('3초 로그인/회원가입')}">
+            </a>
+            <!--{/}-->
+        </div>
+
+        <div class="mobile-info-text">
+            <strong>
+                {=__('SNS계정 연동으로 빠르게 가입할 수 있습니다.')} <br />
+                {=__('이 과정에서 고객님의 데이터는 철저하게 보호됩니다.')}
+            </strong>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        // 완반 페이지 브라우저 타이틀 변경
+        document.title = '완반X메디쏠라';
+        
+        amplitude.logEvent('wanban_signup_method_view');
+        $('#btnJoin').click(function () {
+            amplitude.logEvent('wanban_signup_method_signup_button_click');
+            location.href = '../member/wanban_join_agreement.php';
+        });
+    });
+</script>
+
+{ # footer }

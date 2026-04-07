@@ -1,0 +1,143 @@
+{*** FAQ | service/faq_list.php ***}
+{ # header }
+<div class="faq_list">
+	<div id="boardlist" class="boardlist">
+		<div class="sel_box">
+			<div class="inp_sel">
+				<select name="category">
+					<!--{ @ faqCode }--><option value="{.key_}" <!--{ ? req.category == .key_ }-->selected<!--{/}-->>{=__(.value_)}</option><!--{/}-->
+				</select>
+			</div>
+		</div>
+		<form name="frmList" id="frmList" action="faq_list.php" method="get">
+			<input type="hidden" name="searchField" value="all"/>
+			<input type="hidden" name="isBest" value="{req.isBest}"/>
+			<input type="hidden" name="category" value="{req.category}"/>
+			<div class="board_search">
+				<div class="search_input"><input type="search" name="searchWord" value="{=req.searchWord}" placeholder="{=__('검색 단어를 입력해 주세요.')}"/></div>
+				<div class="search_btn"><button type="submit" class="faq_search_btn">{=__('검 색')}</button></div>
+			</div>
+		</form>
+		<!--{ ? req.isBest == 'y'}-->
+		<h3>BEST FAQ</h3>
+		<!--{/}-->
+		<div class="board_faq_box">
+			<ul class="board_faq">
+				<!--{ ? faqList.data }-->
+				<!--{ @ faqList.data }-->
+				<li class="data_row"><div class="faq_subject js_link_subject" data-sno="{.sno}">[{.categoryNm}] {.subject}</div></li>
+				<!--{/}-->
+				<!--{:}-->
+				<li class="data_row"><div class="no_data">{=__('검색결과가 없습니다.')}</div></li>
+				<!--{/}-->
+			</ul>
+		</div>
+		<!--{ ? faqList.totalCount > 10}-->
+		<div class="btn_box">
+			<button type="button" class="faq_more_btn js_more_btn" data-page="1">{=__('더보기')}</button>
+		</div>
+		<!--{/}-->
+	</div>
+</div>
+{ # footer }
+<script>
+    $(document).ready(function () {
+        var totalCount = {faqList.totalCount};
+        var loaderImg = "<p class='faq_loader'><img src='\{=c.PATH_MOBILE_SKIN}js/slider/slick/ajax-loader.gif' class='js_ajax_loader'></p>";
+        $('.js_more_btn').bind('click', function () {
+            var thisObj = $(this);
+            var currentPage = thisObj.data('page') + 1;
+            params = $("#frmList").serialize() + '&page=' + currentPage;
+            $('.board_faq').append(loaderImg);
+            $.ajax({
+                method: "get",
+                url: "./faq_list.php",
+                data: params,
+                async: true,
+                dataType: 'json'
+            }).success(function (data) {
+                if (data == '') {
+                    alert("{=__('더 이상 FAQ가 없습니다.')}");
+                    return;
+                }
+                thisObj.data('page', currentPage);
+
+                $.each(data, function (key, val) {
+                    var faqRow = _.template($('#faq_row').html())(val);
+                    $('.board_faq').append(faqRow);
+                })
+				$('.js_link_subject').css('cursor','pointer');
+                $('.js_ajax_loader').remove();
+
+                if (parseInt(totalCount / 10) < currentPage) {
+                    $('.js_more_btn').hide();
+                }
+            }).error(function (e) {
+                alert(e.responseText);
+            });
+        });
+
+
+		$('body').on('click', '.js_link_subject', function () {
+
+			var thisObj = $(this);
+			var sno = thisObj.data('sno');
+
+			if (thisObj.closest('.data_row').find('.js_contents').length > 0) {
+				if(thisObj.closest('.data_row').find('.js_contents').is(':visible')){
+					thisObj.closest('.data_row').find('.js_contents').hide();
+					thisObj.removeClass('on');
+				}
+				else {
+					amplitude.logEvent('board_post_click', {board_title: 'FAQ', post_id: sno, title: $(this).text()});
+					thisObj.closest('.data_row').find('.js_contents').show();
+					thisObj.addClass('on');
+				}
+
+				return;
+			}
+			else {
+				thisObj.after(loaderImg);
+				thisObj.addClass('on');
+				amplitude.logEvent('board_post_click', {board_title: 'FAQ', post_id: sno, title: $(this).text()});
+			}
+			$.ajax({
+				method: "get",
+				url: "./faq_list.php",
+				data: {mode: 'getAnswer', sno: sno},
+				async: true,
+				dataType: 'json'
+			}).success(function (data) {
+				var faqContents = _.template($('#faq_contents').html())(data);
+				thisObj.after(faqContents);
+				$('.js-smart-img').css('max-width', '100%');
+				$('.js_ajax_loader').remove();
+			}).error(function (e) {
+				alert(e.responseText);
+			});
+
+		});
+
+		$('.js_link_subject').css('cursor','pointer');
+
+        $('select[name=category]').bind('change', function () {
+            self.location.href='faq_list.php?category='+$(this).val();
+        });
+
+				amplitude.logEvent('board_view', {title: "FAQ"});
+    });
+</script>
+<script type="text/template" id="faq_contents">
+	<div class="faq_row_box js_contents">
+		<dl>
+			<dt><span class="icon_q">Q</span><%=questionContents%></dt>
+			<dd><span class="icon_a">A</span><%=answerContents%></dd>
+		</dl>
+	</div>
+</script>
+
+<script type="text/template" id="faq_row">
+	<li class="data_row">
+		<div class="faq_subject js_link_subject" data-sno="<%=sno%>">[<%=categoryNm%>]<%=subject%></div>
+	</li>
+</script>

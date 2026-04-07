@@ -1,0 +1,218 @@
+/* morenvy.com 220823 박준호 */
+
+
+div.sub_top {display: none;}
+div#mfooter {padding-bottom: 100px;}
+div.mf_quick {bottom: 100px !important; transition: bottom 0.3s;}
+
+
+
+/* 상세이미지 */
+div.goods_view .cont_detail {padding: 0;}
+
+div.goods_view .cont_detail .slick-dots {width: auto; display: flex; align-items: center;justify-content: center;}
+div.goods_view .cont_detail .slick-dots li {margin: 0;}
+div.goods_view .cont_detail .slick-dots li button {opacity: 1; display: flex; align-items: center; justify-content: center; width: 16px; height: 16px; background: none; margin: 0 0 0 4px !important;}
+div.goods_view .cont_detail .slick-dots li button:before {content: ''; display: block; width: 4px; height: 4px; background-color: #c8c8c8; border-radius: 50%;}
+div.goods_view .cont_detail .slick-dots li:first-child button {margin-left: 0 !important;}
+div.goods_view .cont_detail .slick-dots li.slick-active button:before {width: 10px; height: 10px; border: 2px solid #1a1a1a; background-color: transparent; box-sizing: border-box;}
+
+
+
+/* 상품 정보 */
+div.goods_view div.detail_info {margin-top: 24px; padding: 0 24px;}
+div.goods_view div.detail_info .detail_info_top {padding: 0;}
+
+div.goods_view div.detail_info .prd_icon {margin: 0; font-size: 0; padding: 0;}
+div.goods_view div.detail_info .prd_icon img {margin: 0 4px 8px 0;}
+
+div.goods_view div.detail_info h3 {margin: 0; font-size: 20px; line-height: 32px; letter-spacing: -0.02em; font-weight: 700; color: #1a1a1a;}
+div.goods_view div.detail_info .summary {margin-top: 4px; font-size: 13px; line-height: 18px; letter-spacing: -0.02em; font-weight: 400; color: #8a8a8a;}
+
+div.goods_view div.detail_info .m_price_box {display: flex; align-items: center; flex-wrap: wrap; margin-top: 24px; padding-bottom: 24px;}
+div.goods_view div.detail_info .m_price_box span {display: flex; align-items: flex-end;}
+div.goods_view div.detail_info .m_price_box .sale_box:after,
+div.goods_view div.detail_info .m_price_box .through:before {content: ''; display: block; width: 1px; height: 12px; background-color: #efefef; margin: 6px 11px;}
+div.goods_view div.detail_info .m_price_box .sale_box {font-size: 18px; line-height: 24px; font-weight: 700; color: #ff4800;}
+div.goods_view div.detail_info .m_price_box .msale {font-size: 18px; line-height: 24px; font-weight: 700; color: #1a1a1a;}
+div.goods_view div.detail_info .m_price_box .through {font-size: 15px; line-height: 20px; font-weight: 400; color: #8a8a8a; text-decoration: line-through;}
+div.goods_view div.detail_info .m_price_box .d_share {margin-left: auto;}
+div.goods_view div.detail_info .m_price_box .d_share .share_btn {border: 0; padding: 0; background-color: transparent;}
+
+
+div.goods_view div.detail_info .price_box {border-top: 1px solid #ededed; padding: 10px 0;}
+div.goods_view div.detail_info .price_box .price {font-size: 15px !important; font-weight: 400; color: #1a1a1a;}
+
+div.goods_view div.detail_info .detail_sub_info {padding: 10px 0;}
+div.goods_view div.detail_info .detail_sub_info .benefits .benefits_mileage_desc {padding-left:20px; background:url('../img/mimg/icon_mileage.gif') no-repeat left;}
+
+/* 상세페이지 상품정보 팝업 */
+.sf_menu_list {max-width: 860px; margin: auto; padding: 0px 5px;}
+.sf_menu_list li {float: left; width:50%;}
+.detail_explain_box a {cursor: pointer;}
+
+.product_popup {display: none; align-items: center; position: fixed; z-index: 999; left: 0; top: 0; width: 100%; height: 100%; text-align: center; background: rgba(0,0,0,0.7);}
+.product_popup .product_body {width: 100%; height:100%; margin:0 auto; overflow-x: none; overflow-y: auto;}
+.product_popup .close_btn {position: fixed; width: 100%; height:52px; padding:0; background: #5f7335; text-align: right;}
+.product_popup .close_btn a {position: absolute; top:50%; right:12px; transform:translateY(-50%); font-size:0;}
+.product_popup .close_btn a span {display: inline-block; width:24px; height:24px; background: url('../img/mimg/pop_close.svg') no-repeat center / cover; color: #fff;}
+.product_popup .product_contents {padding: 52px 0; background: #fff;}
+
+
+/* 구매버튼 */
+div.goods_view div.infoArea div.xans-product-action {padding: 0;}
+div.goods_view div.infoArea div.xans-product-action#fixedActionButton {margin-top: 32px;}
+div.goods_view div.infoArea div.xans-product-action#orderFixArea {padding: 12px 24px; background-color: #fff;}
+.detail_buy .detail_prd_btn ul {margin: 0; display: flex;}
+.detail_buy .detail_prd_btn ul li {display: flex; align-items: center; justify-content: center;}
+.detail_buy .detail_prd_btn ul li button,
+.detail_buy .detail_prd_btn ul li a {display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;}
+.detail_buy .detail_prd_btn ul li.d_wish,
+.detail_buy .detail_prd_btn ul li.d_cart {flex: none; padding: 0; width: 56px; height: 56px; border: 1px solid #ddd; border-radius: 0; box-sizing: border-box; background-color: #fff;}
+.detail_buy .detail_prd_btn ul li.d_wish {margin-right: -1px;}
+.detail_buy .detail_prd_btn ul li.d_wish button {border: 0; background: none; padding: 0;}
+.detail_buy .detail_prd_btn ul li.d_cart a {padding: 0; border: 0;}
+.detail_buy .detail_prd_btn ul li.d_cart svg {width: 19px; height: auto;}
+.detail_buy .detail_prd_btn ul li.d_buy {flex: 1; margin: 0; padding: 0; height: 56px; border-radius: 0;}
+.detail_buy .detail_prd_btn ul li.d_buy a { background-color: #1a1a1a; border: 0; font-size: 15px; line-height: 20px; font-weight: 700; color: #fff;}
+
+/* 선물하기 */
+.detail_buy .detail_prd_btn ul li.d_gift {flex: 1; margin: 0; padding: 0; height: 56px; border-radius: 0;}
+.detail_buy .detail_prd_btn ul li.d_gift a { color: #4472c4; border: 1px solid #4472c4; font-size: 15px; line-height: 20px; font-weight: 700; margin-left: 5px;}
+
+
+.detail_buy .snsbtn {margin-top: 10px;}
+
+
+
+
+/* 상세 탭 */
+div.detail_btm_tab_menu_box {margin-top: 40px; height: auto !important; border: 0 !important;}
+div.detail_btm_tab_menu_box div.detail_btm_tab_menu {position: static !important;}
+div.detail_btm_tab_menu_box div.detail_btm_tab_menu ul.detail_sub_lst {padding: 0; width: 100%; margin: 0;}
+div.detail_btm_tab_menu_box div.detail_btm_tab_menu ul.detail_sub_lst li {position: relative; height: 56px; border-top: 1px solid #ededed; border-bottom: 1px solid #ededed; box-sizing: border-box;}
+div.detail_btm_tab_menu_box div.detail_btm_tab_menu ul.detail_sub_lst li.selected {border-bottom: 2px solid #1a1a1a;}
+div.detail_btm_tab_menu_box div.detail_btm_tab_menu ul.detail_sub_lst li a {padding: 0; font-size: 13px; line-height: 18px; font-weight: 400; color: #8a8a8a;}
+div.detail_btm_tab_menu_box div.detail_btm_tab_menu ul.detail_sub_lst li.selected a {font-weight: 500; color: #1a1a1a;}
+div.detail_btm_tab_menu_box div.detail_btm_tab_menu ul.detail_sub_lst li a span {position: absolute; top: 0; left: 50%; transform: translate(-50%, -50%); min-width: 25px; min-height: 25px; padding: 3px 8px; border: 1px solid #ededed; background-color: #fff; box-sizing: border-box; border-radius: 999px; display: flex; align-items: center; justify-content: center; font-size: 12px; line-height: 18px; letter-spacing: -0.02em; font-weight: 700; color: #1a1a1a;}
+
+
+
+/* 관련, 추가상품 */
+div.related_goods div.m_titleArea {margin-top: 40px; margin-bottom: 24px;}
+div.related_goods .swiper-wrapper {padding: 0 !important; }
+div.related_goods {padding: 0 24px;}
+
+div.related_goods .m_prd.swiper-slide .m_inner .goods_prd_content .goods_list_info .goods_info_list {text-align: left; padding: 0;	}
+div.related_goods .m_prd.swiper-slide .m_inner .goods_prd_content .goods_list_info .goods_info_list .through {margin-left: 0; display: block;}
+div.related_goods .m_prd.swiper-slide .m_inner .goods_prd_content .goods_list_info .color {margin: 16px 0 0; width: 100% !important; text-align: left;}
+div.related_goods .m_prd.swiper-slide .m_inner .goods_prd_content .goods_list_info .color > div {float: none; display: inline-block; width: 10px; height: 10px; margin: 0; border: 1px solid #ededed; box-sizing: border-box; border-radius: 50%;}
+div.related_goods .m_prd.swiper-slide .m_inner .goods_prd_content .goods_list_info .color > div:not(:first-child) {margin-left: 8px;}
+
+/* 일반 결제 <-> 정기 결제 탭 스타일 */
+.purchase_type_tabs {
+  display: flex;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.purchase_type_tabs .tab {
+  flex: 1;
+  padding: 12px;
+  background: #f5f5f5;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  color: #666;
+  transition: all 0.3s;
+  font-weight: 400;
+  text-decoration: none;
+  display: block;
+  text-align: center;
+}
+
+.purchase_type_tabs .tab.active {
+  background: #fff;
+  color: #333;
+  font-weight: bold;
+  border-bottom: none;
+  pointer-events: none;
+}
+
+.purchase_type_tabs .tab:hover:not(.active) {
+  background: #ebebeb;
+}
+
+/* 정기결제 배지 스타일 - Kakao 버튼 옆에 고정 */
+.subscription_badge {
+  position: fixed;
+  bottom: 100px;
+  right: 64px; /* Kakao 버튼 (40px) + 간격 (8px) + 배지 시작점 (16px) */
+  z-index: 100; /* Kakao 버튼(101)보다 낮게 */
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: linear-gradient(135deg, #25347A 0%, #4a5ba8 100%);
+  border-radius: 20px;
+  color: #fff;
+  font-size: 14px; /* 11px → 14px (+3px) */
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 2px 2px 12px rgba(37, 52, 122, 0.4);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease, box-shadow 0.3s ease;
+  height: 40px; /* Kakao 버튼과 동일한 높이 */
+  box-sizing: border-box;
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* 스크롤 하단 도달 시 숨김 */
+.subscription_badge.badge-hidden {
+  transform: translateX(calc(100% + 64px)); /* 배지 전체 너비 + right 위치만큼 오른쪽으로 */
+  opacity: 0;
+}
+
+.subscription_badge:hover:not(.badge-hidden),
+.subscription_badge:active:not(.badge-hidden) {
+  transform: translateX(-4px);
+  box-shadow: 2px 2px 16px rgba(37, 52, 122, 0.5);
+  text-decoration: none;
+}
+
+.subscription_badge .badge_icon {
+  font-size: 16px;
+  line-height: 1;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+}
+
+.subscription_badge .badge_text {
+  line-height: 1;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* 화살표 아이콘 추가 */
+.subscription_badge::after {
+  content: '→';
+  font-size: 14px;
+  margin-left: 2px;
+  opacity: 0.9;
+}
+
+/* 역방향 배지 (정기결제 -> 일반결제) - 배경색 어둡게 */
+.subscription_badge_reverse {
+  background: linear-gradient(135deg, #571897 0%, #25347A 100%);
+  color: #fff;
+  box-shadow: 2px 2px 12px rgba(212, 197, 176, 0.5);
+}
+
+.subscription_badge_reverse:hover,
+.subscription_badge_reverse:active {
+  box-shadow: 2px 2px 16px rgba(212, 197, 176, 0.6);
+}
+
+.subscription_badge_reverse .badge_text {
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
+}

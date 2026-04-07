@@ -1,0 +1,67 @@
+{*** 마이페이지 > 회차배송관리 | mypage/scheduled_delivery.php ***} { # header }
+<div class="order_list">
+    <div class="form_box">
+        <form
+            method="get"
+            name="frmDateSearch"
+            id="frmDateSearch"
+            autocomplete="off"
+        >
+            <input type="hidden" name="mode" value="{mode}" />
+            <fieldset>
+                <legend>{=__('주문 날짜로 검색')}</legend>
+                <div class="sel_box">
+                    <div class="inp_sel">
+                        {=gd_select_box(null, 'searchPeriod', searchDate, null,
+                        selectDate, null, null, 'check_option_inner')}
+                    </div>
+                    <div id="layer" class="layer"></div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+    <div id="mypageOrderlist">
+        <!-- 회차배송 리스트 -->
+        {=includeFile('mypage/_scheduled_delivery_list.html')}
+        <!--// 회차배송 리스트 -->
+        <div id="orderlist_more"></div>
+    </div>
+    <div class="btn more_btn_box">
+        <button type="button" class="more_btn" data-page="1" data-mode="{mode}">
+            {=__('더보기')}
+        </button>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".more_btn_box button").click(function () {
+            var page = parseInt($(this).data("page")) + 1;
+            var mode = $(this).data("mode");
+            var searchPeriod = parseInt($(".check_option_inner").val());
+            $.get(
+                "./scheduled_delivery.php",
+                {
+                    listMode: "data",
+                    page: page,
+                    mode: mode,
+                    searchPeriod: searchPeriod,
+                },
+                function (data) {
+                    if ($(data).find("div.my_goods.no").length) {
+                        alert("{=__('더이상 회차배송내역이 없습니다.')}");
+                    } else {
+                        $("#orderlist_more").append(data);
+                        $(".more_btn_box button").data("page", page);
+                    }
+                }
+            );
+        });
+        // 검색기간 선택
+        if ($(".check_option_inner").length) {
+            $(".check_option_inner").change(function (e) {
+                $("#frmDateSearch").submit();
+            });
+        }
+    });
+</script>
+{ # footer}

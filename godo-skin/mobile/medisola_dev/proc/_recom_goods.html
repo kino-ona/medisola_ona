@@ -1,0 +1,79 @@
+<!--{ ? config.mobileDisplayFl == 'y' }-->
+<div class="latest_search_tab" data-type="recom"><h3>{=__('추천상품')}</h3></div>
+<ul class="latest_search_list_box dn">
+    <li class="goods_prd_item_s">
+		<!--{ ? in_array('img', config.displayField) && data.img }-->
+		<div class="goods_prd_img">
+			<div class="img_box">
+				<a href="../goods/goods_view.php?goodsNo={=data.goodsNo}">
+					<div class="img"><img src="{=data.img}" alt="{=data.goodsNm}" ></div>
+					<!--{ ? data.soldOutFl == 'y' || (data.stockFl == 'y' && data.totalStock == 0 ) }-->
+					<span class="soldout_img" title="{=__('품절상품입니다.')}" style="background-image:url('{soldoutDisplay.soldout_overlay_img}');">{=__('품절')}</span>
+					<!--{ / }-->
+				</a>
+			</div>
+		</div>
+		<!--{ / }-->
+		<!--{ ? in_array('goodsColor', config.displayField)}-->
+		{=data.goodsColor}
+		<!--{ / }-->
+		<div class="goods_prd_content">
+			<div class="goods_list_info">
+				<a href="../goods/goods_view.php?goodsNo={=data.goodsNo}">
+					<ul class="goods_info_list">
+						<!--{ ? in_array('brandCd', config.displayField) && data.cateNm }-->
+						<li class="brand_name"><strong>[{=data.cateNm}] <!--{ ? in_array('makerNm', config.displayField) && data.makerNm }-->{data.makerNm}<!--{ / }--></strong></li>
+						<!--{ : }-->
+						<!--{ ? in_array('makerNm', config.displayField) && data.makerNm }-->
+						<li class="maker_name"><strong>{data.makerNm}</strong></li>
+						<!--{ / }-->
+						<!--{ / }-->
+						<!--{ ? in_array('goodsNm', config.displayField) && data.goodsNm }-->
+						<li class="prd_name">{=data.goodsNm}</li>
+						<!--{ / }-->
+						<!--{ ? in_array('shortDescription', config.displayField) && data.shortDescription }-->
+						<li class="short_des">{=data.shortDescription}</li>
+						<!--{ / }-->
+						<!--{ ? in_array('goodsPrice', config.displayField) }-->
+						<!--{ ? data.goodsPriceString }-->
+						<li class="fixed_price">{=data.goodsPriceString}</li>
+						<!--{ : }-->
+						<!--{ ? data.soldOutFl == 'y' || (data.stockFl == 'y' && data.totalStock == 0 ) }-->
+						<li>{=__('품절')}</li>
+						<!--{ : }-->
+						<!--{ ? data.goodsPrice }-->
+						<li class="price" style="<!--{ ? data.timeSaleFl }--><!--{ : }--><!--{ ? in_array('goodsPrice', config.priceStrike) && ((in_array('coupon', config.displayField) && data.couponPrice != '' && data.goodsPriceDisplayFl =='y') || (in_array('goodsDiscount', config.displayField) && data.dcPrice > 0)) }-->text-decoration:line-through<!--{ / }--><!--{ / }-->">{=__('판매가')}: {=gd_currency_symbol()}{=gd_money_format(data.goodsPrice)}{=gd_currency_string()}</li>
+						<!--{ / }-->
+						<!--{ / }-->
+						<!--{ / }-->
+						<!--{ / }-->
+						<!--{ ? in_array('goodsDiscount', config.displayField) && data.dcPrice > 0 }-->
+						<li class="price">
+							{=__('할인가')} : {=gd_currency_symbol()}{=gd_global_money_format(data.goodsPrice - data.dcPrice)}{=gd_currency_string()} {=gd_global_add_currency_display(data.goodsPrice - data.dcPrice)}<!--{ ? in_array('dcRate', config.displayAddField) && gd_isset(data.goodsDcRate) }--> <span>({=data.goodsDcRate}%)</span><!--{ / }-->
+						</li>
+						<!--{ / }-->
+						<!--{ ? in_array('fixedPrice', config.displayField) && data.fixedPrice > 0 && data.goodsPriceDisplayFl =='y' }-->
+						<li class="price" style="<!--{ ? in_array('fixedPrice', config.priceStrike)}-->text-decoration:line-through;<!--{ / }-->">{=__('정가')} : {=gd_currency_symbol()}{=gd_money_format(data.fixedPrice)}{=gd_currency_string()}</li>
+						<!--{ / }-->
+						<!--{ ? in_array('coupon', config.displayField) && data.couponPrice && data.goodsPriceDisplayFl =='y'}-->
+						<li class="coupon_price">
+							{=__('쿠폰가')} : <span class="coupon_price1">{=gd_currency_symbol()}{=gd_money_format(data.couponPrice)}{=gd_currency_string()}</span>
+							<!--{ ? in_array('dcRate', config.displayAddField) && gd_isset(data.couponDcRate) }--> <span class="recom_number_box">({=data.couponDcRate}%)</span><!--{ / }-->
+						</li>
+						<!--{ / }-->
+						<!--{ ? in_array('mileage', config.displayField) && data.mileage && data.goodsPriceDisplayFl =='y'}-->
+						<li class="list_mileage">{=__('마일리지')} : {=data.mileage}</li>
+						<!--{ / }-->
+						<!--{ ? in_array('goodsModelNo', config.displayField) && data.goodsModelNo }-->
+						<li class="model_no">{=__('모델번호')}: {=data.goodsModelNo}</li>
+						<!--{ / }-->
+						<!--{ ? in_array('goodsNo', config.displayField) && data.goodsNo }-->
+						<li class="prd_code">{=__('상품코드')} : {=data.goodsNo}</li>
+						<!--{ / }-->
+					</ul>
+				</a>
+			</div>
+		</div>
+    </li>
+</ul>
+<!--{ / }-->

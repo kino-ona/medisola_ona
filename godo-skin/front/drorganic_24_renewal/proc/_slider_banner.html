@@ -1,0 +1,90 @@
+{*** [위젯] 움직이는 배너 | proc/_slider_banner.php ***}
+
+<style>
+/* 위젯 전용 스타일 - main index 의존 없이 동작 */
+.slider_banner_widget .swiper_sec01 .swiper-slide .inner { position: absolute; top: 7.69%; left: 6%; }
+.slider_banner_widget .swiper_sec01 .swiper-slide img,
+.slider_banner_widget .swiper_sec01 .swiper-slide > div > div { width: 100%; display: block; }
+.slider_banner_widget .swiper_sec01 div.more, .slider_banner_widget .swiper_sec01 div.more_bright { position: relative; display: inline-block; padding: 8px 0 8px 8px; font-size: 12px; font-weight: 700; }
+.slider_banner_widget .swiper_sec05 .swiper-slide .m_titleArea { position: absolute; top: 9%; left: 8%; width: 84%; text-align: left; }
+.slider_banner_widget .swiper_sec05 .swiper-slide img { width: 100%; display: block; }
+.slider_banner_widget .swiper_sec05 .swiper-slide { font-size: 0; line-height: 0; }
+.slider_banner_widget .swiper_sec01 { position: relative; }
+.slider_banner_widget .swiper_sec05 { position: relative; }
+.slider_banner_widget .swiper_sec01.hide_nav ~ .swiper-button-next-sec01,
+.slider_banner_widget .swiper_sec01.hide_nav ~ .swiper-button-prev-sec01 { display: none; }
+</style>
+
+<div class="slider_banner_widget">
+{? bannerPosition == 'top'}
+<script>
+    var _slider_banner_darkSlideIndices = [{@brightTextBannerIndices}{.value_},{/}];
+</script>
+
+<div class="swiper-container swiper_sec01">
+    <div class="swiper-wrapper">
+        { @ bannerInfo }
+        <div class="swiper-slide">
+            {? .value_.link }<a href="{=.value_.link}">{/}
+                <div class="inner">
+                    {? .value_.badgeText}<div class="t01">{=.value_.badgeText}</div>{/}
+                    {? .value_.mainTitle}<div class="t02" style="color:{.value_.foregroundColor}">{.value_.mainTitle}</div>{/}
+                    {? .value_.subTitle}<div class="t03" style="color:{.value_.foregroundColor}">{.value_.subTitle}</div>{/}
+                    {? .value_.buttonTitle}<div class="{? .value_.foregroundColor == 'white'}more_bright{:}more{/}" {? .value_.onClick } onClick="{.value_.onClick}" {/}><span>{.value_.buttonTitle} {=includeFile('/img/mimg/right.svg')}</span></div>{/}
+                </div>
+                <div>
+                    {=.value_.imageTag}
+                </div>
+            {? .value_.link }</a>{/}
+        </div>
+        { / }
+    </div>
+    <div class="swiper-pagination swiper-pagination-sec01"></div>
+</div>
+<div class="swiper-button-next swiper-button-next-sec01"></div>
+<div class="swiper-button-prev swiper-button-prev-sec01"></div>
+{ : }
+<!-- bannerPosition == middle -->
+<div class="swiper-container swiper_sec05">
+    <div class="swiper-wrapper">
+        { @ bannerInfo }
+        <div class="swiper-slide">
+            <div class="m_titleArea">
+                {? .value_.mainTitle}<div class="t01"><span style="color:{.value_.foregroundColor}">{.value_.mainTitle}</span></div>{/}
+                {? .value_.subTitle}<div class="t02"><span style="color:{.value_.foregroundColor}">{.value_.subTitle}</span></div>{/}
+                {? .value_.buttonTitle}<a class="{? .value_.foregroundColor == 'white'}more_bright{:}more{/}" href="{=.value_.link}"><span>{.value_.buttonTitle} {=includeFile('/img/mimg/right.svg')}</span></a>{/}
+            </div>
+            {=.value_.imageTag}
+        </div>
+        { / }
+    </div>
+    <div class="swiper-pagination swiper-pagination-sec05"></div>
+</div>
+{ / }
+</div>
+
+<script>
+(function() {
+    function init() {
+        if (typeof Swiper === 'undefined') return;
+        var wraps = document.querySelectorAll('.slider_banner_widget');
+        for (var w = 0; w < wraps.length; w++) {
+            var wrap = wraps[w];
+            var el01 = wrap.querySelector('.swiper_sec01');
+            var el05 = wrap.querySelector('.swiper_sec05');
+            if (el01 && !el01.swiper) {
+                var cnt = el01.querySelectorAll('.swiper-slide').length;
+                var opt = cnt === 1 ? { slidesPerView: 1, loop: true, autoplay: true, touchRatio: 0 } : { slidesPerView: 1, loop: true, effect: 'fade', fadeEffect: { crossFade: true }, speed: 1000, autoplay: { delay: 4500, disableOnInteraction: false }, pagination: { el: wrap.querySelector('.swiper-pagination-sec01'), clickable: true }, navigation: { nextEl: wrap.querySelector('.swiper-button-next-sec01'), prevEl: wrap.querySelector('.swiper-button-prev-sec01') } };
+                if (cnt === 1) el01.classList.add('hide_nav');
+                new Swiper(el01, opt);
+            }
+            if (el05 && !el05.swiper) {
+                var cnt05 = el05.querySelectorAll('.swiper-slide').length;
+                var opt05 = cnt05 === 1 ? { slidesPerView: 1, loop: true, autoplay: true, touchRatio: 0 } : { slidesPerView: 1, watchOverflow: true, loop: true, effect: 'fade', fadeEffect: { crossFade: true }, speed: 1000, autoplay: { delay: 7000, disableOnInteraction: false }, pagination: { el: wrap.querySelector('.swiper-pagination-sec05'), clickable: true } };
+                new Swiper(el05, opt05);
+            }
+        }
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+})();
+</script>

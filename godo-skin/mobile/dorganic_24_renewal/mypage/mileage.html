@@ -1,0 +1,99 @@
+{*** 마일리지 | mypage/mileage.php ***}
+{ # header }
+<div class="mileage">
+	<div class="my_money">
+		<p class="tit">{=__('사용 가능한')} {=gd_display_mileage_name()}</p>
+		<p class="money">{=gd_money_format(gMemberInfo.mileage)}{=gd_display_mileage_unit()}</p>
+	</div>
+
+	<h3>{=gd_display_mileage_name()} {=__('내역')}</h3>
+	<div class="money_search">
+		<form method="get" name="frmDateSearch" id="frmDateSearch" autocomplete="off">
+			<input type="hidden" name="mode" value="{mode}"/>
+			<fieldset>
+				<legend>{=gd_display_mileage_name()} {=__('내역')}</legend>
+				<div>
+					<span class="select_cal">
+						<div class="select_small_outer inp_sel">
+							{=gd_select_box(null, 'searchPeriod', searchDate, null, selectDate, null, null, 'check_option_inner')}
+						</div>
+					</span>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+	<!--{ ? list }-->
+	<div class="money_history">
+		<table width="100%" cellspacing="0" cellpadding="0" class="table_style1">
+			<caption><span>{=gd_display_mileage_name()} {=__('내역 표')}</span></caption>
+			<colgroup>
+				<col style="width:105px">
+				<col>
+				<col style="width:110px">
+			</colgroup>
+			<thead>
+				<tr>
+					<th scope="col">{=__('일자')}</th>
+					<th scope="col">{=__('내용')}</th>
+					<th scope="col">{=gd_display_mileage_name()}</th>
+				</tr>
+			</thead>
+			<tbody>
+			<!--{ @ list }-->
+				<tr>
+					<td>{.regdate}</td>
+					<td class="contx">
+						{.contents} <br />
+						<!--{ ? .mileage > 0 }--><span class="expiration"><time>{=gd_date_format('Y-m-d H:i', .deleteScheduleDt)}<time> {=__('까지')}</span><!--{ / }-->
+					</td>
+					<td class="<!--{ ? .mileage < 0 }-->minus<!--{ / }-->">{=gd_mileage_display(.mileage, true, null, null, true)}</td>
+				</tr>
+			<!--{ / }-->
+			</tbody>
+		</table>
+		<button type="button" class="mileage_more_btn btn_tbl" data-page="2">{=__('내역 더보기')}</button>
+	</div>
+	<!--{ : }-->
+	<div class="money_history no">
+		<p>
+			<!--{ ? !gGlobal.isFront }-->
+			{=__('%s 내역이 없습니다.', gd_display_mileage_name())}
+			<!--{ : }-->
+			{=__('조회내역이 없습니다.')}
+			<!--{ / }-->
+		</p>
+	</div>
+	<!--{ / }-->
+</div>
+<script type="text/javascript">
+    <!--
+    $(document).ready(function(){
+        $('.mileage_more_btn.btn_tbl').on('click', function(){
+			gd_get_list($(this).data('page'));
+        });
+
+        // 검색기간 선택
+        if ($('.check_option_inner').length) {
+            $('.check_option_inner').change(function (e) {
+                $('#frmDateSearch').submit();
+            });
+        }
+    });
+
+    function gd_get_list(page) {
+        var searchPeriod = parseInt($('.check_option_inner').val());
+        $.get('./mileage.php', {'page' : page, 'searchPeriod' : searchPeriod}, function (data) {
+            var addMileageList = $(data).find('.money_history tbody tr');
+
+            if (addMileageList.length) {
+                $('.money_history tbody').append(addMileageList);
+
+                $('.mileage_more_btn.btn_tbl').data('page', page + 1);
+            } else {
+                alert("{=__('더이상 %s 내역이 없습니다.', gd_display_mileage_name())}");
+            }
+        });
+    }
+    //-->
+</script>
+{ # footer}

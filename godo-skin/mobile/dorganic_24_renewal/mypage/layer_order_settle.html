@@ -1,0 +1,172 @@
+{*** 구매확정 | mypage/layer_order_settle.php ***}
+<div class="layer_order_refund_regist">
+    <div class="ly_head">
+        <h1 class="h_tit">{=__('구매확정')}</h1>
+    </div>
+    <form name="frmSettleRegist" id="frmSettleRegist" method="post" action="../mypage/order_ps.php">
+        <input type="hidden" name="orderNo" value="{orderNo}"/>
+        <input type="hidden" name="mode" value="settleRegistAll"/>
+        <input type="hidden" name="returnUrl" value="{returnUrl}"/>
+        <h2 class="my_tit">{=__('주문목록')}</h2>
+        <div class="order_goods_list">
+            <div class="orderlist_wrap">
+                <div class="order_number_box">
+                    <div class="order_number">
+                        <div class="order_number_left">
+                        {=__('주문번호')}
+                        <a href="../mypage/order_view.php?orderNo={orderNo}">{orderNo}</a>
+                        </div>
+                    </div>
+                    <ul>
+                        <li><button class="order_btn all_check_goods" value="n">{=__('전체선택')}</button></li>
+                    </ul>
+                </div>
+                <!--{ ? orderData }-->
+                <!--{ @ orderData }-->
+                <!--{ @ .goods }-->
+                <ul class="my_goods">
+                    <li>
+                        <div class="info">
+                            <a href="../goods/goods_view.php?goodsNo={..goodsNo}">
+                                <div class="item_check">
+                                    <span class="inp_chk">
+                                        <input class="sp" id="goodsno_{..sno}" type=checkbox  value = "{..sno}" name="orderGoodsNo[]" data-goodsno="{..goodsNo}" data-order-status="{..orderStatus}"/>
+                                        <label for="goodsno_{..sno}"></label>
+                                    </span>
+                                </div>
+                                <div class="itemhead">
+                                    <div class="img">{..goodsImage}</div>
+                                </div>
+                                <div class="itembody">
+                                    <dl>
+                                        <dt class="prd_name">{..goodsNm}</dt>
+                                        <!--{ ? ..optionInfo }-->
+                                        <!--{ @ ..optionInfo }-->
+                                        <dd class="prd_option">{...value_.optionName} : {...value_.optionValue}
+                                            <!--{ ? ...value_.optionRealPrice != 0 && optionPriceFl == 'y' }-->
+                                            (<!--{ ? ...value_.optionRealPrice > 0 }-->+<!--{ / }-->{=gd_global_order_currency_display(...value_.optionRealPrice)})
+                                            <!--{ / }-->
+                                            <!--{ ? ...index_ == ...size_ - 1 }-->
+                                            <!--{ ? empty(...value_.deliveryInfoStr) === false }--> [{...value_.deliveryInfoStr}]<!--{ / }-->
+                                            <!--{ / }-->
+                                        </dd>
+                                        <!--{ / }-->
+                                        <!--{ / }-->
+                                        <!--{ ? ..optionTextInfo }-->
+                                        <!--{ @ ..optionTextInfo }-->
+                                        <dd class="prd_option">{...value_.optionName} : {...value_.optionValue}
+                                            <!--{ ? ...value_.optionTextPrice != 0 && optionPriceFl == 'y' }-->
+                                            (<!--{ ? ...value_.optionTextPrice > 0 }-->+<!--{ / }-->{=gd_global_order_currency_display(...value_.optionTextPrice)})
+                                            <!--{ / }-->
+                                        </dd>
+                                        <!--{ / }-->
+                                        <!--{ / }-->
+                                    </dl>
+                                </div>
+                            </a>
+                            <!--{ ? empty(..addGoods) === false }-->
+                            <div class="add_goods_box">
+                                <em class="add_title">{=__('추가상품')}</em>
+                                <ul class="add_goods_list">
+                                    <!--{ @ ..addGoods }-->
+                                    <li>
+                                        <div class="add_goods_img">{...goodsImage}</div>
+                                        <div class="add_goods_content">
+                                            <span class="title">{...goodsNm}</span>
+                                            <div class="add_goods_text">
+                                                <span class="goods_number">{=__('주문수량')} : <em>{...goodsCnt}</em></span>
+                                                <span class="goods_price"><em>{=gd_global_order_currency_display(..goodsPrice, ..exchangeRate, ..currencyPolicy)}</em></span>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <!--{ / }-->
+                                </ul>
+                            </div>
+                            <!--{ / }-->
+                            <div class="order_info">
+                                <div class="info_box">
+                                    <div class="info2">
+                                        {=__('수량')} : {..goodsCnt} | {=gd_global_order_currency_display((..goodsPrice + ..optionPrice + ..optionTextPrice) * ..goodsCnt, ..exchangeRate, ..currencyPolicy)}
+                                    </div>
+                                    <div class="ing_chk">
+                                        <!--{ ? ..orderStatus == 'd2' }-->
+                                        <strong class="order_finish_btn">{..orderStatusStr}</strong>
+                                        <!--{ : }-->
+                                        <strong class="order_ing_btn">{..orderStatusStr}</strong>
+                                        <!--{ / }-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <!--{ / }-->
+                <!--{ / }-->
+                <!--{ : }-->
+                <div class="my_goods no">
+                    <p>{=__('최근 주문 내역이 없습니다.')}</p>
+                </div>
+                <!--{ / }-->
+                <div>
+                    <ul class="btn_bx2">
+                        <li><button type="button" class="refund_cancel_btn ly_btn_close">{=__('취소')}</button></li>
+                        <li><button type="submit" class="refund_confirm_btn">{=__('확인')}</button></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="close_btn"><button type="button" class="lys_close_btn ly_btn_close">{=__('닫기')}</button></div>
+</div>
+
+<script type="text/javascript" src="../js/jquery/jquery.serialize.object.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $('#frmSettleRegist').validate({
+            submitHandler: function (form) {
+                if (!$('input[name*="orderGoodsNo"]:checkbox:checked').length) {
+                    alert("{=__('구매확정 할 상품을 선택하세요.')}");
+                    return false;
+                }
+
+                if (confirm("{=__('구매확정 처리를 하시겠습니까?')}")) {
+                    form.target = 'ifrmProcess';
+                    form.submit();
+                }
+            }
+        });
+
+        // 전체선택 처리
+        $('.all_check_goods').on('click', function(e) {
+            e.preventDefault();
+            if ($(this).val() == 'n') {
+                $('input[name="orderGoodsNo[]"]').prop('checked', true);
+                $(this).text("{=__('선택해제')}");
+                $(this).val('y');
+            } else {
+                $('input[name="orderGoodsNo[]"]').prop('checked', false);
+                $(this).text("{=__('전체선택')}");
+                $(this).val('n');
+            }
+            $(this).blur();
+        });
+
+        // 체크박스 상태에 따른 전체선택버튼 변경처리
+        $('input:checkbox[name="orderGoodsNo[]"]').click(function () {
+            var checkedCount = 0;
+            var eachCheckBox = $(this).closest('.order_goods_list').find('input[name="orderGoodsNo[]"]:checkbox');
+            eachCheckBox.each(function () {
+                if ($(this).prop('checked') === true) {
+                    checkedCount++;
+                }
+            });
+            if (eachCheckBox.length == checkedCount) {
+                $('.all_check_goods').text("{=__('선택해제')}");
+                $('.all_check_goods').val('y');
+            } else {
+                $('.all_check_goods').text("{=__('전체선택')}");
+                $('.all_check_goods').val('n');
+            }
+        });
+    });
+</script>

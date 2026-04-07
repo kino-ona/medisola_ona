@@ -1,0 +1,76 @@
+{*** 휴면회원 해제 인증 | member/wake_certification.php ***}
+{ # header }
+<div class="wake_certification">
+	<h3><!--{? authType == 'authSms'}-->{=__('SMS 인증번호')}<!--{: authType == 'authEmail'}-->{=__('이메일 인증번호')}<!--{/}--></h3>
+	<!--{? authType == 'authSms'}-->
+	<p class="guide">{=__('인증번호가 고객님의 가입된 휴대폰 번호 %s로 전송되었습니다.', '<br><span class="c-red">(' + maskCellphone + ')</span>')}</p>
+	<!--{: authType == 'authEmail'}-->
+	<p class="guide">{=__('인증번호가 고객님의 이메일 %s로 전송되었습니다.', '<br><span  class="c-red">(' + maskEmail + ')</span>')}</p>
+	<!--{/}-->
+	<dl>
+		<dt><label for="inputCertify">{=__('인증번호 입력')}</label></dt>
+		<dd><input type="text" id="inputCertify" placeholder="{=__('인증번호 입력')}"/></dd>
+	</dl>
+	<p class="caution dn">{=__('입력하신 인증번호가 일치하지 않습니다.')} <br>{=__('인증번호를 확인 후 정확히 입력해 주세요.')}</p>
+	<div class="btn_box">
+		<button type="button" class="wake_confirm_btn" id="btnNextStep">{=__('해지하기')}</button>
+	</div>
+</div>
+<script type="text/javascript">
+    (function ($, window, document, undefined) {
+        var url = '../member/wake_ps.php';
+
+        function gd_cancel() {
+            window.location.href = '../member/wake.php';
+        }
+
+        function gd_again() {
+            var $ajax = $.ajax(url, {
+                method: "POST",
+                data: {
+                    mode: "{memberInfo['authType']}"
+                }
+            });
+            $ajax.done(function (data, textStatus, jqXHR) {
+                console.log('gd_member ajax', data, textStatus, jqXHR);
+                var code = data.code;
+                var message = data.message;
+                if (_.isUndefined(code) && _.isUndefined(message)) {
+                    alert("{=__('인증번호가 재발송 되었습니다.')}");
+                } else {
+                    alert(message);
+                }
+            });
+        }
+
+        function gd_auth() {
+            var $ajax = $.ajax(url, {
+                method: "POST",
+                data: {
+                    mode: "certificationAuthNumber",
+                    number: $('#inputCertify').val()
+                }
+            });
+            $ajax.done(function (data, textStatus, jqXHR) {
+                console.log('gd_member ajax', data, textStatus, jqXHR);
+                var code = data.code;
+                var message = data.message;
+                if (_.isUndefined(code) && _.isUndefined(message)) {
+                    window.location.href = data;
+                } else {
+                    alert(message);
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            $('#btnPrevStep').click(gd_cancel);
+            $('a[name="btnAgain"]').click(function (e) {
+                e.preventDefault();
+                gd_again();
+            });
+            $('#btnNextStep').click(gd_auth);
+        });
+    })($, window, document);
+</script>
+{ # footer }

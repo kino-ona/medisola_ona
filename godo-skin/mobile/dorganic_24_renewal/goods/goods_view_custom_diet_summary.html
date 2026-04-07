@@ -1,0 +1,94 @@
+{*** 나만의 식단 플랜 요약 | goods/goods_view_custom_diet_summary.html ***}
+{ # header }
+<link rel="stylesheet" type="text/css" href="../css/custom-diet.css?v=13" />
+
+<body class="diet-page">
+
+<!-- ====== SUMMARY SCREEN ====== -->
+<div id="summaryScreen" class="screen">
+  <header class="diet-header">
+    <button class="back-btn" onclick="history.back()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+    </button>
+    <h1 class="header-title">나만의 식단 플랜</h1>
+    {?readOnly}{:}<button class="header-edit" onclick="CustomDietSummary.goToEdit()">수정 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button>{/}
+  </header>
+  <div id="summaryContent">
+    <!-- JS에서 동적 생성 -->
+  </div>
+</div>
+
+<!-- ====== DB 구매 안내 데이터 (hidden) ====== -->
+<div id="_infoDelivery" style="display:none">{infoDelivery}</div>
+<div id="_infoExchange" style="display:none">{infoExchange}</div>
+<div id="_infoRefund" style="display:none">{infoRefund}</div>
+<div id="_infoAS" style="display:none">{infoAS}</div>
+
+<!-- ====== 추가항목: 원산지, 소비기한, 제조년월일 등 (hidden) ====== -->
+<!--{ ? empty(goodsView['addInfo']) === false }-->
+<div id="_addInfo" style="display:none">
+  <table>
+    <tbody>
+    <!--{ @ goodsView['addInfo'] }-->
+    <tr>
+      <th>{=.infoTitle}</th>
+      <td>{=.infoValue}</td>
+    </tr>
+    <!--{ / }-->
+    </tbody>
+  </table>
+</div>
+<!--{ / }-->
+
+{?readOnly}{:}
+<!-- ★★★ 기존 주문 프로세스 Form ★★★ -->
+<form id="frmView" name="frmView" method="post" action="../order/cart_ps.php">
+  <input type="hidden" name="mode" value="cartIn" />
+  <input type="hidden" name="cartMode" value="" />
+  <input type="hidden" name="scmNo" value="{=goodsView['scmNo']}" />
+  <input type="hidden" name="goodsNo[]" value="{=goodsView['goodsNo']}" />
+  <input type="hidden" name="optionSno[]" id="optionSno" value="" />
+  <input type="hidden" name="goodsCnt[]" value="1" />
+  <input type="hidden" name="goodsPriceSum[]" id="goodsPriceSum" value="0" />
+  <input type="hidden" name="addGoodsPriceSum[]" id="addGoodsPriceSum" value="0" />
+  <input type="hidden" name="set_total_price" id="setTotalPrice" value="0" />
+  <input type="hidden" name="isDefaultComponents[]" value="0" />
+  <input type="hidden" name="deliveryCollectFl" value="pre" />
+  <input type="hidden" name="useBundleGoods" value="1" />
+  <div id="componentGoodsInputs"></div>
+  <div id="addGoodsInputs"></div>
+</form>
+{/}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="../js/nutrition-config.js?v=3"></script>
+<script src="../js/meal-recommendation-config.js?v=1"></script>
+<script src="../js/custom-diet-summary.js?v=12"></script>
+<script>
+$(document).ready(function() {
+  var _menuData = {=addGoodsNutritionJson};
+  var _options = {=optionsJson};
+  var _premiumAddGoods = {?premiumAddGoodsJson}{=premiumAddGoodsJson}{:}null{/};
+
+  CustomDietSummary.init({
+    goodsNo: '{=goodsView.goodsNo}',
+    goodsPrice: {=goodsView.goodsPrice},
+    menuData: _menuData || [],
+    options: _options || [],
+    premiumAddGoods: _premiumAddGoods,
+    readOnly: {?readOnly}true{:}false{/},
+    selections: {?selectionsJson}{=selectionsJson}{:}null{/},
+    totalQuantity: {?totalQuantityFromOrder}{=totalQuantityFromOrder}{:}null{/},
+    selectedOptionSno: '{?selectedOptionSnoFromOrder}{=selectedOptionSnoFromOrder}{/}',
+    purchaseInfo: {
+      delivery: $('#_infoDelivery').html() || '',
+      exchange: $('#_infoExchange').html() || '',
+      refund:   $('#_infoRefund').html() || '',
+      as:       $('#_infoAS').html() || '',
+      addInfo: $('#_addInfo').html() || ''
+    }
+  });
+});
+</script>
+
+{ # footer }

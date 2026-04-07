@@ -1,0 +1,195 @@
+{*** 상단 기본파일 | main/index.php ***}
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;700;800&display=swap"
+  rel="stylesheet"
+/>
+<link
+  rel="stylesheet"
+  as="style"
+  crossorigin
+  href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css"
+/>
+
+<link rel="stylesheet" type="text/css" href="../../css/swiper-bundle.min.css" />
+<link rel="stylesheet" type="text/css" href="../../css/animate.css" />
+
+<script
+  type="text/javascript"
+  src="../../js/mo_js/swiper-bundle.min.js"
+></script>
+<script type="text/javascript" src="../../js/mo_js/wow.min.js"></script>
+<script type="text/javascript" src="../../js/mo_js/mcommon.js"></script>
+
+<!-- 상단 -->
+<div id="mheader" class="fixed">
+  <div class="top_event">
+    <p class="t01">
+      Better, Nutritional Life | 더 나은 영양학적인 삶을 위한, 최적의 영양
+      솔루션
+    </p>
+  </div>
+  <div class="mh_inner">
+    <!-- 상단01 : 로고 -->
+    <div class="mh_sec01">
+      <a href="/" class="mh_logo"
+        ><img src="../../img/mimg/mh_logo.svg" alt="로고"
+      /></a>
+    </div>
+
+    <div class="mh_sec02">
+      <div id="mcategory">
+        <div id="slideCateList">
+          <ul id="menu_tree">
+            <!--{@ menuTree }-->
+            <li
+              class="{=menuTree.id} <!--{? menuTree.active}-->active<!--{/}-->"
+            >
+            <!--{? .new === true}--><span class="new-badge">•</span><!--{/}-->
+            <a href="{=menuTree.url}">{=menuTree.text['default']}</a>
+              <!--{? menuTree.children }-->
+              <ul
+                class="board_cate <!--{? menuTree.columns > 1}-->grid-rows-{=menuTree.rows} grid-cols-{=menuTree.columns}<!--{/}-->"
+                style="<!--{? menuTree.width}-->width: {=menuTree.width}px;<!--{/}-->"
+              >
+                <!--{@ children }-->
+                <li
+                  class="noChild relative flex items-center {=children.id} <!--{? children.active}-->active<!--{/}-->"
+                >
+                  <a href="{=children.url}" class="flex-grow relative">
+                    <!--{? ..new === true}--><span class="new-badge">•</span><!--{/}-->
+                    <span>{=children.text['default']}</span>
+                  </a>
+                </li>
+                <!--{/}-->
+              </ul>
+              <!--{/}-->
+            </li>
+            <!--{/}-->
+          </ul>
+        </div>
+      </div>
+      <!-- mcategory -->
+    </div>
+
+    <!-- 상단05 : 우측 메뉴 -->
+    <div class="mh_sec03">
+      <div class="mh_mypage">
+        <a href="../mypage/index.php"
+          >{=includeFile('/img/mimg/mh_mypage.svg')}</a
+        >
+
+        <ul>
+          <!--{ ? gd_is_login() === false }-->
+          <li>
+            <a href="../member/login.php">로그인</a>
+            {=includeFile('/img/mimg/slash.svg')}
+            <a href="../member/join_method.php">회원가입</a>
+          </li>
+          <!--{ : }-->
+          <li>
+            <a href="../member/logout.php">로그아웃</a>
+            {=includeFile('/img/mimg/slash.svg')}
+            <a href="../mypage/my_page_password.php">회원정보수정</a>
+          </li>
+          <!--{ / }-->
+          <li>
+            <a href="../mypage/index.php">마이페이지</a>
+            <a href="../mypage/order_list.php">주문/배송조회</a>
+            <a href="../mypage/wish_list.php">관심상품</a>
+            <a href="../mypage/coupon.php">쿠폰</a>
+          </li>
+          <li><a href="../mypage/index.php">최근 본 상품</a></li>
+          <li><a href="/board/list.php?&bdId=notice">고객센터</a></li>
+        </ul>
+      </div>
+      <div class="mh_cart">
+        <a
+          href="../order/cart.php"
+          onclick="amplitude.logEvent('gnb_cart_click');"
+        >
+          {=includeFile('/img/mimg/mh_cart.svg')}
+          <span class="count">{=dataCartGoodsCnt()}</span>
+        </a>
+      </div>
+      <div class="mh_search">
+        <span class="search">{=includeFile('/img/mimg/mh_search.svg')}</span>
+        <span class="close">{=includeFile('/img/mimg/mh_close.svg')}</span>
+      </div>
+      <div class="mh_lang">
+        <div class="current">
+          <span>KR</span>{=includeFile('/img/mimg/down.svg')}
+        </div>
+        <ul>
+          <li><a href="#none">KR</a></li>
+          <li><a href="#none">US</a></li>
+        </ul>
+      </div>
+    </div>
+    <!-- //mh_sec03 -->
+  </div>
+
+  <!-- 상단04 : 검색 -->
+  <div class="mh_sec04">{=includeWidget('proc/_header_search.html')}</div>
+</div>
+<!-- //mheader -->
+
+<span class="mh_blank"></span>
+
+<div class="mh_dimmed"></div>
+
+<script>
+  $(document).ready(function () {
+    $(".mh_mypage a").on("click", function (event) {
+      amplitude.logEvent(
+        window.isEnvDev ? "DEV_gnb_submenu_click" : "gnb_submenu_click",
+        {
+          title: $(this).text(),
+          location: "top",
+        }
+      );
+    });
+
+    // First level menu items
+    $("#menu_tree > li > a").each(function (index, menu) {
+      //   $(menu).css("color", "green");
+      $(menu).on("click", function (event) {
+        amplitude.logEvent(
+          window.isEnvDev ? "DEV_gnb_tab_click" : "gnb_tab_click",
+          {
+            title: $(menu).text(),
+            location: "top",
+          }
+        );
+      });
+
+      // Nested submenu items
+      $(menu)
+        .siblings("ul")
+        .find("a")
+        .each(function (index, submenu) {
+          //   $(submenu).css("color", "red");
+          $(submenu).on("click", function (event) {
+            amplitude.logEvent(
+              window.isEnvDev ? "DEV_gnb_subtab_click" : "gnb_subtab_click",
+              {
+                main_tab: $(menu).text(),
+                title: $(submenu).text(),
+                location: "top",
+              }
+            );
+          });
+        });
+    });
+  });
+  (function(w, d, a){
+    w.__beusablerumclient__ = {
+        load : function(src){
+            var b = d.createElement("script");
+            b.src = src; b.async=true; b.type = "text/javascript";
+            d.getElementsByTagName("head")[0].appendChild(b);
+        }
+    };w.__beusablerumclient__.load(a + "?url=" + encodeURIComponent(d.URL));
+})(window, document, "//rum.beusable.net/load/b221209e145510u133");
+</script>

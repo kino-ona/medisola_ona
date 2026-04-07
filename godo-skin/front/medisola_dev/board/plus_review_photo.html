@@ -1,0 +1,318 @@
+{*** 플러스리뷰 포토리뷰 게시판 | board/plus_review_photo.php ***}
+{ # header }
+<script type="text/javascript">
+    $(document).ready(function () {
+        var page = 1;
+        var activeSno = 0;
+        var order = "regDt+desc";
+        page = gd_get_hash_value('page');
+        activeSno = gd_get_hash_value('activeSno');
+        order = gd_get_hash_value('order');
+
+        if(window.location.hash) {
+            var hash = window.location.hash.substring(1); //Puts hash in variable, and removes the # character
+            var hashKey = hash.split('=')[0];
+            var hashValue = hash.split('=')[1];
+            if(hashKey == 'sno' &&  hashValue) {
+                var sno = hashValue;
+                $.ajax({
+                    method: "get",
+                    data: {sno: sno},
+                    cache: false,
+                    url: "../board/plus_review_view.php",
+                    success: function (data) {
+                        photoLayer.show(data);
+                    },
+                    error: function (data) {
+                    }
+                });
+            }
+        }
+        $('.js_pr_list').on("click",".js_pr_btn_image",function(){
+            var sno = $(this).data('sno');
+            $.ajax({
+                method: "get",
+                data: {sno: sno},
+                cache: false,
+                url: "../board/plus_review_view.php",
+                success: function (data) {
+                    photoLayer.show(data);
+                    location.hash = "sno="+sno;
+                },
+                error: function (data) {
+                    alert('error');
+                }
+            });
+        }).css('cursor','pointer');
+
+        var photoLayer = {
+            show: function (data) {
+                $('#layerDim').removeClass('dn');
+                $('#plusReviewPhotoLayer').removeClass('dn');
+                $('#plusReviewPhotoLayer').html(data);
+                $('#plusReviewPhotoLayer').find('>div').center();
+            },
+            close: function () {
+                $('#plusReviewPhotoLayer').find('.close').trigger('click');
+            },
+        }
+
+        $('.js_check_all').on('click', function(e) {
+            var closest = $(this).closest('tr');
+            if ($(this).prop('checked')) {
+                $(closest).find('input[name=\'labelValue[]\']').prop('checked', true);
+                $(closest).find('label').addClass('on');
+            }else{
+                $(closest).find('input[name=\'labelValue[]\']').prop('checked', false);
+                $(closest).find('label').removeClass('on');
+            }
+
+            var searchFormData = $("#searchForm").serialize();
+            gd_load_plus_review_list(1, 0, order, gd_search_add_form(),searchFormData);
+        });
+
+        $('input[name=\'labelValue[]\']').on('click', function(e) {
+            var searchFormData = $("#searchForm").serialize();
+            gd_load_plus_review_list(1, 0, order, gd_search_add_form(),searchFormData);
+        });
+
+        var gd_load_plus_review_list = function (page, activeSno, order, addForm,searchFormData) {
+            if (_.isUndefined(order)) {
+                order = '';
+            }
+            gd_list_init();
+            $.ajax({
+                url: '../board/plus_review_photo_list.php',
+                data: {page: page, activeSno: activeSno, sort: order, addForm :addForm, searchFormData :searchFormData},
+                method: 'get',
+                type: 'text',
+                cache: false,
+            }).success(function (result) {
+                if (page > 1) {
+                    document.location.hash = "#page=" + page + "|order=" + order;
+                }
+                $('.js_pr_list').html(result);
+                gd_grid_start();
+
+            }).error(function (e) {
+                console.log(e);
+            });
+        }
+
+        if (_.isUndefined(page) || _.isEmpty(page)) {
+            page = 1;
+        }
+        gd_load_plus_review_list(page, activeSno);
+
+        $('.btn_search').on('click', function(e) {
+            var searchFormData = $("#searchForm").serialize();
+            gd_load_plus_review_list(1, 0, order, gd_search_add_form(),searchFormData);
+        });
+
+        $('.plus_review_alike_search_tit > a').click(function(){
+            if($('.plus_review_alike_search_tit > a').hasClass('on')){
+                $(this).removeClass('on');
+                $(this).find('img').attr('alt', '열기');
+                $('.plus_review_alike_search_con').css({'display':'none'});
+            }else{
+                $(this).addClass('on');
+                $(this).find('img').attr('alt', '닫기');
+                $('.plus_review_alike_search_con').css({'display':'block'});
+            }
+        })
+
+        $( '.plus_review_alike_search_tit > a' ).trigger( "click" );
+
+    });
+
+    //패스워드입력 레이어 창
+    var passwordLayer = {
+        element: $('.js_password_layer'),
+        btn: $('.js_password_layer').find('.js_submit'),
+        value: function () {
+            return $('.js_password_layer').find('input[name="writerPw"]').val();
+        },
+        show: function () {
+            this.element.removeClass('dn');
+            this.element.currentCenter();
+            $('#layerDim').removeClass('dn');
+            $('#scroll_left, #scroll_right').addClass('dim');
+            $('.password_layer .ly_cont .text').focus();
+        },
+        close: function () {
+            $('.js_password_layer').find('input[name="writerPw"]').val('');
+            $('.password_layer .ly_close').trigger('click');
+        }
+    }
+
+    var gd_search_add_form = function(){
+        var labelValueArry = [];
+        $('input[name=\'labelValue[]\']').each(function (index) {
+            if($(this).is(":checked") == true){
+                var tmp = []
+                var closest = $(this).closest('tr');
+                var labelNumber = $(closest).find('input[name=\'labelNumber[]\']').val();
+                tmp.push(labelNumber);
+                tmp.push($(this).val());
+                labelValueArry.push(tmp);
+            }
+        });
+        return labelValueArry;
+    }
+
+    var gd_parse_query = function (qstr) {
+        var query = {};
+        var a = (qstr[0] === '?' ? qstr.substr(1) : qstr).split('&');
+        for (var i = 0; i < a.length; i++) {
+            var b = a[i].split('=');
+            query[decodeURIComponent(b[0])] = decodeURIComponent(b[1] || '');
+        }
+        return query;
+    };
+
+    var gd_get_hash_value = function(key) {
+        var matches = location.hash.match(new RegExp(key+'=([^|]*)'));
+        return matches ? matches[1] : null;
+    };
+
+    function goAjaxPage(queryString) {
+        gd_list_init();
+        var queryString = gd_parse_query(queryString);
+        var order = _.isUndefined(queryString.order) ? '' : queryString.order;
+        var addForm = gd_search_add_form();
+        var searchFormData = $("#searchForm").serialize();
+
+        $.ajax({
+            method: "GET",
+            cache: false,
+            url: "../board/plus_review_photo_list.php",
+            data: {page: queryString.page, sort : order,addForm :addForm, searchFormData :searchFormData},
+            dataType: 'text'
+        }).success(function (data) {
+            $('.js_pr_list').html(data);
+            document.location.hash = "#page=" + queryString.page+'|order='+order;
+            $("html,body").scrollTop($('.js_pr_list').offset().top-100);
+            gd_grid_start(true);
+        }).error(function (e) {
+            alert(e.responseText);
+        });
+    }
+
+    function gd_grid_start(scrollFl) {
+        setTimeout(function () {
+            $('.plus_review_loading').addClass('dn');
+            $('.photo_wrap').pinterest_grid({
+                no_columns: 4,
+                padding_x: 20,
+                padding_y: 20,
+                margin_bottom: $('.photo_wrap .photo').length * 5,
+            });
+            if(scrollFl){
+                $("html,body").scrollTop($('.js_pr_list').offset().top-10);
+            }
+        }, 1000);
+    }
+
+    function gd_list_init() {
+        $('.plus_review_loading').removeClass('dn');
+        $('.js_pr_list').html('');
+    }
+
+</script>
+<div class="area_title">
+    <!--{ ?  isSkinDivison == true}-->
+    <h2>포토 리뷰<span class="button"><a class="skinbtn point2 btn_review_write js_plus_review_write" href="javascript:gd_layer_plus_review_write()"><em>{=__('리뷰등록')}</em></a></span></h2>
+    <!--{:}-->
+    <div class="area_title_text">포토 리뷰<span class="button"><a class="skinbtn point2 btn_review_write js_plus_review_write" href="javascript:gd_layer_plus_review_write()"><em>{=__('리뷰등록')}</em></a></span></div>
+    <!--{/}-->
+</div>
+<div class="plus_review_goods_search">
+    <form id="searchForm">
+        <div class="plus_review_goods_option">
+            {=cateDisplay}
+            <div>
+                <select class="chosen-select" name="sort" >
+                    <option value="regDt desc">최신순</option>
+                    <option value="goodsPt desc">평점순</option>
+                    <option value="recommend desc">추천순</option>
+                </select>
+            </div>
+            <input type="text" name="searchWord" placeholder="상품명 검색" />
+            <input type="hidden" name="searchField" value="goodsNm" />
+            <a href="javascript:void(0);"  class="btn_search"><span>검색</span></a>
+        </div>
+    </form>
+</div>
+<!--{ ? plusReviewConfig.addFormSearchFl == 'y' }-->
+<div class="plus_review_alike_search_wrap">
+    <p class="plus_review_alike_search_tit">{= plusReviewConfig.addFormSearchTitle}<a href="#" onclick="return false;" class=""><img src="../img/board/btn_plus_review_alike_search.png"  alt="{=__('열기')}" /></a></p>
+    <div class="plus_review_alike_search_area">
+        <div class="plus_review_alike_search_con">
+            <table>
+                <colgroup>
+                    <col style="width:160px;" />
+                    <col />
+                </colgroup>
+                <tbody>
+                <!--{ ? plusReviewConfig.addFormFl == 'y' }-->
+                <!--{ @ plusReviewConfig.serviceAddForm}-->
+                <!--{ ? .inputType == 'select'}-->
+                <tr>
+                    <th scope="row">{=.labelName}</th>
+                    <input type="hidden" name="labelNumber[]" value="{=.labelNumber}"/>
+                    <td>
+                        <div class="choice_option">
+                            <div class="choice_all">
+                                <div class="form_element">
+                                    <input type="checkbox" id="checkAll_{=.labelNumber}" class="js_check_all"/><label class="check_s" for="checkAll_{=.labelNumber}">전체</label>
+                                </div>
+                            </div>
+                            <div class="choice_each">
+                                <!--{@.labelValue}-->
+                                <div class="form_element">
+                                    <input type="checkbox" name="labelValue[]" id="checkEach{=.labelNumber}_{=..index_}" value="{=..value_}"/><label class="check_s" for="checkEach{=.labelNumber}_{=..index_}">{=..value_}</label>
+                                </div>
+                                <!--{/}-->
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <!--{ / }-->
+                <!--{ / }-->
+                <!--{ / }-->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- // plus_review_alike_search -->
+<!--{ / }-->
+<div class="plus_review_loading"><img src="../img/etc/plus_loading.gif"  alt="{=__('로딩중')}" /></div>
+<div class="js_pr_list"></div>
+
+{ # footer }
+
+<div id="lyPassword" class="layer_wrap password_layer js_password_layer dn" style="height: 226px">
+    <div class="layer_wrap_cont">
+        <div class="ly_tit">
+            <h4>{=__('비밀번호 인증')}</h4>
+        </div>
+        <div class="ly_cont">
+            <div class="scroll_box">
+                <p>{=__('글 작성시 설정한 비밀번호를 입력해 주세요.')}</p>
+                <input type="password" name="writerPw" class="text" autocomplete="off"/>
+            </div>
+            <!-- // -->
+            <div class="btn_center_box">
+                <button type="button" class="btn_ly_password js_submit"><strong>{=__('확인')}</strong></button>
+            </div>
+        </div>
+        <!-- //ly_cont -->
+        <a href="#close" class="ly_close layer_close"><img src="../img/common/layer/btn_layer_close.png" alt="{=__('닫기')}"></a>
+    </div>
+    <!-- //layer_wrap_cont -->
+</div>
+<!-- //password_layer -->
+
+<div id="plusReviewPhotoLayer" class="layer_wrap plus_review_view_layer dn"></div>
+<div id="addPlusReviewGoodsLayer" class="dn"></div>

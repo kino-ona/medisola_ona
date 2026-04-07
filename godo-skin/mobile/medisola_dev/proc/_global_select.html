@@ -1,0 +1,75 @@
+{*** [위젯] 해외몰 상점 설정 | proc/_global_select.html ***}
+<!--{ ? mallCnt > 1}-->
+<div class="tit">Language</div>
+<div class="language_box">
+	<div class="mod_language">
+		<!--{ ? iconType == 'check' }-->
+			<ul class="language_list3">
+				<!--{ @ mallList }-->
+				<li><img class="mall hand" data-domain-fl="{.value_.domainFl}" data-domain="{.value_.domain}" src="{=uriCommon}/{=mallIcon[.key_]}" alt="{=mallNm[.key_]}"/>
+				<!--{ / }-->
+			</ul>
+		<!--{ : iconType == 'select_flag' }-->
+			<div class="language_tit language_tit2"><span><img src="{=uriCommon}/{=mallIcon[nowMall]}" alt="{=mallList[nowMall].languageFl}"></span></div>
+			<ul class="language_list language_list2">
+				<!--{ @ mallList }-->
+					<li data-domain-fl="{.value_.domainFl}" data-domain="{.value_.domain}"><img src="{=uriCommon}/{=mallIcon[.key_]}" data-domain="{.value_.domain}" alt="{=.value_.languageFl}"></li>
+				<!--{ / }-->
+			</ul>
+		<!--{ : iconType == 'select_language' }-->
+			<div class="language_tit"><span><img src="{=uriCommon}/{=mallIcon[nowMall]}" alt="{=mallList[nowMall].languageFl}">{=mallList[nowMall].languageFl}</span></div>
+			<ul class="language_list">
+				<!--{ @ mallList }-->
+					<li data-domain-fl="{.value_.domainFl}"  data-domain="{.value_.domain}"><img src="{=uriCommon}/{=mallIcon[.key_]}" alt="{=.value_.languageFl}" >{=.value_.languageFl}</li>
+				<!--{ / }-->
+			</ul>
+		<!--{ / }-->
+	</div>
+</div>
+<script type="text/javascript">
+$(function(){
+    $('.mall').click(function(){
+        var url = $(this).data('domain');
+        var lastStr = url.substr(url.length - 1);
+        if (lastStr != '/') {
+            url = url+'/';
+        }
+        switch($(this).data('domain-fl')) {
+            case 'kr':
+                window.open(url+'main/index.php', "_blank");
+                break;
+            default:
+                window.open(url, "_blank");
+                break;
+        }
+    });
+    $('.language_list li, .language_list2 li').click(function(){
+        var url = $(this).data('domain');
+        var lastStr = url.substr(url.length - 1);
+        if (lastStr != '/') {
+            url = url+'/';
+        }
+        switch($(this).data('domain-fl')) {
+            case 'kr':
+                window.open(url+'main/index.php', "_blank");
+                break;
+            default:
+                window.open(url, "_blank");
+                break;
+        }
+    });
+	/* 다국어 선택 */
+        $('.mod_language .language_tit').on({
+            'click':function(){
+                if($(this).parent().find('.language_list').css('display') =='none'){
+                    $(this).parent().find('.language_list').slideDown('fast');
+                    $(this).find('span').addClass('on');
+                }else{
+                    $(this).parent().find('.language_list').slideUp('fast');
+                    $(this).find('span').removeClass('on');
+                }
+            }
+        });
+})
+</script>
+<!--{ / }-->

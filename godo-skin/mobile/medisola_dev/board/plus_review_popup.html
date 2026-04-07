@@ -1,0 +1,48 @@
+{*** 플러스 리뷰  레이어 팝업창 | board/plus_review_popup.php ***}
+<link type="text/css" rel="stylesheet" href="\{=c.PATH_MOBILE_SKIN}css/gd_plus_review.css?ts={=time()}">
+<div class="plus_review_popup">
+	<p class="plus_review_info">{=plusReviewConfig.viewReviewBenefitInfo}</p>
+	
+	<div class="plus_review_info2">
+		{=__('%1$s개의 상품이 %2$s 님의 리뷰등록을 기다리고 있습니다.',writableOrderCount,writer)}
+	</div>
+	<div class="plus_review_info3">
+		<a href="javascript:void(0)" class="plus_review_write js_pr_btn_write" >{=__('리뷰남기고 혜택 받기')}</a>
+	</div>
+	<ul class="plus_review_bottom">
+		<!--{ ? plusReviewConfig.popupTodayCloseFl == 'y'  }-->
+		<li><a href="#" onclick="return false;" class="js_pr_btn_popup_today">{=__('오늘은 그만보기')}</a></li>
+		<li><a href="#" onclick="return false;" class="js_pr_popup_close">{=__('닫기')}</a></li>
+		<!--{:}-->
+		<li><a href="#" onclick="return false;" class="js_pr_popup_close">{=__('닫기')}</a></li>
+		<!--{ / }-->
+	</ul>
+</div>
+<script>
+    $(document).ready(function () {
+        $('.plus_review_bottom .js_pr_popup_close').bind('click',function () {
+            $('#plusReviewPopup').hide();
+            $('#layerDim').addClass('dn');
+        })
+
+        $('.js_pr_btn_popup_today').bind('click',function () {
+            name = 'plusReviewMobile';
+            $.cookie(name, 'true', {path: '/', expires: 1});
+            setTimeout("$('.plus_review_bottom .js_pr_popup_close').trigger('click')");
+        })
+
+        $('.js_pr_btn_write').bind('click',function () {
+            $.ajax({
+                method: "get",
+                url: "../board/plus_review_popup_write.php",
+                data: {mode : 'addPopup' },
+                async: false,
+                dataType: 'text'
+            }).success(function (data) {
+                $('#popupBoardWrite').css('background-color','#ffffff').css('overflow','scroll').css('z-index','9999').empty().append(data).show();
+            }).error(function (e) {
+                alert(e.responseText);
+            });
+        })
+    })
+</script>

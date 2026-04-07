@@ -1,0 +1,63 @@
+{*** 회원가입 | member/join_method.php ***}
+{ # header }
+<div class="join_method">
+	<ul class="sns_login">
+		<li id="btnJoin"><a href="javascript://">{=__('쇼핑몰 아이디 회원가입')}</a></li>
+		<!-- 210122 애플로그인 추가 -->
+		<!--{? useAppleLogin}-->
+		<li class="apple js_btn_apple_login" data-type="sign in">
+			<img id="apple_btn" src="../img/etc/txt_mo_apple_join.png" alt="{=__('Apple')} {=__('아이디 회원가입')}">
+			<div id="appleid-signin" style="display: none"></div>
+		</li>
+		<!--{/}-->
+		<!-- // 210122 애플로그인 추가 -->
+		<!--{ ? usePaycoLogin }-->
+		<li class="payco js_btn_payco_login"><img src="../img/etc/txt_mo_payco_join.png" alt="{=__('PAYCO')} {=__('아이디 회원가입')}"></li>
+		<!--{ / }-->
+		<!--{ ? useFacebookLogin }-->
+		<li class="facebook js_btn_facebook_login" data-facebook-url="{=facebookUrl}"><img src="../img/etc/txt_mo_facebook_join.png" alt="{=__('FACEBOOK')} {=__('아이디 회원가입')}"></li>
+		<!--{ / }-->
+		<!--{? useNaverLogin}-->
+		<li class="naver js_btn_naver_login" data-naver-type="join_method"><img src="../img/etc/txt_mo_naver_join.png" alt="{=__('네이버')} {=__('아이디 회원가입')}" /></li>
+		<!--{/}-->
+		<!--{? useKakaoLogin}-->
+		<li class="kakao js_btn_kakao_login" data-kakao-type="join_method" data-return-url="{=returnUrl}" style="border-color:#ffe100;background-color:#ffe100;padding-right:25px;" onclick="amplitude.logEvent('signup_method_kakao_button_click')"><img src="../img/etc/txt_mo_kakao_230302.png" alt="{=__('카카오톡')}  {=__('3초 로그인/회원가입')}"></li>
+		<!--{/}-->
+		<!--{? useWonderLogin}-->
+		<li class="wonder js_btn_wonder_login" data-wonder-type="join_method" data-wonder-url="{=wonderReturnUrl}"><img src="../img/etc/txt_mo_wonder_join.png" alt="{=__('위메프')} {=__('아이디 회원가입')}"></li>
+		<!--{/}-->
+	</ul>
+	<!-- //sns_login -->
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+			amplitude.logEvent('signup_method_view');
+			$('#btnJoin').click(function () {
+					amplitude.logEvent('signup_method_signup_button_click');
+					location.href = '../member/join_agreement.php?memberFl=personal';
+			});
+
+		<!--{ ? useAppleLogin }-->
+		$("#apple_btn").on("click", startClicked);
+		function startClicked(){
+			$("#appleid-signin").click();
+		}
+		<!--{ / }-->
+
+    });
+</script>
+
+<!--{ ? useAppleLogin }-->
+<script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script>
+<script type="text/javascript">
+	AppleID.auth.init({
+		clientId : '{client_id}',
+		scope : 'name email',
+		redirectURI: '{redirectURI}',
+		state: '{state}',
+		// usePopup: true
+	});
+</script>
+<!--{ / }-->
+
+{ # footer }

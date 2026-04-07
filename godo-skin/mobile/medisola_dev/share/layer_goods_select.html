@@ -1,0 +1,177 @@
+{*** 상품 선택하기 레이어 | share/layer_goods_select.php ***}
+<link type="text/css" rel="stylesheet" href="../css/share/share.css" />
+<div class="layer_goods_select">
+    <div class="ly_head">
+        <h1 class="h_tit">{=__('상품 검색')}</h1>
+    </div>
+    <div class="ly_ct">
+        <form id="frmBoardSearch" name="frmBoardSearch" onsubmit="return false">
+            <input type="hidden" name="isPlusReview" value="{isPlusReview}" />
+            <div class="ly_buy_info">
+                <div class="search_box js_single_option">
+                    <div class="search_filter">
+                        <div class="inp_sel">
+                            <select name="key" onchange="gd_get_list(1,true);">
+                                <option value="goodsNm">{=__('상품명')}</option>
+                                <option value="goodsNo">
+                                    {=__('상품코드')}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="search_text">
+                        <input
+                            type="text"
+                            name="keyword"
+                            placeholder="{=__('검색어를 입력해주세요.')}"
+                        />
+                    </div>
+                </div>
+            </div>
+            <div class="btn_box">
+                <button
+                    class="ly_select_search_btn js_select_search"
+                    type="button"
+                >
+                    {=__('검색')}
+                </button>
+            </div>
+        </form>
+        <ul id="ajaxSearchResult" class="ly_loop"></ul>
+        <div class="more_box js_more_btn" style="display: none">
+            <button
+                type="button"
+                class="js_paging_more ly_more_btn"
+                data-page="1"
+            >
+                {=__('더보기')}
+            </button>
+        </div>
+    </div>
+    <div class="close_btn">
+        <button type="button" class="lys_close_btn ly_btn_close js_layer_close">
+            {=__('닫기')}
+        </button>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        /**
+         * 주문선택팝업
+         */
+        $("#popupSelectGoods .ly_ct").height($(window).height() - 43);
+
+        $("input[name=keyword]").keyup(function (e) {
+            if (e.keyCode == 13) {
+                $(".js_select_search").trigger("click");
+            }
+        });
+
+        $(".js_select_search").bind("click", function (e) {
+            if ($("#frmBoardSearch input[name=keyword]").val().length < 1) {
+                alert("{=__('검색어를 입력해주세요.')}");
+                return;
+            }
+            params = $("#frmBoardSearch").serialize();
+            console.log(params);
+            $.ajax({
+                method: "get",
+                url: "../share/layer_goods_search.php",
+                data: params,
+                dataType: "text",
+            })
+                .success(function (data) {
+                    $(".js_more_btn:hidden").show();
+                    $("#ajaxSearchResult").html(data);
+                    $(".js_paging_more").data("page", 1);
+                })
+                .error(function (e) {
+                    alert(e.responseText);
+                });
+        });
+
+        /**
+         * 더보기버튼 클릭
+         */
+        $(".js_paging_more").bind("click", function () {
+            if ($("#ajaxSearchResult li.my_goods").length < 1) {
+                alert("{=__('데이터가 없습니다.')}");
+                return;
+            }
+            var page = $(this).data("page") + 1;
+            params = $("#frmBoardSearch").serialize() + "&page=" + page;
+            $.ajax({
+                method: "get",
+                url: "../share/layer_goods_search.php",
+                data: params,
+                dataType: "text",
+            })
+                .success(function (data) {
+                    if (data == "") {
+                        alert("{=__('더 이상 상품이 없습니다.')}");
+                        return;
+                    }
+                    $("#ajaxSearchResult").append(data);
+                    $(".js_paging_more").data("page", page);
+                })
+                .error(function (e) {
+                    alert(e.responseText);
+                });
+        });
+    });
+
+    $("#ajaxSearchResult").on("click", ".js_select_confirm", function () {
+        var resultJson = {
+            info: [],
+        };
+
+        var bdId = "{bdId}";
+        var bdSno = "{bdSno}";
+        var canFlag = true;
+        var selectObj = $(this).closest(".my_goods");
+        var checkedGoodsNo = selectObj.data("goodsno");
+        var imgSrc = selectObj.find(".thmb.img>img").attr("src");
+        var goodsName = selectObj.find(".itembody .name").text();
+        var price = selectObj.find(".goods_price").text();
+
+        resultJson.info.push({
+            goodsNo: checkedGoodsNo,
+            goodsImgageSrc: imgSrc,
+            goodsName: goodsName,
+            goodsPrice: price,
+        });
+        console.log(resultJson);
+
+        if (bdId == "goodsreview") {
+            $.ajax({
+                method: "post",
+                async: false,
+                url: "../board/board_ps.php",
+                data: {
+                    mode: "validRegistOrderGoodsNo",
+                    bdId: bdId,
+                    goodsNo: checkedGoodsNo,
+                    bdSno: bdSno,
+                },
+                dataType: "text",
+            })
+                .success(function (data) {
+                    if (data != "n") {
+                        alert("선택하신 상품은 후기를 작성하실 수 없습니다.");
+                        canFlag = false;
+                    }
+                    console.log(data);
+                    return;
+                })
+                .error(function (e) {
+                    alert(e.responseText);
+                });
+
+            if (canFlag == false) {
+                return false;
+            }
+        }
+        gd_set_add_goods(resultJson);
+        $(".js_layer_close").trigger("click");
+    });
+</script>

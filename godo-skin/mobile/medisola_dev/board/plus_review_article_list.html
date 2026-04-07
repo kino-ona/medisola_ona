@@ -1,0 +1,52 @@
+{*** 플러스 리뷰  전체후기 리스트  | board/plus_review_article_list.php ***}
+<!--{ ? data.list}-->
+<!--{ @ data.list}-->
+<li>
+	<div class="list_left">
+		<div class="goods_image"><a href="../goods/goods_view.php?goodsNo={.goodsNo}" target="_blank"><img src="{=.goodsImageSrc}" src="{=.goodsNm}" /></a></div>
+	</div>
+	<div class="list_right">
+		<div class="list_top">
+			<div class="rating_box">
+				<span class="rating"><span style="width:{.goodsPt*20}%">{=__('평가')}</span></span>
+			</div>
+			<div class="total_count">
+				<!--{ ? plusReviewConfig.memoFl == 'y'}-->
+				<dl>
+					<dt>{=__('댓글')}</dt>
+					<dd>{=.memoCnt}</dd>
+				</dl>
+				<!--{/}-->
+				<!--{ ? plusReviewConfig.recommendFl == 'y'}-->
+				<dl>
+					<dt>{=__('추천')}</dt>
+					<dd>{=.recommend}</dd>
+				</dl>
+				<!--{/}-->
+			</div>
+		</div>
+		<div class="plus_reivew_contents_box" id="plus_reivew_focus_{.sno}">
+			<div class="plus_reivew_contents" >
+				{=.listContents}
+				<!--{ ? .isNew == 'y'}-->
+				<span class="new"></span>
+				<!--{/}-->
+				<a href="../board/plus_review_view.php?sno={.sno}<!--{? req.isMypage}-->&isMypage=y<!--{/}-->" data-cache="false"  data-toggle="modal" data-target="#popupBoardView" data-focus="{.sno}" class="more">{=__('더보기')}</a>
+				<div class="plus_review_info">
+					<span class="writer">{=.writer}</span><span class="date">{=.regDate}</span>
+				</div>
+			</div>
+			<!--{ ? .uploadHeadImage.thumSquareSrc }-->
+			<div class="plus_reivew_contents_img"><img src="{=.uploadHeadImage.thumSquareSrc}" alt="{=.uploadHeadImage.uploadFileNm}"/></div>
+			<!--{/}-->
+		</div>
+		
+	</div>
+</li>
+<!--{/}-->
+<!--{:}-->
+<div class="no_list">
+	{=__('게시글이 존재하지 않습니다.')}
+</div>
+<!--{/}-->
+<div class="dn"><li id="totalPage">{=data['cnt']['totalPage']}</li></div>

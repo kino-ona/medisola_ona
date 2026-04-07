@@ -1,0 +1,164 @@
+{*** 환불신청 | mypage/layer_order_refund_regist.php ***}
+<div class="layer_order_refund_regist">
+    <div class="ly_head">
+        <h1 class="h_tit">{=__('환불신청')}</h1>
+    </div>
+    <!--{ ? gd_is_plus_shop(c.PLUSSHOP_CODE_USEREXCHANGE) === true }-->
+    <form name="frmRefundRegist" id="frmRefundRegist" method="post" action="../mypage/order_ps.php">
+        <input type="hidden" name="mode" value="{mode}" />
+        <input type="hidden" name="orderNo" value="{orderNo}" />
+        <input type="hidden" name="orderGoodsNo" value="{orderGoodsNo}" />
+        <input type="hidden" name="orderStatus" value="{orderStatus}" />
+        <input type="hidden" name="returnUrl" value="{returnUrl}"/>
+        <h2 class="my_tit">{=__('주문목록')}</h2>
+        <div id="mypageOrderlist">
+            <!-- 주문상품 리스트 -->
+            {=includeFile('mypage/_order_goods_list.html')}
+            <!--// 주문상품 리스트 -->
+        </div>
+        <h2 class="my_tit">{=__('환불사유')}</h2>
+        <div class="content_box">
+            <dl>
+                <dt>{=__('사유')}</dt>
+                <dd>
+                    <div class="inp_sel">
+                        {=gd_select_box(null, 'userHandleReason', userHandleReason, null, null, __('선택하세요'), '', 'tune')}
+                    </div>
+                </dd>
+            </dl>
+            <dl>
+                <dt>{=__('메모')}</dt>
+                <dd>
+                    <div class="input_content">
+                        <textarea title="{=__('메모입력')}" name="userHandleDetailReason" maxlength="1000"></textarea>
+                    </div>
+                </dd>
+            </dl>
+        </div>
+        <h2 class="my_tit">{=__('환불 정보')}</h2>
+        <div class="content_box">
+            <dl>
+                <dt>{=__('은행')}</dt>
+                <dd>
+                    <div class="inp_sel">
+                        {=gd_select_box(null, 'userRefundBankName', userRefundBankName, null, null, __('선택하세요'), '', 'tune')}
+                    </div>
+                </dd>
+            </dl>
+            <dl>
+                <dt>{=__('계좌번호')}</dt>
+                <dd>
+                    <div class="input_content">
+                        <input type="number" name="userRefundAccountNumber" maxlength="20" placeholder="{=__('-를 제외한 숫자')}"/>
+                    </div>
+                </dd>
+            </dl>
+            <dl>
+                <dt>{=__('예금주')}</dt>
+                <dd>
+                    <div class="input_content">
+                        <input type="text" name="userRefundDepositor" maxlength="20"/>
+                    </div>
+                </dd>
+            </dl>
+        </div>
+        <div class="caution"><p>{=__('결제하신 수단에 따라 환불 방법에 차이가 있을 수 있습니다.')}</p></div>
+        <ul class="btn_bx2">
+            <li><button type="button" class="refund_cancel_btn ly_btn_close">{=__('취소')}</button></li>
+            <li><button type="submit" class="refund_confirm_btn">{=__('확인')}</button></li>
+        </ul>
+    </form>
+    <div class="close_btn"><button type="button" class="lys_close_btn ly_btn_close">{=__('닫기')}</button></div>
+</div>
+<script type="text/javascript" src="../js/jquery/jquery.serialize.object.js"></script>
+<script type="text/javascript">
+    var orderRefundSuubmitFl = true;
+    $(function(){
+        $('#frmRefundRegist').validate({
+            submitHandler: function (form) {
+                if (orderRefundSuubmitFl === false) {
+                    alert(__('처리중입니다. 잠시만 기다려주세요.'));
+                    return false;
+                }
+
+                if (!$('input[name*="orderGoodsNo"]:checkbox:checked').length) {
+                    alert("{=__('처리 할 상품을 선택하세요.')}");
+                    return false;
+                }
+                
+                removeUncheckedComponentGoods();
+
+                form.target = 'ifrmProcess';
+                form.submit();
+                orderRefundSuubmitFl = false;
+            },
+            rules: {
+                userHandleReason: {
+                    required:true
+                },
+                userRefundAccountNumber: {
+                    number: true
+                },
+            },
+            messages: {
+                userHandleReason: {
+                    required:"{=__('환불사유를 선택해주세요.')}"
+                },
+                userRefundAccountNumber: {
+                    number: "{=__('숫자만 입력하실 수 있습니다.')}"
+                },
+            }
+        });
+
+        // 신청수량 검증
+        $('#frmRefundRegist input[name*=claimGoodsCnt]').each(function() {
+            $(this).rules('add', {
+                required: true,
+                min : 1,
+                messages: {
+                    required: "{=__('수량을 입력해주세요.')}",
+                    min: "{=__('수량은 1개 이상 입력해주세요.')}",
+                }
+            });
+        });
+
+        // 전체선택 처리
+        $('.all_check_goods').on('click', function(e) {
+            e.preventDefault();
+            if ($(this).val() == 'n') {
+                $('input[name="orderGoodsNo[]"]').prop('checked', true);
+                $(this).text("{=__('선택해제')}");
+                $(this).val('y');
+            } else {
+                $('input[name="orderGoodsNo[]"]').prop('checked', false);
+                $(this).text("{=__('전체선택')}");
+                $(this).val('n');
+            }
+            $(this).blur();
+        });
+
+        // 전체 선택으로 초기화
+        if ($('.all_check_goods').length) {
+            $('.all_check_goods').trigger('click');
+        }
+
+        // 체크박스 상태에 따른 전체선택버튼 변경처리
+        $('input:checkbox[name="orderGoodsNo[]"]').click(function () {
+            var checkedCount = 0;
+            var eachCheckBox = $(this).closest('#mypageOrderlist').find('input[name="orderGoodsNo[]"]:checkbox');
+            eachCheckBox.each(function () {
+                if ($(this).prop('checked') === true) {
+                    checkedCount++;
+                }
+            });
+            if (eachCheckBox.length == checkedCount) {
+                $('.all_check_goods').text("{=__('선택해제')}");
+                $('.all_check_goods').val('y');
+            } else {
+                $('.all_check_goods').text("{=__('전체선택')}");
+                $('.all_check_goods').val('n');
+            }
+        });
+    });
+</script>
+<!--{ / }-->

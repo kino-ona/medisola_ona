@@ -1,0 +1,89 @@
+{*** 선물하기 주소입력 | gift_order/order_address.php ***}
+{ # share_header }
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
+<div class='gift_view_page gift_order_addess_page'>
+	<a class="back_btn xi-angle-left" href="../gift_order/view.php?orderNo={orderNo}"></a>
+	<div class='top_title'>배송정보 입력</div>
+	<div class='inner'>
+		<form id="frmOrderAddress" method='post' action='../gift_order/update_address.php' target='ifrmProcess' autocomplete='off'>
+			<input type='hidden' name='orderNo' value='{orderNo}'>
+			<input type='hidden' name='changeData' value=''>
+			<div class="required_guide">
+				<span class="xi-heart icon"></span>
+				필수 입력사항
+			</div>
+			<table>
+				<tr>
+					<th><div class='important'>수령자명 <span class="xi-heart icon">
+					</span></div></th>
+					<td>
+						<input type='text' name='receiverName' value='{receiverName}'>
+					</td>
+				</tr>
+				<tr>
+					<th><div class='important'>배송지 <span class="xi-heart icon">
+					</span></div></th>
+					<td>
+						<div class="address_box">
+							<div class="cell cell1">
+								<input type="text" name="receiverZonecode" readonly="readonly" value="{receiverZonecode}" class='zipcode'>
+								<input type="hidden" name="receiverZipcode" value="{receiverZipcode}">
+							</div>
+							<div class="cell cell2">
+								<span class="search_address" onclick="gd_postcode_search('receiverZonecode', 'receiverAddress', 'receiverZipcode');">우편번호</span>						
+							</div>
+						</div>
+							
+							
+						<input type="text" name="receiverAddress" readonly="readonly" value="{receiverAddress}" class='address'>
+						<input type="text" name="receiverAddressSub" value="{receiverAddressSub}" class='address_sub'>
+					</td> 
+				</tr>
+				<tr>
+					<th><div class='important'>연락처 <span class="xi-heart icon">
+					</span></div></th>
+					<td>
+						<div class="cellphone_box">
+							<div class="cell cell1">
+								<input type="text" name="receiverCellPhone[]" value='{receiverCellPhone[0]}' class="cellphone cellphon1 required" data-label="연락처">
+							</div>
+							<div class="cell mg">-</div>
+							<div class="cell cell1">
+								<input type="text" name="receiverCellPhone[]"  value='{receiverCellPhone[1]}' class="cellphone cellphon2 required" data-label="연락처">
+							</div> <!-- cell2 -->
+							<div class="cell mg">-</div>
+							<div class="cell cell1">
+								<input type="text" name="receiverCellPhone[]"  value='{receiverCellPhone[2]}'class="cellphone cellphon3 required" data-label="연락처">
+							</div> <!-- cell3 -->
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th>요청사항</th>
+					<td>
+						<input type="text" id="orderMemo" name="orderMemo" value="" placeholder='배송시 요청사항'>
+					</td>
+				</tr>
+			</table>
+			<!--{ ? orderAddressPossible }-->
+			<input type='submit' class='wbtn1' value='입력완료'>
+			<!--{ / }-->
+		</form>
+	</div>
+	<!--// inner -->
+</div>
+<!--// gift_order_addess_page -->
+<script type="text/javascript">
+	/* 2023-03-24 웹앤모바일 submit 전후 데이터 비교 */
+	$(document).ready(function () {
+		var oriData = $('#frmOrderAddress').serialize();
+		$('.wbtn1').on('click', function (){
+			var Data = $('#frmOrderAddress').serialize();
+			if(oriData !== Data){
+				$('input[name="changeData"]').val('1');
+			}
+			$('#frmOrderAddress').submit();
+		});
+	});
+</script>
+{ # share_footer }

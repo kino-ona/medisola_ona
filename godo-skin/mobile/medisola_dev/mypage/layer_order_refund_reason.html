@@ -1,0 +1,99 @@
+{*** 사유 레이어 | mypage/layer_order_refund_reason.php ***}
+<div class="layer_order_refund_reason">
+    <div class="ly_head">
+        <h1 class="h_tit">
+            <!--{ ? substr(handleInfo.orderStatus, 0, 1) == 'b'  || handleInfo.userHandleMode == 'b'}-->
+            {=__('반품사유')}
+            <!--{ : substr(handleInfo.orderStatus, 0, 1) == 'r' || handleInfo.userHandleMode == 'r'}-->
+            {=__('환불사유')}
+            <!--{ : substr(handleInfo.orderStatus, 0, 1) == 'e' || handleInfo.userHandleMode == 'e'}-->
+            {=__('교환사유')}
+            <!--{ : substr(handleInfo.orderStatus, 0, 1) == 'c' }-->
+            {=__('취소사유')}
+            <!--{ / }-->
+        </h1>
+    </div>
+    <!--{ ? handleInfo.userHandleMode != '' || handleInfo.userHandleReason != '' }-->
+    <h2 class="my_tit">
+        {=__('신청정보')}
+    </h2>
+    <div class="content_box">
+        <dl>
+            <dt>{=__('신청일')}</dt>
+            <dd>{handleInfo.userHandleRegDt}</dd>
+        </dl>
+        <dl>
+            <dt>{=__('신청 사유')}</dt>
+            <dd>{handleInfo.userHandleReason}</dd>
+        </dl>
+        <dl>
+            <dt>{=__('메모')}</dt>
+            <dd>
+                <!--{ ? handleInfo.userHandleDetailReason }-->
+                {=nl2br(handleInfo.userHandleDetailReason)}
+                <!--{ : }-->
+                -
+                <!--{ / }-->
+            </dd>
+        </dl>
+        <!--{ ? handleInfo.userHandleMode == 'b' || handleInfo.userHandleMode == 'r' }-->
+        <dl>
+            <dt><!--{ ? handleInfo.userHandleMode == 'b' }-->{=__('반품정보')}<!--{ : }-->{=__('환불정보')}<!--{ / }--></dt>
+            <dd>
+                <!--{ ? handleInfo.userRefundBankName }-->
+                {=nl2br(handleInfo.userRefundBankName)} / {=nl2br(handleInfo.userRefundAccountNumber)} / {=nl2br(handleInfo.userRefundDepositor)}
+                <!--{ : }-->
+                -
+                <!--{ / }-->
+            </dd>
+        </dl>
+        <!--{ / }-->
+        <!--{ ? handleInfo.userHandleFl !== 'r' }-->
+        <dl>
+            <dt>{=__('승인일')}</dt>
+            <dd>{handleInfo.userHandleModDt}</dd>
+        </dl>
+        <dl>
+            <dt><!--{ ? handleInfo.userHandleFl === 'y' }-->{=__('승인사유')}<!--{ : }-->{=__('거절사유')}<!--{ / }--></dt>
+            <dd>
+                {=nl2br(handleInfo.adminHandleReason)}
+            </dd>
+        </dl>
+        <!--{ / }-->
+    </div>
+    <!--{ / }-->
+
+    <!--{ ? handleInfo.handleDetailReasonShowFl == 'y' }-->
+    <h2 class="my_tit">
+        <!--{ ? substr(handleInfo.orderStatus, 0, 1) == 'b' }-->
+        {=__('반품처리 정보')}
+        <!--{ : substr(handleInfo.orderStatus, 0, 1) == 'r' }-->
+        {=__('환불처리 정보')}
+        <!--{ : substr(handleInfo.orderStatus, 0, 1) == 'e' }-->
+        {=__('교환처리 정보')}
+        <!--{ : substr(handleInfo.orderStatus, 0, 1) == 'c' }-->
+        {=__('취소처리 정보')}
+        <!--{ / }-->
+    </h2>
+    <div class="content_box">
+        <dl>
+            <dt>
+                {=__('사유')}
+            </dt>
+            <dd>{handleInfo.handleReason}</dd>
+        </dl>
+        <dl>
+            <dt>
+                {=__('상세사유')}
+            </dt>
+            <dd>
+                {handleInfo.handleDetailReason}
+            </dd>
+        </dl>
+    </div>
+    <!--{ / }-->
+    <ul class="btn_bx2">
+        <li><button class="reason_confirm_btn ly_btn_close">{=__('확인')}</button></li>
+    </ul>
+    <div class="close_btn"><button type="button" class="lys_close_btn ly_btn_close">{=__('닫기')}</button></div>
+</div>

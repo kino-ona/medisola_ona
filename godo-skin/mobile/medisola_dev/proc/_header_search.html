@@ -1,0 +1,63 @@
+{*** [위젯] 상단 검색 | proc/_header_search.php ***}
+<div class="_header_search">
+	<div class="layer_search_box">
+		<form name="frmSearchTop" id="frmSearchTop" action="../goods/goods_search.php" method="get">
+			<!--{ ? adUrl }-->
+			<input type="hidden" name="adUrl" value="{adUrl}"/>
+			<!--{ / }-->
+			<fieldset>
+				<legend>{=__('검색하기')}</legend>
+				<dl>
+					<dt><label for="sch">{=__('검색')}</label></dt>
+					<dd>
+						<div class="keyword_box">
+							<input type="search" name="keyword" class="js_auto_focus" title="{adKeyword}" placeholder="{adKeyword}" id="sch" placeholder="{=__('검색어를 입력해주세요.')}" autocomplete="off"/>
+							<button type="button" class="bn_wrg" style="display:block">{=__('취소')}</button>
+						</div>
+					</dd>
+				</dl>
+			</fieldset>
+			<button type="submit" class="h_search_btn">{=__('검색')}</button>
+			<button type="button" class="h_search_close_btn ly_btn_close">{=__('닫기')}</button>
+		</form>
+	</div>
+	<!-- //layer_search_box -->
+	<div class="layer_search_content ly_ct">
+		<div class="search_bx_area">
+			<!--{ ? recentCount > 0 }-->
+			<div class="latest_search_tab on" data-type="recent"><h3>{=__('최근검색어')}</h3></div>
+			<div class="latest_search_list_box recent_list">
+				<ul class="latest_search_list">
+					<!--{ ? recentKeyword }-->
+					<!--{ @ recentKeyword }-->
+					<li>
+						<div class="link"><a href="../goods/goods_search.php?keyword={=urlencode(.value_[0])}">{=.value_[0]}</a></div>
+						<div class="date">{=.value_[1]}</div>
+						<div class="keyword_delete"><button type="button" class="js_recent_keyword_delete" data-recent-keyword="{=.value_[0]}">{=__('삭제')}</button></div>
+					</li>
+					<!--{ / }-->
+					<!--{ : }-->
+					<li><a>{=__('최근 검색어가 없습니다.')}</a></li>
+					<!--{ / }-->
+				</ul>
+				<!--{ ? recentKeyword }-->
+				<div class="js_recent_all_delete latest_search_del">{=__('전체삭제')}</div>
+				<!--{ / }-->
+			</div>
+			<!--{ / }-->
+			<!--{ ? hitKeywordConfig.keyword }-->
+			<div class="latest_search_tab <!--{ ? recentCount == 0 }-->on<!--{ / }-->" data-type="top"><h3>{=__('인기검색어')}</h3></div>
+			<div class="latest_search_list_box <!--{ ? recentCount > 0 }-->dn<!--{ / }-->">
+				<ul class="latest_search_list">
+					<!--{ @ hitKeywordConfig.keyword }-->
+					<li class="popular"><a href="../goods/goods_search.php?keyword={=urlencode(.value_)}">{=.value_}</a></li>
+					<!--{ / }-->
+				</ul>
+			</div>
+			<!--{ / }-->
+			{=includeWidget('proc/_recom_goods.html')}
+		</div>
+		
+	</div>
+</div>
+<!-- //layer_search -->

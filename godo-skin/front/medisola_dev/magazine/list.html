@@ -1,0 +1,348 @@
+{*** 푸드케어 레터 목록 | magazine/list.php ***}
+
+{ # header }
+
+<meta name="description" content="메디쏠라의 건강 정보와 최신 소식을 만나보세요. 건강한 식습관, 영양 정보, 웰빙 라이프스타일 매거진.">
+<meta property="og:title" content="푸드케어 레터 - 건강 정보와 영양 가이드">
+<meta property="og:description" content="메디쏠라의 건강 정보와 최신 소식을 만나보세요. 건강한 식습관, 영양 정보, 웰빙 라이프스타일 매거진.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="푸드케어 레터">
+<meta name="twitter:description" content="건강한 식습관과 영양 정보를 제공하는 푸드케어 레터">
+
+<style>
+.magazine-container {
+    max-width: 1152px;
+    margin: 0 auto;
+    padding: 60px 24px;
+}
+
+.magazine-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.magazine-header h1 {
+    font-size: 36px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 12px;
+}
+
+.magazine-header p {
+    font-size: 16px;
+    color: #666;
+}
+
+.magazine-error {
+    text-align: center;
+    padding: 80px 20px;
+    color: #999;
+    font-size: 16px;
+}
+
+/* Magazine Grid */
+.magazine-grid {
+    display: grid;
+    gap: 32px;
+}
+
+/* Hero Section - Single Large Card */
+.magazine-hero {
+    grid-template-columns: 1fr;
+    margin-bottom: 32px;
+}
+
+.magazine-hero .magazine-card {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    /* gap: 32px; */
+    align-items: center;
+}
+
+/* Two Column Section */
+.magazine-grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+    margin-bottom: 32px;
+}
+
+/* Three Column Section */
+.magazine-grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+/* Magazine Card */
+.magazine-card {
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.magazine-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.magazine-card-image {
+    /* aspect-ratio: 120 / 63; */
+    overflow: hidden;
+    position: relative;
+    background: #f0f1f3;
+}
+
+.magazine-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.magazine-card:hover .magazine-card-image img {
+    transform: scale(1.05);
+}
+
+.magazine-card-content {
+    padding: 24px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.magazine-card-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 12px;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.magazine-hero .magazine-card-title {
+    font-size: 36px;
+}
+
+.magazine-grid-2 .magazine-card-title {
+    font-size: 30px;
+}
+
+.magazine-card-excerpt {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 16px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    flex: 1;
+}
+
+.magazine-card-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    color: #999;
+}
+
+.magazine-card-date {
+    display: flex;
+    align-items: center;
+}
+
+/* Pagination */
+.magazine-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 60px;
+    padding: 20px 0;
+}
+
+.magazine-pagination a,
+.magazine-pagination span {
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.magazine-pagination a {
+    background: #fff;
+    color: #333;
+    border: 1px solid #e0e0e0;
+    text-decoration: none;
+}
+
+.magazine-pagination a:hover {
+    background: #f0f1f3;
+    border-color: #d0d0d0;
+}
+
+.magazine-pagination .current {
+    background: #3d4f98;
+    color: #fff;
+    border: 1px solid #3d4f98;
+}
+
+.magazine-pagination .disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .magazine-container {
+        padding: 40px 16px;
+    }
+
+    .magazine-header h1 {
+        font-size: 28px;
+    }
+
+    .magazine-hero .magazine-card {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .magazine-hero .magazine-card-title {
+        font-size: 24px;
+    }
+
+    .magazine-grid-2,
+    .magazine-grid-3 {
+        grid-template-columns: 1fr;
+    }
+
+    .magazine-card-title {
+        font-size: 20px;
+    }
+
+    .magazine-card-content {
+        padding: 16px;
+    }
+}
+</style>
+
+<div class="magazine-container">
+    <div class="magazine-header">
+        <h1>{=pageTitle}</h1>
+    </div>
+
+    {? hasArticles}
+        <!-- Hero Section - First Article -->
+        {? heroArticle}
+        <div class="magazine-grid magazine-hero">
+            <div class="magazine-card" onclick="location.href='/magazine/view.php?id={=heroArticle.articleId}'">
+                {? heroArticle.imageUrl}
+                <div class="magazine-card-image">
+                    <img src="{=heroArticle.imageUrl}" alt="{=heroArticle.subject}" loading="lazy">
+                </div>
+                {/}
+                <div class="magazine-card-content">
+                    <h2 class="magazine-card-title">{=heroArticle.subject}</h2>
+                    <p class="magazine-card-excerpt">{=heroArticle.summary}</p>
+                    <div class="magazine-card-meta">
+                        <span class="magazine-card-date">{=heroArticle.regDate}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {/}
+
+        <!-- Two Column Section - Articles 2-5 -->
+        {? twoColArticles}
+        <div class="magazine-grid magazine-grid-2">
+            {@ twoColArticles}
+            <div class="magazine-card" onclick="location.href='/magazine/view.php?id={=.articleId}'">
+                {? .imageUrl}
+                <div class="magazine-card-image">
+                    <img src="{=.imageUrl}" alt="{=.subject}" loading="lazy">
+                </div>
+                {/}
+                <div class="magazine-card-content">
+                    <h3 class="magazine-card-title">{=.subject}</h3>
+                    <p class="magazine-card-excerpt">{=.summary}</p>
+                    <div class="magazine-card-meta">
+                        <span class="magazine-card-date">{=.regDate}</span>
+                    </div>
+                </div>
+            </div>
+            {/}
+        </div>
+        {/}
+
+        <!-- Three Column Section - Articles 6+ -->
+        {? threeColArticles}
+        <div class="magazine-grid magazine-grid-3">
+            {@ threeColArticles}
+            <div class="magazine-card" onclick="location.href='/magazine/view.php?id={=.articleId}'">
+                {? .imageUrl}
+                <div class="magazine-card-image">
+                    <img src="{=.imageUrl}" alt="{=.subject}" loading="lazy">
+                </div>
+                {/}
+                <div class="magazine-card-content">
+                    <h3 class="magazine-card-title">{=.subject}</h3>
+                    <p class="magazine-card-excerpt">{=.summary}</p>
+                    <div class="magazine-card-meta">
+                        <span class="magazine-card-date">{=.regDate}</span>
+                    </div>
+                </div>
+            </div>
+            {/}
+        </div>
+        {/}
+
+        <!-- Pagination -->
+        {? pagination.totalPages > 1}
+        <div class="magazine-pagination">
+            {? pagination.hasPrev}
+                <a href="/magazine/list.php?page={=pagination.prevPage}">이전</a>
+            {:}
+                <span class="disabled">이전</span>
+            {/}
+
+            <span class="current">{=pagination.currentPage} / {=pagination.totalPages}</span>
+
+            {? pagination.hasNext}
+                <a href="/magazine/list.php?page={=pagination.nextPage}">다음</a>
+            {:}
+                <span class="disabled">다음</span>
+            {/}
+        </div>
+        {/}
+    {:}
+        <div class="magazine-error">
+            {? errorMessage}{=errorMessage}{:}등록된 매거진이 없습니다.{/}
+        </div>
+    {/}
+</div>
+
+<script>
+// Analytics tracking
+$(document).ready(function() {
+    $('.magazine-card').on('click', function() {
+        const title = $(this).find('.magazine-card-title').text().trim();
+        if (typeof amplitude !== 'undefined') {
+            amplitude.logEvent('magazine_article_click', {
+                article_title: title,
+                page: '{=pagination.currentPage}'
+            });
+        }
+    });
+});
+</script>
+
+{ # footer }

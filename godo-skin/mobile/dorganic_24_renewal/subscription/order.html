@@ -1,0 +1,3572 @@
+{*** 주문서 작성 | order/order.php ***}
+{ # header }
+<link rel="stylesheet" type="text/css" href='css/style.css'>
+<link rel="stylesheet" type="text/css" href="../css/order/order.css">
+<div class="ly_pop ly_effect_3" id="popupShipping"></div>
+<script src='js/common.js'></script>
+<div class="order">
+    <!-- 주문하기 시작 -->
+    <form name="frmOrder" id="frmOrder" action="./order_ps.php" method="post">
+        <input type="hidden" name="csrfToken" value="{token}"/>
+        <input type="hidden" name="orderChannelFl" value="shop"/>
+        <input type="hidden" name="orderCountryCode" value="{=gd_isset(gMemberInfo['countryCode'])}" />
+        <input type="hidden" name="orderZipcode" value="{=gd_isset(gMemberInfo['zipcode'])}" />
+        <input type="hidden" name="orderZonecode" value="{=gd_isset(gMemberInfo['zonecode'])}" />
+        <input type="hidden" name="orderState" value="{=gd_isset(gMemberInfo['state'])}" />
+        <input type="hidden" name="orderCity" value="{=gd_isset(gMemberInfo['city'])}" />
+        <input type="hidden" name="orderAddress" value="{=gd_isset(gMemberInfo['address'])}" />
+        <input type="hidden" name="orderAddressSub" value="{=gd_isset(gMemberInfo['addressSub'])}" />
+        <input type="hidden" name="tmpDeliverTab" value=""/>
+        <!--{ ? !gGlobal.isFront }-->
+        <input type="hidden" name="orderPhonePrefixCode" value="kr" />
+        <input type="hidden" name="orderPhonePrefix" value="82" />
+        <input type="hidden" name="orderCellPhonePrefixCode" value="kr" />
+        <input type="hidden" name="orderCellPhonePrefix" value="82" />
+        <input type="hidden" name="receiverCountryCode" value="kr" />
+        <input type="hidden" name="receiverPhonePrefixCode" value="kr" />
+        <input type="hidden" name="receiverPhonePrefix" value="82" />
+        <input type="hidden" name="receiverCellPhonePrefixCode" value="kr" />
+        <input type="hidden" name="receiverCellPhonePrefix" value="82" />
+        <input type="hidden" name="receiverState" value="" />
+        <input type="hidden" name="receiverCity" value="" />
+        <!--{ / }-->
+        <input type="hidden" name="chooseMileageCoupon" value="{chooseMileageCoupon}" />
+        <input type="hidden" name="chooseCouponMemberUseType" value="{=couponConfig['chooseCouponMemberUseType']}" />
+        <input type="hidden" name="totalCouponGoodsDcPrice" value="{totalCouponGoodsDcPrice}" />
+        <input type="hidden" name="totalCouponGoodsMileage" value="{totalCouponGoodsMileage}" />
+        <input type="hidden" name="totalMemberDcPrice" value="{=totalMemberDcPrice}" />
+        <input type="hidden" name="totalMemberBankDcPrice" value="{=totalMemberBankDcPrice}" />
+        <input type="hidden" name="totalMemberOverlapDcPrice" value="{=totalMemberOverlapDcPrice}" />
+        <input type="hidden" name="deliveryFree" value="{deliveryFree}" />
+        <input type="hidden" name="totalDeliveryFreePrice" value="" />
+        <input type="hidden" name="cartGoodsCnt" value="{cartGoodsCnt}" />
+        <input type="hidden" name="cartAddGoodsCnt" value="{cartAddGoodsCnt}" />
+        <input type="hidden" name="productCouponChangeLimitType" value="{productCouponChangeLimitType}" />
+        <input type="hidden" name="resetMemberBankDcPrice" value="" />
+        <input type="hidden" name="isSubscription" value='1'>
+        
+        <div class="pay">
+            <h2 class="order_tit">{=__('주문 상품')}</h2>
+            <ul class="my_goods">
+                <!--{ @ cartInfo }-->
+                <li data-cart-idx="{.key_}" data-goods-no="{$cartlst.goods_no}" data-goods-sub="{$cartlst.goods_sub}" data-goods-price="{$cartlst.price}" data-goods-cnt="{$cartlst.goods_cnt}" data-coupon-prd-idx="{$cnt}">
+                    <!--{ ? cartScmCnt > 1 }-->
+                    <strong><!--{=cartScmInfo[.key_]['companyNm']}--></strong>
+                    <!--{ / // end cartScmCnt}-->
+                    <!--{ @ .value_ }-->
+                    <!--{ @ ..value_ }-->
+                    <input type="hidden" name="cartSno[]" value="{...idx}"/>
+                    <input type="hidden" name="memberDcInfo[{...goodsNo}][{...optionSno}]" value='{...memberDcInfo}' />
+                    <input type="hidden" name="priceInfo[{...goodsNo}][{...optionSno}]" value='{...priceInfo}' />
+                    <input type="hidden" name="mileageInfo[{...goodsNo}][{...optionSno}]" value='{...mileageInfo}' />
+                    <div class="info">
+                        <a href="../goods/goods_view.php?goodsNo={=...goodsNo}">
+                            <div>
+                                <div class="itemhead">
+                                    <div class="thmb_box">
+                                        <div class="thmb">
+                                            {=...goodsImage}
+                                            <!--{ ? ...timeSaleFl }-->
+                                            <div class="timesale_box">
+                                                <img src="../img/icon/icon_timesale.png" alt="{=__('타임세일')}">
+                                                <span class="timetext">{=__('타임세일')}</span>
+                                            </div>
+                                            <!--{ / // food-story 타임세일}-->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="itembody">
+                                    <p class="name">{=...goodsNm}</p>
+                                    <p>{=__('주문수량')} : {=...goodsCnt}</p>
+                                    <!--{ ? ...orderPossible === 'n' }-->
+                                    <p>{=__('구매 불가')}: {=...orderPossibleMessage}</p>
+                                    <!--{ / }-->
+                                    <!--{ @ ...option }-->
+                                    <!--{ ? ....optionName }-->
+                                    <p>
+                                        {=....optionName} :
+                                        {=....optionValue}
+                                        <!--{ ? ((....index_ + 1) == ....size_) && ...optionPrice != 0 }-->
+                                        (<!--{ ? ...optionPrice > 0 }-->+<!--{ / }-->{=gd_global_currency_display(...optionPrice)})
+                                        <!--{ / }-->
+                                    </p>
+                                    <!--{ / }-->
+                                    <!--{ / }-->
+
+                                    <!--{ @ ...optionText }-->
+                                    <!--{ ? ....optionValue }-->
+                                    <p >
+                                        {=....optionName} :
+                                        {=....optionValue}
+                                        <!--{ ? ....optionTextPrice != 0 }-->
+                                        (<!--{ ? ....optionTextPrice > 0 }-->+<!--{ / }-->{=gd_global_currency_display(....optionTextPrice)})
+                                        <!--{ / }-->
+
+                                    </p>
+                                    <!--{ / }-->
+                                    <!--{ / }-->
+                                    <strong class="prc">
+                                        <!--{ ? empty(...goodsPriceString) === false }-->
+                                        {=...goodsPriceString}
+                                        <!--{ : }-->
+                                        {=gd_global_currency_display((...price['goodsPriceSum'] + ...price['optionPriceSum'] + ...price['optionTextPriceSum']))}
+                                        <!--{ ? gGlobal.isFront }-->
+                                        <p class="add_currency">{=gd_global_add_currency_display((...price['goodsPriceSum'] + ...price['optionPriceSum'] + ...price['optionTextPriceSum']))}</p>
+                                        <!--{ / }-->
+                                        <!--{ / }-->
+                                    </strong>
+                                </div>
+                            </div>
+                        </a>
+                        <!--{ ? empty(...addGoods) === false }-->
+                        <div class="add_goods_box">
+                            <span class="add_title">{=__('추가상품')}</span>
+                            <ul class="add_goods_list">
+                                <!--{ @ ...addGoods }-->
+                                <li>
+                                    <a href="#goods">
+                                        <div class="add_goods_img">{=....addGoodsImage}</div>
+                                        <div class="add_goods_content">
+                                            <span class="title">{=....addGoodsNm}</span>
+                                            <!--{ ? ....optionNm }-->
+                                            <div class="add_goods_option">옵션: {=....optionNm}</div>
+                                            <!--{ / }-->
+                                            <div class="add_goods_text">
+                                                <span class="goods_number">{=__('주문 수량')} : <em> {=number_format(....addGoodsCnt)}</em>{=__('개')}</span>
+                                                <span class="goods_price"><em>{=gd_global_currency_display((....addGoodsPrice * ....addGoodsCnt))}</em></span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <!--{ / // end ...addGoods loop }-->
+                            </ul>
+                        </div>
+                        <!--{ / // end empty ...addGoods }-->
+                    </div>
+                    <!--{ / // end cartInfo inner loop2 }-->
+                    <!--{ / // end cartInfo inner loop1 }-->
+                </li>
+                <!--{ / // end cartInfo }-->
+            </ul>
+            <!--{ ? giftConf.giftFl == 'y' && count(giftInfo) }-->
+            <h2 class="order_tit">{=__('사은품 선택')}</h2>
+            <div class="gift_choice">
+                <!--{ @ giftInfo }-->
+                <!--{ @ .gift }-->
+                <!--{ ? ..total > 0 }-->
+                <p>{giftInfo.title} (<span><!--{ ? ..selectCnt == 0 }-->{.total}<!--{ : }-->0<!--{ / }--></span>/<!--{ ? ..selectCnt == 0 }-->{.total}<!--{ : }-->{..selectCnt}<!--{ / }-->)</p>
+                <ul>
+                    <!--{ @ ..multiGiftNo }-->
+                    <li>
+                        <div class="inp_chk">
+                            <label for="line{.key_}_gift{...index_}" <!--{ ? ..selectCnt == 0 }-->class="on"<!--{ / }-->>
+                            {...imageUrl}
+                            <span class="txt">{...giftNm} <small>({=__('%s개', ..giveCnt)})</small></span>
+                            </label>
+                            <input type="hidden" name="gift[{.key_}][{...index_}][scmNo]" value="{...scmNo}" />
+                            <input type="hidden" name="gift[{.key_}][{...index_}][selectCnt]" value="{..selectCnt}" class="gift_select_cnt" />
+                            <input type="hidden" name="gift[{.key_}][{...index_}][giveCnt]" value="{..giveCnt}" />
+                            <input type="hidden" name="gift[{.key_}][{...index_}][minusStockFl]" value="{...stockFl}" />
+                            <input type="checkbox" name="gift[{.key_}][{...index_}][giftNo]" value="{...giftNo}" class="sp " id="line{.key_}_gift{...index_}"<!--{ ? ..selectCnt == 0 }--> checked="checked" readonly="readonly" onclick="return false"<!--{ / }--> />
+                        </div>
+                    </li>
+                    <!--{ / }-->
+                </ul>
+                <!--{ / }-->
+                <!--{ / }-->
+                <!--{ / }-->
+            </div>
+            <!--{ / }-->
+            <!--{ ? gd_is_login() === false }-->
+            <!--{ ? hasScmGoods === false }-->
+            <h3 class="my_tit">
+                <div class="inp_chk" style="position:static; margin-top:10px;">
+                    <input type="checkbox" name="allAgree" id="allAgree" class="sp">
+                    <label for="allAgree">
+                        {=__('%s 이용약관 및 비회원 주문에 대한 개인정보 수집 이용 동의를 확인하고 전체 동의합니다.', serviceInfo['mallNm'])}
+                    </label>
+                </div>
+            </h3>
+            <!--{ : }-->
+            <h3 class="my_tit">
+                <div class="inp_chk" style="position:static;margin-top:10px;">
+                    <input type="checkbox" name="allAgreeScm" id="allAgreeScm" class="sp">
+                    <label for="allAgreeScm">
+                        {=__('%s 이용약관 및 비회원 주문에 대한 개인정보 수집 이용 동의, 상품 공급사 개인정보 제공 동의를 확인하고 전체 동의합니다.', serviceInfo['mallNm'])}
+                    </label>
+                </div>
+            </h3>
+            <!--{ / }-->
+            <!--{ / }-->
+            <!--{ ? hasScmGoods }-->
+            <div class="order_box">
+                <h2 class="order_tit">{=__('상품 공급사 개인정보 제공 동의')}</h2>
+                <div class="guest_info">
+                    <fieldset>
+                        <div class="g_content">{=nl2br(privateProvider['content'])}</div>
+                        <div class="inp_chk">
+                            <input type="checkbox" name="termAgreePrivateProvider" id="termAgreePrivateProvider" class="require">
+                            <label for="termAgreePrivateProvider"><strong class="c_red">({=__('필수')})</strong>
+                                {=__('상품 공급사 개인정보 제공 동의에 대한 내용을 확인 하였으며 이에 동의 합니다.')}
+                            </label>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+            <!--{ / }-->
+            <!--{ ? gd_is_login() === false }-->
+            <div class="order_box">
+                <h2 class="order_tit">{=__('비회원 주문에 대한 개인정보 수집 이용 동의')}</h2>
+                <div class="guest_info">
+                    <fieldset>
+                        <div class="g_content">{=nl2br(privateGuestOffer['content'])}</div>
+                        <div class="inp_chk">
+                            <input type="checkbox" name="termAgreeGuest" id="nomember_privacy_agree">
+                            <label for="nomember_privacy_agree">
+                                <strong class="c_red">({=__('필수')})</strong>
+                                {=__('비회원 개인정보 수집 이용에 대한 내용을 확인 하였으며 이에 동의 합니다.')}
+                            </label>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+            <div class="order_box">
+                <h2 class="order_tit">{=__('이용약관 동의')}</h2>
+                <div class="guest_info">
+                    <fieldset>
+                        <div class="g_content">{=nl2br(agreementInfo['content'])}</div>
+                        <div class="inp_chk">
+                            <input type="checkbox" name="termAgreeAgreement" id="termAgree_agreement">
+                            <label for="termAgree_agreement">
+                                <strong class="c_red">({=__('필수')})</strong>
+                                {=__('이용약관에 대한 내용을 확인 하였으며 이에 동의 합니다.')}
+                            </label>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+            <!--{ / // end guest terms }-->
+            
+            <div style='margin: 1em;'>
+            {=includeWidget('subscription/_order_subscription.html', 'scheduleList', scheduleList, 'period', period, 'deliveryEa', deliveryEa)}
+            </div>
+            
+            <div class="order_box">
+                <h2 class="order_tit">{=__('주문 고객')}</h2>
+                <fieldset>
+                    <legend>{=__('주문고객 정보 영역')}</legend>
+                    <div class="table_box">
+                        <table width="100%" cellspacing="0" cellpadding="0" class="table_style4">
+                            <caption>{=__('정보입력')}</caption>
+                            <colgroup>
+                                <col>
+                                <col>
+                            </colgroup>
+                            <tbody>
+                            <tr>
+                                <th scope="row" class="required"><label for="ordr_nm">{=__('주문자')}</label></th>
+                                <td><input type="text" id="ordr_nm" name="orderName" value="{=orderName}" maxlength="20"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><label for="orderPhone">{=__('전화번호')}</label></th>
+                                <td>
+                                    <!--{ ? gGlobal.isFront }-->
+                                    <div class="inp_sel">
+                                        {=gd_select_box('orderPhonePrefixCode', 'orderPhonePrefixCode', orderCountryPhone, null, gMemberInfo.phoneCountryCode, __('국가코드'), null, 'tune select-small')}
+                                    </div>
+                                    <!--{ / }-->
+                                    <input type="text" id="orderPhone" name="orderPhone" value="{=gd_isset(gMemberInfo['phone'])}" maxlength="20" title="{=__('전화번호')}">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="required"><label for="orderCellPhone">{=__('휴대폰번호')}</label></th>
+                                <td>
+                                    <!--{ ? gGlobal.isFront }-->
+                                    <div class="inp_sel">
+                                        {=gd_select_box('orderCellPhonePrefixCode', 'orderCellPhonePrefixCode', orderCountryPhone, null, gMemberInfo['cellPhoneCountryCode'], __('국가코드'), null, 'tune select-small')}
+                                    </div>
+                                    <!--{ / }-->
+                                    <input type="text" id="orderCellPhone" name="orderCellPhone" value="{=gd_isset(gMemberInfo['cellPhone'])}" size="20" title="{=__('휴대전화')}">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row" class="required"><label for="mail">{=__('이메일')}</label></th>
+                                <td>
+                                    <div class="cell_bx">
+                                        <div class="cell"><input type="text" name="orderEmail" value="{=gd_isset(gMemberInfo['email'])}" id="mail"></div>
+                                        <div class="cell">
+                                            <div class="inp_sel">
+                                                <select id="emailDomain" name="email2" title="{=__('이메일 주소')}">
+                                                    <!--{ @ emailDomain }-->
+                                                    <option value="{=.key_}">{=.value_}</option>
+                                                    <!--{ / }-->
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </fieldset>
+            </div>
+
+            <div class="shipping_info_area">
+                <div class="shipping_info_table">
+                    <!-- 02 배송지정보 -->
+                    <div class="order_box">
+                        <h2 class="order_tit">
+                            {=__('배송정보')}
+                            <!--{ ? isUseMultiShipping === true }-->
+                            <span class="inp_chk" style="float:right;">
+                                        <input type="checkbox" id="multiShippingFl" name="multiShippingFl" value="y">
+                                        <label for="multiShippingFl">
+                                        {=__('복수 배송지 이용')}
+                                        </label>
+                                    </span>
+                            <!--{ / }-->
+                        </h2>
+                        <div class="delivery_box">
+                            <!--{ ? gd_is_login() === true }-->
+                            <div class="tab_menu">
+                                <ul>
+                                    <li class="tab_btn active"><a href="#tab1">{=__('기본배송지')}</a></li>
+                                    <li class="tab_btn"><a href="#tab2">{=__('배송지 목록')}</a></li>
+                                    <li class="tab_btn"><a href="#tab3">{=__('직접 입력')}</a></li>
+                                </ul>
+                            </div>
+                            <!--{ / }-->
+                            <div class="tab_content">
+                                <div id="tab1" class="<!--{ ? gd_is_login() === true }--> tab_box <!--{ / }--> show">
+                                    <div class="table_box">
+                                        <table width="100%" cellspacing="0" cellpadding="0" class="table_style4">
+                                            <colgroup>
+                                                <col>
+                                                <col>
+                                            </colgroup>
+                                            <tbody>
+                                            <!--{ ? gd_is_login() === false }-->
+                                            <tr>
+                                                <td colspan="2">
+                                                    <div class="inp_chk">
+                                                        <input type="checkbox" id="shippingSameCheck" onclick="gd_order_info_same();"  class="require">
+                                                        <label for="shippingSameCheck">
+                                                            {=__('주문고객정보와 동일합니다.')}
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <!--{ / }-->
+                                            <tr>
+                                                <th class="required"><label for="receiverName">{=__('이름')}</label></th>
+                                                <td><input type="text" id="receiverName" name="receiverName" value="{basiceShippingAddress.shippingName}" maxlength="20"></td>
+                                            </tr>
+                                            <!--{ ? gGlobal.isFront }-->
+                                            <tr>
+                                                <th class="required"><label for="receiverCountryCode">{=__('국가')}</label></th>
+                                                <td>
+                                                    <div class="inp_sel">
+                                                        {=gd_select_box('receiverCountryCode', 'receiverCountryCode', countryAddress, null, recommendCountryCode, __('=선택해주세요='), null, 'tune select-small')}
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="required"><label for="receiverCity">{=__('도시')}</label></th>
+                                                <td><input type="text" id="receiverCity" name="receiverCity" value="{basiceShippingAddress.shippingCity}" maxlength="20"></td>
+                                            </tr>
+                                            <tr>
+                                                <th class="required"><label for="receiverState">{=__('주/지방/지역')}</label></th>
+                                                <td><input type="text" id="receiverState" name="receiverState" value="{basiceShippingAddress.shippingState}" maxlength="20" /></td>
+                                            </tr>
+                                            <tr>
+                                                <th class="required"><label for="receiverAddress">{=__('주소1')}</label></th>
+                                                <td><input type="text" id="receiverAddress" name="receiverAddress" value="{basiceShippingAddress.shippingAddress}" /></td>
+                                            </tr>
+                                            <tr>
+                                                <th class="required"><label for="receiverAddressSub">{=__('주소2')}</label></th>
+                                                <td><input type="text" id="receiverAddressSub" name="receiverAddressSub" value="{basiceShippingAddress.shippingAddressSub}" /></td>
+                                            </tr>
+                                            <tr>
+                                                <th class="required"><label for="receiverZonecode">{=__('우편번호')}</label></th>
+                                                <td>
+                                                    <input type="text" id="receiverZonecode" name="receiverZonecode" value="{basiceShippingAddress.shippingZonecode}" <!--{ ? !gGlobal.isFront }-->style="width:40px;"<!--{ / }--> />
+                                                    <input type="hidden" name="receiverZipcode" value="{basiceShippingAddress.shippingZipcode}"/>
+                                                </td>
+                                            </tr>
+                                            <!--{ : }-->
+                                            <tr>
+                                                <th class="required"><label>{=__('주소')}</label></th>
+                                                <td>
+                                                    <div class="zipcode_box">
+                                                        <div class="zipcode_top">
+                                                            <div class="zipcode_num">
+                                                                <input type="text" name="receiverZonecode" readonly="readonly" value="{basiceShippingAddress.shippingZonecode}">
+                                                                <input type="hidden" name="receiverZipcode" value="{basiceShippingAddress.shippingZipcode}">
+                                                            </div>
+                                                            <div class="zipcode_btn_box"><button class="zipcode_btn1 post_search" type="button" id="btnPostcode" onclick="gd_postcode_search('receiverZonecode', 'receiverAddress', 'receiverZipcode');">{=__('우편번호')}</button></div>
+                                                        </div>
+                                                        <input type="text" name="receiverAddress" readonly="readonly" value="{basiceShippingAddress.shippingAddress}">
+                                                        <input type="text" name="receiverAddressSub" value="{basiceShippingAddress.shippingAddressSub}">
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <!--{ / }-->
+                                            <tr>
+                                                <th><label for="receiverPhonePrefixCode">{=__('전화번호')}</label></th>
+                                                <td>
+                                                    <!--{ ? gGlobal.isFront }-->
+                                                    <div class="cell">
+                                                        <div class="inp_sel">
+                                                            {=gd_select_box('receiverPhonePrefixCode', 'receiverPhonePrefixCode', countryPhone, null, null, __('국가코드'), null, 'tune select-small')}
+                                                        </div>
+                                                    </div>
+                                                    <!--{ / }-->
+                                                    <input type="text" id="receiverPhone" name="receiverPhone" value="{basiceShippingAddress.shippingPhone}" >
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="required"><label for="receiverCellPhonePrefixCode">{=__('휴대폰번호')}</label></th>
+                                                <td>
+                                                    <!--{ ? gGlobal.isFront }-->
+                                                    <div class="cell">
+                                                        <div class="inp_sel">
+                                                            {=gd_select_box('receiverCellPhonePrefixCode', 'receiverCellPhonePrefixCode', countryPhone, null, null, __('국가코드'), null, 'tune select-small')}
+                                                        </div>
+                                                    </div>
+                                                    <!--{ / }-->
+                                                    <div class="cell"><input type="text" id="receiverCellPhone" name="receiverCellPhone" value="{basiceShippingAddress.shippingCellPhone}" ></div>
+                                                </td>
+                                            </tr>
+                                            <!--{ ? gGlobal.isFront == false && useSafeNumberFl == 'y'}-->
+                                            <tr>
+                                                <th><label for="receiverUseSafeNumberFl">{=__('안심번호')}</label></th>
+                                                <td>
+                                                    <div class="inp_chk">
+                                                        <input type="checkbox" name="receiverUseSafeNumberFl" id="receiverUseSafeNumberFl" value="w" checked="checked">
+                                                        <label for="receiverUseSafeNumberFl">{=__('안심번호 사용')}</label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <!--{ / }-->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!--{ ? gd_is_login() === true && !gGlobal.isFront }-->
+                                    <div class="member_chk_box">
+                                        <div id="memberinfoApplyTr1" class="inp_chk">
+                                            <input type="checkbox" name="reflectApplyMember" value="y" id="reflectApplyMember" />
+                                            <label for="reflectApplyMember">{=__('위 내용을 회원정보에 반영합니다.')} <small>({=__('주소')}/{=__('전화번호')}/{=__('휴대폰번호')})</small></label>
+                                        </div>
+                                    </div>
+                                    <!--{ / }-->
+                                </div>
+
+                                <div id="tab2" class="tab_box">
+                                    <ul class="delivery_list_add"></ul>
+                                    <div class="delivery_list"></div>
+                                    <input type="hidden" name="shippingCellPhonePrefix" value="" />
+                                    <input type="hidden" name="shippingPhonePrefix" value="" />
+                                    <input type="hidden" name="shippingSno" value="" />
+                                    <div class="table_box order_table_area">
+                                        <table width="100%" cellspacing="0" cellpadding="0" class="table_style4">
+                                            <colgroup>
+                                                <col>
+                                                <col>
+                                            </colgroup>
+                                            <tbody>
+                                            <tr>
+                                                <th class="required"><label for="shippingName">{=__('이름')}</label></th>
+                                                <td>
+                                                    <input type="text" id="shippingName" name="shippingName" value="" maxlength="20" >
+                                                </td>
+                                            </tr>
+                                            <!--{ ? gGlobal.isFront }-->
+                                            <tr>
+                                                <th class="required"><label for="shippingCountryCode">{=__('국가')}</label></th>
+                                                <td>
+                                                    <div class="inp_sel">
+                                                        {=gd_select_box('shippingCountryCode', 'shippingCountryCode', countryAddress, null, recommendCountryCode, __('=선택해주세요='), null)}
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="required"><label for="shippingCity">{=__('도시')}</label></th>
+                                                <td>
+                                                    <input type="text" id="shippingCity" name="shippingCity" value="" maxlength="20"  />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="required"><label for="shippingState">{=__('주/지방/지역')}</label></th>
+                                                <td>
+                                                    <input type="text" id="shippingState" name="shippingState" value="" maxlength="20"  />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="required"><label for="shippingAddress">{=__('주소1')}</label></th>
+                                                <td>
+                                                    <input type="text" id="shippingAddress" name="shippingAddress" value=""  />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="required"><label for="shippingAddressSub">{=__('주소2')}</label></th>
+                                                <td>
+                                                    <input type="text" id="shippingAddressSub" name="shippingAddressSub" value=""  />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="required"><label for="shippingZonecode">{=__('우편번호')}</label></th>
+                                                <td>
+                                                    <input type="text" id="shippingZonecode" name="shippingZonecode" value="" <!--{ ? !gGlobal.isFront }-->style="width:40px;"<!--{ / }-->/>
+                                                    <input type="hidden" name="shippingZipcode" value=""/>
+                                                </td>
+                                            </tr>
+                                            <!--{ : }-->
+                                            <tr>
+                                                <th class="required"><label for="">{=__('주소')}</label></th>
+                                                <td>
+                                                    <div class="zipcode_box">
+                                                        <div class="zipcode_top">
+                                                            <div class="zipcode_num">
+                                                                <input type="text" name="shippingZonecode" readonly="readonly" value="">
+                                                                <input type="hidden" name="shippingZipcode" value="">
+                                                            </div>
+                                                            <div class="zipcode_btn_box"><button class="zipcode_btn1 post_search" type="button" id="btnPostcode" onclick="gd_postcode_search('shippingZonecode', 'shippingAddress', 'shippingZipcode');">{=__('우편번호')}</button></div>
+                                                        </div>
+                                                        <input type="text"  name="shippingAddress" readonly="readonly" value="">
+                                                        <input type="text"  name="shippingAddressSub" value="">
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <!--{ / }-->
+                                            <tr>
+                                                <th><label for="">{=__('전화번호')}</label></th>
+                                                <td>
+                                                    <!--{ ? gGlobal.isFront }-->
+                                                    <div class="cell">
+                                                        <div class="inp_sel">
+                                                            {=gd_select_box('shippingPhonePrefixCode', 'shippingPhonePrefixCode', countryPhone, null, null, __('국가코드'), null, 'tune select-small')}
+                                                        </div>
+                                                    </div>
+                                                    <!--{ / }-->
+                                                    <input type="text" id="shippingPhone" name="shippingPhone" value="" >
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="required"><label for="">{=__('휴대폰번호')}</label></th>
+                                                <td>
+                                                    <!--{ ? gGlobal.isFront }-->
+                                                    <div class="cell">
+                                                        <div class="inp_sel">
+                                                            {=gd_select_box('shippingCellPhonePrefixCode', 'shippingCellPhonePrefixCode', countryPhone, null, null, __('국가코드'), null, 'tune select-small')}
+                                                        </div>
+                                                    </div>
+                                                    <!--{ / }-->
+                                                    <div class="cell">
+                                                        <input type="text" id="shippingCellPhone" name="shippingCellPhone" value="{basiceShippingAddress.shippingCellPhone}" >
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <!--{ ? gGlobal.isFront == false && useSafeNumberFl == 'y'}-->
+                                            <tr>
+                                                <th><label for="shippingUseSafeNumberFl">{=__('안심번호')}</label></th>
+                                                <td>
+                                                    <div class="inp_chk">
+                                                        <input type="checkbox" name="shippingUseSafeNumberFl" id="shippingUseSafeNumberFl" value="w" checked="checked">
+                                                        <label for="shippingUseSafeNumberFl">{=__('안심번호 사용')}</label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <!--{ / }-->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!--{ ? gd_is_login() === true }-->
+                                    <div class="member_chk_box">
+                                        <div class="inp_chk">
+                                            <input type="checkbox" name="shippingDefault" value="y" id="shippingDefault" />
+                                            <label for="shippingDefault">{=__('기본 배송지로 설정합니다.')}</label>
+                                        </div>
+                                    </div>
+                                    <!--{ / }-->
+                                    <!--{ ? gd_is_login() === true && !gGlobal.isFront }-->
+                                    <div class="member_chk_box">
+                                        <div id="memberinfoApplyTr2" class="inp_chk">
+                                            <input type="checkbox" name="reflectApplyShippingMember" value="y" id="reflectApplyShippingMember" />
+                                            <label for="reflectApplyShippingMember">{=__('위 내용을 회원정보에 반영합니다.')} <small>({=__('주소')}/{=__('전화번호')}/{=__('휴대폰번호')})</small></label>
+                                        </div>
+                                    </div>
+                                    <!--{ / }-->
+                                </div>
+
+                                <div id="tab3" class="tab_box">
+                                    <div class="member_chk_box1">
+                                        <div class="inp_chk">
+                                            <input type="checkbox" id="shippingSameCheck" onclick="gd_order_info_same();"  class="require">
+                                            <label for="shippingSameCheck">
+                                                {=__('주문고객정보와 동일합니다.')}
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="table_box">
+                                        <table width="100%" cellspacing="0" cellpadding="0" class="table_style4">
+                                            <colgroup>
+                                                <col>
+                                                <col>
+                                            </colgroup>
+                                            <tbody>
+                                            <tr>
+                                                <th class="required"><label for="directName">{=__('이름')}</label></th>
+                                                <td>
+                                                    <input type="text" id="directName" name="directName">
+                                                </td>
+                                            </tr>
+                                            <!--{ ? gGlobal.isFront }-->
+                                            <tr>
+                                                <th class="required"><label for="directCountryCode">{=__('국가')}</label></th>
+                                                <td>
+                                                    <div class="inp_sel">
+                                                        {=gd_select_box('directCountryCode', 'directCountryCode', countryAddress, null, recommendCountryCode, __('=선택해주세요='), null)}
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="required"><label for="directCity">{=__('도시')}</label></th>
+                                                <td>
+                                                    <input type="text" id="directCity" name="directCity" value="" maxlength="20"  />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="required"><label for="directState">{=__('주/지방/지역')}</label></th>
+                                                <td>
+                                                    <input type="text" id="directState" name="directState" value="" maxlength="20"  />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="required"><label for="directAddress">{=__('주소1')}</label></th>
+                                                <td>
+                                                    <input type="text" id="directAddress" name="directAddress" value=""  />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="required"><label for="directAddressSub">{=__('주소2')}</label></th>
+                                                <td>
+                                                    <input type="text" id="directAddressSub" name="directAddressSub" value=""  />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="required"><label for="directZonecode">{=__('우편번호')}</label></th>
+                                                <td>
+                                                    <input type="text" id="directZonecode" name="directZonecode" value="" <!--{ ? !gGlobal.isFront }-->style="width:40px;"<!--{ / }-->  />
+                                                    <input type="hidden" name="directZipcode" value=""/>
+                                                </td>
+                                            </tr>
+                                            <!--{ : }-->
+                                            <tr>
+                                                <th class="required"><label for="">{=__('주소')}</label></th>
+                                                <td>
+                                                    <div class="zipcode_box">
+                                                        <div class="zipcode_top">
+                                                            <div class="zipcode_num">
+                                                                <input type="text" name="directZonecode" size="5">
+                                                                <input type="hidden" name="directZipcode">
+                                                            </div>
+                                                            <div class="zipcode_btn_box"><button class="zipcode_btn1 post_search" type="button" id="btnPostcode" onclick="gd_postcode_search('directZonecode', 'directAddress', 'directZipcode');">{=__('우편번호')}</button></div>
+                                                        </div>
+                                                        <input type="text" name="directAddress" readonly="readonly" value="">
+                                                        <input type="text" name="directAddressSub" value="">
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <!--{ / }-->
+                                            <tr>
+                                                <th><label for="directPhonePrefixCode">{=__('전화번호')}</label></th>
+                                                <td>
+                                                    <!--{ ? gGlobal.isFront }-->
+                                                    <div class="cell">
+                                                        <div class="inp_sel">
+                                                            {=gd_select_box('directPhonePrefixCode', 'directPhonePrefixCode', countryPhone, null, null, __('국가코드'), null, 'tune select-small')}
+                                                        </div>
+                                                    </div>
+                                                    <!--{ / }-->
+                                                    <input type="text" name="directPhone" >
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="required"><label for="">{=__('휴대폰번호')}</label></th>
+                                                <td>
+                                                    <!--{ ? gGlobal.isFront }-->
+                                                    <div class="cell">
+                                                        <div class="inp_sel">
+                                                            {=gd_select_box('directCellPhonePrefixCode', 'directCellPhonePrefixCode', countryPhone, null, null, __('국가코드'), null, 'tune select-small')}
+                                                        </div>
+                                                    </div>
+                                                    <!--{ / }-->
+                                                    <input type="text" name="directCellPhone">
+                                                </td>
+                                            </tr>
+                                            <!--{ ? gGlobal.isFront == false && useSafeNumberFl == 'y'}-->
+                                            <tr>
+                                                <th class="required"><label for="directUseSafeNumberFl">{=__('안심번호')}</label></th>
+                                                <td>
+                                                    <div class="inp_chk">
+                                                        <input type="checkbox" name="directUseSafeNumberFl" id="directUseSafeNumberFl" value="w" checked="checked">
+                                                        <label for="directUseSafeNumberFl">{=__('안심번호 사용')}</label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <!--{ / }-->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!--{ ? gd_is_login() === true }-->
+                                    <div class="member_chk_box">
+                                        <div class="inp_chk">
+                                            <input type="checkbox" value="y" id="reflectApplyDelivery" name="reflectApplyDelivery"  class="sp require">
+                                            <label for="reflectApplyDelivery">
+                                                {=__('배송지 목록에 추가합니다.')}
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <!--{ / }-->
+                                    <!--{ ? gd_is_login() === true && !gGlobal.isFront }-->
+                                    <div class="member_chk_box">
+                                        <div id="memberinfoApplyTr3" class="inp_chk">
+                                            <input type="checkbox" name="reflectApplyDirectMember" value="y" id="reflectApplyDirectMember" />
+                                            <label for="reflectApplyDirectMember">{=__('위 내용을 회원정보에 반영합니다.')} <small>({=__('주소')}/{=__('전화번호')}/{=__('휴대폰번호')})</small></label>
+                                        </div>
+                                    </div>
+                                    <!--{ / }-->
+                                </div>
+                            </div>
+                            <div class="table_box <!--{ ? gd_is_login() === false }--> table_box_guest <!--{ / }-->">
+                                <table width="100%" cellspacing="0" cellpadding="0" class="table_style4">
+                                    <colgroup>
+                                        <col>
+                                        <col>
+                                    </colgroup>
+                                    <tbody>
+                                    <tr>
+                                        <th><label for="orderMemo">{=__('남기실 말씀')}</label></th>
+                                        <td>
+                                            <input type="text" id="orderMemo" name="orderMemo" value="">
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!--{ ? isUseMultiShipping === true }-->
+                            <div class="table_box select_goods_area dn">
+                                <div class="order_table">
+                                    <table width="100%" cellspacing="0" cellpadding="0" class="table_style4">
+                                        <colgroup>
+                                            <col>
+                                            <col>
+                                        </colgroup>
+                                        <tr>
+                                            <th><label class="tit">{=__('배송상품')}</label></th>
+                                            <td>
+                                                <input type="hidden" name="selectGoods[0]" value="">
+                                                <input type="hidden" name="multiDelivery[0]" value="0">
+                                                <a class="cart_select_order_btn btn_open_layer shipping_goods_select">{=__('상품선택')}</a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <div class="my_goods select_goods order_goods dn" style="background:#fff;">
+                                        <table width="100%"></table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="shipping_add_btn dn"><a class="order_payment_btn">+ {=__('배송지 추가')}</a></div>
+                            <!--{ / }-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--{ ? addFieldInfo.addFieldConf == 'y' }-->
+        <div class="order_box">
+            <input type="hidden" name="addFieldConf" value="{=addFieldInfo.addFieldConf}" />
+            <h2 class="order_tit">{=__('추가 정보')}</h2>
+            <fieldset>
+                <legend>{=__('추가 정보 영역')}</legend>
+                <div class="table_box">
+                    <table width="100%" cellspacing="0" cellpadding="0" class="table_style4">
+                        <caption>{=__('정보입력')}</caption>
+                        <colgroup>
+                            <col>
+                        </colgroup>
+                        <tbody>
+                        <!--{ @ addFieldInfo.data }-->
+                        <tr>
+                            <th scope="row"><label for="">{=gd_isset(.orderAddFieldName)}</label></th>
+                        </tr>
+                        <tr>
+                            <td>
+                                {=gd_isset(.orderAddFieldHtml)}
+                            </td>
+                        </tr>
+                        <!--{ / }-->
+                        </tbody>
+                    </table>
+                </div>
+            </fieldset>
+        </div>
+        <!--{ / }-->
+        <div class="order_box">
+            <h2 class="order_tit">{=__('할인 및 최종결제금액')}</h2>
+            <fieldset>
+                <div class="table_box">
+                    <table width="100%" cellspacing="0" cellpadding="0" class="table_style4">
+                        <caption>{=__('정보입력')}</caption>
+                        <colgroup>
+                            <col>
+                            <col>
+                        </colgroup>
+                        <tbody>
+                        <tr>
+                            <th scope="row"><label for="">{=__('상품 금액')}</label></th>
+                            <td>
+                                <strong class="total" id="totalGoodsPrice">{=gd_global_currency_display(totalGoodsPrice)}</strong>
+                                <!--{ ? gGlobal.isFront }-->
+                                <span class="add_currency">{=gd_global_add_currency_display(totalGoodsPrice)}</span>
+                                <!--{ / }-->
+                            </td>
+                        </tr>
+                        <!--{ ? gGlobal.isFront }-->
+                        <tr>
+                            <th scope="row">{=__('총 무게')}</th>
+                            <td>
+                                {=number_format(totalDeliveryWeight.total, 2)}kg<br>
+                                <span>( {=__('상품무게 %s kg + 박스무게 %s kg', number_format(totalDeliveryWeight.goods, 2), number_format(totalDeliveryWeight.box, 2))} )</span>
+                            </td>
+                        </tr>
+                        <!--{ / }-->
+                        <tr>
+                            <th scope="row"><label for="">{=__('배송비')}</label></th>
+                            <td>
+                                {=gd_global_currency_symbol()}<span id="totalDeliveryCharge">{=gd_global_money_format(totalDeliveryCharge)}</span>{=gd_global_currency_string()}
+                                <!--{ ? gGlobal.isFront && gGlobal.useAddCurrency }-->
+                                {=gd_global_add_currency_symbol()}<span id="totalDeliveryChargeAdd" class="add_currency">{=gd_global_add_money_format(totalDeliveryCharge)}</span>{=gd_global_add_currency_string()}
+                                <!--{ / }-->
+                                <div class="multi_shipping_text"></div>
+                            </td>
+                        </tr>
+                        <tr id="rowDeliveryInsuranceFee" class="dn">
+                            <th scope="row"><label for="">{=__('해외배송 보험료')}</label></th>
+                            <td>
+                                {=gd_global_currency_symbol()}<span id="deliveryInsuranceFee">0</span>{=gd_global_currency_string()}
+                                <!--{ ? gGlobal.isFront && gGlobal.useAddCurrency }-->
+                                {=gd_global_add_currency_symbol()}<span id="deliveryInsuranceFeeAdd" class="add_currency">0</span>{=gd_global_add_currency_string()}
+                                <!--{ / }-->
+                                <input type="hidden" name="deliveryInsuranceFee" value="0">
+                                <input type="hidden" name="deliveryInsuranceFeeAdd" value="0">
+                            </td>
+                        </tr>
+                        <tr id="rowDeliverAreaCharge" class="dn">
+                            <th scope="row"><label for="">{=__('지역별 배송비')}</label></th>
+                            <td>
+                                {=gd_global_currency_symbol()}<span id="deliveryAreaCharge">0</span>{=gd_currency_string()}
+                                <input type="hidden" name="totalDeliveryCharge" value="{totalDeliveryCharge}">
+                                <input type="hidden" name="deliveryAreaCharge" value="0">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><label for="">{=__('할인 및 적립')}</label></th>
+                            <td>
+                                <div class="pay_benefits">
+                                    <p id="saleDefault" class="sale">{=__('할인')} : <strong>(-) {=gd_global_currency_symbol()}<b class="total-member-dc-price">{=gd_global_money_format(totalGoodsDcPrice + totalSumMemberDcPrice + totalCouponGoodsDcPrice)}</b>{=gd_global_currency_string()}</strong>
+                                        <!--{ ? gGlobal.isFront && gGlobal.useAddCurrency }-->
+                                        <span class="total-member-dc-price-add add_currency">{=gd_global_add_currency_display(totalGoodsDcPrice + totalSumMemberDcPrice + totalCouponGoodsDcPrice)}</span>
+                                        <!--{ / }-->
+                                        <span>
+                                    (
+                                    {=__('상품')} {=gd_global_currency_display(totalGoodsDcPrice)},
+                                    {=__('회원')} <span class="member-dc-price">{=gd_global_currency_display(totalSumMemberDcPrice)}</span>,
+                                    {=__('쿠폰')} <span class="goods-coupon-dc-price">{=gd_global_currency_display(totalCouponGoodsDcPrice)}</span>
+                                    )
+                                </span>
+                                    </p>
+                                    <p id="saleWithoutMember" class="sale dn">{=__('할인')} : <strong>(-) {=gd_global_currency_symbol()}<b class="total-member-dc-price-without-member">{=gd_global_money_format(totalGoodsDcPrice +totalCouponGoodsDcPrice)}</b>{=gd_global_currency_string()}</strong>
+                                        <span>
+                                    (
+                                    {=__('상품')} {=gd_global_currency_display(totalGoodsDcPrice)},
+                                    {=__('회원')} {=gd_global_currency_display(0)},
+                                    {=__('쿠폰')} <span class="goods-coupon-dc-price-without-member">{=gd_global_currency_display(totalCouponGoodsDcPrice)}</span>
+                                    )
+                                </span>
+                                    </p>
+                                    <!--{ ? gd_is_login() === true }-->
+                                    <!--{ ? deliveryFree == 'y' && totalDeliveryCharge > 0 }-->
+                                    <p class="sale">
+                                        {=__('배송비 할인')} : <strong>(-) {=gd_currency_symbol()}<b class="delivery-free">0</b>{=gd_currency_string()}</strong> <span>({=__('회원등급 배송할인')})</span>
+                                    </p>
+                                    <!--{ / }-->
+                                    <!--{ ? mileage.useFl === 'y' }-->
+                                    <p id="mileageDefault" class="mileage">
+                                        {=__('적립')} {=mileage.name} :
+                                        <strong>(+) <b class="total-member-mileage">{=gd_global_money_format(totalMileage)}</b>{=mileage.unit}</strong><br>
+                                        <span>
+                                    (
+                                    {=__('상품')} <span class="goods-mileage">{=gd_global_money_format(totalGoodsMileage)}</span>{=mileage.unit},
+                                    {=__('회원')} <span class="member-mileage">{=gd_global_money_format(totalMemberMileage)}</span>{=mileage.unit},
+                                    {=__('쿠폰')} <span class="goods-coupon-add-mileage">{=gd_global_money_format(totalCouponGoodsMileage)}</span>{=mileage.unit}
+                                    )
+                                </span>
+                                    </p>
+                                    <p id="mileageWithoutMember" class="mileage dn">
+                                        {=__('적립')} {=mileage.name} :
+                                        <strong>(+) <b class="total-member-mileage-without-member">{=gd_global_money_format(totalGoodsMileage + totalCouponGoodsMileage)}</b>{=mileage.unit}</strong><br>
+                                        <span>
+                                    (
+                                    {=__('상품')} {=gd_global_money_format(totalGoodsMileage)}{=mileage.unit},
+                                    {=__('회원')} {=gd_global_money_format(0)}{=mileage.unit},
+                                    {=__('쿠폰')} <span class="goods-coupon-add-mileage-without-member">{=gd_global_money_format(totalCouponGoodsMileage)}</span>{=mileage.unit}
+                                    )
+                                </span>
+                                    </p>
+                                    <!--{ / }-->
+                                </div>
+                            </td>
+                        </tr>
+                        <!--{ : }-->
+                        <!--{ ? totalGoodsDcPrice > 0 }-->
+                        <tr>
+                            <th scope="row"><label for="">{=__('상품 할인')}</label></th>
+                            <td>
+                                {=gd_global_currency_display(totalGoodsDcPrice)}
+                            </td>
+                        </tr>
+                        <!--{ / }-->
+                        <!--{ / }-->
+                        <!--{ ? (couponUse == 'y' && couponConfig['chooseCouponMemberUseType'] != 'member') && gd_is_login() === true }-->
+                        <tr>
+                            <th scope="row">
+                                <label for="">{=__('보유쿠폰 사용')}</label>
+                            </th>
+                            <td>
+                                <div class="order_coupon_box">
+                                    <input type="hidden" name="couponApplyOrderNo" value="" />
+                                    <input type="hidden" name="totalCouponOrderDcPrice" value="" />
+                                    <input type="hidden" name="totalCouponOrderPrice" value="" />
+                                    <input type="hidden" name="totalCouponOrderMileage" value="" />
+                                    <input type="hidden" name="totalCouponDeliveryDcPrice" value="" />
+                                    <input type="hidden" name="totalCouponDeliveryPrice" value="" />
+                                    <div class="pay_benefits order_coupon_benefits dn">
+                                        <p class="sale">
+                                            {=__('주문할인')} : (-) {=gd_global_currency_symbol()}
+                                            <strong id="useDisplayCouponDcPrice">{=gd_global_money_format(0)}</strong>{=gd_global_currency_string()}
+                                        </p>
+                                        <p class="sale">
+                                            {=__('배송비할인')} :(-) {=gd_global_currency_symbol()}
+                                            <strong id="useDisplayCouponDelivery">{=gd_global_money_format(0)}</strong>{=gd_global_currency_string()}
+                                        </p>
+                                        <p class="mileage">
+                                            {=__('적립')} {=mileage.name} :(+) <strong id="useDisplayCouponMileage">{=gd_global_money_format(0)}</strong>{=mileage.unit}
+                                        </p>
+                                    </div>
+                                    <a href="#couponOrderApplyLayer" class="btn_open_layer coupon_search_apply_btn">{=__('쿠폰 조회 및 적용')}</a>
+                                </div>
+                            </td>
+                        </tr>
+                        <!--{ / // end couponUse }-->
+                        <!--{ ? mileageUse.payUsableFl === 'y' }-->
+                        <tr>
+                            <th scope="row">
+                                <label for="">{=mileage.name} {=__('사용')}</label>
+                            </th>
+                            <td>
+                                <!--{ ? gd_is_login() == false }-->
+                                <span class="tx">{=__('회원만 사용 가능합니다')}</span>
+                                <!--{ : }-->
+                                <style type="text/css" title="">
+
+                                </style>
+                                <div class="all_money_box">
+                                    <div class="money_left">
+                                        <input type="number" name="useMileage" value="" onblur="gd_mileage_use_check('y', 'y', 'y', 'y');">
+                                    </div>
+                                    <!--{ ? mileageUse.usableFl == 'y' }-->
+                                    <div class="money_right">
+                                    <span class="inp_chk">
+                                        <input type="checkbox"  id="useMileageAll" onclick="gd_mileage_use_all();" ><label for="useMileageAll">{=__('전액사용')}</label>
+                                    </span>
+                                    </div>
+                                    <!--{ / // end mileageUse_usableFl }-->
+                                </div>
+                                <div class="point_view">
+                                    <p>({=__('보유')} {=mileage.name} : <span>{=gd_global_money_format(gMemberInfo.mileage)}{=mileage.unit}</span>)</p>
+                                    <p class="js-mileageInfoArea"></p>
+                                </div>
+                                <!--{ / // end is_login_false }-->
+                            </td>
+                        </tr>
+                        <!--{ / // end mileageUse_payUsableFl }-->
+                        <!--{ ? depositUse.payUsableFl === 'y' }-->
+                        <tr>
+                            <th scope="row">
+                                <label for="">{=depositUse.name} {=__('사용')}</label>
+                            </th>
+                            <td>
+                                <!--{ ? gd_is_login() == false }-->
+                                <span class="tx">{=__('회원만 사용 가능합니다')}</span>
+                                <!--{ : }-->
+                                <div class="all_money_box">
+                                    <div class="money_left">
+                                        <input type="number" name="useDeposit" value="" onblur="gd_deposit_use_check();">
+                                    </div>
+                                    <div class="money_right">
+                                <span class="inp_chk">
+                                    <input type="checkbox" class="checkbox" id="useDepositAll" onclick="gd_deposit_use_all();"><label for="useDepositAll">{=__('전액사용')}</label>
+                                </span>
+                                    </div>
+                                </div>
+                                <div class="point_view">
+                                    <p>({=__('보유')} {=depositUse.name} : <span>{=gd_global_money_format(gMemberInfo.deposit)}</span>)</p>
+                                </div>
+                                <!--{ / // end is_login_false }-->
+                            </td>
+                        </tr>
+                        <!--{ / // end depositUse_payUsableFl }-->
+                        </tbody>
+                    </table>
+                </div>
+            </fieldset>
+        </div>
+        <div class="order_box">
+            <div class="sum_prc_wrap">
+                <dl class="sum_prc">
+                    <dt>{=__('최종 결제금액')}</dt>
+                    <dd>
+                        <input type="hidden" name="settlePrice" value="{=gd_global_money_format(totalSettlePrice, false)}">
+                        <input type="hidden" name="overseasSettlePrice" value="0" />
+                        <input type="hidden" name="overseasSettleCurrency" value="KRW" />
+                        <span class="c_red">{=gd_global_currency_symbol()}
+                            <strong id="totalSettlePriceView">{=gd_global_money_format(totalSettlePrice)}</strong>
+                            {=gd_global_currency_string()}
+                            <br>
+                            <!--{ ? gGlobal.isFront && gGlobal.useAddCurrency }-->
+                            <span class="add_currency">{=gd_global_add_currency_symbol()}<strong id="totalAddSettlePrice">{=gd_global_add_money_format(totalSettlePrice)}</strong>{=gd_global_add_currency_string()}</span>
+                            <!--{ / }-->
+                        </span>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+        <!--{ ? totalMemberBankDcPrice > 0 }-->
+        <div style="margin:0 15px 10px;" id="totalMemberBankDcPriceView">
+            <p>
+                ({=__('일반결제의 무통장 입금 추가할인이 적용된 금액이며,')} <br />
+                {=__('다른 결제수단 이용시')} <strong>{=gd_currency_symbol()}{=gd_money_format(totalMemberBankDcPrice)}{=gd_currency_string()} {=__('이 추가된 금액으로 최종 결제')}</strong> {=__('됩니다.')})
+            </p>
+        </div>
+        <!--{ / }-->
+        <div class="how_to_pay">
+            <div class="js-pay-content">
+                <h2 class="order_tit">결제카드 선택</h2>
+                <div style='margin: 0 1em;'>{=includeWidget('subscription/_select_card.html')}</div>
+            </div>
+        </div>
+
+        <!--{ ? orderPolicy.reagreeConfirmFl == 'y' }-->
+        <div class="order_box">
+            <h2 class="order_tit">{=__('청약의사 재확인')}</h2>
+            <fieldset>
+                <div class="re_confirm">
+                    <div class="inp_chk">
+                        <input type="checkbox" name="termAgree_orderCheck" id="termAgree_orderCheck" class="require">
+                        <label for="termAgree_orderCheck">
+                            <strong>({=__('필수')})</strong>
+                            {=__('구매하실 상품의 결제정보를 확인하였으며, 구매진행에 동의합니다.')}
+                        </label>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <!--{ / }-->
+        <div class="btn_pay_wrap">
+            <!--{ ? settleOrderPossible }-->
+            <button type="submit" id="paymentBtn" class="order_payment_btn">{=__('정기결제 신청하기')}</button>
+            <!--{ : }-->
+            <p class="caution_msg1">{=__('주문하시는 상품의 결제 수단이 상이 하여 결제가 불가능합니다.')}</p>
+            <div class="btn"><span class="order_payment_btn">{=__('결제불가')}</span></div>
+            <!--{ / }-->
+        </div>
+    </form>
+    <!-- 주문하기 끝 -->
+</div>
+
+<!-- pg_gate start -->
+{#pg_gate}
+<!-- pg_gate end -->
+
+<!-- 레이어 호출시 딤처리 -->
+<div id="layerDim" class="dn">&nbsp;</div>
+<!-- //레이어 호출시 딤처리 -->
+
+<!--{ ? couponUse == 'y' }-->
+<!-- 주문 쿠폰 적용하기 레이어 -->
+<div id="couponOrderApplyLayer" data-key="apply-coupon"></div>
+<!--//주문 쿠폰 적용하기 레이어 -->
+<!--{ / }-->
+<!-- PG 결제 적용하기 레이어 -->
+<div id="pgSettlementApplyLayer" data-key="pg-layer"></div>
+<!--//PG 결제 적용하기 레이어 -->
+<!-- 나의 배송지 관리 레이어 -->
+<script id="myShippingList" type="text/html">
+    <li class="delivery_item">
+        <div class="inp_rdo">
+
+            <input type="radio" id="input<%=idx%>" name="shipping">
+            <label for="input<%=idx%>"></label>
+
+        </div>
+        <div class="del_body">
+            <label for="input1">
+                <div class="del-name">
+                    <span class="shipping_name"><strong><%=shippingName%></strong></span>
+                    <% if (defaultFl == 'y') { %>
+                    <span>({=__('기본배송지')})</span>
+                    <% } %>
+                </div>
+                <div class="del-address">
+                    <span class="shipping_zonecode"><%=shippingZonecode%></span>
+                    <% if (shippingZipcode != '') { %>
+                    (
+                    <span class="shipping_zipcode"><%=shippingZipcode%></span>
+                    )
+                    <% } %>
+                    <!--{ ? gGlobal.isFront }-->
+                    <span class="shipping_addresssub"><%=shippingAddressSub%></span>,
+                    <span class="shipping_address"><%=shippingAddress%></span>,
+                    <span class="shipping_state"><%=shippingState%></span>,
+                    <span class="shipping_city"><%=shippingCity%></span>,
+                    <span class="shipping_country"><%=shippingCountry%></span>
+                    <span class="shipping_country_code dn"><%=shippingCountryCode%></span>
+                    <!--{ : }-->
+                    <span class="shipping_address"><%=shippingAddress%></span>
+                    <span class="shipping_addresssub"><%=shippingAddressSub%></span>
+                    <!--{ / }-->
+                </div>
+                <div class="del-callnum">
+                    <!--{ ? gGlobal.isFront }-->
+                    (+<span class="shipping_cellphone_prefix"><%=shippingCellPhonePrefix%></span>)
+                    <span class="shipping_cellphone_prefixcode dn"><%=shippingCellPhonePrefixCode%></span>
+                    <!--{ / }-->
+                    <span class="shipping_cellphone"><%=shippingCellPhone%></span>
+
+                    <span class="dn">
+                        <!--{ ? gGlobal.isFront }-->
+                        (+<span class="shipping_phone_prefix"><%=shippingPhonePrefix%></span>)
+                        <span class="shipping_phone_prefixcode dn"><%=shippingPhonePrefixCode%></span>
+                        <!--{ / }-->
+                        <span class="shipping_phone"><%=shippingPhone%></span>
+                    </span>
+                </div>
+            </label>
+        </div>
+    </li>
+</script>
+<!-- //나의 배송지 관리 레이어 -->
+<!--{ ? isUseMultiShipping === true }-->
+<script type="text/html" class="template" id="multiShippingRow">
+    <div class="shipping_info_table" style="margin-top:20px;">
+        <div class="order_box">
+            <h2 class="order_tit">
+                {=__('추가 배송지')}<b class="no"><%=no%></b>
+                <span style="float:right;">
+                    <button class="btn cart_option_modify shipping_remove_btn" style="height:30px; line-height:18px;">- {=__('삭제')}</button>
+                </span>
+            </h2>
+            <div class="delivery_box">
+                <!--{ ? gd_is_login() === true }-->
+                <div class="tab_menu">
+                    <ul>
+                        <li class="tab_btn"><a href="#tab2">{=__('배송지 목록')}</a></li>
+                        <li class="tab_btn active"><a href="#tab3">{=__('직접 입력')}</a></li>
+                    </ul>
+                </div>
+                <!--{ / }-->
+                <div style="margin-top:15px;">
+                    <div class="delivery_list_add"></div>
+                    <div class="delivery_list"></div>
+                    <input type="hidden" name="shippingCellPhonePrefixAdd[<%=no%>]" value="" />
+                    <input type="hidden" name="shippingPhonePrefixAdd[<%=no%>]" value="" />
+                    <input type="hidden" name="shippingSnoAdd[<%=no%>]" value="" />
+                    <div class="multi_order_table_area">
+                        <div class="tbl order_table">
+                            <table width="100%" cellspacing="0" cellpadding="0" class="table_style4">
+                                <colgroup>
+                                    <col>
+                                    <col>
+                                </colgroup>
+                                <tbody>
+                                <tr>
+                                    <th class="required"><label class="tit">{=__('이름')}</label></th>
+                                    <td>
+                                        <input type="text" name="shippingNameAdd[<%=no%>]" value="" maxlength="20" class="input-text wp100">
+                                    </td>
+                                </tr>
+                                <!--{ ? gGlobal.isFront }-->
+                                <tr>
+                                    <th class="required"><label class="tit">{=__('국가')}</label></th>
+                                    <td>
+                                        <div class="inp_sel">
+                                            {=gd_select_box('shippingCountryCodeAdd[<%=no%>]', 'shippingCountryCodeAdd[<%=no%>]', countryAddress, null, recommendCountryCode, __('=선택해주세요='), null)}
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="required"><label class="tit">{=__('도시')}</label></th>
+                                    <td>
+                                        <input type="text" name="shippingCityAdd[<%=no%>]" value="" maxlength="20" class="input-text wp100" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="required"><label class="tit">{=__('주/지방/지역')}</label></th>
+                                    <td>
+                                        <input type="text" name="shippingStateAdd[<%=no%>]" value="" maxlength="20" class="input-text wp100" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="required"><label class="tit">{=__('주소1')}</label></th>
+                                    <td>
+                                        <input type="text" name="shippingAddressAdd[<%=no%>]" value="" class="input-text wp100" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="required"><label class="tit">{=__('주소2')}</label></th>
+                                    <td>
+                                        <input type="text" name="shippingAddressSubAdd[<%=no%>]" value="" class="input-text wp100" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="required"><label class="tit">{=__('우편번호')}</label></th>
+                                    <td>
+                                        <input type="text" name="shippingZonecodeAdd[<%=no%>]" value="" <!--{ ? !gGlobal.isFront }-->style="width:40px;"<!--{ / }--> class="input-text wp100" />
+                                        <input type="hidden" name="shippingZipcodeAdd[<%=no%>]" value=""/>
+                                    </td>
+                                </tr>
+                                <!--{ : }-->
+                                <tr>
+                                    <th><label class="tit">{=__('주소')}</label></th>
+                                    <td>
+                                        <div class="zipcode_box">
+                                            <div class="zipcode_top">
+                                                <div class="zipcode_num">
+                                                    <input type="text" name="shippingZonecodeAdd[<%=no%>]" value=""  readonly="readonly" >
+                                                    <input type="hidden" name="shippingZipcodeAdd[<%=no%>]" value=""/>
+                                                </div>
+                                                <div class="zipcode_btn_box">
+                                                    <button class="zipcode_btn1 postcode_search post_search" type="button" data-no="<%=no%>">
+                                                        {=__('우편번호')}
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <input type="text" name="shippingAddressAdd[<%=no%>]" value="" readonly="readonly">
+                                            <input type="text" name="shippingAddressSubAdd[<%=no%>]" value="">
+                                            <!--{ ? gd_is_login() === true }-->
+                                            <div class="member_chk_box">
+                                                <div class="inp_chk">
+                                                    <input type="checkbox" value="y" id="reflectApplyDeliveryAdd[<%=no%>]" name="reflectApplyDeliveryAdd[<%=no%>]"  class="sp require">
+                                                    <label for="reflectApplyDeliveryAdd[<%=no%>]">
+                                                        {=__('배송지 목록에 추가합니다.')}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <!--{ / }-->
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!--{ / }-->
+                                <tr>
+                                    <th><label class="tit">{=__('전화번호')}</label></th>
+                                    <td>
+                                        <!--{ ? gGlobal.isFront }-->
+                                        <div class="cell">
+                                            <div class="inp_sel">
+                                                {=gd_select_box('shippingPhonePrefixCodeAdd[<%=no%>]', 'shippingPhonePrefixCodeAdd[<%=no%>]', countryPhone, null, null, __('국가코드'), null, 'tune select-small')}
+                                            </div>
+                                        </div>
+                                        <!--{ / }-->
+                                        <input type="text" id="shippingPhoneAdd[<%=no%>]" name="shippingPhoneAdd[<%=no%>]" value="" class="input-text wp100">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th class="required"><label class="tit">{=__('휴대폰번호')}</label></th>
+                                    <td>
+                                        <!--{ ? gGlobal.isFront }-->
+                                        <div class="cell">
+                                            <div class="inp_sel">
+                                                {=gd_select_box('shippingCellPhonePrefixCodeAdd[<%=no%>]', 'shippingCellPhonePrefixCodeAdd[<%=no%>]', countryPhone, null, null, __('국가코드'), null, 'tune select-small')}
+                                            </div>
+                                        </div>
+                                        <!--{ / }-->
+                                        <div class="cell">
+                                            <input type="text" id="shippingCellPhoneAdd[<%=no%>]" name="shippingCellPhoneAdd[<%=no%>]" value="{basiceShippingAddress.shippingCellPhone}" class="input-text wp100">
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!--{ ? gGlobal.isFront == false && useSafeNumberFl == 'y'}-->
+                                <tr>
+                                    <th><label for="receiverUseSafeNumberFl">{=__('안심번호')}</label></th>
+                                    <td>
+                                        <div class="inp_chk">
+                                            <input type="checkbox" name="shippingUseSafeNumberFlAdd[<%=no%>]" id="shippingUseSafeNumberFlAdd[<%=no%>]" value="w" checked="checked">
+                                            <label for="shippingUseSafeNumberFlAdd[<%=no%>]">{=__('안심번호 사용')}</label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!--{ / }-->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="table_box">
+                    <table width="100%" cellspacing="0" cellpadding="0" class="table_style4">
+                        <colgroup>
+                            <col>
+                            <col>
+                        </colgroup>
+                        <tbody>
+                        <tr>
+                            <th><label for="orderMemo">{=__('남기실 말씀')}</label></th>
+                            <td>
+                                <input type="text" name="orderMemoAdd[<%=no%>]" value="">
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="table_box select_goods_area">
+                    <div class="order_table">
+                        <table width="100%" cellspacing="0" cellpadding="0" class="table_style4">
+                            <colgroup>
+                                <col>
+                                <col>
+                            </colgroup>
+                            <tr>
+                                <th><label class="tit">{=__('배송상품')}</label></th>
+                                <td>
+                                    <input type="hidden" name="selectGoods[<%=no%>]" value="">
+                                    <input type="hidden" name="multiDelivery[<%=no%>]" value="0">
+                                    <a class="cart_select_order_btn btn_open_layer shipping_goods_select">{=__('상품선택')}</a>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="my_goods select_goods order_goods dn" style="background:#fff;">
+                            <table width="100%"></table>
+                        </div>
+                    </div>
+                </div>
+                <div class="shipping_add_btn"><a class="order_payment_btn">+ {=__('배송지 추가')}</a></div>
+            </div>
+        </div>
+    </div>
+</script>
+<!--{ / }-->
+<script type="text/javascript" src="../js/jquery/jquery.serialize.object.js"></script>
+<script type="text/javascript" src="../js/jquery/validation/additional/businessnoKR.js"></script>
+<script type="text/javascript">
+    <!--
+    var deliveryList = '';
+    // 마일리지 사용 정보
+    var mileageUse = {
+        'usableFl' : '{=mileageUse.usableFl}',
+        'minimumHold' : parseInt('{=mileageUse.minimumHold}'),
+        'minimumLimit' : parseInt('{=mileageUse.minimumLimit}'),
+        'orderAbleLimit' : parseInt('{=mileageUse.orderAbleLimit}'),
+        'orderAbleStandardPrice' : parseInt('{=mileageUse.orderAbleStandardPrice}'), // '최소 상품구매금액 제한' 을 비교하기 위한 계산된 구매금액
+        'useDeliveryFl' : '{=mileageUse.useDeliveryFl}',
+        'maximumLimit' : '{=mileageUse.maximumLimit}',
+        'oriMaximumLimit' : parseInt('{=mileageUse.oriMaximumLimit}'), // 변형되지 않은 설정 그대로의 값 - %는 원으로 계산되어 나옴
+    };
+
+    const sessionKey = 'shippingInfo';
+    $(document).ready(function(){
+
+        // 주문페이지에서 카드 등록 후 내용 삽입 start
+        const savedData = JSON.parse(sessionStorage.getItem(sessionKey) || '{}');
+
+        if (Object.keys(savedData).length > 0) {
+            for (const [name, value] of Object.entries(savedData)) {
+                if (!name || value === undefined || value === null) {
+                    continue;
+                }
+
+                const $input = $("form").find("[name='"+name+"']");
+
+                if ($input.length > 0) {
+                    const inputType = $input.attr('type');
+
+                    if (inputType === 'radio' || inputType === 'checkbox') {
+                        $(`form [name='${name}'][id='${value}']`).prop('checked', true);
+                        $("label[for='" + value + "']").addClass('on');
+                    } else {
+                        $input.val(value);
+                    }
+                }
+            }
+
+            sessionStorage.removeItem(sessionKey);
+        }
+        // 주문페이지에서 카드 등록 후 내용 삽입 end
+
+        $(".js_add_card_order_btn").click(function () {
+
+            sessionStorage.removeItem(sessionKey);
+            const storageData = {};
+
+            $('form').find(':input').each(function () {
+                const name = $(this).attr('name');
+                const type = $(this).attr('type');
+
+                if (!name) {
+                    return;
+                }
+
+                if (type === 'radio' || type === 'checkbox') {
+                    if ($(this).is(':checked')) {
+                        storageData[name] = $(this).attr('id');
+                    }
+                } else {
+                    storageData[name] = $(this).val();
+                }
+            });
+
+            sessionStorage.setItem(sessionKey, JSON.stringify(storageData));
+
+            var w = $(this).data("width");
+            var h = $(this).data("height");
+            wm.card.register_order(w, h);
+        });
+        // 주문페이지에서 카드 등록 end
+
+        <!--{ ? !shippingDefaultFl && gd_is_login() === true }-->
+        $('.tab_menu li a[href="#tab3"]').trigger('click');
+        $('input[name=tmpDeliverTab]').val('direct');
+        <!--{ / }-->
+        // 결제창 닫기
+        //$(document).on('click', '#pgSettlementApplyLayer .close-btn', function(e){
+        //    gd_close_layer($('#pgSettlementApplyLayer'));
+        //});
+
+        $('input.number_only').on('keyup', function () {
+            var value = $(this).val().replace(/[^0-9]/g, '');
+            $(this).val(value);
+        });
+
+        // 배송지 목록탭 클릭시 바인딩
+        $('.tab_menu li a[href*="#tab"]').bind('click', function(e){
+            e.preventDefault();
+            var shippingNo = 0;
+            <!--{ ? isUseMultiShipping === true }-->
+            if ($('input[name="multiShippingFl"]').prop('checked') === true) {
+                var href = $(this).attr('href');
+                shippingNo = $('.tab_btn > a[href="' + href + '"]').index(this);
+
+                if (shippingNo > 0) {
+                    return;
+                }
+            }
+            <!--{ / }-->
+            switch ($(this).attr('href')) {
+                // 기본배송지
+                case '#tab1':
+                    $('input[name=tmpDeliverTab]').val('receiver');
+                    $('select[name="receiverCountryCode"]').trigger('change');
+                    gd_get_delivery_area_charge($('input[name=receiverAddress]').val(), $('input[name=receiverAddressSub]').val());
+                    break;
+
+                // 배송지목록
+                case '#tab2':
+                    $('input[name=tmpDeliverTab]').val('shipping');
+                    $('.order_table_area').hide();
+                    var self = $($(this).attr('href'));
+                    var params = {
+                        mode: 'shipping_list'
+                    };
+                    self.addClass('loading');
+                    $.post('../order/order_ps.php', params, function(data){
+                        deliveryList = data;
+                        $('.delivery_list_add').eq(shippingNo).empty().append('<li><a href="../mypage/layer_shipping_address_regist.php?type=order_regist&shippingNo=' + shippingNo + '" data-toggle="modal" data-target="#popupShipping" data-type="post" data-cache="false" class="dellvery_add_btn">{=__('배송지 추가')}</a></li>');
+                        $('.delivery_list').eq(shippingNo).empty();
+                        self.removeClass('loading');
+                        if (data.length > 0) {
+                            $.each(data, function(idx){
+                                var json = $(this)[0];
+                                $('.delivery_list_add').eq(shippingNo).append('<li class="btn_shipping_receiver"><a data-sno="' + json.sno + '" class="dellvery_list_btn">' + json.shippingTitle + '</a></li>');
+                                if (idx === 0) {
+                                    gd_insert_shipping_data(json);
+                                }
+                            });
+                        } else {
+                            $('.delivery_list').eq(shippingNo).empty().append('<div class="no_shipping"><b>{=__('등록된 기본배송지가 없습니다.')}</b><br />({=__('기본배송지는 "배송지 목록"에서 추가할 수 있습니다.')})</div>');
+                        }
+                    });
+                    break;
+
+                // 직접입력
+                case '#tab3':
+                    $('input[name=tmpDeliverTab]').val('direct');
+                    $('input[name="directAddressSub"]').blur();
+                    break;
+            }
+        });
+
+        $(document).on('click', '.btn_shipping_receiver', function(){
+            var shippingNo = 0;
+            var idx = $('.delivery_list_add:eq(' + shippingNo + ') .btn_shipping_receiver').index(this);
+            <!--{ ? isUseMultiShipping === true }-->
+            if ($('input[name="multiShippingFl"]').prop('checked') === true && $(this).data('shipping-no') > 0) {
+                shippingNo = $(this).data('shipping-no');
+                idx = $('.delivery_list_add:eq(' + shippingNo + ') .btn_shipping_receiver').index(this);
+            }
+            <!--{ / }-->
+            if (deliveryList[idx]) {
+                gd_insert_shipping_data(deliveryList[idx], shippingNo);
+            }
+        });
+
+        // 배송지목록 radio 선택시
+        $(document).on('click', 'input[name=shipping]:radio', function(e){
+            var obj = $(this).closest('.delivery_item').find('.del_body');
+            $('input[name=shippingName]').val(obj.find('.shipping_name').text());
+            $('input[name=shippingZipcode]').val(obj.find('.shipping_zipcode').text());
+            $('input[name=shippingZonecode]').val(obj.find('.shipping_zonecode').text());
+            $('input[name=shippingCountry]').val(obj.find('.shipping_country').text());
+            $('input[name=shippingCountryCode]').val(obj.find('.shipping_country_code').text());
+            $('input[name=shippingState]').val(obj.find('.shipping_state').text());
+            $('input[name=shippingCity]').val(obj.find('.shipping_city').text());
+            $('input[name=shippingAddress]').val(obj.find('.shipping_address').text());
+            $('input[name=shippingAddressSub]').val(obj.find('.shipping_addresssub').text());
+            $('input[name=shippingPhonePrefix]').val(obj.find('.shipping_phone_prefix').text());
+            $('input[name=shippingPhonePrefixCode]').val(obj.find('.shipping_phone_prefixcode').text());
+            $('input[name=shippingPhone]').val(obj.find('.shipping_phone').text());
+            $('input[name=shippingCellPhonePrefix]').val(obj.find('.shipping_cellphone_prefix').text());
+            $('input[name=shippingCellPhonePrefixCode]').val(obj.find('.shipping_cellphone_prefixcode').text());
+            $('input[name=shippingCellPhone]').val(obj.find('.shipping_cellphone').text());
+        });
+
+        <!--{ ? couponUse == 'y' }-->
+        // 쿠폰 적용/변경 레이어
+        $('.btn_open_layer').bind('click', function(e){
+            e.preventDefault();
+            if($(this).attr('href') == '#couponOrderApplyLayer') {
+                // 마일리지 쿠폰 중복사용 체크
+                var checkMileageCoupon = gd_choose_mileage_coupon('coupon');
+                if (!checkMileageCoupon) {
+                    return false;
+                }
+
+                var cartIdx = [];
+                $('input[name="cartSno[]"]').each(function(idx){
+                    cartIdx.push($(this).val());
+                });
+                var params = {
+                    mode: 'coupon_apply_order',
+                    cartSno: cartIdx,
+                    couponApplyOrderNo: $('input:hidden[name="couponApplyOrderNo"]').val(),
+                };
+
+                $('#popupCouponApply').modal({
+                    remote: '/subscription/layer_coupon_apply_order.php',
+                    cache: false,
+                    type : 'post',
+                    params: params,
+                    show: true
+                });
+            }
+        });
+
+        // 쿠폰 취소
+        $('.btn_coupon_cancel').bind('click', function(e){
+            var cartSno = $(this).data('cartsno');
+            $('[name="cart[cartSno]"]').val(cartSno);
+            $('#frmCart input[name=\'mode\']').val('couponDelete');
+            $('#frmCart').attr('method', 'post');
+            $('#frmCart').attr('target', 'ifrmProcess');
+            $('#frmCart').attr('action', '../order/cart_ps.php');
+            $('#frmCart').submit();
+
+            return false;
+        });
+        <!--{ / }-->
+
+        // 사은품 체크 및 체크된 수량 출력
+        $('.gift_choice input[type=checkbox]').click(function(e){
+            if($(this).prop('readonly') == false) {
+                var selectCnt = $(this).closest('li').find('.gift_select_cnt').val();
+                var checkedCnt = $(this).closest('ul').find('input[type=checkbox]:checked').length;
+                if (checkedCnt > selectCnt) {
+                    alert(__('사은품은 최대 %s개만 선택하실 수 있습니다.', selectCnt));
+                    $(this).prop('checked', false).next('label').removeClass('on');
+
+                    return false;
+                }
+                $(this).closest('ul').prev('p').find('span').text(checkedCnt);
+            }
+        });
+
+        // 세금계산서 관련 체크용
+        var checkTax = function() {
+            if ($('#settleKind_gb').is(':checked') && $('#receiptTax').is(':checked')) {
+                return true;
+            }
+            return false;
+        }
+
+        // 무통장입금 체크
+        var checkBank = function() {
+            if ($('#settleKind_gb').is(':checked') && parseInt($('input[name=settlePrice]').val()) > 0) {
+                return true;
+            }
+            return false;
+        }
+
+        <!--{ ? receipt['taxFl'] == 'y'  && taxInfo.eTaxInvoiceFl == 'y' }-->
+        $.validator.addMethod(
+            'taxEmailChk', function (value, element) {
+                if($('input[name=receiptFl]:checked').val() =='t' && $('input[name=taxEmail]').val() !=  '' && !$.validator.methods.email.call(this, $.trim(value), element)){
+                    $.validator.messages.taxEmailChk =  __('[세금계산서] 발행 이메일을 정확하게 입력하여 주세요.');
+                    return false;
+                }
+                return true;
+            },'');
+        <!--{ / }-->
+        /*
+         * 비회원 주문 전체 동의 체크박스 이벤트
+         */
+        <!--{ ? gd_is_login() === false }-->
+        <!--{ ? hasScmGoods === false }-->
+        $('#allAgree', $('#frmOrder')).change(function (e) {
+            e.preventDefault();
+            var $target = $(e.target), $checkboxAgreement = $('#termAgree_agreement'),  $checkboxGuest = $('#nomember_privacy_agree'), $labelAgree = $checkboxAgreement.siblings('label'), $labelGuest = $checkboxGuest.siblings('label');
+            if ($target.prop('checked') === true) {
+                $checkboxAgreement.prop('checked', true).val('y');
+                $labelAgree.addClass('on');
+                $checkboxGuest.prop('checked', true).val('y');
+                $labelGuest.addClass('on');
+            } else {
+                $checkboxAgreement.prop('checked', false).val('n');
+                $labelAgree.removeClass('on');
+                $checkboxGuest.prop('checked', false).val('n');
+                $labelGuest.removeClass('on');
+            }
+        });
+        <!--{ : }-->
+        $('#allAgreeScm', $('#frmOrder')).change(function (e) {
+            e.preventDefault();
+            var $target = $(e.target), $checkboxAgreement = $('#termAgree_agreement'),  $checkboxGuest = $('#nomember_privacy_agree'), $labelAgree = $checkboxAgreement.siblings('label'), $labelGuest = $checkboxGuest.siblings('label'), $checkboxScm = $('#termAgreePrivateProvider'), $labelScm = $checkboxScm.siblings('label');
+            if ($target.prop('checked') === true) {
+                $checkboxAgreement.prop('checked', true).val('y');
+                $labelAgree.addClass('on');
+                $checkboxGuest.prop('checked', true).val('y');
+                $labelGuest.addClass('on');
+                $checkboxScm.prop('checked', true).val('y');
+                $labelScm.addClass('on');
+            } else {
+                $checkboxAgreement.prop('checked', false).val('n');
+                $labelAgree.removeClass('on');
+                $checkboxGuest.prop('checked', false).val('n');
+                $labelGuest.removeClass('on');
+                $checkboxScm.prop('checked', false).val('n');
+                $labelScm.removeClass('on');
+            }
+        });
+        <!--{ / }-->
+        <!--{ / }-->
+        // 폼 체크
+        $('#frmOrder').validate({
+            onkeyup: onkeyup,
+            submitHandler: function (form) {
+                <!--{ ? giftConf.giftFl == 'y' }-->
+                <!--{ @ giftInfo }-->
+                <!--{ @ gift }-->
+                <!--{ ? ..total > 0 }-->
+                var selectCnt = $('input[type=checkbox][name*="gift[{.key_}]"]').closest('li').find('.gift_select_cnt').val();
+                if ($('input[type=checkbox][name*="gift[{.key_}]"]:checked').length < selectCnt) {
+                    pass = false;
+                    alert(__('사은품은 최소 %s개 이상 선택하셔야 합니다.', selectCnt));
+                    $('input[type=checkbox][name*="gift[{.key_}]"]').eq(0).focus();
+                    return false;
+                }
+                <!--{ / }-->
+                <!--{ / }-->
+                <!--{ / }-->
+                <!--{ / }-->
+
+                <!--{ ? isUseMultiShipping === true }-->
+                if ($('input[name="multiShippingFl"]').prop('checked') === true) {
+                    var msg = '';
+                    var cartGoodsCnt = 0;
+                    var cartAddGoodsCnt = 0;
+
+                    $('input[name^="selectGoods"]').each(function(index){
+                        if (index > 0) {
+                            if (!$('input[name="shippingNameAdd[' + index + ']"]').val()) {
+                                $('input[name="shippingNameAdd[' + index + ']"]').focus();
+                                msg = __('받으실 분 정보를 입력해 주세요.');
+                                return false;
+                            }
+                            if (!$('input[name="shippingZonecodeAdd[' + index + ']"]').val()) {
+                                $('input[name="shippingZonecodeAdd[' + index + ']"]').focus();
+                                msg = __('받으실 곳 우편번호 정보를 입력해 주세요.');
+                                return false;
+                            }
+                            if (!$('input[name="shippingAddressAdd[' + index + ']"]').val()) {
+                                $('input[name="shippingAddressAdd[' + index + ']"]').focus();
+                                msg = __('받으실 곳 주소 정보를 입력해 주세요.');
+                                return false;
+                            }
+                            if (!$('input[name="shippingAddressSubAdd[' + index + ']"]').val()) {
+                                $('input[name="shippingAddressSubAdd[' + index + ']"]').focus();
+                                msg = __('받으실 곳 주소 정보를 입력해 주세요.');
+                                return false;
+                            }
+                            if (!$('input[name="shippingCellPhoneAdd[' + index + ']"]').val()) {
+                                $('input[name="shippingCellPhoneAdd[' + index + ']"]').focus();
+                                msg = __('받으실 분 휴대폰 번호 정보를 입력해 주세요.');
+                                return false;
+                            }
+
+                            for (var i = 0; i < index ; i++) {
+                                var prevShippingZoneCode = $('input[name="shippingZonecodeAdd[' + i + ']"]').val();
+                                var prevShippingAddressSub = $('input[name="shippingAddressSubAdd[' + i + ']"]').val();
+
+                                if (i == 0) {
+                                    var addressHead = 'receiver';
+                                    if ($('input[name="tmpDeliverTab"]').val()) {
+                                        addressHead = $('input[name="tmpDeliverTab"]').val();
+                                    }
+                                    prevShippingZoneCode = $('input[name="' + addressHead + 'Zonecode"]').val();
+                                    prevShippingAddressSub = $('input[name="' + addressHead + 'AddressSub"]').val();
+                                }
+
+                                if (prevShippingZoneCode == $('input[name="shippingZonecodeAdd[' + index + ']"]').val() && prevShippingAddressSub == $('input[name="shippingAddressSubAdd[' + index + ']"]').val()) {
+                                    msg = __('복수 배송지를 이용 시에는 동일 배송지를 선택할 수 없습니다.');
+                                    return false;
+                                }
+                            }
+                        }
+                        if ($(this).val()) {
+                            $.parseJSON($(this).val()).forEach(function(ele){
+                                if (ele.goodsCnt > 0) {
+                                    cartGoodsCnt += parseInt(ele.goodsCnt);
+                                }
+                                if (ele.addGoodsTotalCnt > 0) {
+                                    cartAddGoodsCnt += parseInt(ele.addGoodsTotalCnt);
+                                }
+                            });
+                        } else {
+                            msg = __('배송지마다 최소 1개 이상의 주문상품이 선택되어야 합니다.');
+                            return false;
+                        }
+                    });
+
+                    if (msg) {
+                        alert(msg);
+                        return false;
+                    }
+
+                    if (cartGoodsCnt != $('input[name="cartGoodsCnt"]').val() || cartAddGoodsCnt != $('input[name="cartAddGoodsCnt"]').val()) {
+                        alert(__('배송지가 설정되지 않은 주문상품이 존재합니다.'));
+                        return false;
+                    }
+                }
+                <!--{ / }-->
+
+                var pass = true;
+                
+                if (!$("#agree_subscription").prop("checked")) {
+                    pass = false;
+                    alert("정기결제 이용약관에 동의해 주세요.");
+                    return false;
+                }
+                
+                if ($(".idx_card").val() == "" || $(".idx_card").val() == 0) {
+                    pass = true;
+                    alert("결제카드를 선택하세요.");
+                    return false;
+                }
+                
+                $('input:checkbox[id*="termAgree_"].require').each(function (idx, item) {
+                    var $item = $(item);
+                    if (!$item.prop('checked')) {
+                        pass = false;
+                        alert("{=__('청약의사 재확인을 동의해 주셔야 주문을 진행하실 수 있습니다.')}");
+                        return false;
+                    }
+                });
+
+                if (pass) {
+                   wm.layer.popup("/subscription/card_register.php?isOrder=1", 340, 500);
+                }
+            },
+            rules: {
+                <!--{ ? gd_is_login() == false }-->
+                termAgreeGuest: 'required',
+                termAgreeAgreement: 'required',
+                termAgreePrivate: 'required',
+                <!--{ / }-->
+                <!--{? hasScmGoods}-->
+                termAgreePrivateProvider: 'required',
+                <!--{ / }-->
+                orderName: 'required',
+                orderCellPhone: 'required',
+                orderEmail: 'required',
+                receiverName: {
+                    required: function () {
+                        return $('#tab1').hasClass('show');
+                    }
+                },
+                receiverZonecode: {
+                    required: function () {
+                        return $('#tab1').hasClass('show');
+                    }
+                },
+                receiverZonecode: {
+                    required: function () {
+                        return $('#tab1').hasClass('show');
+                    },
+                    <!--{ ? !gGlobal.isFront }-->
+                    number: true,
+                    <!--{ : }-->
+                    alphanumeric: true,
+                    <!--{ / }-->
+                },
+                receiverAddress: {
+                    required: function () {
+                        return $('#tab1').hasClass('show');
+                    }
+                },
+                receiverAddressSub: {
+                    required: function () {
+                        return $('#tab1').hasClass('show');
+                    }
+                },
+                receiverCellPhone: {
+                    required: function () {
+                        return $('#tab1').hasClass('show');
+                    }
+                },
+                shipping: {
+                    required: function () {
+                        return $('#tab2').hasClass('show');
+                    }
+                },
+                directName: {
+                    required: function () {
+                        return $('#tab3').hasClass('show');
+                    }
+                },
+                directZonecode: {
+                    required: function () {
+                        return $('#tab3').hasClass('show');
+                    },
+                    <!--{ ? !gGlobal.isFront }-->
+                    number: true,
+                    <!--{ : }-->
+                    alphanumeric: true,
+                    <!--{ / }-->
+                },
+                directAddress: {
+                    required: function () {
+                        return $('#tab3').hasClass('show');
+                    }
+                },
+                directAddressSub: {
+                    required: function () {
+                        return $('#tab3').hasClass('show');
+                    }
+                },
+                directCellPhone: {
+                    required: function () {
+                        return $('#tab3').hasClass('show');
+                    }
+                },
+                bankSender: {
+                    required: checkBank
+                },
+                bankAccount: {
+                    required: checkBank
+                },
+                taxBusiNo: {
+                    required: checkTax,
+                    businessnoKR: checkTax
+                },
+                taxCompany: {
+                    required: checkTax
+                },
+                taxCeoNm: {
+                    required: checkTax
+                },
+                taxService: {
+                    required: checkTax
+                },
+                taxItem: {
+                    required: checkTax
+                },
+                <!--{ ? receipt['taxFl'] == 'y'  && taxInfo.eTaxInvoiceFl == 'y' }-->
+                taxEmail: {
+                    taxEmailChk: true
+                },
+                <!--{ / }-->
+                taxAddress: {
+                    required: checkTax
+                }
+            },
+            messages: {
+                <!--{ ? gd_is_login() == false }-->
+                termAgreeGuest: {
+                    required: "{=__('비회원 주문에 대한 개인정보 수집 이용에 동의해 주세요.')}"
+                },
+                termAgreeAgreement: {
+                    required: "{=__('이용약관에 동의해 주세요.')}"
+                },
+                termAgreePrivate: {
+                    required: "{=__('개인정보 수집 이용 약관에 동의해 주세요.')}"
+                },
+                <!--{ / }-->
+                <!--{? hasScmGoods}-->
+                termAgreePrivateProvider: {
+                    required: "{=__('상품 공급사 개인정보 제공에 동의해 주세요.')}"
+                },
+                <!--{ / }-->
+                orderName: {
+                    required: "{=__('주문하시는 분 정보를 입력해 주세요.')}"
+                },
+                orderCellPhone: {
+                    required: "{=__('주문하시는 분 휴대폰 번호 정보를 입력해 주세요.')}"
+                },
+                orderEmail: {
+                    required: "{=__('주문하시는 분 이메일 정보를 입력해 주세요.')}"
+                },
+                receiverName: {
+                    required: "{=__('받으실 분 정보를 입력해 주세요.')}"
+                },
+                receiverZonecode: {
+                    required: "{=__('받으실 곳 우편번호 정보를 입력해 주세요.')}",
+                    <!--{ ? !gGlobal.isFront }-->
+                    number: "{=__('숫자만 입력하실 수 있습니다.')}",
+                    <!--{ : }-->
+                    alphanumeric: "{=__('알파벳과 숫자로만 구성되어야 합니다.')}",
+                    <!--{ / }-->
+                },
+                receiverAddress: {
+                    required: "{=__('받으실 곳 주소 정보를 입력해 주세요.')}"
+                },
+                receiverAddressSub: {
+                    required: "{=__('받으실 곳 주소 정보를 입력해 주세요.')}"
+                },
+                receiverCellPhone: {
+                    required: "{=__('받으실 분 휴대폰 번호 정보를 입력해 주세요.')}"
+                },
+                shipping: {
+                    required: "{=__('배송지 목록에서 배송지를 선택해 주세요.')}"
+                },
+                directName: {
+                    required: "{=__('받으실 분 정보를 입력해 주세요.')}"
+                },
+                directZonecode: {
+                    required: "{=__('받으실 곳 우편번호 정보를 입력해 주세요.')}",
+                    <!--{ ? !gGlobal.isFront }-->
+                    number: "{=__('숫자만 입력하실 수 있습니다.')}",
+                    <!--{ : }-->
+                    alphanumeric: "{=__('알파벳과 숫자로만 구성되어야 합니다.')}",
+                    <!--{ / }-->
+                },
+                directAddress: {
+                    required: "{=__('받으실 곳 주소 정보를 입력해 주세요.')}"
+                },
+                directAddressSub: {
+                    required: "{=__('받으실 곳 주소 정보를 입력해 주세요.')}"
+                },
+                directCellPhone: {
+                    required: "{=__('받으실 분 휴대폰 번호 정보를 입력해 주세요.')}"
+                },
+                bankSender: {
+                    required: "{=__('입금자명을 입력해주세요.')}"
+                },
+                bankAccount: {
+                    required: "{=__('입금은행을 선택해주세요.')}"
+                },
+                taxBusiNo: {
+                    required: "{=__('[세금계산서] 사업자번호를 입력하세요.')}"
+                },
+                taxCompany: {
+                    required: "{=__('[세금계산서] 회사명을 입력하세요.')}"
+                },
+                taxCeoNm: {
+                    required: "{=__('[세금계산서] 대표자명을 입력하세요.')}"
+                },
+                taxService: {
+                    required: "{=__('[세금계산서] 업태를 입력하세요.')}"
+                },
+                taxItem: {
+                    required: "{=__('[세금계산서] 종목을 입력하세요.')}"
+                },
+                taxAddress: {
+                    required: "{=__('[세금계산서] 사업장주소를 입력하세요.')}"
+                }
+            },
+            focusInvalid: {
+                receiverName: true,
+                receiverZonecode: true,
+                receiverAddress: true,
+                receiverAddressSub: true,
+                receiverCellPhone: true,
+                directName: true,
+                directZonecode: true,
+                directAddress: true,
+                directAddressSub: true,
+                directPhone: true,
+                directCellPhone: true,
+            }
+        });
+
+        // 마일리지 체크 이벤트
+        <!--{ ? gd_is_login() === true && mileageUse.payUsableFl != 'n' }-->
+        gd_mileage_use_check('n', 'n', 'n', 'n');
+        <!--{ / }-->
+        $('input[name=useMileage]').blur(function(e){
+            if (!_.isUndefined(e.isTrigger)) {
+                gd_mileage_use_check('y', 'y', 'y', 'y');
+            }
+        });
+
+        // 마일리지 쿠폰 중복사용 체크
+        $('input[name=useMileage]').change(function (e) {
+            // 마일리지 쿠폰 중복사용 체크
+            e.preventDefault();
+            gd_choose_mileage_coupon('mileage');
+        });
+
+        // 예치금 체크 이벤트
+        $('input[name=useDeposit]').blur(function(e){
+            if (!_.isUndefined(e.isTrigger)) {
+                gd_deposit_use_check();
+            }
+        });
+
+        // 기본배송지 지역별 배송비 이벤트
+        $('input[name=receiverAddressSub]').blur(function(e){
+            gd_get_delivery_area_charge($('input[name=receiverAddress]').val(), $('input[name=receiverAddressSub]').val());
+        });
+
+        // 배송지목록 지역별 배송비 이벤트
+        $(document).on('blur', 'input[name^=shippingAddressSub]', function(e){
+            gd_get_delivery_area_charge($('input[name=shippingAddress]').val(), $('input[name=shippingAddressSub]').val());
+        });
+
+        // 해외 배송비 체크
+        $('select[name$=CountryCode]').change(function(e){
+            gd_get_delivery_country_charge();
+        });
+
+        // 페이지 로딩시 우선국가 지정으로 인해 배송비 체크
+        $('select[name=receiverCountryCode]').trigger('change');
+
+        // 직접입력시 지역별 배송비 이벤트
+        $('input[name=directAddressSub]').blur(function(e){
+            <!--{ ? gGlobal.isFront }-->
+            gd_get_delivery_country_charge();
+            <!--{ : }-->
+            gd_get_delivery_area_charge($('input[name=directAddress]').val(), $('input[name=directAddressSub]').val());
+            <!--{ / }-->
+        });
+
+        // 배송지목록 지역별 배송비
+        $(document).on('click', 'input[name=shipping]', function(e){
+            <!--{ ? gGlobal.isFront }-->
+            gd_get_delivery_country_charge();
+            <!--{ : }-->
+            gd_get_delivery_area_charge($(this).closest('.delivery_item').find('.shipping_address').text(), $(this).closest('.delivery_item').find('.shipping_addresssub').text());
+            <!--{ / }-->
+        });
+
+        // 기본배송지 지역별 배송비
+        if ($('input[name=receiverAddress]').val() != '') {
+            <!--{ ? !gGlobal.isFront }-->
+            gd_get_delivery_area_charge($('input[name=receiverAddress]').val(), $('input[name=receiverAddressSub]').val());
+            <!--{ / }-->
+        }
+
+        // 이메일 도메인 대입
+        gd_select_email_domain('orderEmail');
+        gd_select_email_domain('taxEmail','taxEmailDomain');
+
+
+        <!--{ ? receipt['taxFl'] == 'y' && memberInvoiceInfo['tax']['memberTaxInfoFl'] == 'y' }-->
+        // 세금계산서 입력 정보 초기화
+        $('.tax_info_init').on('click', function (e) {
+            e.preventDefault();
+            $('#tax_info').find('input').val('');
+        });
+        <!--{ / }-->
+
+        gd_set_real_settle_price();
+    });
+
+    // 지역별 배송비 체크 (우편번호 팝업에서 콜백받는 함수)
+    function postcode_callback() {
+        if ($('#tab1').hasClass('show')) {
+            <!--{ ? gGlobal.isFront }-->
+            gd_get_delivery_country_charge();
+            <!--{ : }-->
+            gd_get_delivery_area_charge($('input[name=receiverAddress]').val(), $('input[name=receiverAddressSub]').val());
+            <!--{ / }-->
+        } else if($('#tab3').hasClass('show')) {
+            <!--{ ? gGlobal.isFront }-->
+            gd_get_delivery_country_charge();
+            <!--{ : }-->
+            gd_get_delivery_area_charge($('input[name=directAddress]').val(), $('input[name=directAddressSub]').val());
+            <!--{ / }-->
+        } else if($('#tab2').hasClass('show')) {
+            <!--{ ? gGlobal.isFront }-->
+            gd_get_delivery_country_charge();
+            <!--{ : }-->
+            gd_get_delivery_area_charge($('input[name=shippingAddress]').val(), $('input[name=shippingAddressSub]').val());
+            <!--{ / }-->
+        }
+    }
+
+    // 주소에 따른 지역별 배송비 가져오기
+    function gd_get_delivery_area_charge(address, addressSub) {
+        var cartIdx = [];
+        $('input[name="cartSno[]"]').each(function(idx){
+            cartIdx.push($(this).val());
+        });
+        var params = {
+            mode: 'check_area_delivery',
+            cartSno: cartIdx,
+            receiverAddress: address,
+            receiverAddressSub: addressSub,
+            totalCouponOrderDcPrice: $('input:hidden[name="totalCouponOrderDcPrice"]').val(),
+        };
+        <!--{ ? isUseMultiShipping === true }-->
+        if ($('input[name="multiShippingFl"]').prop('checked') === true) {
+            params = {
+                mode: 'check_multi_area_delivery',
+                data: $('#frmOrder').serialize(),
+                cartAllSno: cartIdx,
+            };
+        }
+        <!--{ / }-->
+        $.post('cart_ps.php', params, function(data){
+            $('input[name=deliveryAreaCharge]').val(data.areaDelivery);
+            gd_set_real_settle_price();
+
+            <!--{ ? gd_is_login() === true && mileageUse.payUsableFl != 'n' }-->
+            mileageUse = data.mileageUse;
+
+            gd_mileage_use_check('y', 'n', 'n', 'n');
+            <!--{ / }-->
+        });
+    }
+
+    /**
+     * 국가에 따른 해외 배송비 가져오기
+     */
+    function gd_get_delivery_country_charge()
+    {
+        // 국제 전화번호 셀렉트
+        var countryCode = null;
+        if ($('#tab1').hasClass('show')) {
+            countryCode = $('select[name=receiverCountryCode]').val();
+            $('select[name=receiverPhonePrefixCode]').val($('select[name=receiverCountryCode]').val());
+            $('select[name=receiverCellPhonePrefixCode]').val($('select[name=receiverCountryCode]').val());
+        } else if($('#tab2').hasClass('show')) {
+            countryCode = $('select[name=shippingCountryCode]').val();
+        } else if($('#tab3').hasClass('show')) {
+            countryCode = $('select[name=directCountryCode]').val();
+            $('select[name=directPhonePrefixCode]').val($('select[name=directCountryCode]').val());
+            $('select[name=directCellPhonePrefixCode]').val($('select[name=directCountryCode]').val());
+        }
+
+        // 배송비 가져오기
+        var cartIdx = [];
+        $('input[name="cartSno[]"]').each(function(idx){
+            cartIdx.push($(this).val());
+        });
+        var params = {
+            mode: 'check_country_delivery',
+            countryCode: countryCode,
+            cartSno: cartIdx,
+        };
+        $.post('cart_ps.php', params, function(data){
+            // 배송비 계산
+            if (data.error === 1) {
+                data.overseasDelivery = 0;
+                data.overseasInsuranceFee = 0;
+                alert(data.message);
+            }
+
+            $('#totalDeliveryCharge').text(gd_money_format(data.overseasDelivery));
+            $('#totalDeliveryChargeAdd').text(gd_add_money_format(data.overseasDelivery));
+            $('input[name=totalDeliveryCharge]').val(data.overseasDelivery);
+            $('input[name=deliveryInsuranceFee]').val(data.overseasInsuranceFee);
+            $('input[name=deliveryInsuranceFeeAdd]').val(data.overseasInsuranceFee);
+            gd_set_real_settle_price();
+        });
+    }
+
+    /*
+     //레이어팝업 보이기
+     function gd_show_layer(val) {
+     var sel_layer = $(val).data('key');
+
+     $("#background").show();
+     $(".btm-fix-layer."+sel_layer).css("bottom", "-"+$(".btm-fix-layer."+sel_layer).height()+"px");
+     $(".btm-fix-layer."+sel_layer).show();
+     $(".btm-fix-layer."+sel_layer).animate({bottom:0}, 300, function(){
+     });
+     }
+     //레이어팝업 숨기기
+     function gd_close_layer(val) {
+
+     var sel_layer = $(val).data('key');
+
+     $(".btm-fix-layer." + sel_layer).animate({bottom: $(".btm-fix-layer." + sel_layer).height() - ($(".btm-fix-layer." + sel_layer).height() * 2)}, 300, function () {
+     $(".btm-fix-layer." + sel_layer).hide();
+     $("#background").hide();
+     });
+     }
+     */
+
+
+    /**
+     * 주문고객 정보와 배송지 정보 동일 처리
+     */
+    function gd_order_info_same()
+    {
+        var orderKey = new Array('orderName', 'orderCountryCode', 'orderZonecode', 'orderZipcode', 'orderState', 'orderCity', 'orderAddress', 'orderAddressSub', 'orderPhonePrefixCode', 'orderPhone', 'orderCellPhonePrefixCode', 'orderCellPhone');
+        var receiverKey = new Array('receiverName', 'receiverCountryCode', 'receiverZonecode', 'receiverZipcode', 'receiverState', 'receiverCity', 'receiverAddress', 'receiverAddressSub', 'receiverPhonePrefixCode', 'receiverPhone', 'receiverCellPhonePrefixCode', 'receiverCellPhone');
+        var directKey = new Array('directName', 'directCountryCode', 'directZonecode', 'directZipcode', 'directState', 'directCity', 'directAddress', 'directAddressSub', 'directPhonePrefixCode', 'directPhone', 'directCellPhonePrefixCode', 'directCellPhone');
+        var sameCheck = $('#shippingSameCheck:checked').val();
+        var sameKey = receiverKey;
+        var sameTitle = 'receiver';
+
+        if (sameCheck == 'on') {
+            var standardKey = orderKey;
+        } else {
+            var standardKey = directKey;
+        }
+
+        if ($('input[name=tmpDeliverTab]').val() == 'direct') {
+            sameKey = directKey;
+            sameTitle = 'direct';
+        }
+
+        for (var i = 0; i < standardKey.length; i++) {
+            var orderObj = $('select[name=\''+orderKey[i]+'\']:eq(0), input[name=\''+orderKey[i]+'\']:eq(0)');
+            var sameObj = $('select[name=\''+sameKey[i]+'\']:eq(0), input[name=\''+sameKey[i]+'\']:eq(0)');
+            if (sameCheck == 'on') {
+                if (_.isUndefined(orderObj.val())) {
+                    continue;
+                }
+                sameObj.val(orderObj.val());
+                if (sameKey[i] == sameTitle + 'Zipcode' && orderObj.val() !='') {
+                    $('input[name=' + sameTitle + 'Zipcode]').val(orderObj.val());
+                    $('#' + sameTitle + 'ZipcodeText').html('(' + orderObj.val() + ')');
+                    $('#' + sameTitle + 'ZipcodeText').show();
+                } else if (sameKey[i] == sameTitle + 'Zipcode') {
+                    $('#' + sameTitle + 'ZipcodeText').html('');
+                    $('#' + sameTitle + 'ZipcodeText').hide();
+                }
+            } else {
+                if (_.isUndefined(sameObj.val())) {
+                    continue;
+                }console.log(sameObj);
+                sameObj.val('');
+                if (sameKey[i] == sameTitle + 'Zipcode') {
+                    $('#' + sameTitle + 'ZipcodeText').html('');
+                    $('#' + sameTitle + 'ZipcodeText').hide();
+                }
+            }
+        }
+
+        if (sameCheck == 'on') {
+            gd_get_delivery_area_charge($('input[name=' + sameTitle + 'Address]').val(), $('input[name=' + sameTitle + 'AddressSub]').val());
+        }
+    }
+
+    /**
+     * 현재 결제 금액 체크
+     * @param exceptMode 제외할 모드
+     */
+    function gd_set_real_settle_price(exceptMode)
+    {
+        // 상품 금액
+        var goodsPrice = parseFloat('{=totalGoodsPrice}');
+        // 배송비
+        <!--{?  gd_is_login() === true && productCouponChangeLimitType == 'n'}-->
+        var deliveryPrice = parseFloat($('input[name=totalDeliveryCharge]').val());
+        <!--{ : }-->
+        var deliveryPrice = parseFloat('{=totalDeliveryCharge}');
+        <!--{ / }-->
+        <!--{ ? isUseMultiShipping === true }-->
+        deliveryPrice = parseFloat(multiShippingPrice(deliveryPrice));
+        <!--{ / }-->
+        // 전체 금액
+        var settlePrice = goodsPrice + deliveryPrice;
+        // 상품 할인 차감
+        var goodsDcPrice = parseFloat('{=totalGoodsDcPrice}');
+        if (goodsDcPrice > 0) {
+            settlePrice = settlePrice - goodsDcPrice;
+        }
+        // 상품 쿠폰 차감
+        <!--{? gd_is_login() === true && productCouponChangeLimitType == 'n'}-->
+        var goodsCouponDcPrice = parseFloat($('input[name=totalCouponGoodsDcPrice]').val());
+        <!--{ : }-->
+        var goodsCouponDcPrice = parseFloat('{=totalCouponGoodsDcPrice}');
+        <!--{ / }-->
+        if (goodsCouponDcPrice > 0) {
+            // 상품 쿠폰사용시 상품할인 금액이 0 일 경우 무통장 할인율 처리
+            if ($('input[name=totalMemberBankDcPrice]').val() > 0) {
+                var totalGoodsPrice = parseFloat('{=totalGoodsPrice}');
+                var totalMemberBankDcPrice = parseFloat($('input[name=totalMemberBankDcPrice]').val());
+                var totalMemberDcPrice = parseFloat($('input[name=totalMemberDcPrice]').val());
+                var totalDcPrice = goodsCouponDcPrice + goodsDcPrice + totalMemberDcPrice - totalMemberBankDcPrice;
+                if (totalGoodsPrice == totalDcPrice) {
+                    $('.total-member-dc-price').html(totalDcPrice);
+                    $('.member-dc-price').html(totalMemberDcPrice - totalMemberBankDcPrice);
+                    $('input[name="totalMemberDcPrice"]').val(totalMemberDcPrice - totalMemberBankDcPrice);
+                    $('input[name="resetMemberBankDcPrice"]').val('y');
+                    $('#totalMemberBankDcPriceView').hide();
+                }
+            }
+            settlePrice = settlePrice - goodsCouponDcPrice;
+        }
+
+        // 회원 할인 차감
+        var totalMemberDcPrice = parseFloat($('input[name=totalMemberDcPrice]').val());
+        var totalMemberOverlapDcPrice = parseFloat($('input[name=totalMemberOverlapDcPrice]').val());
+        var totalSettlePrice = parseFloat(settlePrice) - totalMemberDcPrice - totalMemberOverlapDcPrice;
+
+        // 실제 결제금액
+        var realSettlePrice = totalSettlePrice;
+
+        // 지역별 배송비 합산
+        if ($('input[name=deliveryAreaCharge]').val() > 0) {
+            var deliveryAreaCharge = parseInt($('input[name=deliveryAreaCharge]').val());
+            realSettlePrice += deliveryAreaCharge;
+            $('#deliveryAreaCharge').text(numeral(deliveryAreaCharge).format());
+            $('#rowDeliverAreaCharge').removeClass('dn');
+        } else {
+            $('#deliveryAreaCharge').text(numeral(0).format());
+            $('#rowDeliverAreaCharge').addClass('dn');
+        }
+
+        // 배송비 무료 차감
+        <!--{ ? deliveryFree == 'y' }-->
+        var deliveryFree = parseInt(deliveryPrice);
+
+        $('.delivery-free').text(numeral(deliveryFree).format());
+        $('input[name="totalDeliveryFreePrice"]').val(deliveryFree);
+        realSettlePrice -= deliveryFree;
+        <!--{ / }-->
+
+        <!--{ ? gGlobal.isFront }-->
+        // 해외 배송비 합산 (위에서 기본적으로 배송비가 포함되기 때문에 해외에서만 적용해야 함)
+        if ($('input[name=totalDeliveryCharge]').val() > 0) {
+            var deliveryOverseasCharge = parseInt($('input[name=totalDeliveryCharge]').val());
+            realSettlePrice += deliveryOverseasCharge;
+        }
+        <!--{ / }-->
+
+        // 해외배송 보험료 합산
+        if ($('input[name=deliveryInsuranceFee]').val() > 0) {
+            var deliveryInsuranceFee = parseInt($('input[name=deliveryInsuranceFee]').val());
+            var deliveryInsuranceFeeAdd = parseInt($('input[name=deliveryInsuranceFeeAdd]').val());
+            realSettlePrice += deliveryInsuranceFee;
+            $('#deliveryInsuranceFee').text(gd_money_format(deliveryInsuranceFee));
+            $('#deliveryInsuranceFeeAdd').text(deliveryInsuranceFeeAdd);
+            $('#rowDeliveryInsuranceFee').removeClass('dn');
+        } else {
+            $('#deliveryInsuranceFee').text(numeral(0).format());
+            $('#rowDeliveryInsuranceFee').addClass('dn');
+        }
+
+        <!--{ ? couponUse == 'y' }-->
+        if (exceptMode != 'coupon') {
+            var totalMemberDcPrice = parseInt($('input[name=totalMemberDcPrice]').val());
+            var totalMemberOverlapDcPrice = parseInt($('input[name=totalMemberOverlapDcPrice]').val());
+            // 쿠폰기본설정에서 쿠폰만 사용일때 처리
+            if ($('input[name="chooseCouponMemberUseType"]').val() == 'coupon' && $('input[name="couponApplyOrderNo"]').val() != '') {
+                var memberDcPrice = totalMemberDcPrice + totalMemberOverlapDcPrice;
+                if (memberDcPrice > 0) {
+                    realSettlePrice += memberDcPrice;
+                }
+            }
+
+            // 주문쿠폰 적용 금액
+            if ($('input[name="totalCouponOrderDcPrice"]').val() > 0) {
+                var originOrderPrice = {=totalGoodsPrice - totalGoodsDcPrice - totalCouponGoodsDcPrice} - totalMemberDcPrice - totalMemberOverlapDcPrice;
+                var originOrderPriceWithoutMember = {=totalGoodsPrice - totalGoodsDcPrice - totalCouponGoodsDcPrice};
+                // 쿠폰기본설정에서 쿠폰만 사용일때 처리
+                if ($('input[name="chooseCouponMemberUseType"]').val() == 'coupon' && $('input[name="couponApplyOrderNo"]').val() != '') {
+                    originOrderPrice = originOrderPriceWithoutMember;
+                }
+
+                if (!_.isUndefined(originOrderPrice) && $('input[name="totalCouponOrderPrice"]').val() > originOrderPrice) {
+                    var useTotalCouponOrderDcPrice = parseFloat(originOrderPrice);
+                } else {
+                    var useTotalCouponOrderDcPrice = parseFloat($('input[name="totalCouponOrderPrice"]').val());
+                }
+
+                // 주문 쿠폰사용시 상품할인 금액이 0 일 경우 무통장 할인율 처리
+                if ($('input[name=totalMemberBankDcPrice]').val() > 0) {
+                    var totalGoodsPrice = parseFloat('{=totalGoodsPrice}');
+                    var totalMemberBankDcPrice = parseInt($('input[name=totalMemberBankDcPrice]').val());
+                    var totalCouponOrderPrice = parseInt($('input[name=totalCouponOrderPrice]').val());
+                    var totalDcPrice = goodsDcPrice + totalMemberDcPrice - totalMemberBankDcPrice;
+                    if (totalGoodsPrice - totalCouponOrderPrice == 0) {
+                        $('.total-member-dc-price').html(totalDcPrice);
+                        $('.member-dc-price').html(totalMemberDcPrice - totalMemberBankDcPrice);
+                        $('input[name="resetMemberBankDcPrice"]').val('y');
+                        $('#totalMemberBankDcPriceView').hide();
+                        useTotalCouponOrderDcPrice = parseInt(useTotalCouponOrderDcPrice) + totalMemberBankDcPrice;
+                        realSettlePrice += totalMemberBankDcPrice;
+                    } else {
+                        $('#totalMemberBankDcPriceView').show();
+                    }
+                }
+
+                $('input[name="totalCouponOrderDcPrice"]').val(useTotalCouponOrderDcPrice);
+                $('#useDisplayCouponDcPrice').text(numeral(useTotalCouponOrderDcPrice).format());
+            } else {
+                var useTotalCouponOrderDcPrice = 0;
+            }
+
+            // 배송비쿠폰 적용 금액
+            if ($('input[name="totalCouponDeliveryDcPrice"]').val() > 0) {
+                var originDeliveryCharge = numeral().unformat($('#totalDeliveryCharge').text()) + numeral().unformat($('#deliveryAreaCharge').text());
+                if (!_.isUndefined($('input[name="deliveryFree"]')) && $('input[name="deliveryFree"]').val() == 'y') {
+                    originDeliveryCharge -= numeral().unformat($('#totalDeliveryCharge').text());
+                }
+                if (!_.isUndefined(originDeliveryCharge) && $('input[name="totalCouponDeliveryPrice"]').val() > originDeliveryCharge) {
+                    var useTotalCouponDeliveryDcPrice = parseFloat(originDeliveryCharge);
+                } else {
+                    var useTotalCouponDeliveryDcPrice = parseFloat($('input[name="totalCouponDeliveryPrice"]').val());
+                }
+                $('input[name="totalCouponDeliveryDcPrice"]').val(useTotalCouponDeliveryDcPrice);
+                $('#useDisplayCouponDelivery').text(numeral(useTotalCouponDeliveryDcPrice).format());
+            } else {
+                var useTotalCouponDeliveryDcPrice = 0;
+            }
+
+            // 실 결제금액
+            realSettlePrice -= (useTotalCouponOrderDcPrice + useTotalCouponDeliveryDcPrice);
+        }
+        <!--{ / }-->
+
+        <!--{ ? gd_is_login() === true && mileageUse.payUsableFl != 'n' }-->
+        if (exceptMode != 'mileage') {
+            // 구매자가 작성한 마일리지 금액
+            if ($('input[name=\'useMileage\']').val() > 0) {
+                var useMileage = parseInt($('input[name=\'useMileage\']').val());
+            } else {
+                var useMileage = 0;
+            }
+
+            <!--{ ? mileageGiveExclude == 'n' }-->
+            // 적립마일리지 지급 정책 안보이게 처리
+            if (useMileage > 0) {
+                $('.mileage').hide();
+            } else {
+                $('.mileage').show();
+            }
+            <!--{ / }-->
+
+            realSettlePrice = realSettlePrice - useMileage;
+        }
+        <!--{ / }-->
+
+        <!--{ ? gd_is_login() === true && depositUse.payUsableFl != 'n' }-->
+        if (exceptMode != 'deposit') {
+            // 구매자가 작성한 예치금 금액
+            if ($('input[name=\'useDeposit\']').val() > 0) {
+                var useDeposit = parseInt($('input[name=\'useDeposit\']').val());
+            } else {
+                var useDeposit = 0;
+            }
+            realSettlePrice = realSettlePrice - useDeposit;
+        }
+        <!--{ / }-->
+
+        // 금액 화면 출력
+        if (_.isUndefined(exceptMode)) {
+            $('#totalSettlePrice').html(gd_money_format(realSettlePrice));
+            $('#totalAddSettlePrice').html(gd_add_money_format(realSettlePrice));
+            $('#totalSettlePriceView').html(gd_money_format(realSettlePrice));
+            $('#totalAddSettlePriceView').html(gd_add_money_format(realSettlePrice));
+            $('input[name=settlePrice]').val(realSettlePrice);
+
+            // 해외PG 최종승인 금액 및 통화 설정
+            var settleKind = $('input[name=settleKind]:checked').val();
+            if (!_.isUndefined(settleKind)) {
+                if (settleKind.substring(0, 1) == 'o') {
+                    var selectedOverseasSettleKind = $('[id=settlekind_overseas_' + settleKind + ']');
+                    var overseasSettlePrice = fx.convert($('input[name=settlePrice]').val(), {to: selectedOverseasSettleKind.data('settle-currency')});
+                    var overseasDecimal = selectedOverseasSettleKind.data('settle-decimal');
+                    var overseasDecimalFormat = selectedOverseasSettleKind.data('settle-format');
+                    $('#overseas_settelprice_' + settleKind).html(selectedOverseasSettleKind.data('settle-symbol') + ' ' + numeral(overseasSettlePrice.toRealFixed(overseasDecimal, overseasDecimalFormat)).format('0,' + overseasDecimalFormat));
+                    $('input[name=overseasSettlePrice]').val(overseasSettlePrice.toRealFixed(overseasDecimal, overseasDecimalFormat));
+                    $('input[name=overseasSettleCurrency]').val(selectedOverseasSettleKind.data('settle-currency'));
+                }
+            }
+
+            // 금액이 0원이 되는 경우에 대한 처리
+            <!--{ ? receipt['taxZeroFl']  =='y' }-->
+            if (realSettlePrice == 0) {
+                $('.js_pay_content').hide();
+                gd_receipt_selector('zero');
+            } else {
+                $('.js_pay_content').show();
+                gd_receipt_selector();
+            }
+            <!--{ : }-->
+
+            <!--{ / }-->
+
+        }
+
+        return realSettlePrice;
+    }
+
+    <!--{ ? gd_is_login() === true && mileageUse.payUsableFl != 'n' }-->
+    function gd_mileage_disable_check(disableValue)
+    {
+        if(disableValue === 'y'){
+            //disable 처리
+            $('input[name=\'useMileage\']').closest('div').addClass('disabled');
+            $('#useMileageAll').closest('span').addClass('disabled');
+            $('input[name=\'useMileage\'], #useMileageAll').attr('disabled', 'disabled').css("background-color", '#cccccc');
+        }
+        else {
+            //disable 해제
+            $('input[name=\'useMileage\']').closest('div').removeClass('disabled');
+            $('#useMileageAll').closest('span').removeClass('disabled');
+            $('input[name=\'useMileage\'], #useMileageAll').attr('disabled', false).css("background-color", '#ffffff');
+        }
+    }
+
+    /**
+     * 마일리지 안내문구 출력
+     */
+    function gd_mileage_info_write(message)
+    {
+        var prefixMessage = "※ ";
+        $(".js-mileageInfoArea").html(prefixMessage + message);
+    }
+
+    /**
+     * 마일리지 사용 제한 체크
+     */
+    function gd_mileage_use_check(setUseOption, setUseCheck, setUseCalculationFl, mileageInfoAreaFl)
+    {
+        mileageUse.minimumHold = parseInt(mileageUse.minimumHold);
+        mileageUse.minimumLimit = parseInt(mileageUse.minimumLimit);
+        mileageUse.orderAbleLimit = parseInt(mileageUse.orderAbleLimit);
+        mileageUse.orderAbleStandardPrice = parseInt(mileageUse.orderAbleStandardPrice);
+        mileageUse.maximumLimit = parseInt(mileageUse.maximumLimit);
+        mileageUse.oriMaximumLimit = parseInt(mileageUse.oriMaximumLimit);
+
+        // 회원 보유 마일리지
+        var memMileage = parseInt('{=gMemberInfo.mileage}');
+
+        // 현재 결제 금액
+        var realSettlePrice = gd_set_real_settle_price('mileage');
+        // 배송비가 제외된 금액 (할인등은 포함되어 있는 상태)
+        var goodsPrice = gd_get_goodsSalesPrice(realSettlePrice);
+
+        // 배송비 포함 여부를 통해 비교 결제금액을 정의
+        if(mileageUse.useDeliveryFl === 'n'){
+            var realSettleDeliveryPrice = goodsPrice;
+        }
+        else {
+            var realSettleDeliveryPrice = realSettlePrice;
+        }
+
+        // 실제 사용할 수 있는 최소 마일리지
+        var realMinMileage = parseInt(Math.min(mileageUse.minimumLimit, realSettleDeliveryPrice));
+
+        // 실제 사용 할 수 있는 최대 마일리지 ( ex: 배송비를 제외한 상품 함계급액이 2000원, 회원 마일리지 5000원일시 2000원 까지 사용 가능)
+        var realMaxMileage = parseInt(Math.min(mileageUse.maximumLimit, realSettleDeliveryPrice, memMileage));
+
+        // 마일리지 사용 불가능한 상태의 input 을 입력방지
+        if(mileageUse.usableFl === 'n'){
+            gd_mileage_disable_check('y');
+        }
+        else {
+            gd_mileage_disable_check('n');
+        }
+
+        // 마일리지 전액 결제시 회원등급 추가 무통장 할인 처리
+        if ($('input[name=totalMemberBankDcPrice]').val() > 0) {
+            var allCheck = $('#useMileageAll:checked').val();
+            var totalMemberBankDcPrice = parseInt($('input[name=totalMemberBankDcPrice]').val());
+            var totalCouponGoodsDcPrice = $('input[name=totalCouponGoodsDcPrice]').val();
+            var totalCouponOrderDcPrice = $('input[name=totalCouponOrderDcPrice]').val();
+            if (allCheck == 'on') {
+                if (totalCouponGoodsDcPrice > 0 || totalCouponOrderDcPrice > 0) {}
+                else {
+                    realMaxMileage += totalMemberBankDcPrice;
+                    mileageUse.maximumLimit += totalMemberBankDcPrice;
+                    $('input[name=\'useMileage\']').val(realMaxMileage);
+                }
+            } else {
+                if (totalCouponGoodsDcPrice > 0) {}
+                else if (totalCouponOrderDcPrice > 0) {
+                    realMaxMileage += parseFloat('{=totalGoodsDcPrice}') + parseFloat('{=totalMemberDcPrice - totalMemberBankDcPrice}');
+                    mileageUse.maximumLimit += parseFloat('{=totalGoodsDcPrice}') + parseFloat('{=totalMemberDcPrice - totalMemberBankDcPrice}');
+                    $('input[name=\'useMileage\']').val(realMaxMileage);
+                } else {
+                    mileageUse.maximumLimit -= totalMemberBankDcPrice;
+                    realMaxMileage = mileageUse.maximumLimit;
+                }
+                mileageInfoAreaFl = 'y';
+            }
+        }
+
+        // *** 1. 보유 마일리지에 대한 제한조건 체크
+
+        // 회원 보유 마일리지 체크
+        if(memMileage < 1){
+            gd_mileage_disable_check('y');
+            return;
+        }
+
+        // 마일리지 사용설정 - 최소 보유마일리지 제한
+        if(mileageUse.minimumHold > 0){
+            // '회원 보유마일리지'가 '최소 보유마일리지 제한' 보다 작을 경우
+            if(memMileage < mileageUse.minimumHold){
+                if(mileageUse.minimumLimit <= mileageUse.minimumHold){
+                    gd_mileage_info_write("{=__('%s%s이상 보유해야 사용이 가능합니다.', gd_global_money_format(mileageUse.minimumHold), mileage.unit)}");
+                }
+                else {
+                    // '최소 사용마일리지 제한' > '최소 보유마일리지 제한' > 회원 보유 마일리지
+                    gd_mileage_info_write("{=__('최소 %s%s이상 사용해야 합니다.', gd_global_money_format(mileageUse.minimumLimit), mileage.unit)}");
+                }
+
+                gd_mileage_disable_check('y');
+                return;
+            }
+        }
+
+        // 마일리지 사용설정 - 최소 사용마일리지 제한
+        if(mileageUse.minimumLimit > 0){
+            // '회원 마일리지' 보다 '최소 사용마일리지 제한' 보다 작을 경우
+            if(memMileage < mileageUse.minimumLimit){
+                if(mileageUse.minimumHold <= mileageUse.minimumLimit){
+                    gd_mileage_info_write("{=__('최소 %s%s이상 사용해야 합니다.', gd_global_money_format(mileageUse.minimumLimit), mileage.unit)}");
+                }
+                else {
+                    // '최소 보유마일리지 제한' > '최소 사용마일리지 제한' > 회원 보유 마일리지
+                    gd_mileage_info_write("{=__('%s%s이상 보유해야 사용이 가능합니다.', gd_global_money_format(mileageUse.minimumHold), mileage.unit)}");
+                }
+
+                gd_mileage_disable_check('y');
+                return;
+            }
+        }
+
+        // *** 2. 상품 구매 금액에 대한 제한조건 체크
+
+        // 마일리지 사용설정 - 최소 상품구매금액 제한 (구매금액 합계가 ? 이상인 경우 결제시 사용 가능)
+        if(mileageUse.orderAbleLimit > 0){
+            // orderAbleStandardPrice : 기본설정의 구매금액 기준 + 사용설정의 할인금액 미포함, 포함 가격이 적용된 기준
+            if(mileageUse.orderAbleStandardPrice < mileageUse.orderAbleLimit){
+                gd_mileage_info_write("{=__('상품 합계 금액이 %s 이상인 경우에만 사용 가능합니다.', gd_global_currency_display(mileageUse.orderAbleLimit))}");
+
+                gd_mileage_disable_check('y');
+                return;
+            }
+        }
+
+        // 마일리지 사용설정 - 최소 사용마일리지 제한
+        if(mileageUse.minimumLimit > 0){
+            // 결제금액이 '최소 사용마일리지 제한' 보다 작을 경우
+            if(realSettleDeliveryPrice < mileageUse.minimumLimit){
+                var messageMaxMileage = memMileage;
+                if(mileageUse.oriMaximumLimit > 0){
+                    if(mileageUse.oriMaximumLimit > realSettleDeliveryPrice){
+                        messageMaxMileage = Math.min(mileageUse.oriMaximumLimit, memMileage);
+                    }
+                }
+                gd_mileage_info_write(__('%1$s%2$s부터 %3$s%4$s까지 사용 가능합니다.', [numeral(mileageUse.minimumLimit).format(), '{mileage.unit}', numeral(messageMaxMileage).format(), '{mileage.unit}']));
+
+                gd_mileage_disable_check('y');
+                return;
+            }
+        }
+
+        // *** 3. 사용가능 마일리지 범위 정보 노출
+        if (mileageInfoAreaFl == 'y') {
+            if(realMinMileage > realMaxMileage){
+                //최소 사용가능 마일리지가 최대 사용가능 마일리지보다 클때
+                gd_mileage_info_write("{=__('마일리지 사용조건이 충족되지 않아 사용이 불가합니다.')}");
+                gd_mileage_disable_check('y');
+                return;
+            }
+            else if(realMinMileage === realMaxMileage){
+                //최소 사용가능 마일리지가 최대 사용가능 마일리지와 같을때
+                gd_mileage_info_write(__('%1$s%2$s만 사용 가능합니다.', [numeral(realMaxMileage).format(), '{mileage.unit}']), realMaxMileage);
+                gd_mileage_disable_check('n');
+            }
+            else {
+                //최소 사용가능 마일리지가 최대 사용가능 마일리지보다 작을때
+                if(realMinMileage < 1){
+                    gd_mileage_info_write(__('%1$s%2$s까지 사용 가능합니다.', [numeral(realMaxMileage).format(), '{mileage.unit}']), realMaxMileage);
+                }
+                else {
+                    gd_mileage_info_write(__('%1$s%2$s부터 %3$s%4$s까지 사용 가능합니다.', [numeral(realMinMileage).format(), '{mileage.unit}', numeral(realMaxMileage).format(), '{mileage.unit}']), realMaxMileage);
+                }
+                gd_mileage_disable_check('n');
+            }
+        }
+
+        // *** 4. 사용가능 마일리지 범위 체크 및 결제금액 계산
+
+        if(setUseOption === 'y'){
+            var useMileage = parseInt($('input[name=\'useMileage\']').val());
+
+            if(setUseCheck === 'y'){
+                if(useMileage < realMinMileage){
+                    gd_mileage_abort(__('%1$s 사용은 최소 %2$s%3$s입니다.', ['{mileage.name}', numeral(realMinMileage).format(), '{mileage.unit}']), realMinMileage);
+                }
+                if(useMileage > realMaxMileage){
+                    gd_mileage_abort(__('%1$s 사용은 최대 %2$s%3$s입니다.', ['{mileage.name}', numeral(realMaxMileage).format(), '{mileage.unit}']), realMaxMileage);
+                }
+            }
+            else {
+                if(useMileage < realMinMileage){
+                    $('input[name=\'useMileage\']').val(realMinMileage);
+                }
+                else if(useMileage > realMaxMileage){
+                    $('input[name=\'useMileage\']').val(realMaxMileage);
+                }
+                else { }
+            }
+
+            if(setUseCalculationFl === 'y'){
+                // 결제 금액 계산
+                gd_set_recalculation();
+                gd_set_real_settle_price();
+            }
+        }
+    }
+
+    /**
+     * 마일리지를 잘못 입력한 경우 처리
+     */
+    function gd_mileage_abort(message, useMileage)
+    {
+        // 경고출력
+        if (!_.isUndefined(message) && message !== null) {
+            alert(message);
+        }
+
+        // 값 대입
+        if (_.isUndefined(useMileage)) {
+            $('input[name=\'useMileage\']').val('');
+        } else {
+            $('input[name=\'useMileage\']').val(useMileage);
+        }
+    }
+
+    /**
+     * 마일리지 전액 사용하기
+     */
+    function gd_mileage_use_all()
+    {
+        // 마일리지 쿠폰 중복사용 체크
+        var checkMileageCoupon = gd_choose_mileage_coupon('mileage');
+        if (!checkMileageCoupon) {
+            return false;
+        }
+        var allCheck = $('#useMileageAll:checked').val();
+
+        // 현재 결제 금액
+        var realSettlePrice = gd_set_real_settle_price('mileage');
+        if(mileageUse.useDeliveryFl === 'n'){
+            // 마일리지 사용의 배송비 제외 설정에 따른 배송비 체크
+            realSettlePrice = gd_get_goodsSalesPrice(realSettlePrice);
+        }
+
+        var memberMileage = parseInt("{=gMemberInfo.mileage}");
+        var checkMileage = Math.min(mileageUse.maximumLimit, realSettlePrice, memberMileage);
+
+        if (allCheck == 'on') {
+            $('input[name=\'useMileage\']').val(checkMileage);
+
+            gd_mileage_use_check('y', 'y', 'y', 'y');
+        }
+        else {
+            $('input[name=\'useMileage\']').val('');
+
+            gd_set_recalculation();
+            gd_set_real_settle_price();
+        }
+    }
+    <!--{ / }-->
+
+    <!--{ ? gd_is_login() === true && depositUse['payUsableFl'] != 'n' }-->
+    /**
+     * 예치금 사용 제한 체크
+     */
+    function gd_deposit_use_check()
+    {
+        // 예치금 작성한 금액이 있는지 체크
+        if ($('input[name=\'useDeposit\']').val() < 0) {
+            return;
+        }
+
+        // 현재 결제 금액
+        var realSettlePrice = gd_set_real_settle_price('deposit');
+        var memberDeposit = parseInt({=gMemberInfo.deposit});
+        var ownDeposit = parseInt({=gMemberInfo.deposit});
+        var checkDeposit = memberDeposit;
+
+        if (realSettlePrice < memberDeposit) {
+            checkDeposit = realSettlePrice;
+        }
+        if (realSettlePrice > ownDeposit) {
+            checkDeposit = ownDeposit;
+        }
+
+        // 구매자가 작성한 예치금 금액
+        var useDeposit = parseInt($('input[name=\'useDeposit\']').val());
+
+        // 예치금 사용 제한 체크
+        if (useDeposit > checkDeposit) {
+            $('input[name=\'useDeposit\']').val(checkDeposit);
+        }
+
+        // 결제 금액 계산
+        gd_set_real_settle_price();
+    }
+
+    /**
+     * 예치금 전액 사용하기
+     */
+    function gd_deposit_use_all()
+    {
+        // 현재 결제 금액
+        var realSettlePrice = gd_set_real_settle_price('deposit');
+        var allCheck = $('#useDepositAll:checked').val();
+        var memberDeposit = parseInt({=gMemberInfo.deposit});
+        var checkDeposit = memberDeposit;
+
+        // 예치금 전액 결제시 회원등급 추가 무통장 할인 처리
+        if ($('input[name=totalMemberBankDcPrice]').val() > 0) {
+            // 배송비
+            <!--{?  gd_is_login() === true && productCouponChangeLimitType == 'n'}-->
+            var deliveryPrice = parseFloat($('input[name=totalDeliveryCharge]').val());
+            <!--{ : }-->
+            var deliveryPrice = parseFloat('{=totalDeliveryCharge}');
+            <!--{ / }-->
+            <!--{ ? isUseMultiShipping === true }-->
+            deliveryPrice = parseFloat(multiShippingPrice(deliveryPrice));
+            <!--{ / }-->
+
+            // 상품 쿠폰 차감
+            <!--{? gd_is_login() === true && productCouponChangeLimitType == 'n'}-->
+            var goodsCouponDcPrice = parseFloat($('input[name=totalCouponGoodsDcPrice]').val());
+            <!--{ : }-->
+            var goodsCouponDcPrice = parseFloat('{=totalCouponGoodsDcPrice}');
+            <!--{ / }-->
+
+            var settlePrice = parseFloat('{=totalGoodsPrice}') + deliveryPrice;
+            var totalDcPrice = parseFloat('{=totalMemberDcPrice}') + parseFloat('{=totalGoodsDcPrice}') + goodsCouponDcPrice;
+            var totalMemberBankDcPrice = parseFloat($('input[name=totalMemberBankDcPrice]').val());
+
+            if (allCheck == 'on') {
+                if (settlePrice - totalDcPrice == realSettlePrice) {
+                    $('input[name="totalMemberDcPrice"]').val(parseFloat('{=totalMemberDcPrice}') - totalMemberBankDcPrice);
+                    $('.total-member-dc-price').html(totalDcPrice - totalMemberBankDcPrice);
+                    $('.member-dc-price').html(parseFloat('{=totalMemberDcPrice}') - totalMemberBankDcPrice);
+                    $('#totalMemberBankDcPriceView').hide();
+                    realSettlePrice += totalMemberBankDcPrice;
+                }
+            } else {
+                $('input[name="totalMemberDcPrice"]').val(parseFloat('{=totalMemberDcPrice}'));
+                $('.total-member-dc-price').html(totalDcPrice + totalMemberBankDcPrice);
+                $('.member-dc-price').html(parseFloat('{=totalMemberDcPrice}'));
+                $('#totalMemberBankDcPriceView').show();
+                realSettlePrice -= totalMemberBankDcPrice;
+            }
+        }
+
+        if (realSettlePrice < memberDeposit) {
+            checkDeposit = realSettlePrice;
+        }
+
+        if (allCheck == 'on') {
+            $('input[name=\'useDeposit\']').val(checkDeposit);
+        } else {
+            $('input[name=\'useDeposit\']').val('');
+        }
+
+        // 결제 금액 계산
+        gd_set_real_settle_price();
+    }
+    <!--{ / }-->
+
+    /**
+     * 결제 방법에 따른 결제 수단
+     */
+    function gd_settlekind_toggle()
+    {
+        // 선택된 주문
+        var settleKind = $('input[name=settleKind]:checked').val();
+        var paymentCheck = false;
+
+        // 체크된 것이 없고 체크된 결제수단도 없는 경우
+        var checkedCnt = $('.how_to_pay input[type=radio][id*=payment]:checked').length;
+        if (typeof settleKind == 'undefined' && checkedCnt == '') {
+            // 초기 결제수단 처리
+            <!--{ ? gGlobal.isFront }-->
+            var settleKind = $('#settlekind_overseas').find('input').first().val();
+            $('#settlekind_overseas input[name=settleKind]:radio:first').prop('checked', true);
+            $('#payment4').prop('checked', true);
+            <!--{ : }-->
+            <!--{ ? isset(settle.payco) }-->
+            var settleKind = $('#settlekind_payco').find('input').first().val();
+            <!--{ : }-->
+            var settleKind = $('#settlekind_general').find('input').first().val();
+            $('#settlekind_general input[name=settleKind]:radio:first').prop('checked', true);
+            $('#payment2').prop('checked', true);
+            <!--{ / }-->
+            <!--{ / }-->
+        }
+
+        // 결제 수단 체크
+        var payment2 = $('input[id=\'payment2\']:checked').val();
+        var payment3 = $('input[id=\'payment3\']:checked').val();
+        var payment4 = $('input[id=\'payment4\']:checked').val();
+
+        if (payment2 == 'on') {
+            $('#settlekind_general').show();
+            $('#settlekind_escrow').hide();
+            $('#settlekind_fintech_payco').hide();
+            $('#settlekind_overseas').hide();
+            if (_.isUndefined($('#settlekind_general input[name=settleKind]:checked').val())) {
+                $('#settlekind_general input[name=settleKind]:radio:first').prop('checked', true);
+            }
+            settleKind = $('input[name=settleKind]:checked').val();
+            paymentCheck = true;
+        }
+        if (payment3 == 'on') {
+            $('#settlekind_general').hide();
+            $('#settlekind_escrow').show().find(':radio:first').prop('checked', true);;
+            $('#settlekind_fintech_payco').hide();
+            $('#settlekind_overseas').hide();
+            if (_.isUndefined($('#settlekind_escrow input[name=settleKind]:checked').val())) {
+                $('#settlekind_escrow input[name=settleKind]:radio:first').prop('checked', true);
+            }
+            settleKind = $('input[name=settleKind]:checked').val();
+            paymentCheck = true;
+        }
+        if (payment4 == 'on') {
+            $('#settlekind_general').hide();
+            $('#settlekind_escrow').hide();
+            $('#settlekind_fintech_payco').hide();
+            $('#settlekind_overseas').show();
+            if (_.isUndefined($('#settlekind_overseas input[name=settleKind]:checked').val())) {
+                $('#settlekind_overseas input[name=settleKind]:radio:first').prop('checked', true);
+            }
+            settleKind = $('input[name=settleKind]:checked').val();
+            paymentCheck = true;
+        }
+    }
+
+    /**
+     * 결제 수단을 초기화
+     */
+    function gd_payment_reset()
+    {
+        // 주문 채널을 기본 shop 으로 처리
+        $('[name="orderChannelFl"]').val('shop');
+
+        <!--{ @ settle.payco }-->
+        // PAYCO 아이콘 전체 리셋
+        var checkKey = 'js_payco_icon_';
+        $('img[class*=' + checkKey + ']').each(function (idx) {
+            var kindName = $(this).attr('class').replace(checkKey, '');
+            $(".js_payco_icon_" + kindName).attr('src', $(".js_payco_icon_" + kindName).attr('src').replace('_on', '_off'));
+        });
+        <!--{ / }-->
+    }
+
+    /**
+     * 결제 수단 체크 박스 클릭시
+     */
+    function gd_settlekind_toggle_check(toggleKind)
+    {
+        if (toggleKind == 'payco') {
+            gd_payco_toggle('check');
+        } else {
+            $('.how_to_pay input[type=radio][id*=payment]:first').prop('checked', true);
+            gd_settlekind_toggle();
+        }
+    }
+
+    /**
+     * 영수증 선택 리셋
+     * - 우선 처리 모드에 따라서 영수증 종류 기본 선택 처리
+     */
+    function receipt_reset()
+    {
+        // 선택된 결제 방법
+        var strSettleKind = $('input[name=settleKind]:checked').val();
+
+        // 현금영수증 (소득공제/지출증빙) 보이지 않도록 강제 처리
+        $('input[name="receiptFl"]').prop('checked', false);
+
+        // 영수증 신청 안함 보이게 처리
+        $('#nonReceiptView').show();
+
+        // 사용 안함을 기본 체크 처리
+        if (strSettleKind.substring(0, 1) != 'g' || '{=gd_isset(receipt['aboveFl'], 'n')}' == 'n'){
+        $('#receipt_non').eq(0).prop('checked', true);
+    }
+
+        <!--{ ? receipt['aboveFl'] == 'r' || receipt['aboveFl'] == 't' }-->
+        // 결제 방법의 코드가 일반 인 경우
+        if (strSettleKind.substring(0, 1) == 'g') {
+            // 영수증 신청 안함 안보이게 처리
+            $('#nonReceiptView').hide();
+
+            <!--{ ? receipt['aboveFl'] == 'r' }-->
+            // 현금영수증을 기본 체크 처리
+            $('#receipt_cash').eq(0).prop('checked', true);
+            <!--{ / }-->
+        }
+
+        <!--{ ? receipt['aboveFl'] == 't' }-->
+        // 세금계산서를 기본 체크 처리
+        var useReceiptCode = {receipt['useReceiptCode']};
+        $.each(useReceiptCode, function(i, val) {
+            if (strSettleKind == val) {
+                $('#receipt_non').eq(0).prop('checked', false);
+                $('#receipt_tax').eq(0).prop('checked', true);
+                return false;
+            }
+        });
+        <!--{ / }-->
+        <!--{ / }-->
+    }
+
+    /**
+     * 영수증 선택
+     *
+     * @param string mode 모드에 따른 처리 (null : 일반 처리, zero : 전액결제 처리)
+     */
+    function gd_receipt_selector(mode)
+    {
+        <!--{ ? receipt['cashFl'] == 'y' || receipt['taxFl'] == 'y' }-->
+        var useReceiptCode = {receipt['useReceiptCode']};
+        var useCashReceiptCode = 'gb';
+        var strSettleKind = $('input[name=\'settleKind\']:checked').val();
+
+        $('.js_gd5_receipt_select').hide();
+        if (typeof strSettleKind != 'undefined') {
+            $.each(useReceiptCode, function(i, val) {
+                if (strSettleKind == val) {
+                    $('.js_gd5_receipt_select').show();
+                    if (strSettleKind != 'gb') $('.js_gd5_cash_receipt_info').hide();
+                    return false;
+                }
+            });
+        }
+
+        // 전액 결제인 경우 영수증 항목 보이기
+        if (mode == 'zero') {
+            $('.js_gd5_receipt_select').show();
+        }
+
+        // 영수증 관련 선택
+        gd_receipt_display();
+
+        // 현금 영수증 설정 (무통장입금인 경우에만 출력, 계좌이체와 가상계좌는 PG사 창에서 처리)
+        if (strSettleKind == useCashReceiptCode) {
+            $('#cashReceiptView').show();
+            $('.cash_receipt_non').show();
+            $('.cash_receipt_pg').hide();
+        } else {
+            $('#cashReceiptView').hide();
+            $('.cash_receipt_non').hide();
+            $('.cash_receipt_pg').show();
+        }
+
+        // 전액 결제인 경우 영수증 항목 보이기
+        if(mode == 'zero') {
+            $('#cashReceiptView').hide();
+            $('.cash_receipt_non').show();
+            $('.cash_receipt_pg').hide();
+        }
+
+        <!--{ / }-->
+    }
+
+    <!--{ ? receipt['cashFl'] == 'y' || receipt['taxFl'] == 'y' }-->
+    /**
+     * 영수증 관련 선택
+     *
+     * @param string clearChecker 해제 관련
+     */
+    function gd_receipt_display()
+    {
+        var useCode = {
+            t: 'tax_info',
+            r: 'cash_receipt_info'
+        };
+        var checkedBox = $('input:radio[name=receiptFl]:checked');
+        var target = eval('useCode.' + checkedBox.val());
+
+        $('.js_receipt').addClass('dn');
+        $('#' + target).removeClass('dn');
+
+        if (checkedBox.val() == 'r') {
+            gd_cash_receipt_toggle();
+        }
+
+        <!--{ ? receipt['taxFl'] == 'y' && memberInvoiceInfo['tax']['memberTaxInfoFl'] == 'y' }-->
+        $('.tax_info_init').addClass('dn');
+        if (checkedBox.val() == 't') {
+            $('.tax_info_init').removeClass('dn');
+        }
+        <!--{ / }-->
+    }
+    <!--{ / }-->
+
+    /**
+     * 현금영수증 인증방법 선택
+     * (소득공제용 - 휴대폰 번호(c), 지출증빙용 - 사업자번호(b))
+     */
+    function gd_cash_receipt_toggle()
+    {
+        <!--{ ? receipt['cashFl'] == 'y' }-->
+        var certCode = $('input[name=\'cashUseFl\']:checked').val();
+
+        if (certCode == 'd') {
+            $('input[name=\'cashCertFl\']').val('c');
+            $('#certNoHp').show();
+            $('#certNoBno').hide();
+        } else {
+            $('input[name=\'cashCertFl\']').val('b');
+            $('#certNoHp').hide();
+            $('#certNoBno').show();
+        }
+        <!--{ / }-->
+    }
+
+    /**
+     * 결제하기 버튼 상태 변경
+     */
+    function changePaymentButton(state) {
+        if (state) {
+            $('#paymentBtn').prop('disabled', false);
+            $('#paymentBtn').text("{=__('정기결제 신청하기')}");
+        } else {
+            $('#paymentBtn').prop('disabled', true);
+            $('#paymentBtn').text("{=__('정기결제 신청처리중')}");
+        }
+    }
+
+    function gd_insert_shipping_data(data, shippingNo) {
+        if (shippingNo > 0) {
+            var nameTails = 'Add[' + shippingNo + ']';
+        } else {
+            var nameTails = '';
+            shippingNo = 0;
+            $('.order_table_area').show();
+        }
+
+        $('input[name="shippingSno' + nameTails + '"]').val(data.sno);
+        $('input[name="shippingName' + nameTails + '"]').val(data.shippingName);
+        $('input[name="shippingZipcode' + nameTails + '"]').val(data.shippingZipcode);
+        $('input[name="shippingZonecode' + nameTails + '"]').val(data.shippingZonecode);
+        $('input[name="shippingCountry' + nameTails + '"]').val(data.shippingCountry);
+        $('select[name="shippingCountryCode' + nameTails + '"]').val(data.shippingCountryCode);
+        $('input[name="shippingState' + nameTails + '"]').val(data.shippingState);
+        $('input[name="shippingCity' + nameTails + '"]').val(data.shippingCity);
+        $('input[name="shippingAddress' + nameTails + '"]').val(data.shippingAddress);
+        $('input[name="shippingAddressSub' + nameTails + '"]').val(data.shippingAddressSub);
+        $('input[name="shippingPhonePrefix' + nameTails + '"]').val(data.shippingPhonePrefix);
+        $('select[name="shippingPhonePrefixCode' + nameTails + '"]').val(data.shippingPhonePrefixCode);
+        $('input[name="shippingPhone' + nameTails + '"]').val(data.shippingPhone);
+        $('input[name="shippingCellPhonePrefix' + nameTails + '"]').val(data.shippingCellPhonePrefix);
+        $('select[name="shippingCellPhonePrefixCode' + nameTails + '"]').val(data.shippingCellPhonePrefixCode);
+        $('input[name="shippingCellPhone' + nameTails + '"]').val(data.shippingCellPhone);
+        if (shippingNo > 0) {}
+        else {
+            if (data.defaultFl == 'y') {
+                $('input[name="shippingDefault"]').prop('checked', true).attr('onclick', 'return false');
+            } else {
+                $('input[name="shippingDefault"]').prop('checked', false).attr('onclick', '');
+            }
+        }
+        $('.delivery_list_add:eq(' + shippingNo + ') .btn_shipping_receiver').each(function(){
+            if ($(this).find('a').hasClass('on')) $(this).find('a').removeClass('on');
+            if (data.sno == $(this).find('a').data('sno')) $(this).find('a').addClass('on');
+        });
+        <!--{ ? gGlobal.isFront }-->
+        gd_get_delivery_country_charge();
+        <!--{ : }-->
+        gd_get_delivery_area_charge(data.shippingAddress, data.shippingAddressSub);
+        <!--{ / }-->
+    }
+
+    /**
+     * 마일리지 쿠폰 중복사용 체크
+     */
+    function gd_choose_mileage_coupon(type) {
+        if (type == undefined) {
+            return false;
+        }
+
+        // 마일리지 쿠폰 중복사용 체크
+        if ($('input[name=chooseMileageCoupon]').length > 0) {
+            if ($('input[name=chooseMileageCoupon]').val() == 'y') {
+                if (type == 'mileage') {
+                    // 마일리지 입력시 체크
+                    if ($('input[name=totalCouponGoodsDcPrice]').length > 0 && $('input[name=totalCouponGoodsMileage]').length > 0) {
+                        var totalCouponGoodsDcPrice = $('input[name=totalCouponGoodsDcPrice]').val();
+                        var totalCouponGoodsMileage = $('input[name=totalCouponGoodsMileage]').val();
+
+                        if (totalCouponGoodsDcPrice > 0 || totalCouponGoodsMileage > 0 || ($('input[name=couponApplyOrderNo]').val() != '' && $('input[name=couponApplyOrderNo]').length > 0)) {
+                            alert('마일리지와 쿠폰은 동시에 사용하실 수 없습니다.');
+                            $('input[name=useMileage]').val('');
+                            $("#useMileageAll").attr('checked', false);
+                            $('label[for=useMileageAll]').removeClass('on');
+                            return false;
+                        }
+                    }
+                } else {
+                    // 쿠폰사용 클릭시 체크
+                    if ($('input[name=useMileage]').val() != '' && $('input[name=useMileage]').val() != 0) {
+                        alert('마일리지와 쿠폰은 동시에 사용하실 수 없습니다.');
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
+    /**
+     * 배송정보 탭
+     */
+    $('.tab_menu ul li').on({
+        'click':function(){
+            var idx = $(this).index();
+            $('.tab_menu:eq(0) ul li').removeClass('active');
+            $('.tab_box').removeClass('show');
+            $(this).addClass('active');
+            $('#tab'+(idx+1)).addClass('show');
+        }
+    });
+
+
+    /**
+     * validator onkeyup 함수
+     * @param element
+     * @param event
+     * @returns {boolean}
+     */
+    function onkeyup(element, event) {
+        if (check_key_code2(event)) {
+            return true;
+        }
+        if ($.isFunction(replace_keyup[$(element).data('pattern')])) {
+            replace_keyup[$(element).data('pattern')](element);
+        }
+    }
+
+    var regexp_test = function (string, pattern) {
+        if (string === undefined || string.length < 1) {
+            return false;
+        }
+        return pattern.test(string);
+    };
+
+    var replace_pattern = function (string, pattern, c) {
+        if (string === undefined || string.length < 1) {
+            return '';
+        }
+        return string.replace(pattern, c);
+    };
+
+    var replace_keyup = {
+        gdEngNum: function (element) {
+            element.value = replace_pattern(element.value, /[^\da-zA-Z]/g, '');
+        },
+        gdEngKor: function (element) {
+            // IE11에서 초중종성 분리되는 현상때문에 test 후 replace 처리로 변경
+            if (regexp_test(element.value, /[^a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣\u119E\u11A2]/)) {
+                element.value = replace_pattern(element.value, /[^a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣\u119E\u11A2]/g, '');
+            }
+        },
+        gdEngKorNum: function (element) {
+            // IE11에서 초중종성 분리되는 현상때문에 test 후 replace 처리로 변경
+            if (regexp_test(element.value, /[^a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣0-9\u119E\u11A2]/)) {
+                element.value = replace_pattern(element.value, /[^a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣0-9\u119E\u11A2]/g, '');
+            }
+
+        },
+        gdNum: function (element) {
+            element.value = replace_pattern(element.value, /[^\d]/g, '');
+        },
+        gdEng: function (element) {
+            element.value = replace_pattern(element.value, /[^a-zA-Z]/g, '');
+        },
+        gdKor: function (element) {
+            if (regexp_test(element.value, /[^가-힣ㄱ-ㅎㅏ-ㅣ\u119E\u11A2]/)) {
+                element.value = replace_pattern(element.value, /[^가-힣ㄱ-ㅎㅏ-ㅣ\u119E\u11A2]/g, '');
+            }
+        },
+        gdMemberId: function (element) {
+            element.value = replace_pattern(element.value, /[^\da-zA-Z\.\-_@]/g, '');
+        },
+        gdMemberNmGlobal: function (element) {
+            // IE11에서 초중종성 분리되는 현상때문에 test 후 replace 처리로 변경
+            if (regexp_test(element.value, /[\/\'\"\\\|]/)) {
+                element.value = replace_pattern(element.value, /[\/\'\"\\\|]/g, '');
+            }
+        }
+    };
+
+    /**
+     * jquery validation의 키 체크 함수
+     * @param event
+     * @returns {boolean}
+     */
+    function check_key_code2(event) {
+        // Avoid revalidate the field when pressing one of the following keys
+        /* Shift       => 16 Ctrl        => 17 Alt         => 18
+         Caps lock   => 20 End         => 35 Home        => 36
+         Left arrow  => 37 Up arrow    => 38 Right arrow => 39
+         Down arrow  => 40 Insert      => 45 Num lock    => 144 AltGr key   => 225*/
+        var excludedKeys = [
+            16, 17, 18, 20, 35, 36, 37,
+            38, 39, 40, 45, 144, 225
+        ];
+
+        return event.which === 9 || $.inArray(event.keyCode, excludedKeys) !== -1;
+    }
+
+    // 주문서 변경에 따른 상품 금액 정보 변경 처리
+    function gd_set_recalculation()
+    {
+        // 마일리지 사용시 / 주문쿠폰 적용시 재계산
+        var cartIdx = [];
+        $('input[name="cartSno[]"]').each(function(idx){
+            cartIdx.push($(this).val());
+        });
+        var totalMemberBankDcPrice = 0;
+        <!--{? totalMemberBankDcPrice > 0}-->
+        totalMemberBankDcPrice = parseInt('{=totalMemberBankDcPrice}');
+        <!--{ / }-->
+        $.ajax({
+            method: "POST",
+            data: {
+                'mode': 'set_recalculation',
+                'cartIdx': cartIdx,
+                'totalCouponOrderDcPrice': $('input:hidden[name="totalCouponOrderDcPrice"]').val(),
+                'deliveryFree': $('input:hidden[name="deliveryFree"]').val(),
+                'useMileage': $('input[name="useMileage"]').val(),
+                'totalDeliveryCharge' : $('input[name=totalDeliveryCharge]').val(),
+                'deliveryAreaCharge' : $('input[name=deliveryAreaCharge]').val(),
+                'resetMemberBankDcPrice' : ( totalMemberBankDcPrice > 0 && $('#useMileageAll:checked').val() == 'on') ? 'y' : 'n'
+            },
+            cache: false,
+            async: false,
+            url: "../subscription/order_ps.php",
+            success: function (data) {
+                if (data) {
+                    if (data.totalMemberBankDcPrice > 0) {
+                        // 마일리지 전액 결제시 회원등급 추가 무통장 할인 처리
+                        var allCheck = $('#useMileageAll:checked').val();
+                        var totalCouponGoodsDcPrice = $('input[name=totalCouponGoodsDcPrice]').val();
+                        var totalCouponOrderDcPrice = $('input[name=totalCouponOrderDcPrice]').val();
+                        if (allCheck == 'on') {
+                            if (totalCouponGoodsDcPrice > 0 || totalCouponOrderDcPrice > 0) {}
+                            else {
+                                data.totalMemberDcPrice -= data.totalMemberBankDcPrice;
+                                $('#totalMemberBankDcPriceView').hide();
+                                $('input[name=resetMemberBankDcPrice]').val('y');
+                                gd_mileage_use_check('n', 'n', 'n', 'y');
+                            }
+                        } else {
+                            if (totalCouponGoodsDcPrice > 0 || totalCouponOrderDcPrice > 0) {}
+                            else {$('#totalMemberBankDcPriceView').show();
+                                $('.member-dc-price').html(data.totalMemberDcPrice + data.totalMemberBankDcPrice);
+                                $('input[name=resetMemberBankDcPrice]').val('n');
+                                gd_mileage_use_check('n', 'n', 'n', 'y');
+                            }
+                        }
+                        $('#totalMemberBankDcPriceViewTop').show();
+                        $('#totalMemberBankDcPriceViewBottom').show();
+
+                        // 주문쿠폰 사용시 상품할인 금액이 0 일 경우  마일리지 사용 disable 처리
+                        if ($('input[name="resetMemberBankDcPrice"]').val() == 'y') {
+                            mileage_disable_check('y');
+                        }
+                    } else {
+                        $('#totalMemberBankDcPriceViewTop').hide();
+                        $('#totalMemberBankDcPriceViewBottom').hide();
+
+                        // 상품 쿠폰사용시 상품할인 금액이 0 일 경우 마일리지 사용 disable 처리
+                        if (data.totalCouponGoodsDcPrice + data.totalMemberDcPrice + data.totalGoodsDcPrice == data.totalGoodsPrice) {
+                            mileage_disable_check('y');
+                        }
+                    }
+
+                    $('input[name=totalMemberDcPrice]').val(data.totalMemberDcPrice);
+                    $('input[name=totalMemberBankDcPrice]').val(data.totalMemberBankDcPrice);
+                    $('input[name=totalMemberOverlapDcPrice]').val(data.totalMemberOverlapDcPrice);
+                    $('input[name=totalMemberMileage]').val(data.totalMemberMileage);
+                    $('input[name=totalCouponGoodsDcPrice]').val(data.totalCouponGoodsDcPrice);
+
+                    $('.total-member-dc-price').html(numeral(data.totalGoodsDcPrice + data.totalMemberDcPrice + data.totalMemberOverlapDcPrice + data.totalCouponGoodsDcPrice).format());
+                    $('.total-member-dc-price-add').html(numeral(data.totalMemberDcPriceAdd).format());
+                    $('.member-dc-price').html(numeral(data.totalMemberDcPrice + data.totalMemberOverlapDcPrice).format());
+                    $('.total-member-mileage').html(numeral(data.totalMileage).format());
+                    $('.goods-mileage').html(numeral(data.totalGoodsMileage).format());
+                    $('.member-mileage').html(numeral(data.totalMemberMileage).format());
+
+
+                    <!--{? gd_is_login() === true && productCouponChangeLimitType == 'n'}-->
+                    var totalDeliveryCharge = data.totalDeliveryCharge;
+                    $('.goods-coupon-dc-price').html(numeral(data.totalCouponGoodsDcPrice).format());
+                    $('.goods-coupon-add-mileage').html(numeral(data.totalCouponGoodsMileage).format());
+
+                    <!--{ ? couponUse == 'y' && couponConfig['chooseCouponMemberUseType'] != 'member' }-->
+                    $('.goods-coupon-dc-price-without-member').html(numeral(data.totalCouponGoodsDcPrice).format());
+                    $('.goods-coupon-add-mileage-without-member').html(numeral(data.totalCouponGoodsMileage).format());
+                    $('.total-member-dc-price-without-member').html(numeral(data.totalGoodsDcPrice + data.totalCouponGoodsDcPrice).format());
+                    $('.total-member-mileage-without-member').html(numeral(data.totalMileage).format());
+                    <!--{ / }-->
+
+                    <!--{ ? deliveryFree != 'y' }-->
+                    $('input[name=totalDeliveryCharge]').val(totalDeliveryCharge);
+                    $('#totalDeliveryCharge').html(numeral(parseInt(totalDeliveryCharge)).format());
+                    <!--{ / }-->
+                    <!--{ / }-->
+
+                    <!--{ ? gd_is_login() === true && mileageUse.payUsableFl != 'n' }-->
+                    mileageUse = data.mileageUse;
+                    <!--{ / }-->
+                }
+            }
+        });
+    }
+
+    /**
+     * 결제금액에서 상품금액만 구하기 (배송비 제외)
+     * @param realSettlePrice
+     * @returns {number|*}
+     */
+    function gd_get_goodsSalesPrice(realSettlePrice)
+    {
+        var deliveryFreePrice = parseInt($('input[name="totalDeliveryFreePrice"]').val());
+        var deliveryPrice = 0;
+        if (deliveryFreePrice > 0) {
+            var deliveryAreaPrice = parseInt($('input[name="deliveryAreaCharge"]').val());
+            var deliveryDcPrice = parseInt($('input[name="totalCouponDeliveryDcPrice"]').val());
+            if (deliveryAreaPrice > 0) {
+                deliveryPrice = deliveryPrice + deliveryAreaPrice;
+            }
+            if (deliveryDcPrice > 0) {
+                deliveryPrice = deliveryPrice - deliveryDcPrice;
+            }
+        } else {
+            var deliveryBasicPrice = parseInt($('input[name="totalDeliveryCharge"]').val());
+            var deliveryAreaPrice = parseInt($('input[name="deliveryAreaCharge"]').val());
+            var deliveryDcPrice = parseInt($('input[name="totalCouponDeliveryDcPrice"]').val());
+            if (deliveryBasicPrice > 0) {
+                deliveryPrice = deliveryPrice + deliveryBasicPrice;
+            }
+            if (deliveryAreaPrice > 0) {
+                deliveryPrice = deliveryPrice + deliveryAreaPrice;
+            }
+            if (deliveryDcPrice > 0) {
+                deliveryPrice = deliveryPrice - deliveryDcPrice;
+            }
+        }
+
+        realSettlePrice = realSettlePrice - deliveryPrice;
+
+        return realSettlePrice;
+    }
+
+    /**
+     * 결제 페이지 호출 확인 후 결제
+     */
+    function pgSettleStartAfterCheck() {
+        if (typeof pgSettleStart === 'function') {
+            pgSettleStart();
+        } else {
+            console.log('pgSettle fail');
+            return false;
+        }
+    }
+
+    <!--{ ? (authData['useFl'] == 'y' && authData['useDataModifyFl'] == 'y') || (authData['useFlKcp'] == 'y' && authData['useDataModifyFlKcp'] == 'y') }-->
+    $('#memberinfoApplyTr1').hide();
+    $('#memberinfoApplyTr2').hide();
+    $('#memberinfoApplyTr3').hide();
+    <!--{ / }-->
+
+    <!--{ ? isUseMultiShipping === true }-->
+    var multiShippingPrice = function(deliveryPrice){
+        if ($('input[name="multiShippingFl"]').prop('checked') === true) {
+            var multiDelivery = 0;
+            var multiShippingText = [];
+            $('input[name^="multiDelivery"]').each(function(index){
+                var value = $(this).val() ? $(this).val() : 0;
+                var html = __('추가 배송지') + index + ' : ';
+                if (index <= 0) {
+                    html = __('메인 배송지') + ' : ';
+                }
+                multiShippingText.push(html + '{=gd_global_currency_symbol()}' + numeral(parseInt(value)).format() + '{=gd_global_currency_string()}');
+                multiDelivery += parseInt(value);
+            });
+            $('.multi_shipping_text').html('(' + multiShippingText.join(', ') + ')');
+        } else {
+            $('.multi_shipping_text').empty();
+            multiDelivery = deliveryPrice;
+        }
+        $('#totalDeliveryCharge').html(numeral(parseInt(multiDelivery)).format());
+        $('input[name="totalDeliveryCharge"]').val(multiDelivery);
+
+        return multiDelivery;
+    }
+    <!--{ / }-->
+
+    var resetMileage = function() {
+        var cartIdx = [];
+        $('input[name="cartSno[]"]').each(function(idx){
+            cartIdx.push($(this).val());
+        });
+        var param = {
+            mode: 'set_mileage',
+            cartSno: cartIdx,
+            totalDeliveryCharge : $('input[name=totalDeliveryCharge]').val(),
+            deliveryAreaCharge : $('input[name=deliveryAreaCharge]').val(),
+            totalCouponOrderDcPrice: $('input:hidden[name="totalCouponOrderDcPrice"]').val(),
+        };
+        $.post('cart_ps.php', param, function(data){
+            mileageUse = data.mileageUse;
+
+            gd_mileage_use_check('n', 'n', 'n', 'n');
+        });
+    }
+    //-->
+</script>
+
+{ # footer }

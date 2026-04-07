@@ -1,0 +1,115 @@
+{*** 우편번호 | share/zipcode.htm ***}
+<script type="text/javascript">
+<!--
+var codeID	= '{=codeID}';
+var addrID	= '{=addrID}';
+var formID	= '{=formID}';
+
+/**
+ * 우편번호 검색
+ *
+ * @author artherot
+ * @param string pagelink 페이징
+ */
+function gd_layer_zipcode_search(pagelink)
+{
+	var url		= mobileRootPath+'share/zipcode.php';
+	var keyword	= $('input[name=\'keyword\']').val();
+
+	if (keyword == '') {
+		alert('동(읍/면/리)를 입력해 주세요!');
+		return false;
+	}
+	if (typeof pagelink == 'undefined') {
+		pagelink	= '';
+	}
+	var parameters	= {
+		codeID		: codeID,
+		addrID		: addrID,
+		formID		: formID,
+		keyword		: keyword,
+		pagelink	: pagelink
+	};
+	$.post(url,parameters, function(data){
+		$('#'+formID).html(data);
+	});
+}
+
+/**
+ * 부모창에 주소 넣기
+ *
+ * @author artherot
+ * @param integer spanCode 해당 주소 코드
+ */
+function gd_add_address(spanCode)
+{
+	var codeArr		= $('#code_'+spanCode).html().split('-');
+	var address		= $('#address_'+spanCode).html();
+
+	$('input[name=\'{=codeID}[]\']:eq(0)').val(codeArr[0]);
+	$('input[name=\'{=codeID}[]\']:eq(1)').val(codeArr[1]);
+	$('input[name=\'{=addrID}\']').val(address);
+
+	gd_close_popup();
+}
+
+/**
+ * 우편번호 레이어창 닫기
+ *
+ * @author artherot
+ */
+function gd_close_popup()
+{
+	$('#'+formID).html();
+	$('#'+formID).hide();
+}
+//-->
+</script>
+
+<!-- 상단 타이틀 -->
+<div class="titleBar">{=contentTitle}</div>
+<!-- // 상단 타이틀 -->
+
+<div class="zipcodeBox">
+	<div class="search_box">
+		<div class="desc">찾고자 하는 주소의 동(읍/면/리) 이름을 입력하세요</div>
+		<div class="desc">[예] 삼성동, 수서동, 역삼동</div>
+		<ul>
+			<li>
+				<input type="text" name="keyword" value="{=gd_isset(search['keyword'])}" size="13" onKeypress="javascript:if(event.keyCode==13) gd_layer_zipcode_search();" class="form-control" />
+				<img src="../../img/common/btn_search_popup.gif" alt="{=__('검색')}" class="middle hand" onclick="gd_layer_zipcode_search();" />
+			</li>
+		</ul>
+	</div>
+
+	<div class="list_top">
+		검색 <strong>{=number_format(page->recode['total'])}</strong>개, <strong>{=number_format(page->page['now'])}</strong> of {=number_format(page->page['total'])} Pages
+	</div>
+
+	<div class="list_form">
+		<table>
+		<thead>
+		<tr>
+			<th class="zipcode">우편번호</th>
+			<th class="address">지역명</th>
+		</tr>
+		</thead>
+		<tbody>
+		<!--{ ? gd_isset(data) }-->
+			<!--{ @ data }-->
+		<tr>
+			<td class="zipcode center <!--{ ? .index_ % 2 == 1 }-->even<!--{ / }-->"><span id="code_{=.index_}">{=.value_['zipcode']}</span></td>
+			<td class="address <!--{ ? .index_ % 2 == 1 }-->even<!--{ / }-->"><span id="address_{=.index_}" class="hand" onclick="gd_add_address({=.index_});">{=.value_['sido']} {=.value_['gugun']} {=.value_['dong']}</span> {=.value_['bunji']}</td>
+		</tr>
+			<!--{ / }-->
+		<!--{ : }-->
+		<tr>
+			<td class="center" colspan="2">&quot;동(읍/면/리)&quot; 검색을 이용해 주세요.</td>
+		</tr>
+		<!--{ / }-->
+		</tbody>
+		</table>
+	</div>
+	<div class="center">{=page->getPage('gd_layer_zipcode_search(\'PAGELINK\')')}</div>
+	<div class="btn_close"><img src="../../img/common/btn_close_popup.gif" alt="{=__('닫기')}" class="middle hand" onclick="gd_close_popup();" /></div>
+</div>

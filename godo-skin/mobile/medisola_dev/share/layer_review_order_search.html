@@ -1,0 +1,38 @@
+{*** 주문 선택 레이어 | share/layer_review_order_search.php ***}
+<!--{ @ data}-->
+<div class="layer_review_order_search">
+	<div class="order_num_box">
+		<div class="order_num">{=__('주문번호')} {.orderNo}</div>
+		<div class="order_date">{.regDt}</div>
+	</div>
+	<ul class="my_goods js_pr_row">
+		<li>
+			<div class="my_goods_list_box">
+				<div class="order_prd">
+					<span>{=__('주문상태')} : </span>
+					<strong>{.orderStatusText}</strong>
+				</div>
+				<div class="info">
+					<div class="itemhead">
+						<div class="img"><img src="{=.goodsImageSrc}" alt="{.goodsNm}{.optionName}"></div>
+					</div>
+					<div class="itembody">
+						<dl>
+							<dt>{.goodsNm}</dt>
+							<dd>
+								<ul>
+									<!--{@ .option}-->
+									<li>{..name} : {..value}</li>
+									<!--{/}-->
+								</ul>
+							</dd>
+						</dl>
+						<strong class="prc">{=__('상품금액')} : <span class="goods_price">{=.totalGoodsPriceText}</span></strong>
+					</div>
+				</div>
+			</div>
+			<div class="itembottom"><a href="javascript:void(0)" class="layer_order_select_btn js_select_confirm" data-ordergoodsno="{.sno}">{=__('선택')}</a></div>
+		</li>
+	</ul>
+</div>
+<!--{/}-->

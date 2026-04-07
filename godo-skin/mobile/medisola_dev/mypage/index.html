@@ -1,0 +1,111 @@
+{*** 마이페이지 | mypage/index.php ***}
+{ # header }
+<div class="mypage_index">
+	<!-- 마이페이지 회원 요약정보 -->
+	{=includeWidget('mypage/_member_summary.html')}
+	<!--// 마이페이지 회원 요약정보 -->
+	<div class="mypage_menu">
+		<h3 class="tit">{=__('쇼핑정보')}</h2>
+		<ul>
+			<li><a href="order_list.php"><span>{=__('주문목록/배송조회')}</span></a></li>
+			<!--{ ? gd_is_plus_shop(c.PLUSSHOP_CODE_USEREXCHANGE) === true && userHandleFl === true }-->
+			<li class="depth1_list">
+				<a href="#"><span>{=__('취소/반품/교환 내역')}</span></a>
+				<ul class="dn">
+					<li><a href="order_list.php?mode=cancelRequest"><span>{=__('취소/반품/교환 신청 내역')}</span></a></li> 
+					<li><a href="order_list.php?mode=cancel"><span>{=__('취소/반품/교환 처리 내역')}</span></a></li>
+				</ul>
+			</li>
+			<!--{ : }-->
+			<li><a href="order_list.php?mode=cancel"><span>{=__('취소/반품/교환 내역')}</span></a></li>
+			<!--{ / }-->
+			<!--{ ? gd_is_plus_shop(c.PLUSSHOP_CODE_USEREXCHANGE) === true && userHandleFl === true }-->
+			<li class="depth1_list">
+				<a href="#"><span>{=__('환불/입금 내역')}</span></a>
+				<ul class="dn">
+					<li><a href="order_list.php?mode=refundRequest"><span>{=__('환불 신청 내역')}</span></a></li>
+					<li><a href="order_list.php?mode=refund"><span>{=__('환불/입금 처리 현황')}</span></a></li>
+				</ul>
+			</li>
+			<!--{ : }-->
+			<li><a href="order_list.php?mode=refund"><span>{=__('환불/입금 내역')}</span></a></li>
+			<!--{ / }-->
+			<li><a href="wish_list.php"><span>{=__('찜 리스트')}</span></a></li>
+		</ul>
+	</div>
+	<div class="mypage_menu">
+		<h3 class="tit">{=__('배송관리')}</h3>
+		<ul>
+			<li><a href="scheduled_delivery.php"><span>{=__('회차배송 관리')}</span></a></li>
+			<li><a href="shipping.php"><span>{=__('배송지 관리')}</span></a></li>
+		</ul>
+	</div>
+	<!--{? gd_use_coupon() || gd_use_couponzone() || gd_use_deposit() || gd_use_mileage()}-->
+	<div class="mypage_menu">
+		<h3 class="tit">{=__('혜택관리')}</h3>
+		<ul>
+			<!--{? gd_use_coupon()}-->
+			<li><a href="coupon.php"><span>{=__('쿠폰내역')}</span></a></li>
+			<!--{/}-->
+			<!--{? gd_use_couponzone()}-->
+			<li><a href="../event/couponzone.php"><span>{=__('쿠폰존')}</span></a></li>
+			<!--{/}-->
+			<!--{? gd_use_deposit()}-->
+			<li><a href="deposit.php"><span>{=gd_display_deposit('name')}</span></a></li>
+			<!--{/}-->
+			<!--{? gd_use_mileage()}-->
+			<li><a href="mileage.php"><span>{=gd_display_mileage_name()}</span></a></li>
+			<!--{/}-->
+		</ul>
+	</div>
+	<!--{/}-->
+	<!--{ ? canQa }-->
+	<div class="mypage_menu">
+		<h3 class="tit">{=__('고객센터')}</h3>
+		<ul>
+			<li><a href="mypage_qa.php"><span>{=__('1:1문의내역')}</span></a></li>
+		</ul>
+	</div>
+	<!--{/}-->
+	<div class="mypage_menu">
+		<h3 class="tit">{=__('회원정보')}</h3>
+		<ul>
+			<!--{ ? canGoodsReview }-->
+			<li><a href="mypage_goods_review.php"><span>{=__('나의 상품후기')}</span></a></li>
+			<!--{/}-->
+			<!--{ ? canGoodsQa }-->
+			<li><a href="mypage_goods_qa.php"><span>{=__('나의 상품문의')}</span></a></li>
+			<!--{/}-->
+			<!--{ ? plusReviewConfig.useFl == 'y' }-->
+			<li><a href="../board/plus_review_article.php?isMypage=y"><span>{=__('나의 플러스리뷰')}</span></a></li>
+			<!--{/}-->
+			<li><a href="hack_out.php"><span>{=__('회원 탈퇴')}</span></a></li>
+		</ul>
+	</div>
+	
+	
+	
+</div>
+<!-- //mypage_index -->
+{ # footer }
+<script type="text/javascript">
+	$(function(){
+		$('.depth1_list > a').on({
+			'click':function(e){
+				e.preventDefault();
+				const ul = $(this).parent().find('ul');
+				const uldp = ul.css('display');
+				
+				if(uldp == 'none'){
+					$(this).parent().addClass('on');
+					ul.removeClass('dn');
+					ul.slideDown();
+				}else{
+					ul.slideUp();
+					ul.addClass('dn');
+					$(this).parent().removeClass('on');
+				}
+			}
+		});
+	});
+</script>

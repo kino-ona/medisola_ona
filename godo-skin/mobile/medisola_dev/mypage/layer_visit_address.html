@@ -1,0 +1,61 @@
+{*** 방문수령 주소 레이어 | mypage/layer_visit_address.php ***}
+<div class="layer_option order_view">
+    <div class="ly_head">
+        {=__('상품별 방문 수령지 주소')}
+    </div>
+    <div class="close_btn">
+        <button type="button" class="lys_close_btn ly_btn_close">{=__('닫기')}</button>
+    </div>
+
+    <div id="visitAddressLayer">
+        <!--{ ? data }-->
+        <!--{ @ data }-->
+        <!--{ @ .value_ }-->
+        <div class="item-info">
+            <div class="image">{..goodsImage}</div>
+            <div class="option">
+                {..goodsNmStandard}
+                <!--{ ? ..optionInfo }-->
+                <div style="color:#999999; font-size:11px;">
+                    <!--{ @ ..optionInfo }-->
+                    <!--{  ? ...key_ > 0}--> / <!--{ / }-->{...optionName } : {...optionValue}
+                    <!--{ / }-->
+                </div>
+                <!--{ / }-->
+            </div>
+        </div>
+        <h3>방문 수령지 주소 : {..visitAddress}</h3>
+        <!--{ / }-->
+        <!--{ / }-->
+        <!--{ ? count(value.goodsSno) > (page->page['now'] * page->page['list']) }-->
+        <div class="btn more_btn_box" style="margin:5px;">
+            <button type="button" class="more_btn" data-page="{page->page['now']}">{=__('더보기')}</button>
+        </div>
+        <!--{ / }-->
+        <!--{ : }-->
+        <div class="item-info no-data" style="text-align:center;">검색된 페이지가 없습니다.</div>
+        <!--{ / }-->
+    </div>
+</div>
+<style>
+    .item-info {padding:10px;}
+    .item-info > div {display:inline-block;}
+    .item-info .option {vertical-align:bottom;}
+    .my_tit {clear:both;}
+</style>
+<script type="text/javascript">
+    $(function() {
+        $(document).on('click', '.more_btn', function (e) {
+            e.preventDefault();
+            var page = $(this).data('page') + 1;
+            var params = {orderNo:'{value.orderNo}', goodsSno:'{=json_encode(value.goodsSno)}', page: page};
+
+            $.get('layer_visit_address.php', params, function (data) {
+                var html = $($(data).filter(".layer_option").html()).filter("#visitAddressLayer").html();
+                $('#visitAddressLayer').find('.more_btn_box').remove();
+                $('#visitAddressLayer').append(html);
+                return false;
+            });
+        });
+    });
+</script>

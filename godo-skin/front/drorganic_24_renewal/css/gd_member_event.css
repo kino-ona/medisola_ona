@@ -1,0 +1,25 @@
+@charset "utf-8";
+/* CSS Document */
+
+/* 회원정보 이벤트 팝업 */
+#memberEventPopup_modify_form {}
+#memberEventPopup_modify_form .box .view {width:370px;overflow: hidden;}
+#memberEventPopup_modify_form .check {color:#000000; text-align:right;}
+#memberEventPopup_modify_form .check .form_element .check_s {}
+#memberEventPopup_modify_form .box .view .text_event {text-align:center; padding:20px; font-weight:bold; font-size:14px; color:#161616;}
+#memberEventPopup_modify_form .box .view .text_event .text_red{display:inline-block; color:#fa2828;}
+#memberEventPopup_modify_form .box .view .event_btn_wrap {padding:26px;}
+#memberEventPopup_modify_form .box .event_btn_wrap {padding:26px 0 5px; text-align:center;}
+#memberEventPopup_modify_form .box .event_btn_wrap .btn_event {display:inline-block; width:287px; height:54px; line-height:54px; border:1px solid #727071; font-weight:bold; font-size:18px; color:#727071;}
+#memberEventPopup_modify_form .box .event_btn_wrap .btn_event span {display:inline-block; padding-right:19px; background:url(../img/member/btn_arrow.png) no-repeat 100% 50%;}
+
+#memberEventPopup_life_form {}
+#memberEventPopup_life_form .box .view {width:370px;overflow: hidden;}
+#memberEventPopup_life_form .check {color:#000000; text-align:right;}
+#memberEventPopup_life_form .check .form_element .check_s {}
+#memberEventPopup_life_form .box .view .text_event {text-align:center; padding:20px; font-weight:bold; font-size:14px; color:#161616;}
+#memberEventPopup_life_form .box .view .text_event .text_red{display:inline-block; color:#fa2828;}
+#memberEventPopup_life_form .box .view .event_btn_wrap {padding:26px;}
+#memberEventPopup_life_form .box .event_btn_wrap {padding:26px 0 5px; text-align:center;}
+#memberEventPopup_life_form .box .event_btn_wrap .btn_event {display:inline-block; width:287px; height:54px; line-height:54px; border:1px solid #727071; font-weight:bold; font-size:18px; color:#727071;}
+#memberEventPopup_life_form .box .event_btn_wrap .btn_event span {display:inline-block; padding-right:19px; background:url(../img/member/btn_arrow.png) no-repeat 100% 50%;}

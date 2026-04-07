@@ -1,0 +1,644 @@
+{*** 플러스 리뷰  작성 레이어 팝업창 공통 | board/plus_review_popup_write.php ***}
+<link type="text/css" rel="stylesheet" href="\{=c.PATH_MOBILE_SKIN}css/gd_plus_review.css?ts={=time()}">
+<div class="plus_review_popup_write">
+    <div class="ly_head">
+        <h1 class="h_tit">{=__('리뷰등록')}</h1>
+    </div>
+    <div class="ly_ct">
+		<form id="plusPlusReviewForm" method="post" action="../board/plus_review_ps.php" enctype="multipart/form-data">
+			<input type="hidden" name="mode" value="{=req.mode}"/>
+			<input type="hidden" name="goodsNo" value="{=data.goodsNo}"/>
+			<input type="hidden" name="sno" value="{=req.sno}"/>
+			<!--{ ? gd_is_login() === false}-->
+			<input type="hidden" name="oldWriterPw" value="{=req.oldWriterPw}"/>
+			<!--{/}-->
+			<div class="write_wrap">
+				<!--{? plusReviewConfig.reviewBenefitInfo}-->
+				<div class="benefit_info_box">
+					<div class="benefit_info">{=plusReviewConfig.viewReviewBenefitInfo}</div>
+				</div>
+				<!--{/}-->
+				<dl>
+					<dt><label for="writerNm">{=__('작성자')}</label></dt>
+					<dd>
+						<!--{ ? gd_is_login()}-->
+						<strong>{=writer}</strong>
+						<!--{:}-->
+						<input type="text" name="writerNm" id="writerNm" value="{=data.writerNm}" placeholder="{=__('작성자명을 입력해주세요.')}"/>
+						<!--{/}-->
+					</dd>
+				</dl>
+
+				<!--{ ? gd_is_login() === false && req.mode != 'modify' }-->
+				<dl>
+					<dt><label for="writerPw">{=__('비밀번호')}</label></dt>
+					<dd><input type="password" name="writerPw" id="writerPw" placeholder="{=__('비밀번호를 입력해주세요.')}"/></dd>
+				</dl>
+				<!--{/}-->
+                <!--{ ? plusReviewConfig.authWriteExtra === 'all' && isPopupExceptMain }-->
+                <dl>
+                    <dt><label>{=__('상품선택')}</label></dt>
+                    <dd>
+						<span id="js_empty_goods" class="pr_empty_goods_txt">{=__('선택된 상품이 없습니다.')}</span>
+						<div class="itemselect"><a href="javascript:void(0)" class="order_select_btn btn_open_layer" data-type="goods">{=__('상품선택')}</a></div>
+					</dd>
+                </dl>
+                <div id="add_goods_area" class="prd_review_box dn">
+                    <div class="selected_goods_wrap">
+                        <div class="selected_goods js_select_item">
+                            <div class="goods_item_cell cell_img">
+                                <div class="goods_img"><img src="" alt="{=__('상품이미지')}"></div>
+                            </div>
+                            <div class="goods_item_cell cell_info"></div>
+                            <div class="goods_item_cell cell_price"></div>
+                            <div class="goods_item_cell">
+                                <a href="javascript:void(0)" class="pr_remove_goods" onclick="gd_set_add_goods()"><img src="../img/btn/btn_x.png" alt="{=__('닫기')}"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--{ : }-->
+				<!--{ ? data.buyOrderCnt > 1 && req.mode !='modify'}-->
+				<dl>
+					<dt><label for="">{=__('다른주문내역')}</label></dt>
+					<dd><div class="itemselect"><a href="javascript:void(0)" class="order_select_btn btn_open_layer" data-type="order">{=__('주문선택')}</a></div></dd>
+				</dl>
+				<!--{/}-->
+				<!--{ ? gd_is_login() }-->
+				<div class="prd_review_box">
+					<!--{ ? req.mode == 'addPopup'}-->
+					<div class="review_skip">
+						<a href="javascript:void(0)" class="js_btn_review_skip">{=__('이 상품 리뷰등록 안함')}></a>
+					</div>
+					<!--{/}-->
+					<!--{ ? data.buyGoodsData }-->
+					<div class="selected_goods_wrap">
+						<div class="selected_goods js_select_item">
+							<input type="hidden" name="orderGoodsNo" value="{=data.buyGoodsData.sno}"/>
+							<div class="goods_item_cell cell_img">
+								<div class="goods_img">
+									<img src="{=data.buyGoodsData.goodsImageSrc}" alt="{=data.buyGoodsData.goodsNm}">
+								</div>
+							</div>
+							<div class="goods_item_cell cell_info">
+								{=data.buyGoodsData.goodsNm}
+							</div>
+							<div class="goods_item_cell cell_price">
+								{=data.buyGoodsData.totalGoodsPriceText}
+							</div>
+						</div>
+					</div>
+					<!--{/}-->
+				</div>
+				<!--{/}-->
+				<!--{/}-->
+				<dl>
+					<dt><label>{=__('평가')}</label></dt>
+					<dd>
+						<input type="hidden" name="goodsPt" value="{=data.goodsPt}"/>
+						<div class="select_small_outer choice_box">
+							<!-- [D] 활성화 시  class="selected" 추가 -->
+							<button type="button" class="bn_opt js_option_select">
+								<span><span></span></span>
+							</button>
+							<div class="optbx" style="display:block;display:none">
+								<!-- [D] 3행의 높이값 구하여 height적용 -->
+								<div class="scroll">
+									<ul class="choice_rating">
+										<!--{ @ range(5,1) }-->
+										<li><span class="rating" data-value="{.value_}"><span style="width:{.value_*20}%;">{=__('별')}{.value_}</span></span></li>
+										<!--{/}-->
+									</ul>
+								</div>
+							</div>
+						</div>
+					</dd>
+				</dl>
+				<!--{? plusReviewConfig.addFormFl == 'y' || plusReviewConfig.displayOptionFl == 'y' }-->
+					<!--{? plusReviewConfig.addFormFl == 'y'}-->
+					<!--{@plusReviewConfig.serviceAddForm}-->
+					<dl>
+						<dt><label>{=.labelName}</label></dt>
+						<dd>
+							<input type="hidden" name="addFormLabel[]" value="{=.labelName}"/>
+							<!--{ ? .inputType == 'select'}-->
+								<div class="inp_sel">
+									<select data-label="{=.labelName}" class="<!--{?.requireFl == 'y'}-->js_pr_valid_form<!--{/}-->" name="addFormValue[]">
+									<option value="">{=__('=선택=')}</option>
+									<!--{@.labelValue}-->
+									<option value="{=..value_}" <!--{ ? data.addFormData[.labelName] == ..value_ }-->selected<!--{/}--> >{=..value_}</option>
+									<!--{/}-->
+								</div>
+							</select>
+							<!--{:}-->
+								<input type="text" data-label="{=.labelName}" class="<!--{ ? .requireFl == 'y'}-->js_pr_valid_form<!--{/}-->" name="addFormValue[]" value="{=data.addFormData[.labelName]}" placeholder="{=.labelValue[0]}"  />
+							<!--{/}-->
+						</dd>
+					</dl>
+					<!--{/}-->
+					<!--{/}-->
+					<!--{ ?plusReviewConfig.displayOptionFl == 'y' && (isPopupExceptMain === false || plusReviewConfig.authWriteExtra !== 'all') }-->
+						<div class="prd_option">
+							<ul class="option_content js_buy_goods_option">
+							<!--{ @ data.buyGoodsData.option}-->
+								<li class="prd_option_box">
+									<dl>
+										<dt>{=.name}</dt>
+										<dd>{=.value}</dd>
+									</dl>
+								</li>
+							<!--{/}-->
+							</ul>
+						</div>
+					<!--{/}-->
+				<!--{/}-->
+				<div class="textarea_box">
+					<textarea name="contents" placeholder="{=plusReviewConfig.reviewPlaceHolder}">{=data.contents}</textarea>
+                    <strong style="float: right"><span class="js_textCount" style="color:#fa2828">0</span> / {=plusReviewConfig.formCheckMinLength}</strong>
+				</div>
+				<div class="b_file">
+					<ul id="boardAttach" class="attach-container js_pr_attach_list">
+						<!--{@data.uploadedFile}-->
+						<li class="item" data-mode="old" data-index="{=.key_}" style="position:relative">
+							<img src="{.thumSquareSrc}" name="" width="100%" height="100%" alt="{=.uploadHeadImage.uploadFileNm}">
+						</li>
+						<!--{/}-->
+					</ul>
+					<div>
+						<button class="file_face" type="button">{=__('파일첨부')}</button>
+						<input class="file_hidden" type="file" name="upfiles[]" accept="*"/>
+					</div>
+				</div>
+
+
+				<!--{ ? gd_is_login()=== false}-->
+				<div class="input_wrap ty3">
+					<span class="inp_chk">
+						<input type="checkbox" name="agreeFl"  value="y" id="temp-id" class="sp"/>
+						<label for="temp-id" class="check_s"><strong>{=__('비회원 글작성에 대한 개인정보 수집 및 이용동의')}</strong></label>
+						<a href="../service/private.php" target="_blank" class="c-red fz11 td-u">{=__('전체보기')}&gt;</a>
+					</span>
+				</div>
+				<!--{/}-->
+				<ul class="btn_box">
+					<li><button type="button" class="plus_review_cancel_btn js_pr_popup_close">{=__('취 소')}</button></li>
+					<li><button type="submit" class="plus_review_save_btn">{=__('저 장')}</button></li>
+				</ul>
+			</div>
+		</form>
+    </div>
+	<div class="close_btn">
+		<button type="button" class="lys_close_btn js_pr_popup_close">{=__('닫기')}</button>
+	</div>
+</div>
+
+<div id="addPlusReviewOrderLayer" class="layer-wrap dn"></div>
+
+
+<script type="text/javascript">
+    var goodsNo = '{=data.goodsNo}';
+    var buyGoodsNo = '{=data.buyGoodsNo}';
+    var tmpSaveFileNm = new Array();
+	var plusReviewSuubmitFl = true;
+
+    $(function () {
+        var maxFileNumber = '{=plusReviewConfig.uploadMaxCount}';
+        var writerErrorMsg = '{=data.writeErrorMsg}';
+
+        $('#popup-board').css('z-index', '5000');
+        $('.js_pr_popup_close').bind('click', function () {
+            $('#popupBoardWrite').hide();
+            $('#popupBoard').empty();
+            $('.ly_btn_close').trigger('click');
+            $('#plusReviewPopup').hide();
+            $('#layerDim').remove();
+        })
+
+        if (_.isEmpty(writerErrorMsg) === false) {
+            alert(writerErrorMsg);
+            $('.js_pr_popup_close').trigger('click');
+        }
+
+        $('.js_btn_review_skip').bind('click', function () {
+            $.ajax({
+                method: "POST",
+                data: {mode: 'skipReview', orderGoodsNo: $('[name=orderGoodsNo]').val()},
+                cache: false,
+                url: "../board/plus_review_ps.php",
+                success: function (data) {
+                    if (data.result == 'ok') {
+                        $('.js_pr_popup_close').trigger('click');
+                    }
+                },
+                error: function (data) {
+                    alert(data.message);
+                }
+            });
+        })
+
+        $('.btn_open_layer').bind('click', function (e) {
+            if ($(this).data('type') === 'order') {
+                var tmpGoodsNo = '';
+                <!--{ ? req.mode == 'addPopup' }-->
+                mode = 'plusReviewWritePopup';
+                <!--{:}-->
+                mode = 'plusReviewWrite';
+                tmpGoodsNo = goodsNo;
+                <!--{/}-->
+                var params = {
+                    mode: mode,
+                    goodsNo: tmpGoodsNo
+                };
+                $.ajax({
+                    method: "POST",
+                    data: params,
+                    cache: false,
+                    url: "../share/layer_review_order_select.php",
+                    success: function (data) {
+                        popupHeight = $('.plus_review_popup_write').height();
+                        $('#addPlusReviewOrderLayer').css('height', popupHeight + 'px').empty().append(data);
+                        $('#addPlusReviewOrderLayer').show();
+                        $('#addPlusReviewOrderLayer .ly_ct').css('height', '100%');
+                    },
+                    error: function (data) {
+                        alert(data.message);
+                    }
+                });
+            } else if ($(this).data('type') === 'goods') {
+                var params = {
+                    isPlusReview: 'y'
+                };
+                $.ajax({
+                    method: "POST",
+					data: params,
+                    cache: false,
+                    url: "../share/layer_goods_select.php",
+                    success: function (data) {
+                        $('#popupSelectGoods').empty().append(data);
+                        $('#popupSelectGoods').show();
+                    },
+                    error: function (data) {
+                        alert(data.message);
+                    }
+                });
+            }
+        });
+
+        gd_init_file_upload();
+
+        var formCheckMinLength = '{ = plusReviewConfig.formCheckMinLength}';
+        var uploadRequiredFl = '{=plusReviewConfig.uploadRequiredFl}';
+        var unMinLimitLengthFl = '{=plusReviewConfig.unMinLimitLengthFl}';
+        var mileageFl = '{=plusReviewConfig.mileageFl}';
+        var mileageAddminLimit = '{=plusReviewConfig.mileageAddminLimit}';
+        var mileageAddGuid = '{=plusReviewConfig.mileageAddGuid}';
+        var mileageAddGoodsPriceFl = '{=plusReviewConfig.mileageAddGoodsPriceFl}';
+        $("#plusPlusReviewForm").validate({
+            ignore: ':hidden',
+            submitHandler: function (form) {
+
+                if (plusReviewSuubmitFl === false) {
+                    alert(__('처리중입니다. 잠시만 기다려주세요.'));
+                    return false;
+                }
+
+                var contents = $('#plusPlusReviewForm').find('textarea[name=contents]');
+                var contentsLength = contents.val().length;
+                if(_.isEmpty(contents.val())){
+                    alert(__('내용을 입력해주세요.'));
+                    contents.focus();
+                    return false;
+                }
+
+                if(unMinLimitLengthFl != 'y' && contentsLength < formCheckMinLength ){
+                    alert(__('최소 '+formCheckMinLength+'자 이상 작성하셔야 합니다.'));
+                    contents.focus();
+                    return false;
+                }
+
+                if(mileageAddGoodsPriceFl === 'y' && mileageFl == 'y' && contentsLength < mileageAddminLimit && !_.isEmpty(mileageAddGuid)){
+                    if (!window.confirm(mileageAddGuid)) {
+                        contents.focus();
+                        return false;
+                    }
+                }
+
+                var isValidSuccess = true;
+                $('.js_pr_valid_form').each(function () {
+                    if(_.isEmpty($(this).val())){
+                        alert(__('%s 항목을 입력(선택)해주세요.',$(this).data('label')));
+                        $(this).focus();
+                        isValidSuccess = false;
+                        return false;
+                    }
+                })
+
+                if(isValidSuccess === false){
+                    return false;
+                }
+
+                if (uploadRequiredFl == 'y') {
+                    if ($('#plusPlusReviewForm').find('[name^="uploadFileNm"]').length < 1 &&  $('.js_pr_attach_list .item').length<1) {
+                        alert(__('파일첨부는 필수 입니다.'));
+                        return false;
+                    }
+                }
+
+                <!--{ ? plusReviewConfig.authWriteExtra === 'all' && isPopupExceptMain }-->
+                if ($('input[name="goodsNo"]').length > 0 && $('input[name="goodsNo"]').val() === '') {
+                    alert(__('상품을 선택해주세요.'));
+                    return false;
+                }
+                <!--{ / }-->
+
+                if ($('input[name="goodsPt"]').length > 0 && $('input[name="goodsPt"]').val() === '') {
+                    alert(__('평가를 선택해주세요.'));
+                    return false;
+            	}
+
+                {customReviewScript}
+                form.submit();
+				plusReviewSuubmitFl = false;
+            },
+
+            rules: {
+				'writerNm' : {
+				    required : function() {
+				        return $('input[name="writerNm"]').length > 0 && $('input[name="writerNm"]').val() === '';
+					}
+				},
+                'writerPw' : {
+                    required : function() {
+                        return $('input[name="writerPw"]').length > 0 && $('input[name="writerPw"]').val() === '';
+                    }
+                },
+                'agreeFl' : {
+                    required : true
+                }
+            },
+            messages: {
+				'writerNm' : {
+				    required : __('작성자를 입력해주세요.')
+				},
+                'writerPw' : {
+                    required : __('비밀번호를 입력해주세요.')
+                },
+                'agreeFl' : {
+                    required : __('비회원 개인정보 수집동의를 체크해주세요.')
+                }
+            },
+        });
+
+
+        // 평가 설정
+        $('.js_option_select').on('click', function (e) {
+            if ($(this).next('div').is(':hidden')) {
+                $(this).addClass("selected");
+                $(this).next('div.optbx').show();
+
+            } else {
+                $(this).removeClass("selected");
+                $(this).next('div.optbx').hide();
+            }
+        });
+
+        $(".choice_rating li").on('click', function () {
+            $(".js_option_select").removeClass("selected");
+            $(".js_option_select").next('div.optbx').hide();
+
+            $(".select_small_outer > button > span").addClass('rating');
+            $(".js_option_select > .rating > span").css('width', $(this).children().children().css('width'));
+            $(".js_option_select > .rating > span").css('height', '15');
+            $('input[name="goodsPt"]').val($(this).children().data('value'));
+        });
+
+        if ($('input[name="goodsPt"]').val() > 0) {
+            $(".select_small_outer > button > span").addClass('rating');
+            $(".js_option_select > .rating > span").css('width', $('input[name="goodsPt"]').val() * 20 + '%');
+            $(".js_option_select > .rating > span").css('height', '15');
+        }
+
+        function gd_get_prev_img(fileName, imgUrl) {
+            var fileExt = '';
+            if (fileName.indexOf('.') > 0) {
+                _fileExt = fileName.substring(fileName.lastIndexOf('.'), fileName.length).toLowerCase();
+                fileExt = _fileExt.replace('.', '');
+            }
+
+            return imgUrl;
+        }
+
+        function gd_init_file_upload() {
+            var maxUploadFile = maxFileNumber;
+            maxUploadFile = maxUploadFile ? maxUploadFile : 0;
+
+            /**
+             * 첨부파일삭제
+             */
+            $("#plusPlusReviewForm .attach-container").on('click', '.item', function () {
+                var form = $(this).closest('form');
+                var deleteFl = $(this).hasClass('error');
+                if (deleteFl === false) {
+                    deleteFl = confirm(__('첨부된 파일을 삭제하시겠습니까?'));
+                }
+                if (deleteFl) {
+                    $(this).remove();
+                    var index = $(this).data('index');
+                    if($(this).data('mode') == 'old') {
+                        var delHtml = '<input type="hidden" name="delFile[' + index + ']" value="y" />';
+                        form.append(delHtml);
+                    }
+                    else {
+                        var saveFileNm = $('#plusPlusReviewForm input[name="saveFileNm[]"].js_pr_file_'+index).val();
+                        $('#plusPlusReviewForm .js_pr_file_'+index).remove();
+
+                        var token = '{=token}';
+                        $.ajax({
+                            method: "POST",
+                            data: {mode : 'deleteImage' , token : token , goodsNo :goodsNo , saveFileNm : saveFileNm },
+                            cache: false,
+                            url: "../board/plus_review_ps.php",
+                            success: function (data) {
+                            },
+                            error: function (data) {
+                            }
+                        });
+                    }
+                }
+            });
+
+            $('#plusPlusReviewForm input:file').bind("click", function () {
+                <!--{ ? plusReviewConfig.authWriteExtra === 'all' && isPopupExceptMain }-->
+                if (($('input[name="goodsNo"]').length > 0 && $('input[name="goodsNo"]').val() === '') || $('#js_empty_goods').hasClass('dn') === false) {
+                    alert(__('상품을 먼저 선택해주세요.'));
+                    return false;
+                }
+                <!--{ / }-->
+
+                var form = $(this).closest('form');
+                if (form.find('.js_pr_attach_list .item').length >= maxFileNumber) {
+                    alert(__('첨부파일은 최대 %1$s개 까지 업로드 가능합니다.', maxFileNumber.toString()));
+                    return false;
+                }
+            })
+
+            /**
+             * 첨부파일 업로드
+             */
+            $('#plusPlusReviewForm input:file').bind("change", function () {
+                var form = $(this).closest('form');
+                //ajax업로드 처리
+                var uploadImages = [];
+                var orderGoodsNo = 0;
+                if ($('[name=orderGoodsNo]').length > 0) {
+                    orderGoodsNo = $('[name=orderGoodsNo]').val();
+                }
+                var self = this;
+                gdAjaxUpload.upload(
+                    {
+                        formObj: $("#plusPlusReviewForm"),
+                        thisObj: $(this),
+                        actionUrl: '../board/plus_review_ps.php',
+                        params: {orderGoodsNo: orderGoodsNo, goodsNo: goodsNo, 'mode': 'ajaxUpload'},
+                        successAfter: function (data) {
+                            form.find('[name="uploadFileNm[0]"]').remove();
+                            form.find('[name="saveFileNm[0]"]').remove();
+                            var fileReader = new FileReader();
+                            var uniqueId =  (new Date().getTime());
+                            fileReader.readAsDataURL(self.files[0]);
+                            fileReader.onload = function () {
+                                var previewUrl = this.result;
+                                var attachHtml = '<li class="item" data-index="'+uniqueId+'"><img src="' + previewUrl + '" width="100%" height="100%"></li>';
+                                form.find('.js_pr_attach_list').append(attachHtml);
+                            };
+                            var uploadFileNm = "<input type='hidden' name='uploadFileNm[]' class='js_pr_file_"+uniqueId+"' value='" + data.uploadFileNm + "'  />";
+                            var saveFileNm = "<input type='hidden' name='saveFileNm[]' class='js_pr_file_"+uniqueId+"' value='" + data.saveFileNm + "'  />";
+                            form.append(uploadFileNm);
+                            form.append(saveFileNm);
+
+                        },
+                        failAfter: function (data) {
+                        }
+                    }
+                )
+
+                if (gdAjaxUpload.isSuccess == false) {
+                    return false;
+                }
+
+            });
+        }
+
+        $('#plusPlusReviewForm').find('textarea[name=contents]').keyup(function() {
+            var textLength = $(this).val().length;
+            $(this).closest('#plusPlusReviewForm').find('.js_textCount').text(textLength);
+        });
+
+    });
+
+    /**
+     * 첨부 파일 복사
+     *
+     * @param oldGoodsNo
+     */
+    function gd_copy_file_upload(oldGoodsNo) {
+        $('input[name="saveFileNm[]"]').each(function() {
+            tmpSaveFileNm.push($(this).val());
+        });
+        if (tmpSaveFileNm.length < 1 || goodsNo == oldGoodsNo) {
+            return false;
+        }
+        $.ajax({
+            method: "POST",
+            data: {mode: 'ajaxUploadCopy', goodsNo: goodsNo, oldGoodsNo: oldGoodsNo, saveFileNm : tmpSaveFileNm},
+            cache: false,
+            url: "../board/plus_review_ps.php",
+            success: function (data) {
+                if (data.result === 'fail') {
+                    gd_remove_all_file(data.message);
+                }
+            },
+            error: function (data) {
+                gd_remove_all_file(data.message);
+            }
+        });
+    }
+
+    /**
+     * 파일 첨부 제거
+     *
+     * @param msg
+     */
+    function gd_remove_all_file(msg) {
+        if (!_.isUndefined(msg)) {
+            alert(msg);
+        }
+        $("#plusPlusReviewForm .attach-container li.item").each(function() {
+            $(this).addClass('error');
+            $(this).trigger('click');
+        });
+    }
+
+    function gd_set_add_order(orderGoodsNo) {
+        $.ajax({
+            method: "POST",
+            data: {mode: 'getOrder', 'orderGoodsNo': orderGoodsNo},
+            cache: false,
+            url: "../board/plus_review_ps.php",
+            success: function (data) {
+                console.log(data.data);
+                var orderData = data.data;
+                var oldGoodsNo = goodsNo;
+                buyGoodsNo = goodsNo = orderData.goodsNo;
+                gd_copy_file_upload(oldGoodsNo);
+                $('[name=orderGoodsNo]').val(orderData.sno);
+                $('.goods_item_cell.cell_info').html(orderData.goodsNm);
+                $('.goods_item_cell.cell_img img').attr('src', orderData.goodsImageSrc);
+                $('.goods_item_cell.cell_price').html(orderData.totalGoodsPriceText);
+                var optHtml = '';
+                if (!_.isUndefined(orderData.option)) {
+                    for (var i = 0; i < orderData.option.length; i++) {
+                        optHtml += '<li class="prd_option_box">';
+                        optHtml += '<dl>';
+                        optHtml += '<dt>' + orderData.option[i].name + '</dt>';
+                        optHtml += '<dd>' + orderData.option[i].value + '</dd>';
+                        optHtml += '</dl>';
+                        optHtml += '</li>';
+                    }
+                }
+                $('.js_buy_goods_option').empty().html(optHtml);
+
+            },
+            error: function (data) {
+                alert(data.message);
+                //closeLayer();
+            }
+        });
+    }
+
+    function gd_set_add_goods(frmData) {
+        var param = '';
+        if (typeof frmData !== 'undefined') {
+            $.each(frmData.info, function (key, val) {
+                param = {goodsNo: val.goodsNo, goodsImageSrc: val.goodsImgageSrc, goodsNm: val.goodsName, goodsPrice: val.goodsPrice};
+            });
+            $('[name=goodsNo]').val(param.goodsNo);
+            $('.js_select_item .cell_info').html(param.goodsNm);
+            $('.js_select_item .cell_img img').attr('src', param.goodsImageSrc);
+            $('.js_select_item .cell_price').html(param.goodsPrice);
+            $('#add_goods_area').removeClass('dn');
+            $('#js_empty_goods').addClass('dn');
+            var oldGoodsNo = goodsNo;
+            buyGoodsNo = goodsNo = param.goodsNo;
+            gd_copy_file_upload(oldGoodsNo);
+        } else {
+            $('[name=goodsNo]').val('');
+            $('.js_select_item .cell_info').html('');
+            $('.js_select_item .cell_img img').attr('src', '');
+            $('.js_select_item .cell_price').html('');
+            $('#add_goods_area').addClass('dn');
+            $('#js_empty_goods').removeClass('dn');
+        }
+    }
+</script>
+{customHeader}

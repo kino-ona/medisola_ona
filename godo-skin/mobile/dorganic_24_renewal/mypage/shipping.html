@@ -1,0 +1,96 @@
+{*** 배송지 관리 | mypage/shipping.php ***}
+{ # header }
+<div class="shipping">
+	<div class="s_content">
+		<!--{ ? shippingList }-->
+		<!--{ @ shippingList }-->
+		<div class="s_info" data-shipping-name="{.shippingTitle}">
+			<div class="s_tit">{.shippingTitle}<!--{ ? .defaultFl == 'y' }--> <span>({=__('기본배송지')})</span><br /><!--{ / }--></div>
+			<div class="s_address">
+				<!--{ ? gGlobal.isFront }-->
+				<span>({.shippingZonecode})</span>
+				<p>{.shippingAddressSub}, {.shippingAddress}, {.shippingState}, {.shippingCity}, {.shippingCountry}</p>
+				<!--{ : }-->
+				<span>({.shippingZonecode})</span>
+				<p>{.shippingAddress} {.shippingAddressSub}</p>
+				<!--{ / }-->
+			</div>
+			<div class="s_data">
+				<dl>
+					<dt>{=__('받으실 분')}</dt>
+					<dd>{.shippingName}</dd>
+				</dl>
+				<dl>
+					<dt>{=__('전화번호')}</dt>
+					<dd><!--{ ? gGlobal.isFront }-->(+{.shippingPhonePrefix}) <!--{ / }-->{.shippingPhone}</dd>
+				</dl>
+				<dl>
+					<dt>{=__('휴대폰')}</dt>
+					<dd><!--{ ? gGlobal.isFront }-->(+{.shippingCellPhonePrefix}) <!--{ / }-->{.shippingCellPhone}</dd>
+				</dl>
+				<ul class="s_btn">
+					<!--{ ? .defaultFl != 'y' }--><li><button class="basic_address_btn btn_shipping_default" data-sno="{=.sno}">{=__('기본 배송지로 설정')}</button></li><!--{ / }-->
+					<li>
+						<a href="../mypage/layer_shipping_address_regist.php?sno={=.sno}" data-toggle="modal" data-target="#popupShipping" data-type="post" data-cache="false" class="modify_address_btn">{=__('수정')}</a>
+						<button class="del_address_btn js_delete" data-sno="{=.sno}" data-default-fl="{=.defaultFl}">{=__('삭제')}</button>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<!--{ / }-->
+		<!--{ : }-->
+		<div class="no">{=__('배송지 목록이 없습니다.')}</div>
+		<!--{ / }-->
+	</div>
+	<div class="shipping_add_layer btn_box">
+		<a href="../mypage/layer_shipping_address_regist.php" data-toggle="modal" data-target="#popupShipping" data-type="post" data-cache="false" class="add_address_btn">{=__('배송지 추가')}</a>
+	</div>
+</div>
+
+<!-- 새 배송지 추가 레이어 -->
+<div id="deliveryAddLayer" class="layer_wrap dn"></div>
+<!--//새 배송지 추가 레이어 -->
+
+<script type="text/javascript">
+    // DOM 로드
+    $(function(){
+
+        // 삭제하기
+        $('.js_delete').click(function(e){
+            if ($(this).data('default-fl') == 'y') {
+                alert(__('기본 배송지는 삭제할 수 없습니다. 변경 후 삭제해주세요.'));
+            } else {
+                if (confirm("{=__('나의 배송지')} [" + $(this).closest('.s_info').data('shipping-name') + "]{=__('을(를) 정말로 삭제하시겠습니까?')}")) {
+                    var params = {
+                        sno: $(this).data('sno'),
+                        mode: 'shipping_delete'
+                    };
+                    $.post('../order/layer_shipping_ps.php', params, function(data){
+                        if(data.code == 200) {
+                            location.reload();
+                        }
+                    });
+                    return false;
+                }
+            }
+        });
+
+        $('.btn_shipping_default').click(function(){
+            var params = {
+                sno: $(this).data('sno'),
+                mode: 'shipping_default'
+            };
+            $.post('../order/layer_shipping_ps.php', params, function(data){
+                alert(data.message);
+                if(data.code == 200) {
+                    location.reload();
+                }
+            });
+
+        });
+    });
+
+
+</script>
+
+{ # footer }

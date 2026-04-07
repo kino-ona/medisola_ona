@@ -1,0 +1,116 @@
+{*** 쿠폰 자세히보기 보기 레이어 | mypage/layer_coupon_detail.php ***}
+<div class="layer_option">
+    <div class="ly_ct">
+        <div class="ly_head">
+            <h1 class="h_tit">쿠폰 사용/제한 조건</h1>
+        </div>
+        <div class="ly_ct">
+            <div class="order_view">
+                <h3>쿠폰 사용/제한 조건</h3>
+                <div class="view_box">
+                    <!--{ ? data['couponMaxBenefitType'] == 'y' }-->
+                    <dl>
+                        <dt>최대 할인/적립 금액</dt>
+                        <dd>{=gd_currency_symbol()}{=gd_money_format(data['couponMaxBenefit'])}{=gd_currency_string()}
+                            <!--{ ? data['couponKindType'] == 'sale'}-->{=__('할인')}
+                            <!--{ : data['couponKindType'] == 'add'}-->{=__('적립')}
+                            <!--{ / }-->
+                        </dd>
+                    </dl>
+                    <!--{ / }-->
+                    <!--{ ? data['couponApplyMemberGroup'] }-->
+                    <dl>
+                        <dt>사용 가능 회원등급</dt>
+                        <dd>
+                            <ul>
+                                <!--{ @ data['couponApplyMemberGroup'] }-->
+                                    <li>{=.name}</li>
+                                <!--{ / }-->
+                            </ul>
+                        </dd>
+                    </dl>
+                    <!--{ / }-->
+                    <!--{ ? data['couponApplyProductType'] == 'provider' }-->
+                    <dl>
+                        <dt>{=__('사용 가능 공급사')}</dt>
+                        <dd>
+                            <ul>
+                                <!--{ @ data['couponApplyProvider'] }-->
+                                    <li>{=.name}</li>
+                                <!--{ / }-->
+                            </ul>
+                        </dd>
+                    </dl>
+                    <!--{ / }-->
+                    <!--{ ? data['couponApplyProductType'] == 'goods' }-->
+                    <dl>
+                        <dt>사용 가능 상품범위</dt>
+                        <dd>
+                            <ul>
+                                <!--{ @ data['couponApplyGoods'] }-->
+                                    <li>{=.goodsNm}</li>
+                                <!--{ / }-->
+                            </ul>
+                        </dd>
+                    </dl>
+                    <!--{ / }-->
+                    <!--{ ? data['couponExceptGoodsType'] == 'y' }-->
+                    <dl>
+                        <dt>사용 불가 상품</dt>
+                        <dd>
+                            <ul>
+                                <!--{ @ data['couponExceptGoods'] }-->
+                                    <li>{=.goodsNm}</li>
+                                <!--{ / }-->
+                            </ul>
+                        </dd>
+                    </dl>
+                    <!--{ / }-->
+                    <!--{ ? data['couponExceptCategoryType'] == 'y' }-->
+                    <dl>
+                        <dt>사용 불가 카테고리</dt>
+                        <dd>
+                            <ul>
+                                <!--{ @ data['couponExceptCategory'] }-->
+                                <li>{=.name}</li>
+                                <!--{ / }-->
+                            </ul>
+                        </dd>
+                    </dl>
+                    <!--{ / }-->
+                    <!--{ ? data['couponExceptBrandType'] == 'y' }-->
+                    <dl>
+                        <dt>{=__('사용 불가 브랜드')}</dt>
+                        <dd>
+                            <ul>
+                                <!--{ @ data['couponExceptBrand'] }-->
+                                    <li>{=.name}</li>
+                                <!--{ / }-->
+                            </ul>
+                        </dd>
+                    </dl>
+                    <!--{ / }-->
+                    <!--{ ? data['couponMinOrderPrice'] > 0 }-->
+                    <dl>
+                        <dt>사용 가능 구매액</dt>
+                        <dd>
+                            {=__('구매금액이 %s 이상인 경우', gd_currency_display(data['couponMinOrderPrice']))}
+                        </dd>
+                    </dl>
+                    <!--{ / }-->
+                    <!--{ ? data['couponApplyDuplicateType'] == 'n' }-->
+                    <dl>
+                        <dt>쿠폰 중복사용 여부</dt>
+                        <dd>
+                            {=convertArrData['couponKindType']}{=__('별')} {=convertArrData['couponApplyDuplicateType']}
+                        </dd>
+                    </dl>
+                    <!--{ / }-->
+                </div>
+            </div>
+        </div>
+        <div class="close_btn">
+            <button type="button" class="lys_close_btn ly_btn_close">닫기</button>
+        </div>
+    </div>
+</div>

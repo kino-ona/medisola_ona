@@ -1,0 +1,35 @@
+{*** 플러스 리뷰 포토 위젯 | board/plus_review_photo.php ***}
+<link type="text/css" rel="stylesheet" href="\{=c.PATH_SKIN}css/gd_plus_review.css?ts={=time()}">
+<div class="plus_review_widget">
+    <!--{ @data}-->
+    <div class="plus_review_widget_item js_btn_pr_photo" style="display:none" data-sno="{.sno}">
+        <img src="{=.uploadHeadImage.src}" alt="{=.uploadHeadImage.uploadFileNm}">
+    </div>
+    <!--{ ? (.index_+1) % req.cols == 0 }-->
+    <div style="clear:both"></div>
+    <!--{/}-->
+
+    <!--{/}-->
+    <div style="clear:both"></div>
+</div>
+<script>
+    var thumSizeType = '{=req.thumSizeType}';
+    $(document).ready(function () {
+        setTimeout(function () {
+            if (thumSizeType == 'menual') {
+                $('.plus_review_widget_item img').css('width', '{=req.thumWidth}px').css('height', '{=req.thumWidth}px');
+            }
+            else {
+                var containerWidth = ($('.plus_review_widget').width());
+                var autoSize = Math.floor(containerWidth / { = req.cols})-8;
+                $('.plus_review_widget_item').css('width', autoSize + 'px').css('height', autoSize + 'px');
+                $('.plus_review_widget_item img').css('width', '100%').css('height', '100%');
+            }
+            $('.plus_review_widget_item').show();
+        }, 1);
+
+        $('.js_btn_pr_photo').bind('click',function () {
+            location.href='../board/plus_review_view.php?sno='+$(this).data('sno');
+        })
+    })
+</script>

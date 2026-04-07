@@ -1,0 +1,32 @@
+.mt20 { margin-top: 20px !important; }
+.cr { clear: right; }
+
+/* order/_order_subscription.html */
+.order_subscription, .order_subscription * { box-sizing: border-box; }
+.order_subscription .term_box { margin-bottom: 20px; }
+.order_subscription .term_box > .inner { border: 1px solid #d5d5d5; padding: 10px; height: 200px; overflow-y: auto; margin-bottom: 10px;   }
+.order_subscription .term_box .terms_agree { float: right;  }
+.order_subscription .term_box:after { clear: right; content: ''; }
+.order_subscription .selection_area { display: table; width: 100%; }
+.order_subscription .selection_area > .area_box { display: table-cell; vertical-align: top; width: 50%; }
+.order_subscription .selection_area > .area_box .rows1 { margin-bottom: 10px; }
+.order_subscription .selection_area > .area_box1 { padding-right: 15px; border-right: 1px solid #d5d5d5; }
+.order_subscription .selection_area > .area_box2 { padding-left: 15px; }
+.order_subscription .selection_area > .area_box .mtitle2 { border-bottom: 1px solid #212121; padding-bottom: 10px; margin-bottom: 15px; }
+.order_subscription .selection_area .area_box .inner_box .rows { display: table; width: 100%;  }
+.order_subscription .selection_area .area_box .inner_box .rows > .cell { display: table-cell; vertical-align: middle; }
+.order_subscription .selection_area .area_box .inner_box .rows > .cell1 { width: 100px; }
+.order_subscription .selection_area .area_box .inner_box .rows .period_box { padding: 3px 0;  padding-right: 10px; display: inline-block; }
+.order_subscription .selection_area .area_box .inner_box .rows select { width: 100%; background-color: #ffffff; height: 25px; cursor: pointer; border: 1px solid #d5d5d5; }
+
+.order_subscription .selection_area .select_box { display: inline-block; min-width: 100px; margin-bottom: 10px; }
+.order_subscription .selection_area .select_box input[type='radio'] { width: 17px; height: 17px; vertical-align: middle; margin-right: 3px; }
+
+.order_subscription .mtitle { font-weight: bold; font-size: 15px; padding-bottom: 5px; border-bottom: 1px solid #000000; margin-bottom: 15px; }
+.order_subscription .mtitle2 { border-bottom: 0; margin-bottom: 0; }
+
+.order_subscription .schedule_list_table .tr_head td { background-color: #f8f8f8; text-align: center; padding: 5px 10px; font-weight: bold; }
+.order_subscription .schedule_list_table td { padding: 3px 10px; text-align: center; }
+.order_subscription .schedule_list_table .consumer { color: #888888; }
+.order_subscription .schedule_list_table .goodsPrice { color: #ff4c2e; font-weight: bold;  }
+.order_subscription .guide_box { border: 1px solid #d5d5d5; padding: 10px; line-height: 160%; background-color: #f8f8f8; }

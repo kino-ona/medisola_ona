@@ -1,0 +1,8 @@
+{*** [위젯] 일반구매, 정기결제 장바구니 구분 탭  | goods/_cart_tab.html ***}
+<link rel="stylesheet" type="text/css" href='css/widget/cart_tab.css'>
+<div class='cart_tab_widget'>
+<div class='tab_grp'>
+    <a href='../order/cart.php' class='tab tab1<!--{ ? tab != 'subscription' }--> on<!--{ / }-->'>일반구매 <!--{ ? cartCnt }-->({=number_format(cartCnt)})<!--{ / }--></a>
+    <a href='../subscription/cart.php' class='tab tab2<!--{ ? tab == 'subscription' }--> on<!--{ / }-->'>정기결제 <!--{ ? subCartCnt }-->({=number_format(subCartCnt)})<!--{ / }--></a>
+</div>
+</div> <!-- cart_tab_widget -->

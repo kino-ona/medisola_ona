@@ -1,0 +1,259 @@
+{*** 카카오싱크 연동하기 | member/kakao_connet.php ***} { # header }
+
+<style>
+    /** 카카오싱크 연동하기 [START] **/
+    .kakao_connect {
+        padding: 30px 50px;
+    }
+    .kakao_connect > .kakao_connect_header {
+        margin-bottom: 20px;
+    }
+    .kakao_connect > .kakao_connect_members > .kakao_connect_members_list li > .kakao_connect_members_list_input {
+        background-color: #f5f5f5;
+        padding: 5px 10px;
+        border: solid 1px #ddd;
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+    .kakao_connect > .kakao_connect_members > .kakao_connect_members_list li > .kakao_connect_members_list_input > .kakao_connect_members_list_input_status {
+        background-color: #666;
+        color: #fff;
+        font-weight: bold;
+        padding: 1px 3px;
+        border-radius: 3px;
+        margin-left: 10px;
+    }
+    .kakao_connect > .kakao_connect_members > .kakao_connect_members_list li input {
+        margin-right: 10px;
+    }
+    .kakao_connect .kakao_connect_members_info {
+        margin: 10px;
+        color: #ab3e55;
+    }
+    .kakao_connect > .kakao_connect_login > .kakao_connect_login_input {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+    .kakao_connect > .kakao_connect_login > .kakao_connect_login_find {
+        display: flex;
+        justify-content: end;
+        gap: 5px;
+        margin-bottom: 5px;
+    }
+    .kakao_connect > .kakao_connect_login > .kakao_connect_login_btn > button {
+        width: 100%;
+        height: 40px;
+        font-size: 14px;
+        font-weight: bold;
+    }
+    .kakao_connect > .kakao_connect_login > .kakao_background_yellow > button {
+        background-color: #fee500;
+    }
+    .kakao_connect > .kakao_connect_login > .kakao_background_black > button {
+        background-color: #333;
+        color: #fff;
+    }
+    .kakao_connect > .kakao_connect_divider {
+        margin: 20px 0;
+        border-top: 1px solid #ddd;
+    }
+    /** 카카오싱크 연동하기 [END] **/
+</style>
+
+<div class="content_box">
+    <div class="member_wrap">
+        <div class="member_tit">
+            <h2>{=__('회원 정보 확인')}</h2>
+        </div>
+        <!-- //member_tit -->
+        <div class="member_cont kakao_connect">
+			<input type="hidden" id="token" name="token" value="{token}" />
+			<input type="hidden" id="secretKey" name="secretKey" value="{secretKey}" />
+            <div class="kakao_connect_header">
+                <h3><b>{kakaoEmail}</b>{=__('으로 가입된 회원정보가 있습니다.')}</h3>
+            </div>
+			<!--{? showConnectMemberListTemplate }-->
+				<div class="kakao_connect_members">
+					<div class="kakao_connect_members_list">
+						<ul>
+							<!-- {@ members} -->
+								<!--{? members->isAvailableConnectToKakao() }-->
+								<li>
+									<div class="kakao_connect_members_list_input">
+										<input type="radio" name="memNo" id="memNo_{members->memNo}" value="{members->memNo}"/>
+                                        <label for="memNo_{members->memNo}">{members->memId + '(회원가입일 ' + members->getRegDt() + ')'}</label>
+									</div>
+								</li>
+								<!--{/}-->
+							<!-- {/} -->
+						</ul>
+					</div>
+					<p class="kakao_connect_members_info">{=__('아이디 선택 후 해당 계정으로 로그인하시면 카카오 계정으로 전환됩니다. ')}</p>
+				</div>
+				<div class="kakao_connect_login">
+					<div class="kakao_connect_login_input">
+						<input type="text" id="loginId" name="loginId" value="" placeholder="{=__('아이디')}" required="true" />
+						<input type="password" id="loginPwd" name="loginPwd" value="" placeholder="{=__('비밀번호')}" required="true" />
+					</div>
+					<div class="kakao_connect_login_find">
+						<a href="/member/find_id.php">{=__('아이디 찾기')}</a>
+						<span>/</span>
+						<a href="/member/find_password.php">{=__('비밀번호 찾기')}</a>
+					</div>
+					<div class="kakao_connect_login_btn kakao_background_yellow">
+						<button id="connectToKakaoBtn" onclick="connectToKakao()">{=__('카카오 간편로그인으로 전환하기')}</button>
+					</div>
+				</div>
+			<!--{/}-->
+			
+			<div class="kakao_connect_divider"></div>
+
+			<!--{? showUnavailableConnectMemberListTemplate }-->
+            <div class="kakao_connect_members">
+                <div class="kakao_connect_members_list">
+                    <ul>
+                        <!-- {@ members} -->
+                        <!--{? members->isAvailableConnectToKakao() == false }-->
+                        <li>
+                            <div class="kakao_connect_members_list_input">
+                                <input type="radio" disabled />
+                                {members->memId + '(회원가입일 ' + members->getRegDt() + ')'}
+                                <!--{? members->sleepFl == 'y' }-->
+                                <div class="kakao_connect_members_list_input_status">{=__('휴면상태')}</div>
+                                <!--{: members->appFl == 'n' }-->
+                                <div class="kakao_connect_members_list_input_status">{=__('미승인 상태')}</div>
+                                <!--{: members->snsTypeFl == 'payco' }-->
+                                <div class="kakao_connect_members_list_input_status">{=__('페이코 회원')}</div>
+                                <!--{: members->snsTypeFl == 'facebook' }-->
+                                <div class="kakao_connect_members_list_input_status">{=__('페이스북 회원')}</div>
+                                <!--{: members->snsTypeFl == 'naver' }-->
+                                <div class="kakao_connect_members_list_input_status">{=__('네이버 회원')}</div>
+                                <!--{: members->snsTypeFl == 'kakao' }-->
+                                <div class="kakao_connect_members_list_input_status">{=__('카카오 회원')}</div>
+                                <!--{: members->snsTypeFl == 'wonder' }-->
+                                <div class="kakao_connect_members_list_input_status">{=__('위메프 회원')}</div>
+                                <!--{: members->snsTypeFl == 'apple' }-->
+                                <div class="kakao_connect_members_list_input_status">{=__('애플 회원')}</div>
+                                <!--{/}-->
+                            </div>
+                            <!--{? members->appFl == 'n' }-->
+                            <p class="kakao_connect_members_info">{=__('가입 승인 대기 상태인 회원 계정입니다. 승인 후 카카오 싱크 연동을 진행해주세요.')}</p>
+                            <!--{:}-->
+                            <p class="kakao_connect_members_info">{=__('가입된 회원정보로 쇼핑몰 로그인을 진행해주세요.')}</p>
+                            <!--{/}-->
+                        </li>
+                        <!--{/}-->
+                        <!-- {/} -->
+                    </ul>
+                </div>
+            </div>
+            <div class="kakao_connect_login">
+                <div class="kakao_connect_login_btn kakao_background_black">
+                    <button onclick="goLogin()">{=__('로그인하러 가기')}</button>
+                </div>
+            </div>
+            <!--{/}-->
+        </div>
+        <!-- //member_cont -->
+    </div>
+    <!-- //member_wrap -->
+</div>
+<!-- //content_box -->
+
+<script type="text/javascript" src="../js/jquery/jquery.serialize.object.js"></script>
+<script type="text/javascript">
+    function goLogin() {
+        location.href = "../member/login.php";
+    }
+
+    /**
+     * 로그인 정보 암호화 처리
+     */
+    let Encryption = {
+        get encryptMethod() {
+            return "AES-256-CBC";
+        },
+        get encryptMethodLength() {
+            let encryptMethod = this.encryptMethod;
+            let aesNumber = encryptMethod.match(/\d+/)[0];
+            return parseInt(aesNumber);
+        },
+        encrypt: function (string, key) {
+            let iv = CryptoJS.lib.WordArray.random(16);
+            let salt = CryptoJS.lib.WordArray.random(256);
+            let iterations = 999;
+            let encryptMethodLength = this.encryptMethodLength / 4;
+            let hashKey = CryptoJS.PBKDF2(key, salt, { hasher: CryptoJS.algo.SHA512, keySize: encryptMethodLength / 8, iterations: iterations });
+            let encrypted = CryptoJS.AES.encrypt(string, hashKey, { mode: CryptoJS.mode.CBC, iv: iv });
+            let encryptedString = CryptoJS.enc.Base64.stringify(encrypted.ciphertext);
+
+            let output = {
+                ciphertext: encryptedString,
+                iv: CryptoJS.enc.Hex.stringify(iv),
+                salt: CryptoJS.enc.Hex.stringify(salt),
+                iterations: iterations
+            };
+
+            return CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(JSON.stringify(output)));
+        }
+    };
+
+
+    function connectToKakao() {
+        let memNo = $("input[name='memNo']:checked").val();
+        if (!memNo) {
+            alert('{=__("회원을 선택해주세요.")}');
+            return;
+        }
+
+        let loginId = $("#loginId").val();
+        let loginPwd = $("#loginPwd").val();
+        let token = $("#token").val();
+        let secretKey = $("#secretKey").val();
+
+        if (!loginId) {
+            alert('{=__("아이디를 입력해주세요.")}');
+            return;
+        }
+
+        if (!loginPwd) {
+            alert('{=__("비밀번호를 입력해주세요.")}');
+            return;
+        }
+
+        let encryptLoginId = Encryption.encrypt(loginId, secretKey);
+        let encryptLoginPwd = Encryption.encrypt(loginPwd, secretKey);
+
+        $("#connectToKakaoBtn").prop("disabled", true);
+
+        $.ajax({
+            method: "POST",
+            url: "../member/kakao_connect_ps.php",
+            data: {
+                memNo: memNo,
+                loginId: encryptLoginId,
+                loginPwd: encryptLoginPwd,
+                token: token
+            },
+            success: function (data) {
+                alert(data.message);
+                if (data.success) {
+                    location.replace("/");
+                }
+                $("#connectToKakaoBtn").prop("disabled", false);
+            },
+            error: function (xhr) {
+                let data = xhr.responseJSON;
+                if (data.alertSkip) {
+                    return;
+                }
+                alert(data.message);
+                $("#connectToKakaoBtn").prop("disabled", false);
+            },
+        });
+    }
+</script>
+{ # footer }

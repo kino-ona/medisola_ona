@@ -1,0 +1,164 @@
+{*** 회원가입(약관동의) SNS | member/join_agreement.php ***}
+{ # share_header }
+<form id="formTerms" name="formTerms" method="post" action="../member/member_ps.php" target="ifrmProcess">
+    <input type="hidden" name="token" value="{token}"/>
+    <input type="hidden" name="mode" value="join"/>
+    <input type="hidden" name="snsTypeFl" value="wonder"/>
+    <input type="hidden" name="birthDt" value="{=memberInfo.birth}"/>
+    <input type="hidden" name="sexFl" value="{=memberInfo.sexFl}"/>
+    <input type="hidden" name="cellPhone" value="{=memberInfo.mobile}"/>
+    <input type="hidden" name="memId" value="{=memberInfo.email}"/>
+    <input type="hidden" name="memNm" value="{=memberInfo.name}"/>
+    <input type="hidden" name="email" value="{=memberInfo.email}"/>
+    <input type="hidden" name="agreementInfoFl" value="y"/>
+    <input type="hidden" name="privateApprovalFl" value="y"/>
+    <input type="hidden" name="emailDomain" value="self"/>
+    <div id="popup">
+        <div class="containers">
+            <div class="top">
+                <div class="title">쇼핑몰 회원가입</div>
+            </div>
+            <div class="content">
+                <div class="wrap">
+                    <p class="tit_1">위메프 로그인 회원 정보로 쇼핑몰에 가입됩니다.</p>
+                    <div class="box_info">
+                        <dl class="name">
+                            <dt>이름</dt>
+                            <dd>{=memberInfo.name}</dd>
+                        </dl>
+                        <dl class="email">
+                            <dt>이메일</dt>
+                            <dd>{=emailAsterisk}</dd>
+                        </dl>
+                    </div>
+                    <div class="box_check">
+                        <div><input type="checkbox" id="maillingFl" name="maillingFl" value="y"/><label for="maillingFl"><span>(선택)</span> 정보/이벤트 메일 수신 동의</label></div>
+                        <div><input type="checkbox" id="smsFl" name="smsFl" value="y"/><label for="smsFl"><span>(선택)</span> 정보/이벤트 SMS 수신 동의</label></div>
+                        <!-- {? privateApprovalOption[0]['modeFl']=='y'} -->
+                            <!-- {@ privateApprovalOption} -->
+                            <div><input type="checkbox" id="privateApprovalOption_{.sno}" name="privateApprovalOptionFl[{.sno}]"/><label for="privateApprovalOption_{.sno}"><span>(선택)</span> <a href="#" class="ico btn_agree" data-name="privateApprovalOption_{.sno}">{=nl2br(.informNm)}</a></label></div>
+                            <!-- {/} -->
+                        <!-- {/} -->
+                        <!-- {? privateConsign[0]['modeFl']=='y'} -->
+                            <!-- {@ privateConsign} -->
+                            <div><input type="checkbox" id="privateConsign_{.sno}" name="privateConsignFl[{.sno}]"/><label for="privateConsign_{.sno}"><span>(선택)</span> <a href="#" class="ico btn_agree" data-name="privateConsign_{.sno}">{=nl2br(.informNm)}</a></label></div>
+                            <!-- {/} -->
+                        <!-- {/} -->
+                        <!-- {? privateOffer[0]['modeFl']=='y'} -->
+                            <!-- {@ privateOffer} -->
+                            <div><input type="checkbox" id="privateOffer_{.sno}" name="privateOfferFl[{.sno}]"/><label for="privateOffer_{.sno}"><span>(선택)</span> <a href="#" class="ico btn_agree" data-name="privateOffer_{.sno}">{=nl2br(.informNm)}</a></label></div>
+                            <!-- {/} -->
+                        <!-- {/} -->
+                    </div>
+                    <div class="btn_wrap">
+                        <a href="#" class="btn_1 btn_sns_join">동의하고 가입하기</a>
+                    </div>
+                </div>
+            </div>
+            <div class="bottom">
+                <div class="wrap">
+                    본인은 만 14세 이상이며, <a href="#" class="btn_agree" data-name="termsAgree1">{=gMall.companyNm} 이용약관,</a> <a href="#" class="btn_agree" data-name="termsAgree2">개인정보 수집 및 이용</a> 
+                    내용을 확인 하였으며 동의합니다.
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<!-- 약관 레이어팝업 -->
+<div class="dim"></div>
+<!-- {? privateApprovalOption[0]['modeFl']=='y'} -->
+    <!-- {@ privateApprovalOption} -->
+    <div class="layer_popup ly_ag privateApprovalOption_{.sno}">
+        <div class="title">{=nl2br(.informNm)}</div>
+        <div class="box_text">
+            {=nl2br(.content)}
+        </div>
+        <div class="btn_wrap">
+            <a href="#" class="btn_close">닫기</a>
+        </div>
+    </div>
+    <!-- {/} -->
+<!-- {/} -->
+<!-- {? privateConsign[0]['modeFl']=='y'} -->
+    <!-- {@ privateConsign} -->
+    <div class="layer_popup ly_ag privateConsign_{.sno}">
+        <div class="title">{=nl2br(.informNm)}</div>
+        <div class="box_text">
+            {=nl2br(.content)}
+        </div>
+        <div class="btn_wrap">
+            <a href="#" class="btn_close">닫기</a>
+        </div>
+    </div>
+    <!-- {/} -->
+<!-- {/} -->
+<!-- {? privateOffer[0]['modeFl']=='y'} -->
+    <!-- {@ privateOffer} -->
+    <div class="layer_popup ly_ag privateOffer_{.sno}">
+        <div class="title">{=nl2br(.informNm)}</div>
+        <div class="box_text">
+            {=nl2br(.content)}
+        </div>
+        <div class="btn_wrap">
+            <a href="#" class="btn_close">닫기</a>
+        </div>
+    </div>
+    <!-- {/} -->
+<!-- {/} -->
+<div class="layer_popup ly_ag termsAgree1">
+    <div class="title">{=__('이용약관')}</div>
+    <div class="box_text">
+        {=nl2br(agreementInfo['content'])}
+    </div>
+    <div class="btn_wrap">
+        <a href="#" class="btn_close">닫기</a>
+    </div>
+</div>
+<div class="layer_popup ly_ag termsAgree2">
+    <div class="title">{=__('개인정보 수집 및 이용')}</div>
+    <div class="box_text">
+        {=nl2br(privateApproval['content'])}
+    </div>
+    <div class="btn_wrap">
+        <a href="#" class="btn_close">닫기</a>
+    </div>
+</div>
+<!-- //약관 레이어팝업 -->
+<script type="text/javascript">
+    $formTerms = $('#formTerms');
+    $(document).ready(function() {
+        //이용약관 클릭 시 팝업
+        $('.btn_agree').on({
+            'click':function(e){
+                e.preventDefault();
+                var layer_name = $(this).data("name");
+                if (layer_name != '') lyPopup('.' + layer_name);
+            }
+        });
+
+        //팝업 닫기
+        $('.btn_close').on({
+            'click':function(e){
+                e.preventDefault();
+                $(this).parent().parent().hide();
+                $('.dim').removeClass('on');
+            }
+        });
+        $('.btn_sns_join').on({
+            'click':function(e){
+                e.preventDefault();
+                $formTerms.submit();
+            }
+        });
+
+    });
+
+    function lyPopup(pop){
+        var top = ( $(window).scrollTop() + ( $(window).height() - $(pop).outerHeight()) / 2 );
+        $(pop).css({'top':top,});
+        $(pop).show();
+        $('.dim').addClass('on');
+    }
+</script>
+
+{ # share_footer }

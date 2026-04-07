@@ -1,0 +1,35 @@
+{*** 플러스리뷰 상품기준 리뷰 게시판 | board/plus_review_goods.php ***}
+<div class="plus_review_goods">
+    <ul class="plus_review_goods_list">
+        <!--{@data.list}-->
+        <li class="row">
+            <img src="{=.goodsImageSrc}" data-goodsno="{.goodsNo}" alt="{=.goodsNm}">
+            <div class="name">{=.goodsNm}</div>
+            <div class="review_info">{=__('평가')}<span class="red_bold">{.avgGoodsPt}</span> {=__('리뷰')}<span class="red_bold">{.countArticle}</span></div>
+            <ul class="article_area">
+                <!--{ @ .article}-->
+                <li>
+                    <div class="icon_review"></div>
+                    <div class="article">{..contents}</div>
+                </li>
+                <!--{/}-->
+            </ul>
+        </li>
+        <!--{/}-->
+    </ul>
+    <div class="jscroll_next_parent" style="display: none;">
+        <a href="plus_review_goods.php?page={=req.page+1}&type=scroll">next page</a>
+    </div>
+</div>
+<script>
+    $(document).ready(new function () {
+        var totalCnt = {=data.cnt.search}
+        ;
+        if (totalCnt <= $('.plus_review_goods_list .row').length) {
+            $('.jscroll_next_parent').remove();
+        }
+
+        var pureDomain = window.location.href.split('?')[0];
+        window.history.pushState("object or string", "Title", pureDomain + '?page={req.page}&pageMode=auto');
+    });
+</script>

@@ -1,0 +1,195 @@
+{*** 쇼핑몰 메인본문 | main/index.php ***} { # header }
+
+<!-- ========== Resources ========== -->
+<link rel="stylesheet" href="../css/main/home.css" />
+<script type="text/javascript" src="../js/mo_js/home.js"></script>
+
+<!-- ========== Analytics ========== -->
+<script>
+$(document).ready(function() {
+    amplitude.logEvent('home_view');
+
+    // SEC 1: Hero
+    $('.home-hero__overlay--3col').on('click', function() {
+        amplitude.logEvent('home_hero_click', { area: 'hero' });
+    });
+
+    // SEC 7: 케어 스토리
+    $('.home-care-story__block').on('click', function() {
+        var sno = $(this).data('sno');
+        amplitude.logEvent('home_section_item_click', {
+            section_title: '케어 스토리',
+            item_type: 'award',
+            item_name: sno
+        });
+    });
+});
+</script>
+
+<!-- ========== NBTI Popup ========== -->
+<script>
+function openPopup() {
+    var popup = document.getElementById('popup-container');
+    popup.style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function closePopup() {
+    var popup = document.getElementById('popup-container');
+    popup.style.display = 'none';
+}
+</script>
+
+<div class="nbti-popup" id="popup-container">
+    <div class="nbti-popup__overlay" onclick="closePopup()"></div>
+    <div class="nbti-popup__content">
+        <button class="nbti-popup__close" onclick="closePopup()">
+            <img src="../img/common/layer/btn_layer_close.png" alt="닫기" />
+        </button>
+        <iframe class="nbti-popup__iframe"
+            src="https://start.solamate.co.kr/nbti"
+            frameborder="0"
+            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen></iframe>
+    </div>
+</div>
+
+<!-- ========== Main Content ========== -->
+<div class="home">
+
+    <!-- SEC 1: Hero - MP4 가로 3단 동영상 -->
+    <section class="home-hero">
+        <div class="home-hero__video-wrap" id="heroVideoWrap">
+            <video class="home-hero__video" id="heroVideo" autoplay muted loop playsinline></video>
+            <div class="home-hero__overlay--3col">
+                <div class="home-hero__3col-center" id="heroSeqCenter">지금 어떤 식사를<br>찾고 계신가요?</div>
+                <div class="home-hero__3col-bottom">
+                    <div class="home-hero__3col-text" id="heroSeq1">바쁜 일상 속<br>놓치는 식사,</div>
+                    <div class="home-hero__3col-text" id="heroSeq2">어렵게만 느껴지는<br>영양과 식단,</div>
+                    <div class="home-hero__3col-text" id="heroSeq3">메디쏠라는 건강한<br>일상을 함께 고민해요</div>
+                </div>
+            </div>
+        </div>
+        <script>
+        (function() {
+            var baseUrl = 'https://zcndqpmzgyljpfrbraot.supabase.co/storage/v1/object/public/custom/';
+            var video = document.getElementById('heroVideo');
+            if (!video) return;
+            video.src = baseUrl + 'intro_video_horizontal_3step.mp4';
+
+            var delays = [500, 1500, 2500, 3500];
+            var ids = ['heroSeq1', 'heroSeq2', 'heroSeq3', 'heroSeqCenter'];
+            for (var i = 0; i < delays.length; i++) {
+                (function(idx) {
+                    setTimeout(function() {
+                        document.getElementById(ids[idx]).classList.add('is-visible');
+                    }, delays[idx]);
+                })(i);
+            }
+        })();
+        </script>
+    </section>
+
+    <!-- SEC 2: 원플레이트밀 소개 -->
+    <section class="home-oneplate">
+        한국형 지중해식의 영양원리를 바탕으로,<br>
+        한 끼에 모든 영양을 쉽게 섭취 할 수 있도록<br>
+        <span style="color: #314ea9; font-weight: 600;">'원플레이트 밀(One Plate-Meal)'</span>을 완성했어요<br>
+    </section>
+
+    <!-- SEC 3: 슬라이더 배너 -->
+    {=includeWidget('proc/_slider_banner.html', 'bannerCode', '711159644')}
+
+    <!-- SEC 4: 맞춤형 식단 선택형 메뉴 -->
+    <section class="home-menu">
+        <div class="home-menu__header home-section-header">
+            <div class="home-menu__title home-section-title">나에게 맞는 식단,<br>아직 고민 중이신가요?</div>
+            <div class="home-menu__subtitle home-section-subtitle">메디쏠라만의 기준을 담은 한 끼로,<br>나만의 특별한 건강케어 여정에 함께해요</div>
+        </div>
+        {=includeWidget('board/_home_product_review.html', 'tabConfigSno', 'HOME_REVIEW_TAB_01', 'perTabLimit', 3, 'initialVisibleCount', 3,
+        'sectionTitle', '맞춤형 식단 선택형 메뉴')}
+    </section>
+
+    <!-- SEC 5: 이 달의 집중 케어 -->
+    <section class="home-monthly-care">
+        <div class="home-monthly-care__header home-section-header">
+            <div class="home-monthly-care__title home-section-title">이달의 집중 케어</div>
+            <div class="home-monthly-care__subtitle home-section-subtitle">지금의 집중케어가 지속될 수 있도록,<br>필요한 혜택만 담았어요</div>
+        </div>
+        {=includeWidget('proc/_slider_banner.html', 'bannerCode', '2777300604')}
+        <div class="home-monthly-care__membership-wrap">
+            <a href="/board/view.php?&bdId=members&sno=5">
+                <img class="home-monthly-care__membership" src="/data/contents_image/banner/membership_pc.jpeg">
+            </a>
+        </div>
+    </section>
+
+    <!-- SEC 6: 푸드케어 레터 (Magazine) -->
+    {=includeWidget('magazine/_magazine_home.html')}
+
+    <!-- SEC 7: 케어 스토리 -->
+    <section class="home-care-story">
+        <div class="home-care-story__content">
+            <div class="home-care-story__header home-section-header">
+                <div class="home-care-story__title home-section-title">케어 스토리</div>
+                <div class="home-care-story__subtitle home-section-subtitle">다양한 현장에서<br>케어 활동을 이어가고 있어요</div>
+                <div class="home-view-more home-view-more--top">
+                    <a href="/board/list.php?bdId=solanews">VIEW MORE &gt;</a>
+                </div>
+            </div>
+            <div class="swiper-container home-care-story__swiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <a href="/board/view.php?bdId=solanews&sno=119" class="home-care-story__block" data-sno="119">
+                            <div class="home-care-story__image">
+                                <img src="/data/contents_image/2025/news/solaMagazine_97.jpg" alt="2026 퍼스트브랜드 대상" loading="lazy" />
+                            </div>
+                            <div class="home-care-story__text">
+                                <p class="home-care-story__caption">2026 퍼스트 브랜드 대상.<br>4년 연속 대상 수상</p>
+                                <p class="home-care-story__desc">약 45만 명 소비자 참여투표</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="swiper-slide">
+                        <a href="/board/view.php?bdId=solanews&sno=117" class="home-care-story__block" data-sno="117">
+                            <div class="home-care-story__image">
+                                <img src="/data/contents_image/2025/news/solaMagazine_95.jpg" alt="제28회 과학기술대상" loading="lazy" />
+                            </div>
+                            <div class="home-care-story__text">
+                                <p class="home-care-story__caption">제28회 과학기술대상<br>농림축산식품부 장관표창</p>
+                                <p class="home-care-story__desc">식품 과학기술 분야 수상</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="swiper-slide">
+                        <a href="/board/view.php?bdId=solanews&sno=116" class="home-care-story__block" data-sno="116">
+                            <div class="home-care-story__image">
+                                <img src="/data/contents_image/2025/news/solaMagazine_94.jpg" alt="탄단지 523 영양죽 출시" loading="lazy" />
+                            </div>
+                            <div class="home-care-story__text">
+                                <p class="home-care-story__caption">탄단지 523 영양죽 출시<br>저당 저나트륨 등도 맞춰</p>
+                                <p class="home-care-story__desc">영양 균형 맞춤 죽 라인</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-button-prev swiper-button-prev-care"></div>
+            <div class="swiper-button-next swiper-button-next-care"></div>
+        </div>
+    </section>
+
+    <!-- SEC 8: Instagram -->
+    <section class="home-instagram">
+        <div class="home-instagram__header home-section-header">
+            <div class="home-instagram__title home-section-title">#메디쏠라 #푸드케어</div>
+            <div class="home-instagram__subtitle home-section-subtitle">Medisola on Instagram</div>
+        </div>
+        <div class="home-instagram__feed">
+            {=includeWidget('proc/_insgov2.html', 'sno', '1')}
+        </div>
+    </section>
+
+</div>
+<!-- //home -->
+
+{ # footer }

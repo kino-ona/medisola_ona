@@ -1,0 +1,94 @@
+{*** 정기결제 카드 등록 | front/subscription/card_list.php ***}
+{ # header }
+{=includeFile('subscription/_common.html')}
+<link rel="stylesheet" type="text/css" href='../css/mypage/mypage.css'>
+<div class="mypage_index">
+<!-- 마이페이지 회원 요약정보 -->
+{=includeWidget('mypage/_member_summary.html')}
+
+<!--// 마이페이지 회원 요약정보 -->
+<div class="mypage_menu card_list_page">
+	<h3 class="tit">결제카드 관리</h3>
+        <div class='guide_box' style='border: 1px solid blue; color: red; padding: 10px; margin: 10px 0 ; font-weight: bold;'>1000원은 최소 신청금액이나, 결제되지 않으며 결제카드만 등록이 됩니다.</div>
+        <form name='cFrm' method='post' action='../subscription/indb.php' target='ifrmProcess'>
+            <input type='hidden' name='mode' value='delete_card'>
+            <input type='hidden' name='idx_card' class='idx_card' value=''>
+            <!--{ ? list }-->
+            <div class='card_list_box'>
+            <!--{ @list }-->
+            <!--{ ? .index_ > 0 && .index_ % 2  == 0 }--></div><div class='card_list_box'><!--{ / }-->
+            <!--{ ? .index_ % 2 > 0 }--><div class='mg'></div><!--{ / }-->
+            <div class='card_box'>
+                <div class='card<!--{ ? .underUse }--> disabled<!--{ / }-->' data-idx='{.idx}'>
+                <!--{ ? .underUse }-->
+                
+                <!--{ : }-->
+                    <div class='select_card'></div>
+                <!--{ / }-->
+                    <div class='cardNm'>{.cardNm}</div>
+                    <div class='cardInfo'>등록일 : {=date("Y.m.d", .regStamp)}</div>
+                    <!--{ ? .underUse }-->
+                      <div class='selected_text' style='color: red; font-weight: bold; padding-left: 10px; margin-top: 5px;'>[정기결제등록카드]</div>
+                    <!--{ / }-->
+                </div> <!-- card -->
+            </div> <!-- card_box -->
+            <!--{ ? .index_ == .size_ -1 && .size_ % 2 == 1 }-->
+            <div class='mg'></div>
+            <div class='card_box'></div>
+            <!--{ / }-->
+            <!--{ / }-->
+            </div> <!-- card_list_box -->
+            <!--{ / }-->
+            <div class='card_list_box'>
+                <div class='delCard'>
+                    <div class='inner_box'>
+                        <img src='img/card/minus.png' width='30'>
+                        <div class='text'>결제카드 삭제</div>
+                    </div>
+                </div> <!-- addCard -->
+                <div class='mg'></div>
+                <div class='addCard js_add_card_btn' data-width='320' data-height='430'>
+                    <div class='inner_box'>
+                        <img src='img/card/plus.png' width='30'>
+                        <div class='text'>결제카드추가</div>
+                    </div>
+                </div> <!-- addCard -->
+            </div> <!-- card_list_box -->
+        </form>
+</div>
+</div>
+<!-- //mypage_index -->
+{#pg_gate}
+
+<script>
+$(function() {
+   $(".card_list_box .card").click(function() {
+        if ($(this).hasClass("disabled"))
+            return false;
+            
+        var idx = "";
+        if ($(this).hasClass("on")) {
+            $(this).removeClass("on");
+        } else {
+            $(".card_list_box .card").removeClass("on");
+            $(this).addClass("on");
+            idx = $(this).data("idx");
+        }
+        
+        $(".idx_card").val(idx);
+   });
+   $(".card_list_box .delCard").click(function() {
+       var idx_card = $(".idx_card").val();
+       if (typeof idx_card == "undefined" || idx_card == "") {
+           alert("결제카드를 선택하세요.");
+           return;
+       }
+        
+       if (!confirm('정말 결제카드를 삭제하시겠습니까?'))
+            return;
+        
+       cFrm.submit();
+   });
+});
+</script>
+{ # footer }

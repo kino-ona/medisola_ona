@@ -1,0 +1,52 @@
+<form name="pgfrm" method="post" action="https://inilite.inicis.com/inibill/inibill_card.jsp">
+    <input type="hidden" name="mid" value="{subCfg.mid}">
+    <input type="hidden" name="buyername" value="{member.memNm}">
+    <input type="hidden" name='goodname' value="결제카드등록(결제되지 않음)">
+    <input type="hidden" name="price" value="1000">
+    <input type="hidden" name='orderid' value='{subCfg.uid}'>
+    <input type="hidden" name='returnurl' value="{subCfg['domain']}/subscription/inicis/card_register.php<!--{ ? gCurrentPageName == 'subscription/card_list' }-->?isMypage=1<!--{ / }-->">
+    <input type="hidden" name='timestamp' value=''>
+    <input type="hidden" name='period' value='M2'>
+    <input type="hidden" name='hashdata' value=''>
+    <input type="hidden" name='merchantreserved' value=''>
+</form>
+
+
+<script>
+    function pgRegisterCallback(pass) {
+
+        if (typeof pass != "undefined" && pass != "") {
+
+            var delivery_Ea = "";
+
+            if (!$(".deliveryEa").val())
+                delivery_Ea = "{deliveryEa}";
+            else
+                delivery_Ea = $(".deliveryEa").val();
+
+            pgfrm.merchantreserved.value = pass + "||{member.memNo}||{period}||" + delivery_Ea + "||{cartTmpSno}";
+
+            /* PG 파라미터 생성 */
+            $.ajax({
+                url: "../subscription/inicis/ajax.php",
+                type: "post",
+                dataType: "json",
+                data: {mode: "getPGParams", uid: '{subCfg.uid}', price: 1000, isMobile: 1},
+                async: false,
+                success: function (data) {
+                    if (data) {
+                        pgfrm.hashdata.value = data.sign;
+                        pgfrm.timestamp.value = data.timestamp;
+                        wm.layer.close();
+                        pgfrm.submit();
+                    } else {
+                        alert("결제카드 등록 필수 데이터를 가져오는데 실패하였습니다.");
+                    }
+                },
+                error: function (res) {
+                    console.log(res);
+                }
+            });
+        }
+    }
+</script>

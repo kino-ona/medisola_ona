@@ -1,0 +1,425 @@
+{*** 회원가입(약관동의) | member/join_agreement.php ***}
+{ # header }
+<div class="join_agreement">
+	<div class="join_step">
+		<ul>
+			<li class="on">{=__('약관동의')}</li>
+			<li>{=__('계정생성')}</li>
+			<li>{=__('가입완료')}</li>
+		</ul>
+	</div>
+	<form id="formTerms" name="formTerms" method="post" action="../member/join.php">
+		<input type="hidden" name="token" value="{token}"/>
+		<input type="hidden" name="mode" value="chkRealName"/>
+		<input type="hidden" name="rncheck" value="none"/>
+		<input type="hidden" name="nice_nm" value=""/>
+		<input type="hidden" name="pakey" value=""/>
+		<input type="hidden" name="birthday" value=""/>
+		<input type="hidden" name="mobile" value=""/>
+		<input type="hidden" name="mobileService" value=""/>
+		<input type="hidden" name="sex" value=""/>
+		<input type="hidden" name="dupeinfo" value=""/>
+		<input type="hidden" name="foreigner" value=""/>
+		<input type="hidden" name="adultFl" value=""/>
+		<input type="hidden" name="phone" value=""/>
+		<input type="hidden" name="type"/>
+		<input type="hidden" name="memberCode" value="{=memberCode}" />
+		<input type="hidden" name="utmCampaign" value="{=utmCampaign}" />
+		 <!--{? memberJoinConfig.under14ConsentFl == 'y'}-->
+		<div class="all_chk" id="termsAgreeDiv">
+			<span class="inp_chk">
+				<input type="checkbox" id="termsAgree" name="under14ConsentFl"/>
+				<label for="termsAgree"> (필수)  만 14세 이상입니다.</label>
+			</span>
+		</div>
+		<!--{/}-->
+		<div class="all_chk">
+			<span class="inp_chk">
+				<input type="checkbox" id="allAgree"/>
+				<label for="allAgree"> {=__('%s의 모든 약관을 확인하고 전체 동의합니다.', serviceInfo['mallNm'])}</label>
+			</span>
+		</div>
+		<div class="privacy_big_box">
+			<div class="privacy_box">
+				<dl>
+					<dt>
+						<span class="inp_chk">
+							<input type="checkbox" class="require" id="termsAgree1" name="agreementInfoFl"/>
+							<label for="termsAgree1"> ({=__('필수')}) {=__('이용약관')}</label>
+						</span>
+					</dt>
+					<dd><button type="button">{=__('내용보기')} ▼</button></dd>
+				</dl>
+				<div class="privacy_content">
+					<div> {=nl2br(agreementInfo['content'])}</div>
+				</div>
+				<!-- //privacy_content -->
+			</div>
+			<!-- //privacy_box -->
+			<div class="privacy_box">
+				<dl>
+					<dt>
+						<span class="inp_chk">
+							<input type="checkbox" class="require" id="termsAgree2" name="privateApprovalFl"/>
+							<label for="termsAgree2"> ({=__('필수')}) {=__('개인정보 수집 및 이용')}</label>
+						</span>
+					</dt>
+					<dd><button type="button">{=__('내용보기')} ▼</button></dd>
+				</dl>
+				<div class="privacy_content">
+					<div> {=nl2br(privateApproval['content'])}</div>
+				</div>
+				<!-- //privacy_content -->
+			</div>
+			<!-- //privacy_box -->
+			<!--{? privateApprovalOption[0]['modeFl']=='y'}-->
+			<div class="privacy_box">
+				<dl>
+					<dt>
+						<span class="inp_chk">
+							<input type="checkbox" id="termsAgree3"/>
+							<label for="termsAgree3">({=__('선택')}) {=__('개인정보 수집 및 이용')}</label>
+						</span>
+					</dt>
+					<dd><button type="button">{=__('내용보기')} ▼</button></dd>
+				</dl>
+				<div class="privacy_content">
+					<!--{@ privateApprovalOption}-->
+					<div class="privacy_big_box">
+						<dl>
+							<dt>
+								<span class="inp_chk">
+									<input type="checkbox" id="privateApprovalOption_{.sno}" name="privateApprovalOptionFl[{.sno}]"/>
+									<label for="privateApprovalOption_{.sno}">{=nl2br(.informNm)}</label>
+								</span>
+							</dt>
+							<dd><button type="button">{=__('내용보기')} ▼</button></dd>
+						</dl>
+						<div class="privacy_content">
+							<div>{=nl2br(.content)}</div>
+						</div>
+						<!-- //privacy_content -->
+					</div>
+					<!-- //privacy_big_box -->
+					<!--{/}-->
+				</div>
+				<!-- //privacy_content -->
+			</div>
+			<!-- //privacy_box -->
+			<!--{/}-->
+			<!--{? privateConsign[0]['modeFl']=='y'}-->
+			<div class="privacy_box">
+				<dl>
+					<dt>
+						<span class="inp_chk">
+							<input type="checkbox" id="termsAgree4" name="privateConsignFl" value="n"/>
+							<label for="termsAgree4">({=__('선택')}) {=__('개인정보 처리위탁')}</label>
+						</span>
+					</dt>
+					<dd><button type="button">{=__('내용보기')} ▼</button></dd>
+				</dl>
+				<div class="privacy_content">
+					<!--{@ privateConsign}-->
+					<div class="privacy_big_box">
+						<dl>
+							<dt>
+								<span class="inp_chk">
+									<input type="checkbox" id="privateConsign_{.sno}" name="privateConsignFl[{.sno}]"/>
+									<label for="privateConsign_{.sno}">{=nl2br(.informNm)}</label>
+								</span>
+							</dt>
+							<dd><button type="button">{=__('내용보기')} ▼</button></dd>
+						</dl>
+						<div class="privacy_content">
+							<div>{=nl2br(.content)}</div>
+						</div>
+						<!-- //privacy_content -->
+					</div>
+					<!--{/}-->
+				</div>
+				<!-- //privacy_content -->
+			</div>
+			<!-- //privacy_box -->
+			<!--{/}-->
+			<!--{? privateOffer[0]['modeFl']=='y'}-->
+			<div class="privacy_box">
+				<dl>
+					<dt>
+						<span class="inp_chk">
+							 <input type="checkbox" id="termsAgree5" name="privateOfferFl"/>
+							<label for="termsAgree5">({=__('선택')}) {=__('개인정보 제 3자 제공')}</label>
+						</span>
+					</dt>
+					<dd><button type="button">{=__('내용보기')} ▼</button></dd>
+				</dl>
+				<div class="privacy_content">
+					<!--{@ privateOffer}-->
+					<div class="privacy_big_box">
+						<dl>
+							<dt>
+								<span class="inp_chk">
+									<input type="checkbox" class="sp" id="privateOffer_{.sno}" name="privateOfferFl[{.sno}]"/>
+									<label for="privateOffer_{.sno}">{=nl2br(.informNm)}</label>
+								</span>
+							</dt>
+							<dd><button type="button">{=__('내용보기')} ▼</button></dd>
+						</dl>
+						<div class="privacy_content">
+							<div>{=nl2br(.content)}</div>
+						</div>
+						<!-- //privacy_content -->
+					</div>
+					<!-- //privacy_big_box -->
+					<!--{/}-->
+				</div>
+				<!-- //privacy_content -->
+			</div>
+			<!--{/}-->
+			<p class="msg dn">
+				<span>{=__('이용약관과 개인정보 수집 및 이용에 대한 안내 모두 동의해주세요.')}</span>
+			</p>
+        </div>
+		<!-- //privacy_big_box -->
+		<!--{? ipinConfig.useFl == 'y' || authCellPhoneConfig.useFl == 'y'}-->
+		<div class="member_confirm">
+			<fieldset>
+				<h2>{=__('인증수단 선택')}</h2>
+				<legend>{=__('회원가입 본인인증 폼')}</legend>
+				<div class="certify">
+					<ul>
+					<!--{? ipinConfig.useFl == 'y'}-->
+					<li>
+						<span class="inp_rdo">
+							<input type="radio" name="RnCheckType" id="authIpin" value="ipin"/>
+							<label class="choice" for="authIpin">{=__('아이핀 본인인증')}</label>
+						</span>
+					</li>
+					<!--{/}-->
+					<!--{? authCellPhoneConfig.useFl == 'y'}-->
+					<li>
+						<span class="inp_rdo">
+							<input type="radio" name="RnCheckType" id="authCellphone" value="authCellPhone"/>
+							<label class="choice" for="authCellphone">{=__('휴대폰 본인인증')}</label>
+						</span>
+					</li>
+					<!--{/}-->
+					</ul>
+					<p class="dn" id="errorMessage"></p>
+				</div>
+			</fieldset>
+		</div>
+		<!--{/}-->
+		<div class="member_confirm_btn">
+			<ul>
+				<!--{ ? useThirdParty }-->
+				<li><button class="join_prev_btn" id="btnPrevStep" type="button">{=__('이전')}</button></li>
+				<!--{/}-->
+				<li><button class="join_next_btn" id="btnNextStep" type="button">{=__('다음')}</button></li>
+			</ul>
+		</div>
+		<!-- //member_confirm_btn -->
+    </form>
+</div>
+<!-- //join_agreement -->
+<script type="text/javascript">
+    $(document).ready(function () {
+				amplitude.logEvent('signup_agreement_view');
+        var body = $('body'), $formTerms = $('#formTerms');
+
+        $('#btnNextStep').click(function () {
+						amplitude.logEvent('signup_agreement_next_button_click');
+            var pass = true;
+            /*
+             * 필수 동의 항목 검증
+             */
+            $(':checkbox.require').each(function (idx, item) {
+                var $item = $(item);
+                if (!$item.prop('checked')) {
+                    pass = false;
+                    var text = $item.next().text();
+                    var index = text.indexOf(')') + 1;
+                    var require = '<span>' + text.substring(0, index) + '</span>';
+                    var info = text.substring(index);
+                    $('p.msg', $formTerms).removeClass('dn').html(__('%s 을 체크해주세요.', require + info));
+                    _.delay(function () {
+                        $item.focus();
+                    }, 1000);
+                    return false;
+                }
+            });
+
+            /*
+             * 만 14세 이상 동의 항목 검증
+             */
+            if ($("#termsAgreeDiv").length > 0) {
+                if (!$('#termsAgree').prop('checked')) {
+                    pass = false;
+                    alert("{=__('만 14세 이상임에 동의해 주세요.')}");
+                    $("#termsAgreeDiv").attr("tabindex", -1).focus();
+                    return false;
+                }
+            }
+
+            if (pass) {
+                $('p.msg').addClass('dn');
+
+                /*
+                 * 실명인증 검증
+                 */
+                if ($('input[name="RnCheckType"]').length > 0) {
+                    switch ($('input[name="RnCheckType"]:checked').val()) {
+                        case 'ipin' :
+							window.open("/member/ipin/ipin_main.php?callType=joinmember");
+                            break;
+                        case  'authCellPhone' :
+                            var protocol = location.protocol;
+                            var callbackUrl = "{=domainUrl}/member/authcellphone/dreamsecurity_result.php";
+                            var userAgent = window.navigator.userAgent;
+                            //아이폰+페이스북앱으로 본인인증 진행
+                            if(userAgent.indexOf("iPhone") >-1 && (userAgent.indexOf('FBAN') > -1 || userAgent.indexOf('FBAV') > -1 || userAgent.indexOf('Instagram') > -1)) {
+                                checkAgreementFl();
+                                location.href = protocol + "//hpauthdream.godo.co.kr/module/Mobile_hpauthDream_Main.php?shopUrl=" + callbackUrl +"&callType=joinmembermobile&cpid={=authDataCpCode}";
+                            }else{
+								window.open(protocol + "//hpauthdream.godo.co.kr/module/Mobile_hpauthDream_Main.php?callType=joinmembermobile&shopUrl=" + callbackUrl + "&cpid={=authDataCpCode}");
+                            }
+                            break;
+                        default :
+                            alert("{=__('본인인증이 필요합니다.')}");
+                            $('input[name="RnCheckType"]:first').focus();
+                            break;
+                    }
+                    return false;
+                } else {
+                    $formTerms.submit();
+                }
+            }
+        });
+
+        /*
+         * 전체 동의 체크박스 이벤트
+         */
+        $('#allAgree', $formTerms).change(function (e) {
+            e.preventDefault();
+            var $target = $(e.target), $checkbox = $(':checkbox').not('#termsAgree'), $label = $checkbox.siblings('label');
+            if ($target.prop('checked') === true) {
+                $checkbox.prop('checked', true).val('y');
+                $label.addClass('on');
+            } else {
+                $checkbox.prop('checked', false).val('n');
+                $label.removeClass('on');
+            }
+        });
+
+        /*
+         * 이전단계 버튼 이벤트
+         */
+        $('#btnPrevStep', $formTerms).click(function (e) {
+						amplitude.logEvent('signup_agreement_prev_button_click');
+            e.preventDefault();
+            window.location.href = '../member/join_method.php'
+        });
+
+        /*
+         * 약관 체크박스 이벤트
+         */
+        $('.privacy_box :checkbox').change(function (e) {
+            e.preventDefault();
+            $('p.msg').addClass('dn');
+            var $target = $(e.target), $label = $target.siblings('label'), $termsView = $target.closest('.privacy_box');
+            var isTermsAgreeSelect = (e.target.id === 'termsAgree3') || (e.target.id === 'termsAgree4') || (e.target.id === 'termsAgree5');
+            var isTargetChecked = $target.prop('checked') === true;
+
+            if (isTargetChecked) {
+                if (isTermsAgreeSelect) {
+                    $termsView.find('.privacy_content :checkbox').prop('checked', true);
+                    $termsView.find('.privacy_content :checkbox').val('y');
+                } else {
+                    $target.prop('checked', true).val('y');
+                    $label.addClass('on');
+                }
+            } else {
+                if (isTermsAgreeSelect) {
+                    $termsView.find('.privacy_content :checkbox').prop('checked', false);
+                    $termsView.find('.privacy_content :checkbox').val('n');
+                } else {
+                    $target.prop('checked', false).val('n');
+                    $label.removeClass('on');
+                }
+            }
+        });
+
+        /*
+        * 14세 동의 항목 체크박스 이벤트
+        */
+        if ($("#termsAgreeDiv").length > 0) {
+            $('#termsAgreeDiv :checkbox', $formTerms).change(function (e) {
+                var $termsTarget = $(e.target), $termsLabel = $termsTarget.siblings('label');
+                var isTermsTargetChecked = $termsTarget.prop('checked') === true;
+                if (isTermsTargetChecked) {
+                    $termsTarget.prop('checked', true).val('y');
+                    $termsLabel.addClass('on');
+                } else {
+                    $termsTarget.prop('checked', false).val('n');
+                    $termsLabel.removeClass('on');
+                }
+            });
+        }
+
+		 /*
+         * 약관 내용보기 이벤트
+         */
+		$('.privacy_box dd button').on({
+			'click':function(){
+				var privacy_dp = $(this).parent().parent().parent().find('> .privacy_content').css('display');
+				if(privacy_dp == 'none'){
+					$(this).parent().parent().parent().find('> .privacy_content').slideDown();
+					$(this).html("{=__('내용닫기')} ▲");
+				} else {
+					$(this).parent().parent().parent().find('> .privacy_content').slideUp();
+					$(this).html("{=__('내용보기')} ▼");
+				}
+			}
+		});
+
+        window.addEventListener('message', function (e) {
+            if (e.origin === 'http://hpauthdream.godo.co.kr') {
+                $('#layerSearch').remove();
+            }
+        });
+    });
+
+    /**
+     * 아이폰+페이스북앱에서 location.href로 페이지 이동으로 처리시
+     * 약관데이터 전달위해 세션에 저장
+     */
+    function checkAgreementFl(){
+        //필수동의
+        var agreementInfoFl = $('#termsAgree1').val();
+        var privateApprovalFl = $('#termsAgree2').val();
+
+        //개인정보 수집 및 이용(선택)
+        var privateApprovalOption = 'privateApprovalOptionFl';
+        <!--{@ privateApprovalOption}-->
+        privateApprovalOption += "," + {.sno}+","+ $('input[name=\'privateApprovalOptionFl[{.sno}]\']').val();
+        <!--{/}-->
+
+        //개인정보 처리 위탁(선택)
+        var privateConsign = 'privateConsignFl';
+        <!--{@ privateConsign}-->
+        privateConsign += "," + {.sno}+","+ $('input[name=\'privateConsignFl[{.sno}]\']').val();
+        <!--{/}-->
+
+        //개인정보 3자 제공(선택)
+        var privateOffer = 'privateOfferFl';
+        <!--{@ privateOffer}-->
+        privateOffer += "," + {.sno}+","+ $('input[name=\'privateOfferFl[{.sno}]\']').val();
+        <!--{/}-->
+
+        localStorage.setItem('agreementInfoFl', agreementInfoFl);
+        localStorage.setItem('privateApprovalFl', privateApprovalFl);
+        localStorage.setItem('privateApprovalOption', privateApprovalOption);
+        localStorage.setItem('privateConsign', privateConsign);
+        localStorage.setItem('privateOffer', privateOffer);
+    }
+</script>
+{ # footer }

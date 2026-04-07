@@ -1,0 +1,55 @@
+{*** [위젯] 레이어형 상단 카테고리 | proc/category_top.htm ***}
+
+<div class="wrap_depth">
+	<ul class="depth0">
+		<!--{ @ data }-->
+		<li <!--{ ? .divisionFl =='y' }--> class='group_tit'<!--{ / }-->>
+			<!--{ ? .divisionFl =='n' }-->
+			<a href="../goods/goods_list.php?{cateType}Cd={.cateCd}">{.cateNm}</a>
+			<!--{ : }-->
+			{.cateNm}
+			<!--{ / }-->
+			<!--{ ? .children }-->
+			<ul class="depth1">
+                <!--{ @ .children }-->
+                <li <!--{ ? ..divisionFl =='y' }--> class='group_tit'<!--{ / }-->>
+                    <!--{ ? ..divisionFl =='n' }-->
+                    <a href="../goods/goods_list.php?{cateType}Cd={..cateCd}" >{..cateNm}</a>
+                    <!--{ : }-->
+                    {..cateNm}
+                    <!--{ / }-->
+                    <!--{ ? ..children }-->
+                    <ul class="depth2">
+                        <!--{ @ ..children }-->
+                        <li <!--{ ? ...divisionFl =='y' }--> class='group_tit'<!--{ / }-->>
+                            <!--{ ? ...divisionFl =='n' }-->
+                            <a href="../goods/goods_list.php?{cateType}Cd={...cateCd}" >{...cateNm}</a>
+                            <!--{ : }-->
+                            {...cateNm}
+                            <!--{ / }-->
+                            <!--{ ? ...children }-->
+							<span class="cate_arrow"><img src="/data/skin/front/0792amart/img/mimg/cate_arrow.svg" /></span>
+                            <ul class="depth3">
+                                <!--{ @ ...children }-->
+                                <li <!--{ ? ....divisionFl =='y' }--> class='group_tit'<!--{ / }-->>
+                                <!--{ ? ....divisionFl =='n' }-->
+                                <a href="../goods/goods_list.php?{cateType}Cd={....cateCd}" >{....cateNm}</a>
+                                <!--{ : }-->
+                                {....cateNm}
+                                <!--{ / }-->
+                                </li>
+                                <!--{ / }-->
+                            </ul>
+                            <!--{ / }-->
+                        </li>
+                        <!--{ / }-->
+                    </ul>
+                    <!--{ / }-->
+                </li>
+                <!--{ / }-->
+			</ul>
+			<!--{ / }-->
+		</li>
+		<!--{ / }-->
+	</ul>
+</div>

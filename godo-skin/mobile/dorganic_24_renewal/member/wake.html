@@ -1,0 +1,201 @@
+{*** 휴면회원 | member/wake.php ***}
+{ # header }
+<div class="wake">
+	<p class="guide">{=__('현재 접속하신 계정은 %s휴면회원으로 전환%s된 상태입니다.', '<span class="c_red">', '</span>')}</p>
+	<ul class="wake_date">
+		<li>{=__('최초가입일')} : {memberInfo['entryDt']}</li>
+		<li>{=__('휴면처리일')} : {memberInfo['sleepDt']}</li>
+	</ul>
+	<p class="msg">※ {=__('정보통신망법 이용촉진 및 정보보호 등에 관한 법률에 의거하여, 장기간 접속하지 않으신 회원님들의 개인정보가 휴면처리 상태입니다.')}</p>
+	<!--{? sleepPolicy['wakeType'] == 'info' && result == '' // 회원정보에 등록된 정보 입력 후 해제}-->
+	<h3>{=__('인증방법 선택')}</h3>
+	<ul class="confirm_method">
+		<!--{? sleepPolicy['checkPhone'] == 'y'}-->
+		<li>
+			<span class="inp_rdo">
+				<input type="radio" name="selectWakeInfo" value="cellPhone"/><label for="">{=__('SMS 인증')}</label>
+				({maskCellphone})
+			</span>
+		</li>
+		<!--{/}-->
+		<!--{? sleepPolicy['checkEmail'] == 'y'}-->
+		<li>
+			<span class="inp_rdo">
+				<input type="radio"  name="selectWakeInfo" value="email"/><label for="">{=__('이메일 인증')}</label>
+				({maskEmail})
+			</span>
+		</li>
+		<!--{/}-->
+	</ul>
+
+	<!--{? sleepPolicy['checkPhone'] == 'y' // 회원정보에 등록된 휴대폰 정보 입력}-->
+	<div class="wake_info_phone">
+		<input type="text" id="cellPhone" name="cellPhone" placeholder="ex)01012345678"/>
+	</div>
+	<!--{/ // checkPhone end}-->
+	<!--{? sleepPolicy['checkEmail'] == 'y' // 회원정보에 등록된 이메일 정보 입력}-->
+	<div class="wake_info_email">
+		<input type="text" class="input_email" id="email" name="email"/>
+		<div class="email_select_box">
+			<select id="emailDomain" name="emailDomain" class="email_select">
+				<!-- {@ mailDomain} -->
+				<option value="{.key_}">{.value_}</option>
+				<!--{/}-->
+			</select>
+		</div>
+	</div>
+	<!--{/ // checkEmail end}-->
+	<p class="caution hidden" id="joinInfoCaution">{=__('입력하신 정보와 일치하지 않습니다.')}</p>
+	<!--{: sleepPolicy['wakeType'] == 'auth' && result == '' // else wakeType auth}-->
+	<h3>{=__('인증방법 선택')}</h3>
+	<ul class="confirm_method">
+		<!--{? sleepPolicy['authSms'] == 'y'}-->
+		<li>
+			<span class="inp_rdo">
+				<input type="radio" id="authSms" name="authType"/>
+				<label for="authSms">{=__('SMS 인증번호 입력')}</label>
+				<span>({maskCellphone})</span>
+			</span>
+		</li>
+		<!--{/}-->
+		<!--{? sleepPolicy['authEmail'] == 'y'}-->
+		<li>
+			<span class="inp_rdo">
+				<input type="radio" id="authEmail" name="authType" />
+				<label for="authEmail">{=__('이메일 인증번호 입력')}</label>
+				<span>({maskEmail})</span>
+			</span>
+		</li>
+		<!--{/}-->
+		<!--{? sleepPolicy['authIpin'] == 'y'}-->
+		<li>
+			<span class="inp_rdo">
+				<input type="radio" id="authIpin" name="authType"/>
+				<label for="authIpin">{=__('아이핀 본인인증')}</label>
+			</span>
+		</li>
+		<!--{/}-->
+		<!--{? sleepPolicy['authRealName'] == 'y'}-->
+		<li>
+			<span class="inp_rdo">
+				<input type="radio" id="authCellPhone" name="authType"/>
+				<label for="authCellPhone">{=__('휴대폰 본인인증')}</label>
+			</span>
+		</li>
+		<!--{/}-->
+	</ul>
+	<form name="formAuth" action="" method="post"></form>
+	<!--{/ // end wakeType}-->
+	
+	<div class="btn_box">
+		<!--{? sleepPolicy['wakeType'] == 'auth' && result == ''}-->
+		<button type="button" class="wake_btn" id="btnNextStep">{=__('다음')}</button>
+		<!--{:}-->
+		<button type="button" class="wake_btn" id="btnNextStep">{=__('해지하기')}</button>
+		<!--{/}-->
+	</div>
+</div>
+<!--{? sleepPolicy['wakeType'] == 'auth' && result == 'ERROR'}-->
+
+<script type="text/javascript">
+    alert("{=__('본인 확인을 위한 회원정보가 존재하지 않습니다. 관리자에게 문의하시기 바랍니다.')}");
+    window.location.href = '/';
+</script>
+<!--{/}-->
+<script type="text/javascript">
+    (function ($, window, document, undefined) {
+        var $selectWakeInfo, $wakeInfoEmail, $wakeInfoPhone, wakeType;
+        wakeType = "{sleepPolicy['wakeType']}";
+
+        function gd_change_wake_info() {
+			$wakeInfoPhone.addClass('dn');
+			$wakeInfoEmail.addClass('dn');
+			if($("input[name='selectWakeInfo']:checked").val() == 'cellPhone') $wakeInfoPhone.removeClass('dn');
+			else if($("input[name='selectWakeInfo']:checked").val() == 'email') $wakeInfoEmail.removeClass('dn');
+        }
+
+        function gd_init_info() {
+            if (wakeType == 'info') {
+                $wakeInfoEmail = $('.wake_info_email');
+                $wakeInfoPhone = $('.wake_info_phone');
+                $selectWakeInfo = $("input[name='selectWakeInfo']");
+
+                if ($selectWakeInfo.length > 0) {
+                    $selectWakeInfo.change(gd_change_wake_info);
+                }
+
+				$("input[name='selectWakeInfo']").first().trigger('click');
+            }
+        }
+
+        function gd_wake() {
+            var authType;
+            var url = '../member/wake_ps.php';
+            var params = {mode: wakeType};
+            if (wakeType == 'info') {
+                params.selectWakeInfo = $("input[name='selectWakeInfo']:checked").val();
+                console.log(params.selectWakeInfo);
+                if (params.selectWakeInfo == 'email') {
+                    params.wakeCheckInfo = $('#email').val();
+                } else {
+                    params.wakeCheckInfo = $('#cellPhone').val();
+                }
+                console.log(params.wakeCheckInfo )
+                if (params.wakeCheckInfo.length < 1) {
+                    alert("{=__('회원 가입 시 입력하신 정보를 입력해주시기 바랍니다.')}");
+                    return;
+                }
+            } else if (wakeType == 'auth') {
+                authType = $(':radio[name="authType"]:checked').attr('id');
+                switch (authType) {
+                    case 'authSms':
+                    case 'authEmail':
+                        params.mode = authType;
+                        break;
+                    case 'authIpin':
+						window.open('../member/ipin/ipin_main.php?callType=wakeMember');
+                        break;
+                    case 'authCellPhone':
+                        var protocol = location.protocol;
+                        var callbackUrl = "{=domainUrl}/member/authcellphone/dreamsecurity_result.php";
+						window.open(protocol + "//hpauthdream.godo.co.kr/module/Mobile_hpauthDream_Main.php?callType=wakeMember&shopUrl=" + callbackUrl + "&cpid={=authDataCpCode}");
+                        break;
+                }
+            }
+
+            if (authType != 'authIpin' && authType != 'authCellPhone') {
+                var $ajax = $.ajax(url, {
+                    method: "POST",
+                    data: params
+                });
+                $ajax.done(function (data, textStatus, jqXHR) {
+                    var code = data.code;
+                    var message = data.message;
+                    if (_.isUndefined(code) && _.isUndefined(message)) {
+                        window.location.href = data;
+                    } else {
+                        alert(message);
+                    }
+                });
+            }
+        }
+
+        function gd_cancel() {
+            window.location.href = '../member/login.php';
+        }
+
+        $(document).ready(function () {
+            gd_init_info();
+            gd_select_email_domain('email');
+            $('#btnNextStep').click(gd_wake);
+            $('#btnPrevStep').click(gd_cancel);
+
+            window.addEventListener('message', function (e) {
+                if (e.origin === 'http://hpauthdream.godo.co.kr') {
+                    $('#layerSearch').remove();
+                }
+            });
+        });
+    })($, window, document);
+</script>
+{ # footer }

@@ -1,0 +1,432 @@
+{*** 나만의 식단 플랜 | goods/goods_view_custom_diet.php ***}
+{ # header }
+<link rel="stylesheet" type="text/css" href="../css/custom-diet.css?v=7" />
+
+<body class="diet-page">
+
+<!-- ====== DESKTOP LAYOUT CONTAINER ====== -->
+<div id="menuSelectionScreen" class="desktop-layout">
+
+  <!-- ====== LEFT SIDEBAR (Desktop Only) ====== -->
+  <aside class="desktop-sidebar">
+    <!-- Sidebar Header -->
+    <div class="sidebar-header">
+      <button class="sidebar-back-btn" onclick="CustomDietBuilder.goBack()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+      </button>
+      <h1 class="sidebar-title">나만의 식단 플랜</h1>
+      <p class="sidebar-subtitle">자신에게 필요한 식단을 계획해보세요.</p>
+    </div>
+
+    <!-- Medisola Nutrition Suggestion (Desktop Collapsible) -->
+    <div id="desktopSuggestionCard" class="desktop-suggestion" style="display:none;">
+      <button class="suggestion-toggle" onclick="CustomDietBuilder.toggleSuggestion()">
+        <div class="suggestion-toggle-left">
+          <div class="suggestion-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21a9 9 0 0 0 9-9H3a9 9 0 0 0 9 9Z"/><path d="M7 21h10"/></svg>
+          </div>
+          <div>
+            <div class="suggestion-title">메디쏠라 영양 제안</div>
+            <div class="suggestion-desc">맞춤 케어 솔루션</div>
+          </div>
+        </div>
+        <svg class="suggestion-chevron" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="suggestion-content" id="desktopSuggestionContent">
+        <!-- JS에서 동적 렌더링 -->
+      </div>
+    </div>
+
+    <!-- Quantity Selector (Desktop) -->
+    <div class="sidebar-quantity">
+      <p class="quantity-label">나만의 식단구성</p>
+      <div class="quantity-selector desktop" id="desktopQuantitySelector">
+        <!-- JS에서 서버 옵션 기반 동적 생성 -->
+      </div>
+    </div>
+
+    <!-- Selected Menus Preview (Desktop) -->
+    <div class="sidebar-selected">
+      <div class="selected-header">
+        <div>
+          <span class="selected-title">선택한 메뉴</span>
+          <p class="selected-subtitle">클릭하여 제거</p>
+        </div>
+        <span class="selected-count" id="desktopSelectedCount"><span id="desktopCurrentCount">0</span> / <span id="desktopTotalCount">10</span></span>
+      </div>
+      <div class="selected-list" id="desktopSelectedList">
+        <div class="empty-state">메뉴 카드를 클릭하여 추가하세요</div>
+      </div>
+    </div>
+
+    <!-- Desktop CTA Button -->
+    <div class="sidebar-cta">
+      <button id="desktopCtaButton" class="desktop-cta-btn" disabled onclick="CustomDietBuilder.showSummary()">
+        <span>식단 플랜 완료</span>
+        <svg id="desktopCtaCheckIcon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><path d="M20 6 9 17l-5-5"/></svg>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ====== MAIN CONTENT ====== -->
+  <div class="main-content">
+
+    <!-- Mobile Header (모바일에만 표시) -->
+    <header class="mobile-header">
+      <button class="back-btn" onclick="CustomDietBuilder.goBack()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+      </button>
+      <h1 class="header-title">나만의 식단 플랜</h1>
+      <button class="filter-btn" onclick="CustomDietBuilder.showAdvancedFilters()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="21" x2="14" y1="4" y2="4"/><line x1="10" x2="3" y1="4" y2="4"/><line x1="21" x2="12" y1="12" y2="12"/><line x1="8" x2="3" y1="12" y2="12"/><line x1="21" x2="16" y1="20" y2="20"/><line x1="12" x2="3" y1="20" y2="20"/><line x1="14" x2="14" y1="2" y2="6"/><line x1="8" x2="8" y1="10" y2="14"/><line x1="16" x2="16" y1="18" y2="22"/></svg>
+      </button>
+    </header>
+
+    <!-- Desktop Header (데스크톱에만 표시) -->
+    <header class="desktop-header">
+      <div class="category-filters desktop" id="desktopCategoryFilters">
+        <button class="filter-chip active" data-category="all" onclick="CustomDietBuilder.setCategory('all')">전체</button>
+        <button class="filter-chip" data-category="seafood" onclick="CustomDietBuilder.setCategory('seafood')">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 12c.94-3.46 4.94-6 8.5-6 3.56 0 6.06 2.54 7 6-.94 3.47-3.44 6-7 6s-7.56-2.53-8.5-6Z"/><path d="M18 12v.5"/><path d="M16 17.93a9.77 9.77 0 0 1-3.5.57c-4.41 0-8-2.69-8-6s3.59-6 8-6c.82 0 1.63.09 2.39.26"/><path d="M2 12h2"/></svg>
+          해산물
+        </button>
+        <button class="filter-chip" data-category="meat" onclick="CustomDietBuilder.setCategory('meat')">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12.5" cy="8.5" r="2.5"/><path d="M12.5 2a6.5 6.5 0 0 0-6.22 4.6c-1.1 3.13-.78 3.9-3.18 6.08A3 3 0 0 0 5 18c4 0 8.4-1.8 11.4-4.3A6.5 6.5 0 0 0 12.5 2Z"/></svg>
+          육류
+        </button>
+        <button class="filter-chip" data-category="rice" onclick="CustomDietBuilder.setCategory('rice')">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 2-2.3 2.3a3 3 0 0 0 0 4.2l1.8 1.8a3 3 0 0 0 4.2 0L22 8"/><path d="M15 15 3.3 3.3a4.2 4.2 0 0 0 0 6l7.3 7.3c.7.7 2 .7 2.8 0L15 15Zm0 0 7 7"/></svg>
+          밥류
+        </button>
+        <button class="filter-chip" data-category="noodle" onclick="CustomDietBuilder.setCategory('noodle')">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21a9 9 0 0 0 9-9H3a9 9 0 0 0 9 9Z"/><path d="M7 21h10"/><path d="M19.5 12 22 6"/></svg>
+          면류
+        </button>
+      </div>
+      <button class="desktop-filter-btn" onclick="CustomDietBuilder.showAdvancedFilters()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="21" x2="14" y1="4" y2="4"/><line x1="10" x2="3" y1="4" y2="4"/><line x1="21" x2="12" y1="12" y2="12"/><line x1="8" x2="3" y1="12" y2="12"/><line x1="21" x2="16" y1="20" y2="20"/><line x1="12" x2="3" y1="20" y2="20"/><line x1="14" x2="14" y1="2" y2="6"/><line x1="8" x2="8" y1="10" y2="14"/><line x1="16" x2="16" y1="18" y2="22"/></svg>
+      </button>
+    </header>
+
+    <!-- Mobile Quantity Selector -->
+    <div class="mobile-quantity">
+      <div class="quantity-selector mobile" id="mobileQuantitySelector">
+        <!-- JS에서 서버 옵션 기반 동적 생성 -->
+      </div>
+    </div>
+
+    <!-- Mobile Selected Preview (Sticky) -->
+    <div class="mobile-selected-preview">
+      <div class="preview-header">
+        <span class="preview-title">선택한 메뉴</span>
+        <span class="preview-count" id="mobileSelectedCount"><span id="mobileCurrentCount">0</span> / <span id="mobileTotalCount">10</span></span>
+      </div>
+      <div id="mobileSelectedItems" class="selected-items scrollbar-hide">
+        <div class="empty-message" id="mobileEmptyMessage">아래 메뉴를 터치하여 추가하세요</div>
+      </div>
+    </div>
+
+    <!-- Mobile Category Filters -->
+    <div class="mobile-category-filters">
+      <div class="category-filters mobile scrollbar-hide" id="mobileCategoryFilters">
+        <button class="filter-chip active" data-category="all" onclick="CustomDietBuilder.setCategory('all')">전체</button>
+        <button class="filter-chip" data-category="seafood" onclick="CustomDietBuilder.setCategory('seafood')">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 12c.94-3.46 4.94-6 8.5-6 3.56 0 6.06 2.54 7 6-.94 3.47-3.44 6-7 6s-7.56-2.53-8.5-6Z"/><path d="M18 12v.5"/><path d="M16 17.93a9.77 9.77 0 0 1-3.5.57c-4.41 0-8-2.69-8-6s3.59-6 8-6c.82 0 1.63.09 2.39.26"/><path d="M2 12h2"/></svg>
+          해산물
+        </button>
+        <button class="filter-chip" data-category="meat" onclick="CustomDietBuilder.setCategory('meat')">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12.5" cy="8.5" r="2.5"/><path d="M12.5 2a6.5 6.5 0 0 0-6.22 4.6c-1.1 3.13-.78 3.9-3.18 6.08A3 3 0 0 0 5 18c4 0 8.4-1.8 11.4-4.3A6.5 6.5 0 0 0 12.5 2Z"/></svg>
+          육류
+        </button>
+        <button class="filter-chip" data-category="rice" onclick="CustomDietBuilder.setCategory('rice')">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 2-2.3 2.3a3 3 0 0 0 0 4.2l1.8 1.8a3 3 0 0 0 4.2 0L22 8"/><path d="M15 15 3.3 3.3a4.2 4.2 0 0 0 0 6l7.3 7.3c.7.7 2 .7 2.8 0L15 15Zm0 0 7 7"/></svg>
+          밥류
+        </button>
+        <button class="filter-chip" data-category="noodle" onclick="CustomDietBuilder.setCategory('noodle')">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21a9 9 0 0 0 9-9H3a9 9 0 0 0 9 9Z"/><path d="M7 21h10"/><path d="M19.5 12 22 6"/></svg>
+          면류
+        </button>
+      </div>
+    </div>
+
+    <!-- Menu Sections -->
+    <div id="menuSections" class="menu-sections">
+      <!-- JS에서 동적 생성 -->
+      <div class="loading-message">메뉴를 불러오는 중...</div>
+    </div>
+
+    <!-- Mobile Bottom CTA -->
+    <div class="mobile-bottom-cta">
+      <div class="cta-info">
+        <span class="cta-count"><span id="mobileCtaTotalCount">10</span>식 중 <span class="highlight" id="mobileCtaSelectedCount">0</span>식 선택됨</span>
+      </div>
+      <button id="mobileCtaButton" class="cta-btn" disabled onclick="CustomDietBuilder.showSummary()">
+        <span>식단 플랜 완료</span>
+        <svg id="mobileCtaCheckIcon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><path d="M20 6 9 17l-5-5"/></svg>
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ====== ADVANCED FILTERS MODAL ====== -->
+<div id="advancedFiltersOverlay" class="modal-overlay" style="display:none;" onclick="CustomDietBuilder.hideAdvancedFilters()">
+  <div class="advanced-filters" onclick="event.stopPropagation()">
+    <div class="filters-header">
+      <h3 class="filters-title">고급 옵션</h3>
+      <button class="filters-close" onclick="CustomDietBuilder.hideAdvancedFilters()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+    </div>
+    <div class="filter-group">
+      <div class="filter-header">
+        <label class="filter-label">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg>
+          최소 단백질
+        </label>
+        <span class="filter-value"><span id="proteinValue">0</span>g 이상</span>
+      </div>
+      <input type="range" id="filterProtein" min="0" max="40" step="5" value="0" oninput="CustomDietBuilder.updateFilterValue('protein', this.value)">
+      <div class="filter-range-labels">
+        <span>0g</span>
+        <span>40g</span>
+      </div>
+    </div>
+    <div class="filter-group">
+      <div class="filter-header">
+        <label class="filter-label">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16.3c2.2 0 4-1.83 4-4.05 0-1.16-.57-2.26-1.71-3.19S7.29 6.75 7 5.3c-.29 1.45-1.14 2.84-2.29 3.76S3 11.1 3 12.25c0 2.22 1.8 4.05 4 4.05z"/></svg>
+          최대 나트륨
+        </label>
+        <span class="filter-value"><span id="sodiumValue">700</span>mg 이하</span>
+      </div>
+      <input type="range" id="filterSodium" min="200" max="700" step="50" value="700" oninput="CustomDietBuilder.updateFilterValue('sodium', this.value)">
+      <div class="filter-range-labels">
+        <span>200mg</span>
+        <span>700mg</span>
+      </div>
+    </div>
+    <div class="filter-group">
+      <div class="filter-header">
+        <label class="filter-label">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+          최대 칼로리
+        </label>
+        <span class="filter-value"><span id="caloriesValue">700</span>kcal 이하</span>
+      </div>
+      <input type="range" id="filterCalories" min="300" max="700" step="50" value="700" oninput="CustomDietBuilder.updateFilterValue('calories', this.value)">
+      <div class="filter-range-labels">
+        <span>300kcal</span>
+        <span>700kcal</span>
+      </div>
+    </div>
+    <div class="filter-actions">
+      <button class="btn-reset" onclick="CustomDietBuilder.resetFilters()">초기화</button>
+      <button class="btn-apply" onclick="CustomDietBuilder.applyFilters()">적용하기</button>
+    </div>
+  </div>
+</div>
+
+<!-- ====== MENU DETAIL MODAL (V0 Bottom Sheet) ====== -->
+<div id="menuDetailModal" class="modal-overlay" style="display:none;" onclick="CustomDietBuilder.closeDetail()">
+  <div class="detail-modal" onclick="event.stopPropagation()">
+    <div class="modal-body">
+      <div class="detail-header">
+        <button class="detail-close" onclick="CustomDietBuilder.closeDetail()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+        <div class="detail-frozen-badge">
+          <div class="badge-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h20"/><path d="M12 2v20"/><path d="m20 16-4-4 4-4"/><path d="m4 8 4 4-4 4"/><path d="m16 4-4 4-4-4"/><path d="m8 20 4-4 4 4"/></svg>
+          </div>
+          <span>냉동</span>
+        </div>
+        <img class="detail-image" id="detailImage" src="" alt="">
+      </div>
+      <div class="detail-content">
+        <div class="detail-title-area">
+          <div class="detail-name" id="detailName"></div>
+          <div class="detail-name-en" id="detailNameEn"></div>
+        </div>
+        <div class="detail-description" id="detailDescription"></div>
+        <div class="detail-meta" id="detailMeta">
+          <span>단량(g) <strong id="detailWeight">0</strong>g</span>
+          <span id="detailOmega3Wrap" style="display:none;">오메가-3(mg) <strong id="detailOmega3">0</strong>mg</span>
+        </div>
+        <div class="health-indicators" id="healthIndicators">
+          <div class="health-indicator">
+            <div class="label">저당</div>
+            <div class="value" id="indicatorLowSugar">X</div>
+          </div>
+          <div class="health-indicator">
+            <div class="label">오메가-3</div>
+            <div class="value" id="indicatorOmega3">X</div>
+          </div>
+          <div class="health-indicator">
+            <div class="label">단백질 20</div>
+            <div class="value" id="indicatorProtein">X</div>
+          </div>
+          <div class="health-indicator">
+            <div class="label">저콜레스테롤</div>
+            <div class="value" id="indicatorCholesterol">X</div>
+          </div>
+        </div>
+        <h3 class="detail-section-title">영양정보</h3>
+        <div class="nutrition-panel" id="nutritionPanel">
+          <div class="panel-header">
+            <span class="panel-title">영양정보</span>
+            <div class="panel-summary">
+              <div class="weight">총 내용량 <span id="panelWeight">0</span>g</div>
+              <div class="calories"><span id="panelCalories">0</span>kcal</div>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div class="panel-row-header">
+              <span>총 내용량 당</span>
+              <span>1일 영양성분 기준치에 대한 비율</span>
+            </div>
+            <div class="panel-row">
+              <span><strong>나트륨</strong> <span id="panelSodium">0</span>mg</span>
+              <span class="percent" id="panelSodiumPercent">0%</span>
+            </div>
+            <div class="panel-row">
+              <span><strong>탄수화물</strong> <span id="panelCarbs">0</span>g</span>
+              <span class="percent" id="panelCarbsPercent">0%</span>
+            </div>
+            <div class="panel-row indent">
+              <span>당류 <span id="panelSugar">0</span>g</span>
+              <span class="percent" id="panelSugarPercent">0%</span>
+            </div>
+            <div class="panel-row">
+              <span><strong>지방</strong> <span id="panelFat">0</span>g</span>
+              <span class="percent" id="panelFatPercent">0%</span>
+            </div>
+            <div class="panel-row indent">
+              <span>트랜스지방 <span id="panelTransFat">0</span>g</span>
+              <span class="percent"></span>
+            </div>
+            <div class="panel-row indent">
+              <span>포화지방 <span id="panelSaturatedFat">0</span>g</span>
+              <span class="percent" id="panelSaturatedFatPercent">0%</span>
+            </div>
+            <div class="panel-row">
+              <span><strong>콜레스테롤</strong> <span id="panelCholesterol">0</span>mg</span>
+              <span class="percent" id="panelCholesterolPercent">0%</span>
+            </div>
+            <div class="panel-row">
+              <span><strong>단백질</strong> <span id="panelProtein">0</span>g</span>
+              <span class="percent" id="panelProteinPercent">0%</span>
+            </div>
+            <div class="panel-footer">
+              1일 영양성분 기준치에 대한 비율(%)은 2,000kcal 기준이므로 개인의 필요 열량에 따라 다를 수 있습니다.
+            </div>
+          </div>
+        </div>
+        <div class="product-info">
+          <h3 class="info-title">상품 정보</h3>
+          <div class="info-table">
+            <div class="info-row"><div class="info-label">제조원</div><div class="info-value">에이푸드(주)</div></div>
+            <div class="info-row"><div class="info-label">유통전문판매원</div><div class="info-value">메디쏠라(주)</div></div>
+            <div class="info-row"><div class="info-label">소비기한</div><div class="info-value">전면 표시일까지</div></div>
+            <div class="info-row"><div class="info-label">식품유형</div><div class="info-value">당뇨환자용 식단형 식품(가열하여 섭취하는 냉동식품)</div></div>
+            <div class="info-row"><div class="info-label">보관방법</div><div class="info-value">냉동보관(-18°C 이하)</div></div>
+            <div class="info-row"><div class="info-label">고객센터</div><div class="info-value">1577-4180</div></div>
+          </div>
+        </div>
+        <div class="reviews-section">
+          <div class="reviews-header">
+            <h3 class="reviews-title">고객 후기</h3>
+            <span class="reviews-count">총 3건</span>
+          </div>
+          <div class="review-item">
+            <div class="review-header">
+              <div class="review-author-wrap"><span class="review-author">김**</span><div class="review-stars"><svg class="filled" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="filled" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="filled" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="filled" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="filled" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg></div></div>
+              <span class="review-date">2026.01.15</span>
+            </div>
+            <p class="review-content">맛있고 양도 적당해요. 재구매 의사 있습니다!</p>
+          </div>
+          <div class="review-item">
+            <div class="review-header">
+              <div class="review-author-wrap"><span class="review-author">이**</span><div class="review-stars"><svg class="filled" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="filled" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="filled" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="filled" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="empty" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg></div></div>
+              <span class="review-date">2026.01.10</span>
+            </div>
+            <p class="review-content">간도 적당하고 건강한 맛이에요. 다이어트에 좋은 것 같아요.</p>
+          </div>
+          <div class="review-item">
+            <div class="review-header">
+              <div class="review-author-wrap"><span class="review-author">박**</span><div class="review-stars"><svg class="filled" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="filled" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="filled" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="filled" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg class="filled" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg></div></div>
+              <span class="review-date">2026.01.05</span>
+            </div>
+            <p class="review-content">병원식 같지 않고 정말 맛있어요. 추천합니다.</p>
+          </div>
+        </div>
+        <div class="caution">
+          <p>• 개봉 후 빨리 드시기 바랍니다.</p>
+          <p>• 이미 냉동되었으니 해동 후 다시 냉동하지 마십시오.</p>
+          <p>• 피해보상기준은 소비자분쟁해결기준을 적용합니다.</p>
+          <p>• 부정·불량식품 신고는 국번없이 1399</p>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="qty-control">
+        <button class="qty-btn" id="detailQtyMinus" onclick="CustomDietBuilder.adjustDetailQty(-1)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg>
+        </button>
+        <span class="qty-value" id="detailQty">0</span>
+        <button class="qty-btn" onclick="CustomDietBuilder.adjustDetailQty(1)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+        </button>
+      </div>
+      <button class="btn-confirm" onclick="CustomDietBuilder.closeDetail()">
+        <span id="detailConfirmText">선택 안 함</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ====== FORM ====== -->
+<form id="frmView" name="frmView" method="post" action="../order/cart_ps.php">
+  <input type="hidden" name="mode" value="cartIn" />
+  <input type="hidden" name="cartMode" value="" />
+  <input type="hidden" name="scmNo" value="{=goodsView['scmNo']}" />
+  <input type="hidden" name="goodsNo[]" value="{=goodsView['goodsNo']}" />
+  <input type="hidden" name="optionSno[]" id="optionSno" value="" />
+  <input type="hidden" name="goodsCnt[]" value="1" />
+  <input type="hidden" name="goodsPriceSum[]" id="goodsPriceSum" value="0" />
+  <input type="hidden" name="addGoodsPriceSum[]" id="addGoodsPriceSum" value="0" />
+  <input type="hidden" name="set_total_price" id="setTotalPrice" value="0" />
+  <input type="hidden" name="isDefaultComponents[]" value="0" />
+  <input type="hidden" name="deliveryCollectFl" value="pre" />
+  <input type="hidden" name="useBundleGoods" value="1" />
+  <div id="componentGoodsInputs"></div>
+  <div id="addGoodsInputs"></div>
+</form>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="../js/custom-diet-builder.js?v=7"></script>
+<script>
+$(document).ready(function() {
+  console.log('[CustomDiet] goodsNo:', '{=goodsView.goodsNo}');
+  var _debugInfo = {?debugInfo}{=debugInfo}{:}null{/};
+  console.log('[CustomDiet] debugInfo:', _debugInfo);
+
+  var _menuData = {=addGoodsNutritionJson};
+  var _options = {=optionsJson};
+
+  var _premiumAddGoods = {?premiumAddGoodsJson}{=premiumAddGoodsJson}{:}null{/};
+
+  CustomDietBuilder.init({
+    goodsNo: '{=goodsView.goodsNo}',
+    goodsPrice: {=goodsView.goodsPrice},
+    menuData: _menuData || [],
+    options: _options || [],
+    premiumAddGoods: _premiumAddGoods,
+    {?conditionsJson}conditions: {=conditionsJson},{/}
+    {?userDataJson}userData: {=userDataJson},{/}
+    {?recommendedLinesJson}recommendedLines: {=recommendedLinesJson},{/}
+  });
+});
+</script>
+
+{ # footer }

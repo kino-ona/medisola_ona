@@ -1,0 +1,9 @@
+/* 회원가입 유도 push */
+.simple_join_push {position: fixed; bottom:-157px; width: 100%;  border: 1px solid #c5c5c5;background-color: #ffffff; color:#000000 !important;z-index: 10;-webkit-box-shadow: 0 -2px 10px 1px rgba(0,0,0,0.2);-moz-box-shadow: 0 -2px 10px 1px rgba(0,0,0,0.2);box-shadow: 0 -2px 10px 1px rgba(0,0,0,0.2);box-sizing:border-box; cursor:pointer;}
+.simple_join_push .sj_icon_box {width:32px; display:table-cell; vertical-align:middle; padding:20px 0 20px 20px; text-align:center;}
+.simple_join_push .sj_icon_box.type2 {position:absolute; top:50%; left:0; margin-top:-25px; padding:0 17px 0 20px;}
+.simple_join_push .sj_icon_box img {max-width:100%; width:50px;}
+.simple_join_push .sj_img_box {padding:0; text-align:center;}
+.simple_join_push .sj_img_box img {max-width:100%; vertical-align:top;width:100%;}
+.simple_join_push .sj_txt_box {display:table-cell; vertical-align:middle; letter-spacing:-0.5px; padding:20px 30px 20px 17px; font-size:11px;}
+.simple_join_push .ly_sj_close {display:inline-block; position:absolute; top:7px; right:6px; cursor:pointer; width:9px; height:9px; background:url('../img/etc/btn_ly_sj_close.png') no-repeat center; padding: 7px 8px 7px 8px; background-size:9px 9px; font-size:0; text-indent:-9999px;}

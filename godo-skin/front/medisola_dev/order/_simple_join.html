@@ -1,0 +1,307 @@
+{*** 회원가입 이벤트 | order/_simple_join.html ***}
+<input type="hidden" name="simpleJoin" value="{=simpleJoin}" />
+
+<!--{ ? gd_is_plus_shop(c.PLUSSHOP_CODE_SIMPLEJOIN) === true && gd_is_login() === false && joinEventOrder.useFl == 'y' && joinEventOrder.deviceType != 'mobile'}-->
+<div class="simple_join">
+    <!--{ ? joinEventOrder.bannerFl == 'y' }-->
+    <div class="sj_banner_box">
+        <!--{ ? joinEventOrder.bannerImageType == 'basic' }-->
+        <img src="../img/etc/img_sj_default.png" alt="{=__('주문 간단 가입 이벤트 배너')}" title="">
+        <!--{ : }-->
+        <img src="{=joinEventOrder.joinEventOrderImage}" alt="{=__('주문 간단 가입 이벤트 배너')}" title="">
+        <!--{ / }-->
+    </div>
+    <!--{ / }-->
+    <!-- //sj_banner_box -->
+    <div class="sj_join_box <!--{ ? joinEventOrder.bannerFl == 'n' }-->type2<!--{ / }-->">
+        <p class="tit">{=joinEventOrder.title}</p>
+        <div class="inner">
+            <div class="email_area input_area">
+                <div class="input_email">
+                    <input type="text" name="joinEmail" placeholder="{=__('이메일')}"/>
+                    <p class="min_txt joinEmail">{=__('이메일을 정확하게 입력해주세요.')}</p>
+                </div>
+                <select id="joinEmailDomain" class="chosen-select">
+                    <!--{ @ emailDomain }-->
+                    <option value="{=.key_}">{=.value_}</option>
+                    <!--{ / }-->
+                </select>
+            </div>
+            <div class="psw_area input_area">
+                <ul>
+                    <li>
+                        <input type="password" name="joinPw" placeholder="{=__('비밀번호')}"/>
+                        <p class="min_txt joinPw">{=__('최소 10 이상 입력해 주세요.')}</p>
+                    </li>
+                    <li>
+                        <input type="password" name="joinPwCheck" placeholder="{=__('비밀번호 확인')}"/>
+                        <p class="min_txt imp joinPwCheck">{=__('비밀번호가 서로 다릅니다.')}</p>
+                    </li>
+                </ul>
+            </div>
+            <div class="form_element">
+                <input type="checkbox" id="chk_sj_agree"/>
+                <label for="chk_sj_agree" class="check_s">
+                    <strong>{=__('주문자정보를 회원정보 사용에 동의합니다.')}</strong><br>
+                    본인은 만 14세 이상이며, <a href="#" class="btn_layer_agree">[{=serviceInfo.mallNm}] 이용약관</a>, <a href="#" class="btn_layer_privacy">개인정보 수집 및 이용</a> 내용을 확인하였으며 동의합니다.
+                </label>
+            </div>
+            <div class="btn_area">
+                <a href="#;" class="btn_sj_submit">{=__('간단가입')}</a>
+            </div>
+        </div>
+    </div>
+    <!-- //sj_join_box -->
+</div>
+<!-- //simple_join -->
+
+<!-- ly_pop -->
+<div class="ly_dim"></div>
+<div class="simple_join_layer">
+    <div class="layer_wrap_cont ly_simple_join">
+        <div class="ly_tit">
+            <h4>간단가입 완료</h4>
+        </div>
+        <div class="ly_cont">
+            <div class="scroll_box">
+                <strong>간단가입이 완료 되었습니다.</strong>
+                <p>아이디: <span class="id"></span></p>
+            </div>
+
+            <div class="benefit_box">
+                <strong>가입 혜택이 지급되었습니다.</strong>
+                <p class="mileage display-none">{=mileage.name}: <span></span>{=mileage.unit}</p>
+                <p class="coupon display-none"></p>
+            </div>
+
+            <div class="btn_center_box">
+                <button type="button" class="btn_ly_ok"><strong>확인</strong></button>
+            </div>
+        </div>
+        <!-- //ly_cont -->
+        <a href="" class="ly_close"><img src="../img/common/layer/btn_layer_close.png" alt="{=__('닫기')}"></a>
+    </div>
+    <!-- //layer_wrap_cont -->
+</div>
+<!-- //ly_pop -->
+
+<div class="layer_popup ly_ag layer_agree">
+    <div class="title">{=__('이용약관')}</div>
+    <div class="box_text">
+        {=nl2br(agreementInfo['content'])}
+    </div>
+    <div class="btn_wrap">
+        <a href="#" class="btn_close">닫기</a>
+    </div>
+</div>
+<div class="layer_popup ly_ag layer_privacy">
+    <div class="title">{=__('개인정보 수집 및 이용')}</div>
+    <div class="box_text">
+        {=nl2br(privateApproval['content'])}
+    </div>
+    <div class="btn_wrap">
+        <a href="#" class="btn_close">닫기</a>
+    </div>
+</div>
+
+<link type="text/css" rel="stylesheet" href="{=setBrowserCache('../css/gd_simple_join.css')}">
+<script type="text/javascript">
+    $(function(){
+        var simpleJoinFl = true;
+        //레이어 팝업 함수
+        gd_select_email_domain('joinEmail','joinEmailDomain');
+        function lyPopup(prm){
+            $(prm).css({
+                'position': 'fixed',
+                'left': '50%',
+                'top': '50%'
+            });
+
+            $(prm).css({
+                'margin-left': -$(prm).outerWidth() / 2 + 'px',
+                'margin-top': -$(prm).outerHeight() / 2 + 'px'
+            });
+
+            $(prm).show();
+            $('.ly_dim').addClass('on');
+        }
+
+        //팝업
+        $('.simple_join .btn_sj_submit').on({
+            'click':function(e){
+                if(!simpleJoinFl) return false;
+                e.preventDefault();
+                simpleJoinFl = false;
+                var email = $('input[name=joinEmail]').val();
+                var pw = $('input[name=joinPw]').val();
+                var pwCheck = $('input[name=joinPwCheck]').val();
+
+                if(!email) {
+                    simpleJoinFl = true;
+                    alert('이메일을 입력해주세요.');
+                    return false;
+                }
+                if($('.sj_join_box  .min_txt').is(':visible')) {
+                    simpleJoinFl = true;
+                    alert($('.sj_join_box  .min_txt:visible:eq(0)').text());
+                    return false;
+                }
+                if(!pw) {
+                    simpleJoinFl = true;
+                    alert('비밀번호를 입력해주세요.');
+                    return false;
+                }
+                if(!pwCheck) {
+                    simpleJoinFl = true;
+                    alert('비밀번호 확인을 입력해주세요.');
+                    return false;
+                }
+                if(pw != pwCheck) {
+                    simpleJoinFl = true;
+                    alert('비밀번호가 서로 다릅니다.');
+                    return false;
+                }
+                if($('#chk_sj_agree').is(':checked') == false) {
+                    simpleJoinFl = true;
+                    alert('사용 동의 항목을 체크해주세요.');
+                    return false;
+                }
+
+                var data = {
+                    mode: 'simpleJoin',
+                    memId: email,
+                    email: email,
+                    memPw: pw
+                }
+                var mileage = 0;
+                var coupon;
+                var $ajax = $.ajax('../member/member_ps.php', {type: "post", data: data});
+                $ajax.done(function (data, textStatus, jqXHR) {
+                    simpleJoinFl = true;
+                    if(!data.result) {
+                        alert(data.message);
+                        return false;
+                    }
+                    $('.simple_join_layer .id').text(email);
+                    if(data.mileage) {
+                        mileage = parseInt(data.mileage);
+                        if(mileage > 0) {
+                            $('.simple_join_layer .mileage span').text(mileage);
+                            $('.simple_join_layer .mileage').show();
+                        }
+                    }
+                    if(data.coupon != 'false') {
+                        coupon = data.coupon;
+                        if(coupon) $('.simple_join_layer .coupon').text(coupon).show();
+                    }
+                    if(mileage > 0 || coupon) {
+                        $('.simple_join_layer .ly_simple_join').addClass('type2');
+                    }
+                    var lySj = '.simple_join_layer';
+                    lyPopup(lySj);
+                });
+
+            }
+        });
+
+        //레이어 팝업 리사이즈시
+        $(window).resize(function() {
+            $('.simple_join_layer').css({
+                'position': 'fixed',
+                'left': '50%',
+                'top': '50%'
+            });
+
+            $('.simple_join_layer').css({
+                'margin-left': -$('.simple_join_layer').outerWidth() / 2 + 'px',
+                'margin-top': -$('.simple_join_layer').outerHeight() / 2 + 'px'
+            });
+
+        });
+
+        //레이어 팝업 닫기
+        $('.simple_join_layer .ly_close').on({
+            'click':function(e){
+                location.reload();
+            }
+        });
+
+        $('.simple_join_layer .btn_ly_ok').on({
+            'click': function(e){
+                location.reload();
+            }
+        });
+
+        $('input[name=joinPwCheck]').focusout(function(){
+            if($('input[name=joinPw]').val() != $(this).val()) {
+                $('.min_txt.joinPwCheck').show();
+            } else {
+                $('.min_txt.joinPwCheck').hide();
+            }
+        });
+        $('input[name=joinPw]').focusout(function(){
+            simpleJoinFl = false;
+            ajax_validate($(this), {
+                memPw: $(this).val(), mode: "validateMemberPassword"
+            });
+        });
+        $('input[name=joinEmail]').focusout(function(){
+            simpleJoinFl = false;
+            ajax_validate($(this), {
+                memId: $(this).val(), email: $(this).val(), mode: "overlapMemId"
+            });
+        });
+
+        function ajax_validate($target, data) {
+            var $ajax = $.ajax('../member/member_ps.php', {type: "post", data: data});
+            var mode = data.mode;
+            var name = $target.attr('name');
+            $ajax.done(function (data, textStatus, jqXHR) {
+                var code = data.code;
+                var message = data.message;
+                if (_.isUndefined(code) && _.isUndefined(message)) {
+                    $('.min_txt.'+name).hide();
+                    if(mode == 'overlapMemId') {
+                        ajax_validate($target, {
+                            email: $target.val(), mode: "overlapEmail"
+                        });
+                    } else {
+                        simpleJoinFl = true;
+                    }
+                } else {
+                    if(mode == 'overlapMemId') message = message.replace(/아이디는/g, '이메일은').replace(/아이디/g, '이메일');
+                    $('.min_txt.'+name).html(message).show();
+                    simpleJoinFl = true;
+                }
+            });
+        }
+
+        //이용약관
+        $('.btn_layer_agree').on({
+            'click':function(e){
+                e.preventDefault();
+                var lySj = '.layer_agree';
+                lyPopup(lySj);
+            }
+        });
+
+        //개인정보 수집 및 이용
+        $('.btn_layer_privacy').on({
+            'click':function(e){
+                e.preventDefault();
+                var lySj = '.layer_privacy';
+                lyPopup(lySj);
+            }
+        });
+
+        //레이어 팝업 닫기
+        $('.layer_popup .btn_close').on({
+            'click':function(e){
+                e.preventDefault();
+                $(this).parent().parent().hide();
+                $('.ly_dim').removeClass('on');
+            }
+        });
+    });
+</script>
+<!--{ / }-->

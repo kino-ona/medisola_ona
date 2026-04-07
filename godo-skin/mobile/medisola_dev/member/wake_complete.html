@@ -1,0 +1,33 @@
+{*** 휴면회원 해제 완료 | member/wake_complete.php ***}
+{ # header }
+<div class="wake_complete">
+    <h3>{=__('정상적으로 %s휴면해제%s 처리되었습니다.', '<strong>', '</strong>')}</h3>
+    <!--{ ? wakeCoupon }-->
+    <div class="wake_wrap">
+        <img src="../img/etc/wake_m.png" alt="{=__('쿠폰')} {=__('이미지')}">
+        <span class="wake_inner">
+			<strong>휴면해제 감사 쿠폰이 발급되었습니다.</strong>
+			<ul>
+				<!--{ @ wakeCoupon }-->
+                <li><span>{=.couponNm}</span></li>
+                <!--{ / }-->
+			</ul>
+		</span>
+    </div>
+    <!--{ / }-->
+    <button type="button" class="wake_btn" id="btnConfirm">{=__('확인')}</button>
+</div>
+<script type="text/javascript">
+    (function ($, window, document, undefined) {
+        $(document).ready(function () {
+            $('#btnConfirm').click(function () {
+                <!--{ ? loginFl == 'y'}-->
+                window.location.href = '/';
+                <!--{:}-->
+                window.location.href = '../member/login.php';
+                <!--{/}-->
+            });
+        });
+    })($, window, document);
+</script>
+{ # footer }

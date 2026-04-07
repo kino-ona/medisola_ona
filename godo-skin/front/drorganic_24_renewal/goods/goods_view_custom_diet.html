@@ -1,0 +1,281 @@
+{*** 나만의 식단 플랜 | goods/goods_view_custom_diet.php ***}
+{ # header }
+<link rel="stylesheet" type="text/css" href="../css/custom-diet.css?v=8" />
+
+<body class="diet-page">
+
+<!-- ====== DESKTOP LAYOUT CONTAINER ====== -->
+<div id="menuSelectionScreen" class="desktop-layout">
+
+  <!-- ====== LEFT SIDEBAR (Desktop Only) ====== -->
+  <aside class="desktop-sidebar">
+    <!-- Sidebar Header -->
+    <div class="sidebar-header">
+      <button class="sidebar-back-btn" onclick="CustomDietBuilder.goBack()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+      </button>
+      <h1 class="sidebar-title">나만의 식단 플랜</h1>
+      <p class="sidebar-subtitle">자신에게 필요한 식단을 계획해보세요.</p>
+    </div>
+
+    <!-- Medisola Nutrition Suggestion (Desktop Collapsible) -->
+    <div id="desktopSuggestionCard" class="desktop-suggestion" style="display:none;">
+      <button class="suggestion-toggle" onclick="CustomDietBuilder.toggleSuggestion()">
+        <div class="suggestion-toggle-left">
+          <div class="suggestion-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"></path><path d="M7 2v20"></path><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"></path></svg>
+          </div>
+          <div>
+            <div class="suggestion-title">메디쏠라 영양 제안</div>
+            <div class="suggestion-desc">맞춤 케어 솔루션</div>
+          </div>
+        </div>
+        <svg class="suggestion-chevron" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="suggestion-content" id="desktopSuggestionContent">
+        <!-- JS에서 동적 렌더링 -->
+      </div>
+    </div>
+
+    <!-- Quantity Selector (Desktop) -->
+    <div class="sidebar-quantity">
+      <p class="quantity-label">나만의 식단구성</p>
+      <div class="quantity-selector desktop" id="desktopQuantitySelector">
+        <!-- JS에서 서버 옵션 기반 동적 생성 -->
+      </div>
+    </div>
+
+    <!-- Selected Menus Preview (Desktop) -->
+    <div class="sidebar-selected">
+      <div class="selected-header">
+        <div>
+          <span class="selected-title">선택한 메뉴</span>
+          <p class="selected-subtitle">클릭하여 제거</p>
+        </div>
+        <span class="selected-count" id="desktopSelectedCount"><span id="desktopCurrentCount">0</span> / <span id="desktopTotalCount">10</span></span>
+      </div>
+      <div class="selected-list" id="desktopSelectedList">
+        <div class="empty-state">메뉴를 클릭하여 추가하세요</div>
+      </div>
+    </div>
+
+    <!-- Desktop CTA Button -->
+    <div class="sidebar-cta">
+      <button id="desktopCtaButton" class="desktop-cta-btn" disabled onclick="CustomDietBuilder.showSummary()">
+        <span>식단 선택 완료</span>
+        <svg id="desktopCtaCheckIcon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><path d="M20 6 9 17l-5-5"/></svg>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ====== MAIN CONTENT ====== -->
+  <div class="main-content">
+
+    <!-- Mobile Header (모바일에만 표시) -->
+    <header class="mobile-header">
+      <button class="back-btn" onclick="CustomDietBuilder.goBack()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+      </button>
+      <h1 class="header-title">나만의 식단 플랜</h1>
+      <button class="filter-btn" onclick="CustomDietBuilder.showAdvancedFilters()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="21" x2="14" y1="4" y2="4"/><line x1="10" x2="3" y1="4" y2="4"/><line x1="21" x2="12" y1="12" y2="12"/><line x1="8" x2="3" y1="12" y2="12"/><line x1="21" x2="16" y1="20" y2="20"/><line x1="12" x2="3" y1="20" y2="20"/><line x1="14" x2="14" y1="2" y2="6"/><line x1="8" x2="8" y1="10" y2="14"/><line x1="16" x2="16" y1="18" y2="22"/></svg>
+        <span class="filter-badge" style="display:none;"></span>
+      </button>
+    </header>
+
+    <!-- Desktop Header (데스크톱에만 표시) -->
+    <header class="desktop-header">
+      <div class="category-filters desktop scrollbar-hide" id="desktopCategoryFilters">
+        <!-- JS에서 동적 생성 (extractDynamicFilters) -->
+      </div>
+      <button class="desktop-filter-btn" onclick="CustomDietBuilder.showAdvancedFilters()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="21" x2="14" y1="4" y2="4"/><line x1="10" x2="3" y1="4" y2="4"/><line x1="21" x2="12" y1="12" y2="12"/><line x1="8" x2="3" y1="12" y2="12"/><line x1="21" x2="16" y1="20" y2="20"/><line x1="12" x2="3" y1="20" y2="20"/><line x1="14" x2="14" y1="2" y2="6"/><line x1="8" x2="8" y1="10" y2="14"/><line x1="16" x2="16" y1="18" y2="22"/></svg>
+        <span class="filter-badge" style="display:none;"></span>
+      </button>
+    </header>
+
+    <!-- Mobile Quantity Selector -->
+    <div class="mobile-quantity">
+      <div class="quantity-selector mobile" id="mobileQuantitySelector">
+        <!-- JS에서 서버 옵션 기반 동적 생성 -->
+      </div>
+    </div>
+
+    <!-- Mobile Selected Preview (Sticky) -->
+    <div class="mobile-selected-preview">
+      <div class="preview-header">
+        <span class="preview-title">선택한 메뉴</span>
+        <span class="preview-count" id="mobileSelectedCount"><span id="mobileCurrentCount">0</span> / <span id="mobileTotalCount">10</span></span>
+      </div>
+      <div id="mobileSelectedItems" class="selected-items scrollbar-hide">
+        <div class="empty-message" id="mobileEmptyMessage">아래 메뉴를 터치하여 추가하세요</div>
+      </div>
+    </div>
+
+    <!-- Mobile Category Filters -->
+    <div class="mobile-category-filters">
+      <div class="category-filters mobile scrollbar-hide" id="mobileCategoryFilters">
+        <!-- JS에서 동적 생성 (extractDynamicFilters) -->
+      </div>
+    </div>
+
+    <!-- Menu Sections -->
+    <div id="menuSections" class="menu-sections">
+      <!-- JS에서 동적 생성 -->
+      <div class="loading-message">메뉴를 불러오는 중...</div>
+    </div>
+
+    <!-- Mobile Bottom CTA -->
+    <div class="mobile-bottom-cta">
+      <div class="cta-info">
+        <span class="cta-count"><span id="mobileCtaTotalCount">10</span>식 중 <span class="highlight" id="mobileCtaSelectedCount">0</span>식 선택됨</span>
+      </div>
+      <button id="mobileCtaButton" class="cta-btn" disabled onclick="CustomDietBuilder.showSummary()">
+        <span>식단 선택 완료</span>
+        <svg id="mobileCtaCheckIcon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><path d="M20 6 9 17l-5-5"/></svg>
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ====== ADVANCED FILTERS MODAL ====== -->
+<div id="advancedFiltersOverlay" class="modal-overlay" style="display:none;" onclick="CustomDietBuilder.hideAdvancedFilters()">
+  <div class="advanced-filters" onclick="event.stopPropagation()">
+    <div class="filters-header">
+      <h3 class="filters-title">고급 옵션</h3>
+      <button class="filters-close" onclick="CustomDietBuilder.hideAdvancedFilters()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+    </div>
+    <div class="filter-group">
+      <div class="filter-header">
+        <label class="filter-label">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg>
+          최소 단백질
+        </label>
+        <span class="filter-value"><span id="proteinValue">0</span>g 이상</span>
+      </div>
+      <input type="range" id="filterProtein" min="0" max="40" step="1" value="0" oninput="CustomDietBuilder.updateFilterValue('protein', this.value)">
+      <div class="filter-range-labels">
+        <span>0g</span>
+        <span>40g</span>
+      </div>
+    </div>
+    <div class="filter-group">
+      <div class="filter-header">
+        <label class="filter-label">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16.3c2.2 0 4-1.83 4-4.05 0-1.16-.57-2.26-1.71-3.19S7.29 6.75 7 5.3c-.29 1.45-1.14 2.84-2.29 3.76S3 11.1 3 12.25c0 2.22 1.8 4.05 4 4.05z"/><path d="M12.56 6.6A10.97 10.97 0 0 0 14 3.02c.5 2.5 2 4.9 4 6.5s3 3.5 3 5.5a6.98 6.98 0 0 1-11.91 4.97"/></svg>
+          최대 나트륨
+        </label>
+        <span class="filter-value"><span id="sodiumValue">700</span>mg 이하</span>
+      </div>
+      <input type="range" id="filterSodium" min="200" max="700" step="10" value="700" oninput="CustomDietBuilder.updateFilterValue('sodium', this.value)">
+      <div class="filter-range-labels">
+        <span>200mg</span>
+        <span>700mg</span>
+      </div>
+    </div>
+    <div class="filter-group">
+      <div class="filter-header">
+        <label class="filter-label">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+          최대 칼로리
+        </label>
+        <span class="filter-value"><span id="caloriesValue">700</span>kcal 이하</span>
+      </div>
+      <input type="range" id="filterCalories" min="300" max="700" step="10" value="700" oninput="CustomDietBuilder.updateFilterValue('calories', this.value)">
+      <div class="filter-range-labels">
+        <span>300kcal</span>
+        <span>700kcal</span>
+      </div>
+    </div>
+    <div class="filter-actions">
+      <button class="btn-reset" onclick="CustomDietBuilder.resetFilters()">초기화</button>
+      <button class="btn-apply" onclick="CustomDietBuilder.applyFilters()">적용하기</button>
+    </div>
+  </div>
+</div>
+
+<!-- 상품 상세 이미지 모달 스타일 (임시) -->
+<style>
+.detail-product-image-wrap img { width:100% !important; height:auto !important; display:block; }
+</style>
+<!-- ====== MENU DETAIL MODAL (V0 Bottom Sheet) ====== -->
+<div id="menuDetailModal" class="modal-overlay" style="display:none;" onclick="CustomDietBuilder.closeDetail()">
+  <div class="detail-modal" onclick="event.stopPropagation()">
+    <div class="modal-body">
+      <!-- 상품 상세 이미지 모드 (임시) — 추후 상세 정보 모달로 교체 예정 -->
+      <div style="position:sticky; top:0; z-index:10; display:flex; justify-content:flex-end; padding:12px 12px 0;">
+        <button class="detail-close" onclick="CustomDietBuilder.closeDetail()" style="background:rgba(0,0,0,0.4); border:none; border-radius:50%; width:36px; height:36px; display:flex; align-items:center; justify-content:center; cursor:pointer;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+      </div>
+      <div style="margin-top:-48px;" class="detail-product-image-wrap">
+        <img id="detailProductImage" src="" alt="" style="width:100%; display:block;">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="qty-control">
+        <button class="qty-btn" id="detailQtyMinus" onclick="CustomDietBuilder.adjustDetailQty(-1)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg>
+        </button>
+        <span class="qty-value" id="detailQty">0</span>
+        <button class="qty-btn" onclick="CustomDietBuilder.adjustDetailQty(1)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+        </button>
+      </div>
+      <button class="btn-confirm" onclick="CustomDietBuilder.closeDetail()">
+        <span id="detailConfirmText">선택 안 함</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ====== FORM ====== -->
+<form id="frmView" name="frmView" method="post" action="../order/cart_ps.php">
+  <input type="hidden" name="mode" value="cartIn" />
+  <input type="hidden" name="cartMode" value="" />
+  <input type="hidden" name="scmNo" value="{=goodsView['scmNo']}" />
+  <input type="hidden" name="goodsNo[]" value="{=goodsView['goodsNo']}" />
+  <input type="hidden" name="optionSno[]" id="optionSno" value="" />
+  <input type="hidden" name="goodsCnt[]" value="1" />
+  <input type="hidden" name="goodsPriceSum[]" id="goodsPriceSum" value="0" />
+  <input type="hidden" name="addGoodsPriceSum[]" id="addGoodsPriceSum" value="0" />
+  <input type="hidden" name="set_total_price" id="setTotalPrice" value="0" />
+  <input type="hidden" name="isDefaultComponents[]" value="0" />
+  <input type="hidden" name="deliveryCollectFl" value="pre" />
+  <input type="hidden" name="useBundleGoods" value="1" />
+  <div id="componentGoodsInputs"></div>
+  <div id="addGoodsInputs"></div>
+</form>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="../js/nutrition-config.js?v=3"></script>
+<script src="../js/custom-diet-builder.js?v=10"></script>
+<script>
+$(document).ready(function() {
+  console.log('[CustomDiet] goodsNo:', '{=goodsView.goodsNo}');
+  var _debugInfo = {?debugInfo}{=debugInfo}{:}null{/};
+  console.log('[CustomDiet] debugInfo:', _debugInfo);
+
+  var _menuData = {=addGoodsNutritionJson};
+  var _options = {=optionsJson};
+
+  var _premiumAddGoods = {?premiumAddGoodsJson}{=premiumAddGoodsJson}{:}null{/};
+
+  CustomDietBuilder.init({
+    goodsNo: '{=goodsView.goodsNo}',
+    goodsPrice: {=goodsView.goodsPrice},
+    menuData: _menuData || [],
+    options: _options || [],
+    premiumAddGoods: _premiumAddGoods,
+    {?conditionsJson}conditions: {=conditionsJson},{/}
+    {?userDataJson}userData: {=userDataJson},{/}
+    {?recommendedLinesJson}recommendedLines: {=recommendedLinesJson},{/}
+    {?recommendedDiseaseDietsJson}recommendedDiseaseDiets: {=recommendedDiseaseDietsJson},{/}
+  });
+});
+</script>
+
+{ # footer }

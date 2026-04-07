@@ -1,0 +1,138 @@
+{*** 상품 검색 | goods/goods_search.php ***}
+{#header}
+<div class="goods_search">
+	<div class="tit">
+		<p class="keyword">{=keyword} </p>
+		<p class="prd_num">{=__('상품 수')} <span>{=number_format(page->recode['total'])}</span></p>
+		<!--{ ? paycosearchUse }-->
+		<p class="payco_banner"><img src="../img/etc/payco_search.png" alt="Powered by PAYCO Search" /></p>
+		<!--{ / }-->
+	</div>
+	<div id="goodslist" class="goods_search_content">
+		<div class="goods_top_box">
+			<div class="goods_arr_box">
+				<div class="goods_sort">
+					<div class="inp_sel">
+						<select name="goods_sort" onchange="gd_get_list(1,true);">
+							<option value="">{=__('상품정렬')}</option>
+							<option value="date">{=__('등록순')}</option>
+							<option value="price_asc">{=__('낮은가격순')}</option>
+							<option value="price_dsc">{=__('높은가격순')}</option>
+						</select>
+					</div>
+				</div>
+				<div class="goods_view_type">
+					<input type="hidden" name="displayType" value="{themeInfo.displayType}" />
+					<ul>
+						<li><button class="<!--{ ? themeInfo.displayType =='02' }-->on<!--{ / }-->" data-key="02" >list</button></li>
+						<li><button class="<!--{ ? themeInfo.displayType =='09' }-->on<!--{ / }-->" data-key="09">gallery_type1</button></li>
+						<li><button class="<!--{ ? themeInfo.displayType =='01' }-->on<!--{ / }-->" data-key="01">gallery_type2</button></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<div class="goods_list_box">
+			<ul class="goods_product_list">{=includeFile('goods/list/list_' + themeInfo.displayType + '.html')}</ul>
+			<div class="btn_box">
+				<button type="button" class="more_btn" data-page="2" >{=__('더보기')}</button>
+			</div>
+			<div class="loading_img"></div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	<!--
+	var key{gGlobal.locale} = [];
+	key{gGlobal.locale}['{keyword}'] = {
+		html: 'html{gGlobal.locale}{keyword}',
+		page: 'page{gGlobal.locale}{keyword}',
+		viewType: 'viewType{gGlobal.locale}{keyword}',
+		sortType: 'sortType{gGlobal.locale}{keyword}',
+		endFlag: 'endflag{gGlobal.locale}{keyword}',
+	};
+
+	var gdStorage = gd_load_session(key{gGlobal.locale}['{keyword}'].html);
+	var gdPage = gd_load_session(key{gGlobal.locale}['{keyword}'].page);
+	var gdViewType = gd_load_session(key{gGlobal.locale}['{keyword}'].viewType);
+	var gdSortType = gd_load_session(key{gGlobal.locale}['{keyword}'].sortType);
+	var endFlag = gd_load_session(key{gGlobal.locale}['{keyword}'].endFlag);
+
+	$(document).ready(function(){
+
+		if (gdStorage) {
+			$(".goods_product_list").html(gdStorage);
+			$('.btn_box button').data('page',parseInt(gdPage)+1);
+			$('.goods_view_type ul li button [data-key!="' + gdViewType + '"]').removeClass('on');
+			$('.goods_view_type ul li button [data-key="' + gdViewType + '"]').addClass('on');
+			$('input[name="displayType"]').val(gdViewType);
+			$('select[name="goods_sort"]>option[value="' + gdSortType + '"]').prop('selected', true);
+		}
+
+		$('.btn_box button').on('click', function(e){
+			gd_get_list($(this).data('page'), false);
+		});
+
+		$('.goods_view_type button').on('click', function(e){
+			$(".goods_view_type button").removeClass('on');
+			$('input[name="displayType"]').val($(this).data('key'));
+			$(this).addClass('on');
+			gd_get_list('1',true);
+		});
+	});
+	function set_display_type() {
+
+	}
+
+	function before_more_btn() {
+        $('.goods_product_list').on('click', function(){return false;})
+        $('.btn_box button').hide();
+        $('.loading_img').append('<img src="../img/icon/icon_loading.gif" alt="{=__(\'로딩 중\')}">');
+    }
+
+    function after_more_btn() {
+        $('.goods_product_list').off('click');
+        $('.btn_box button').show();
+        $('.loading_img img').remove();
+    }
+
+	var endflag = false;
+	function gd_get_list(page, reloadFl){
+        var displayType = $('input[name="displayType"]').val();
+        var sort =  $('select[name="goods_sort"]').val();
+
+        $.ajax({
+            method          : 'GET',
+            url             : './goods_search.php',
+            data            : {'mode' : 'get_search_list', 'keyword' : '{keyword}', 'displayType' : displayType, 'page' : page, 'sort' : sort},
+            beforeSend     : function (){
+                before_more_btn();
+            },
+            success         : function (data) {
+                after_more_btn();
+
+                if($(data).filter("li.no_bx").length) {
+                    if(page =='1' && endflag == false) {
+                        $(".goods_product_list").append(data);
+                        gd_save_session(key{gGlobal.locale}['{keyword}'].endFlag, true);
+                        gd_save_session(key{gGlobal.locale}['{keyword}'].html, $('.goods_product_list').html());
+                        endflag = true;
+                    } else {
+                        alert("{=__('더이상 상품이 없습니다.')}");
+                    }
+                } else {
+                    if(reloadFl === true) $(".goods_product_list").html(data);
+                    else  $(".goods_product_list").append(data);
+                    $('.btn_box button').data('page',parseInt(page)+1);
+                    gd_save_session(key{gGlobal.locale}['{keyword}'].html, $('.goods_product_list').html());
+                    gd_save_session(key{gGlobal.locale}['{keyword}'].page, parseInt(page));
+                }
+            }
+        });
+        gd_save_session(key{gGlobal.locale}['{keyword}'].sortType, sort);
+        gd_save_session(key{gGlobal.locale}['{keyword}'].viewType, displayType);
+	}
+	//-->
+</script>
+{=fbSearchScript}
+{#footer}

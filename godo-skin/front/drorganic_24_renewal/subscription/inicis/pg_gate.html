@@ -1,0 +1,75 @@
+{*** 정기결제 카드등록 | subscription/pg_gate.html' ***}
+<!--{ ? subCfg['useMode'] == 'real' }-->
+<script language="javascript" type="text/javascript" src="https://stdpay.inicis.com/stdjs/INIStdPay.js"
+        charset="UTF-8"></script>
+<!--{ : }-->
+<script language="javascript" type="text/javascript" src="https://stgstdpay.inicis.com/stdjs/INIStdPay.js"
+        charset="UTF-8"></script>
+<!--{ / }-->
+
+<form name='pgfrm' id="SendPayForm_id" name="" method="POST">
+    <input type="hidden" name="version" value="1.0">
+    <input type="hidden" name="mid" value="{subCfg.mid}">
+    <input type="hidden" name="goodname" value="결제카드등록(결제되지 않음)">
+    <input type="hidden" name="oid" value="{subCfg.uid}">
+    <input type="hidden" name="price" value="1000">
+    <input type="hidden" name="currency" value="WON">
+    <input type="hidden" name="buyername" value="{member.memNm}">
+    <input type="hidden" name="buyertel"
+           value="<!--{ ? member.cellPhone }-->{member.cellPhone}<!--{ : }-->000-0000-0000<!--{ / }-->">
+    <input type="hidden" name="buyeremail"
+           value="<!--{ ? member.email }-->{member.email}<!--{ : }-->0000000@0000.com<!--{ / }-->">
+    <input type="hidden" name="timestamp" value="">
+    <input type="hidden" name="signature" value="">
+    <input type="hidden" name="returnUrl" value="{subCfg.domain}/subscription/inicis/card_register.php">
+    <input type="hidden" name="mKey" value="{subCfg.mKey}">
+    <input type="hidden" name="offerPeriod" value="M2">
+    <input type="hidden" name="gopaymethod" value="">
+    <input type="hidden" id="acceptmethod" name="acceptmethod" value="billauth(card)">
+    <input type="hidden" id="billPrint_msg" name="billPrint_msg" value="1000원은 최소 신청금액이나, 결제되지 않으며 결제카드만 등록이 됩니다.">
+    <input type="hidden" name="languageView" value="ko">
+    <input type="hidden" name="charset" value="UTF-8">
+    <input type="hidden" style="width:100%;" name="payViewType" value="overlay">
+    <input type="hidden" style="width:100%;" name="closeUrl" value="{subCfg['domain']}/subscription/inicis/close.php">
+    <input type="hidden" style="width:100%;" name="popupUrl" value="{subCfg['domain']}/subscription/inicis/popup.php">
+    <input type="hidden" style="width:100%;" name="merchantData" value="">
+</form>
+
+<script>
+    function pgRegisterCallback(pass) {
+        if (typeof pass != "undefined" && pass != "") {
+            //pgfrm.merchantData.value= pass;
+
+            var delivery_Ea = "";
+
+            if (!$(".deliveryEa").val())
+                delivery_Ea = "{deliveryEa}";
+            else
+                delivery_Ea = $(".deliveryEa").val();
+
+            pgfrm.merchantData.value = pass + "||{member.memNo}||{period}||" + delivery_Ea + "||{cartTmpSno}";
+
+            /* PG 파라미터 생성 */
+            $.ajax({
+                url: "../subscription/inicis/ajax.php",
+                type: "post",
+                dataType: "json",
+                data: {mode: "getPGParams", uid: '{subCfg.uid}', price: 1000},
+                async: false,
+                success: function (data) {
+                    if (data) {
+                        pgfrm.signature.value = data.sign;
+                        pgfrm.timestamp.value = data.timestamp;
+                        wm.layer.close();
+                        INIStdPay.pay('SendPayForm_id');
+                    } else {
+                        alert("결제카드 등록 필수 데이터를 가져오는데 실패하였습니다.");
+                    }
+                },
+                error: function (res) {
+                    console.log(res);
+                }
+            });
+        }
+    }
+</script>

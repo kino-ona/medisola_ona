@@ -1,0 +1,107 @@
+{*** 마이페이지 주문상품리스트 | mypage/_scheduled_delivery_list.php ***}
+<div class="order_goods_list">
+    <!--{ @ sectionedDeliveryList }-->
+        <p class="order_top_date">
+            주문번호 {=.key_}
+        </p>
+        <!--{ @ .value_ }-->
+        <div class="orderlist_wrap">
+            <div class="order_number_box">
+                <div class="order_number">
+                    <div style="color: #333">
+                        <span style="font-size:16px; margin: 0 4px; background-color: {?..canChange}black{:}#aaa{/}; border-radius: 4px;padding: 0 10px; color: white">
+                            { ..round }
+                        </span>
+                        <span style="color: {?..canChange}black{:}#aaa{/};">
+                            차 배송 [{=..deliveryStatusText}]
+                        </span>
+                    </div>
+                    <div class="order_number_right" style="color: {?..canChange}#25347a{:}#aaa{/};">
+                        {=..estimatedDeliveryDate}
+                    </div>
+                </div>
+            </div>
+            <ul class="my_goods">
+                <li>
+                    <div class="info">
+                        <a href="../mypage/order_view.php?orderNo={.orderNo}">
+                            <div class="itemhead">
+                                <div class="img">{..goodsImage}</div>
+                            </div>
+                            <div class="itembody">
+                                <dl style="color: {?..canChange}black{:}#aaa{/};">
+                                    <dt class="prd_name">{..goodsNm}</dt>
+                                    <!--
+                                    { ? ..optionInfo }
+                                        { @ ..optionInfo }
+                                    -->
+                                    <dd class="prd_option">
+                                        {...value_.optionName} :
+                                        {...value_.optionValue} 중 {..deliveryGoodsCnt -1}식
+                                    </dd>
+                                    <!--
+                                        { / }
+                                    { / }
+                                    { ? ..optionTextInfo }
+                                            { @ ..optionTextInfo }
+                                    -->
+                                    <dd class="prd_option">
+                                        {...value_.optionName} :
+                                        {...value_.optionValue} 중 {..deliveryGoodsCnt -1}식
+                                        <!--{ ? ...value_.optionTextPrice != 0 && optionPriceFl == 'y' }-->
+                                        (<!--{ ? ...value_.optionTextPrice > 0 }-->+<!--{ / }-->{=gd_global_order_currency_display(...value_.optionTextPrice)})
+                                        <!--{ / }-->
+                                    </dd>
+                                    <!--
+                                            { / }
+                                        { / }
+                                    -->
+                                </dl>
+                            </div>
+                        </a>
+                        <div class="order_info">
+                            <div class="deliver_info_box">
+                                <div class="info2">
+                                    {=__('수량')} : {..goodsCnt} | {=gd_global_order_currency_display((..goodsPrice + ..optionPrice + ..optionTextPrice) * ..goodsCnt, ..exchangeRate, ..currencyPolicy)}
+                                </div>
+                                {?..canChange && (empty(..firstDelivery) || ..firstDelivery == 0)}
+                                <div class="ing_chk">
+                                    <a href="../mypage/layer_estimated_delivery_date.php?orderNo={..orderNo}&scheduledDeliverySno={..sno}&isFreshDelivery={?..firstDelivery && ..firstDelivery != '0'}true{:}false{/}"
+                                        data-toggle="modal"
+                                        data-target="#popupEstimatedDeliveryDate"
+                                        data-type="post"
+                                        data-cache="false"
+                                        class="order_ing_btn"
+                                        style="max-width: 100px; overflow: hidden">배송일 변경</a>
+                                </div>
+                                {:}
+                                <div class="ing_chk">
+                                    <span class="order_ing_btn" style="max-width: 100px; overflow: hidden">냉장 배송 변경 불가</span>
+                                </div>
+                                { / }
+                            
+                                {? ..invoiceNo && ..invoiceCompanyName}
+                                <div class="ing_chk">
+                                    <span style="margin-right: 4px">{..invoiceCompanyName}</span>
+                                    <a class="delivery_trace_btn"
+                                        href="../share/delivery_trace.php?invoiceCompanySno={..invoiceCompanySno}&invoiceNo={..invoiceNo}"
+                                        data-invoice-company-sno="{..invoiceCompanySno}"
+                                        data-invoice-no="{..invoiceNo}"
+                                        target="_blank">{=__('배송추적')}</a>
+                                </div>
+                                {/}
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <!--{ / // @ .value_}-->
+    <!--{ / // @ sectionedDeliveryList}-->
+
+    <!--{? !sectionedDeliveryList }-->
+    <div class="my_goods no">
+        <p>{=__('회차배송 내역이 없습니다.')}</p>
+    </div>
+    <!--{/ // !sectionedDeliveryList}-->
+</div>

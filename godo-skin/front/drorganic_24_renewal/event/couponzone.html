@@ -1,0 +1,166 @@
+{*** 쿠폰존 | event/couponzone.php ***}
+{ # header }
+<div class="content">
+    <div class="mypage_cont">
+        <div class="coupon_content">
+            <h2>쿠폰존</h2>
+            <!--{ ? couponConfig.pcContents }-->
+            <div class="cp_zone_wrap">
+                {=couponConfig.pcContents}
+            </div>
+            <!--{ / }-->
+
+            <!--{ ? couponList }-->
+            <!--{ @ couponList }-->
+            <div class="cp_list_wrap <!--{ ? .index_ > 0 }-->margin-type<!--{ / }-->">
+                <div class="list_top">
+                    <span class="title">{=.title}</span>
+                    <!--{ ? gd_is_login() === false }-->
+                    <a href="#;" id="lnCouponDown" class="cp_down btn_alert_login"><span>{=__('쿠폰 모두 받기')}</span></a>
+                    <!--{ : }-->
+                    <a href="#;" class="cp_down btn_all_coupon_down"><span>{=__('쿠폰 모두 받기')}</span></a>
+                    <!--{ / }-->
+                </div>
+                <ul class="cp_list">
+                    <!--{ @ .list }-->
+                    <li class="<!--{ ? ..index_ % 3 == 2 }-->last<!--{ / }-->">
+                        <div class="box_coupon">
+                            <div class="img_cp"><img src="{=couponConfig.pcCouponImagePath}" alt="{=__('쿠폰이미지')}" /></div>
+                            <div class="text_wrap">
+                                <div class="text_info">
+                                    <span class="tit">{..couponNm}</span>
+                                    <span class="dis">{..couponBenefit}</span>
+                                    <span class="txt">{..couponKindType}</span>
+                                    <span class="date">{..useEndDate}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!--{ ? gd_is_login() === false }-->
+                            <!--{ ? ..couponType == '발급중' }-->
+                            <a href="#;" data-coupon-no="{..couponNo}" class="cp_down_2 btn_alert_login"><span>{=__('쿠폰 받기')}</span></a>
+                            <!--{ : }-->
+                            <span class="cp_down_3"><span>{=__('발급종료')}</span></span>
+                            <!--{ / }-->
+                        <!--{ : }-->
+                            <!--{ ? ..chkMemberCoupon == 'DUPLICATE_COUPON' }-->
+                            <span class="cp_down_4"><span>{=__('발급완료')}</span></span>
+                            <!--{ : ..chkMemberCoupon == 'MAX_COUPON' }-->
+                            <span class="cp_down_3"><span>{=__('발급종료')}</span></span>
+                            <!--{ : }-->
+                                <!--{ ? ..couponType == '발급중' }-->
+                                <a href="#;" data-coupon-no="{..couponNo}" class="cp_down_2 btn_coupon_down"><span>{=__('쿠폰 받기')}</span></a>
+                                <!--{ : }-->
+                                <span class="cp_down_3"><span>{=__('발급종료')}</span></span>
+                                <!--{ / }-->
+                            <!--{ / }-->
+                        <!--{ / }-->
+                    </li>
+                    <!--{ / }-->
+                </ul>
+            </div>
+            <!--{ / }-->
+            <!--{ / }-->
+            <div class="cp_list_none"><p>{=__('발급가능한 쿠폰이 없습니다.')}</p></div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function(){
+
+        //쿠폰존 text 중앙정렬
+        $('.text_wrap').each(function(){
+            var txtWrap = $(this);
+            var txtH = txtWrap.height();
+
+            $(this).css({
+                'margin-top': -(txtH / 2) + 'px',
+            })
+        });
+
+        <!--{ ? gd_is_login() === false }-->
+        $(".sub_menu_box").hide();
+        <!--{ / }-->
+
+        // 쿠폰그룹 내 노출되는 쿠폰이 1개도 없는 경우 해당 쿠폰그룹 전체 미노출 처리
+        $('.cp_list_wrap ').each(function(){
+            if($(this).find('li').length <= 0) $(this).hide();
+        })
+
+        if($('ul.cp_list li').length <= 0 ) {
+            $('.cp_list_none').show();
+        }
+
+        var btnDisabled = false;
+
+        // 쿠폰 받기
+        $('.btn_coupon_down').click(function (e) {
+            if(btnDisabled) return false;
+            btnDisabled = true;
+            var couponNo = $(this).data('coupon-no');
+            $.ajax({
+                method: "POST",
+                cache: false,
+                url: "../mypage/coupon_ps.php",
+                data: "mode=couponDown&couponNo=" + couponNo,
+                dataType: 'json',
+                async: false,
+                success: function (data) {
+                    alert(data['message']);
+                    btnDisabled = false;
+                    if(data['code'] > 0)
+                        location.reload();
+                },
+                error: function (e) {
+                    console.log(e);
+                    btnDisabled = false;
+                }
+            });
+        });
+
+        // 쿠폰 모두 받기
+        $('.btn_all_coupon_down').click(function (e) {
+            if(btnDisabled) return false;
+            btnDisabled = true;
+            var $div = $(this).parents('div.cp_list_wrap');
+            var couponArrData = [];
+            $div.find('.btn_coupon_down').each(function (index, item){
+                couponArrData.push($(item).data('coupon-no'));
+            });
+            var total = $div.find('li').length;
+            var countCoupon = couponArrData.length;
+            if(countCoupon > 0){
+                var params = {
+                    total: total,
+                    couponNo: couponArrData,
+                    mode: 'couponDownAll'
+                };
+                $.ajax({
+                    method: "POST",
+                    cache: false,
+                    url: "../mypage/coupon_ps.php",
+                    data: params,
+                    dataType: 'json',
+                    async: false,
+                    success: function (data) {
+                        alert(data['message']);
+                        btnDisabled = false;
+                        if(data['code'] > 0)
+                            location.reload();
+                    },
+                    error: function (e) {
+                        console.log(e);
+                        btnDisabled = false;
+                    }
+                });
+            } else {
+                alert("{=__('발급 가능 쿠폰이 없습니다.')}");
+                btnDisabled = false;
+                return false;
+            }
+        });
+    });
+</script>
+
+{ # footer }

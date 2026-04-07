@@ -1,0 +1,72 @@
+@charset "UTF-8";
+* { margin:0; padding:0; box-sizing: border-box; font-family:돋움; }
+body { color:#212121; font-family:돋움; font-size:12px; }
+img { border:none; }
+a { color:#212121; text-decoration:none; outline:none; }
+
+.mt10 { margin-top: 10px; }
+.mt20 { margin-top: 20px; }
+.mb10 { margin-bottom: 10px; }
+.mb20 { margin-bottom: 20px; }
+
+.wbtn1, .wbtn2 { border: 1px solid #ff4c2e; display: inline-block; color: #ff4c2e; font-size: 12px; font-weight: bold; display: inline-block; height: 22px; line-height: 22px; padding: 0 10px; cursor: pointer; background-color: #ffffff; }
+.wbtn2 { color: #71bae8; border: 1px solid #71bae8; }
+
+.subscription_popup  { padding-top: 50px; }
+.subscription_popup .top_area { background-color: #000000; color: #ffffff; text-align: center; font-size: 16px; text-align: center; height: 50px; line-height: 50px; font-weight: bold; position: fixed; top: 0; left: 0; width: 100%; }
+.subscription_popup .content_area { margin: 10px; }
+.subscription_popup .terms_box { border: 1px solid #d5d5d5; padding: 10px; background-color: #f8f8f8; height: 330px; overflow-y: auto; font-size: 12px; }
+
+.subscription_popup .terms_agree { text-align: center; font-size: 13px; font-weight: bold; }
+.subscription_popup .terms_agree #isAgree { width: 20px; height: 20px; vertical-align: middle; margin-right: 5px; }
+.subscription_popup .submit_btn, .subscription_popup2 .submit_btn { background-color: #e56284; text-align: center; width: 100%; height: 50px; line-height: 50px; color: #ffffff; font-size: 18px; font-weight: bold; cursor: pointer; border: 0; } 
+
+
+
+/* subscription/card_register.html */
+.card_password_popup .mtitle { font-weight: bold; font-size: 18px; margin: 20px 0 10px 0; }
+.card_password_popup .char_box { display: table; }
+.card_password_popup .char_box .char { display: table-cell; vertical-align: middle; }
+.card_password_popup .char_box .char .char_inner { width: 50px; height: 50px; background-color: #ed7091; margin-right: 1px; line-height: 50px; text-align: center; font-size: 20px; font-weight: bold; color: #000000; }
+.card_password_popup .password_box { margin: 10px 0 70px 0; padding: 0 10px; }
+.card_password_popup .chars_select_box { background-color: #f8f8f8; padding: 20px 10px; margin-bottom: 20px;  }
+.card_password_popup .chars_select_box > .inner { display: table; width: 100%; }
+.card_password_popup .chars_select_box > .inner.first { margin-bottom: 1px; }
+.card_password_popup .chars_select_box > .inner > .ichar { display: table-cell; width: 16.66666666%; text-align: center; }
+.card_password_popup .chars_select_box > .inner .char_inner { background-color: #ed7091; margin-right: 1px; height: 55px; line-height: 55px;  font-size: 18px; font-weight: bold; cursor: pointer; color: #000000;}
+.card_password_popup .chars_select_box > .inner > .ichar.back .char_inner { background-color: #000000; color: #ffffff; }
+
+.subscription_popup2 { margin: 10px; }
+.subscription_popup2 .mtitle { color: #222222; font-weight: bold; font-size: 15px; padding: 10px; margin-bottom: 10px; border-bottom: 1px solid #222222; }
+.subscription_popup2 .selection_area { text-align: center; font-size: 15px; padding: 15px 0;  }
+.subscription_popup2 .selection_area input[type='checkbox'] { width: 20px; height: 20px; vertical-align: middle; margin-right: 10px; }
+.subscription_popup2 .selection_area select { width: 100%; height: 30px; border: 1px solid #d5d5d5; }
+
+
+.subscription_popup2 .table_style1 th { background-color: #f8f8f8; text-align: left; }
+.subscription_popup2 .table_style1 th, .subscription_popup2 .table_style1 td { padding: 7px 10px; border-bottom: 1px solid #d5d5d5; }
+.subscription_popup2 .table_style1 .tr_head th, .subscription_popup2 .table_style1 .tr_head td { border-top: 1px solid #000000;  }
+
+.subscription_popup2 .stitle { font-weight: bold; margin-top: 15px; margin-bottom: 8px; }
+.subscription_popup2 .table_style1 input[type='text'] { border: 1px solid #d5d5d5; height: 25px;padding: 0 10px; }
+.subscription_popup2 .selection_area2 { text-align: center; padding: 15px 0; }
+.subscription_popup2 .selection_area2 select { width: 32%; height: 30px; border: 1px solid #d5d5d5; }
+
+/* subscription/subscription_benefit.html */
+.subscription_popup2 .subscription_benefit { display: block; border: 1px solid #cccccc; border-radius: 2px; padding: 10px; background: #fafafa; margin: 13px 0;  }
+.subscription_popup2 .subscription_benefit .discount_amount { display: table; width: 100%; margin-bottom: 6px; }
+.subscription_popup2 .subscription_benefit .discount_amount > .box { display: table-cell; width: 33.3333%; padding: 0 3px; }
+.subscription_popup2 .subscription_benefit .discount_amount > .box  > .inner { background-color: #ffffff;  border: 2px solid #212121; height: 50px; padding: 5px; padding-left: 30px; text-align: center; position: relative; }
+.subscription_popup2 .subscription_benefit .badge { position: absolute; top: 0; left: 0; height: 17px; color: #ffffff; background-color: #212121; font-size: 11px; line-height: 17px; padding: 0 5px; font-weight: bold; }
+.subscription_popup2 .subscription_benefit .gprice { color: #f24a00; font-weight: bold; font-size: 13px; letter-spacing: -1px; }
+.subscription_popup2 .subscription_benefit strike { font-size: 12px; color: #888888; letter-spacing: -1px; }
+.subscription_popup2 .subscription_benefit .mtitle { font-weight: bold; font-size: 13px; margin-bottom: 5px; margin-left: 3px; }
+
+/* subscription/change_period.html */
+.change_period_page .selection_rows { display: table; width: 100%; margin-top: 6px; }
+.change_period_page .selection_rows.first { margin-top: 0; }
+.change_period_page .selection_rows .cell_rows { display: table-cell; vertical-align: middle; width: 33.3333%; padding: 0 3px;  }
+.change_period_page .selection_rows .cell_rows .sel_period { border: 1px solid #bbbbbb; color: #111111; background-color: #ffffff; display: table; width: 100%; cursor: pointer; }
+.change_period_page .selection_rows .cell_rows .sel_period .box { display: table-cell; vertical-align: middle; width: 100%; height: 40px; font-size: 12px; font-weight: bold; text-align: center; }
+.change_period_page .selection_rows .cell_rows .sel_period.on { border: 1px solid #346AFF; color: #346AFF; }
+.change_period_page .selection_rows .cell_rows .sel_period.on * { color: #346AFF; }

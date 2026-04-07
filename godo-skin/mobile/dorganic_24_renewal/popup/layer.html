@@ -1,0 +1,58 @@
+{*** 기본 고정 레이어 팝업창 | main/html.php?htmid=popup/layer.htm ***}
+<style type="text/css">
+#{=popupCode}_form .box .view {background: {=data.mobilePopupBgColor}; width:{=(mobilePopupWidth)}{=data.mobileSizeTypeW}; height:{=(mobilePopupHeight)}{=data.mobileSizeTypeH}; overflow: hidden;}
+#{=popupCode}_form .check {background-color:{=todayUnSee.todayUnSeeBgColor}; color:{=todayUnSee.todayUnSeeFontColor}; text-align:{=todayUnSee.todayUnSeeAlign};}
+#{=popupCode}_form .check .form-element .check_s {background-color:{=todayUnSee.todayUnSeeBgColor};}
+<!--{ ? data.mobileContentImgFl == 'y'}-->
+#{=popupCode}_form .box .view img {max-width:{=data.mobilePopupSizeW}{=data.mobileSizeTypeW};}
+#{=popupCode}_form .box .view {overflow-y:auto;}
+<!--{ / }-->
+
+.sys_pop {position:absolute; padding:20px 15px 10px 15px; border:2px solid #727071; background:#fff; }
+.sys_pop .box { position:relative; padding:38px 0 0; }
+.sys_pop .box .close {display:block; position:absolute; top:6px; right:0; width:18px; height:18px; text-indent:-9999px; background:url('../img/icon/layer_close.png') no-repeat left top; border:none;}
+.sys_pop .box .view {border:1px solid #dbdbdb; }
+.sys_pop .box .check {padding:9px 0; text-align:right; }
+.sys_pop .box .check label  padding:0 22px 0 0; background-position:right 2px; }
+.sys_pop .box .check input  left:auto; right:1px; top:1px; }
+</style>
+<div id="{=popupCode}_form" class="sys_pop">
+    <div class="box">
+        <div class="view" >
+            {=viewPopupContent}
+        </div>
+
+        <!--{ ? todayUnSee.todayUnSeeFl == 'y'  }-->
+        <!-- 오늘 하루 보이지 않음 : start -->
+        <div class="check">
+			<span class="inp_chk ">
+				{=__('오늘 하루 보이지 않음')}
+				<input type="checkbox" id="todayUnSee" onClick="gd_popup_cookie('{=popupCode}', this);"/>
+			</span>
+        </div>
+        <!-- 오늘 하루 보이지 않음 : end -->
+        <!--{ / }-->
+        <button type="button" class="close" title="{=__('닫기')}" onclick="$('#{=popupCode}').hide();">{=__('닫기')}</button>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function(){
+        <!--{ ? data.mobileSizeTypeW == '%' }-->
+        var percentWidth = ($(window).width() * (Number('{=data.mobilePopupSizeW}') / 100)) - 36;console.log('{=data.mobilePopupWidth}');
+        $('#{=popupCode}_form .box .view').css('width', percentWidth + 'px');
+        <!--{ / }-->
+        <!--{ ? data.mobileSizeTypeH == '%' }-->
+        var percentHeight = $(window).height() * (Number('{=data.mobilePopupSizeH}') / 100) - 128;
+        $('#{=popupCode}_form .box .view').css('height', percentHeight + 'px');
+        <!--{ / }-->
+        <!--{ ? data.mobileSizeTypeW == 'px' }-->
+        var pxWidth = $('#{=popupCode} .sys_pop').innerWidth();
+        $('#{=popupCode}').css('width', (pxWidth + 4) + 'px');
+        <!--{ / }-->
+        <!--{ ? data.mobileSizeTypeH == 'px' }-->
+        var pxHeight = $('#{=popupCode} .sys_pop').innerHeight();
+        $('#{=popupCode}').css('height', pxHeight + 'px');
+        <!--{ / }-->
+    });
+</script>

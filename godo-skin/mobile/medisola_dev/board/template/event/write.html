@@ -1,0 +1,368 @@
+{*** 작성 | board/write.php ***}
+<script type="text/javascript">
+    var cfgEditorFl = 'n';
+    var cfgUploadFl = '{bdWrite.cfg.bdUploadFl}';
+    var maxFileNumber = 10;
+    var mode = '{req.mode}';
+    var mobileSkinPath = '\{=c.PATH_MOBILE_SKIN}';
+    var prvFilePath = [];
+    var prvFileName = [];
+    <!--{ @ bdWrite.data.saveHttpUrl}-->
+    prvFilePath.push("{.value_}");
+    <!--{ / }-->
+    <!--{ @ bdWrite.data.uploadFileNm}-->
+    prvFileName.push("{.value_}");
+    <!--{ / }-->
+    var bdId = '{=bdWrite.cfg.bdId}';
+    var bdSno = '{=gd_isset(req.sno)}';
+</script>
+<script type="text/javascript" src="\{=c.PATH_MOBILE_SKIN}js/gd_board_write.js" charset="utf-8"></script>
+<div class="write_event">
+	<div class="ly_head">
+		<h1 class="h_tit">{=__('글쓰기')}</h1>
+	</div>
+	<div id="boardregister" class="ly_ct">
+		<form name="frmWrite" id="frmWrite" action="../board/board_ps.php" method="post" enctype="multipart/form-data" class="frmWrite">
+		<input type="hidden" name="gboard" value="{=req.gboard}"/>
+		<input type="hidden" name="bdId" value="{=bdWrite.cfg.bdId}"/>
+		<input type="hidden" name="sno" value="{=gd_isset(req.sno)}"/>
+		<input type="hidden" name="mode" value="{=gd_isset(req.mode)}"/>
+		<input type="hidden" name="goodsNo" value="{=req.goodsNo}"/>
+		<input type="hidden" name="returnUrl" value="{=queryString}"/>
+		<!--{? req.orderGoodsNo }-->
+		<input type="hidden" name="orderGoodsNo" value="{req.orderGoodsNo}"/>
+		<!--{/}-->
+		<!--{ ? oldPassword }--><input type="hidden" name="oldPassword" value="{=oldPassword}"/><!--{ / }-->
+		<div class="write_wrap">
+			<!--{ ? bdWrite.cfg.bdCategoryFl == 'y' }-->
+			<dl>
+				<dt><label for="category">{=__('말머리')}</label></dt>
+				<dd>
+					<div class="inp_sel">{=gd_select_box('category', 'category', bdWrite.cfg.arrCategory, null, gd_isset(bdWrite.data.category), bdWrite.cfg.bdCategoryTitle, null,'tune select-small')} </div>
+				</dd>
+			</dl>
+			<!--{ / }-->
+			<dl>
+				<dt><label for="writerNm">{=__('이름')}</label></dt>
+				<dd>
+					<!--{ ? req.mode == 'modify' || gd_is_login() }-->
+					<input type="text" id="writerNm" name="writerNm" placeholder="{=__('이름을 입력해주세요.')}" value="{=gd_isset(bdWrite.data.writerNm)}"/>
+					<!--{ : }-->
+					<input type="text" id="writerNm" name="writerNm" placeholder="{=__('이름을 입력해주세요.')}"/>
+					<!--{ / }-->
+				</dd>
+			</dl>
+			<!--{ ? !gd_isset(bdWrite.data.memNo) && !oldPassword }-->
+			<dl>
+				<dt><label for="writerPw">{=__('비밀번호')}</label></dt>
+				<dd><input type="password" id="writerPw" name="writerPw" placeholder="{=__('비밀번호를 입력해주세요.')}"/></dd>
+			</dl>
+			<!--{ / }-->
+			<!--{ ? bdWrite.data.canWriteGoodsSelect == 'y' }-->
+			<dl>
+				<dt><label>{=__('상품선택')}</label></dt>
+				<dd>
+					<div class="itemselect">
+						<!--{ ? !bdWrite.data.goodsNo }-->
+						<div class="itemselect_comment">{=__('선택된 상품이 없습니다.')}</div>
+						<!--{/}-->
+						<div class="item_select_btn_box"><a href="javascript:void(0)" class="js_board_layer prd_select_btn" data-type="goods">{=__('상품선택')}</a></div>
+					</div>
+				</dd>
+			</dl>
+			<div id="selectGoodsBox">
+				<!--{ ? bdWrite.data.goodsNo }-->
+				<div class="selected_goods_wrap">
+					<div class="selected_goods js_select_item">
+						<input type="hidden" name="goodsNo[]" value="{bdWrite.data.goodsNo}"/>
+						<div class="goods_item_cell cell_img">
+							<div class="goods_img">
+								<a href="../goods/goods_view.php?goodsNo={bdWrite.data.goodsNo}" target="_blank">
+									<img src="{bdWrite.data.goodsData.goodsImageSrc}" alt="{bdWrite.data.goodsData.goodsNm}">
+								</a>
+							</div>
+						</div>
+						<div class="goods_item_cell cell_info">
+							{bdWrite.data.goodsData.goodsNm}
+						</div>
+						<div class="goods_item_cell cell_price">
+							{=gd_currency_display(bdWrite.data.goodsData.goodsPrice)}
+						</div>
+						<div class="goods_item_cell cell_delete">
+							<button type="button" class="item_remove js_select_remove">
+								<img src="\{=c.PATH_MOBILE_SKIN}img/btn/btn_x.png" alt="{=__('삭제')}">
+							</button>
+						</div>
+					</div>
+				</div>
+				<!--{/}-->
+			</div>
+			<!--{/}-->
+			<!--{ ? bdWrite.data.canWriteOrderSelect == 'y'  }-->
+			<dl>
+				<dt><label>{=__('주문내역')}</label></dt>
+				<dd>
+					<div class="itemselect">
+						<!--{ ?!bdWrite.data.extraData.arrOrderGoodsData}-->
+						<div class="itemselect_comment">{=__('선택된 주문이 없습니다.')}</div>
+						<!--{/}-->
+						<div class="item_select_btn_box"><a href="javascript:void(0)" class="js_board_layer prd_select_btn" data-type="order">{=__('주문선택')}</a></div>
+					</div>
+				</dd>
+			</dl>
+			<div id="selectOrderBox">
+				<!--{?bdWrite.data.extraData.arrOrderGoodsData}-->
+				<div class="selected_goods_wrap">
+					<!--{ @ bdWrite.data.extraData.arrOrderGoodsData}-->
+					<div class="selected_goods js_select_item">
+						<input type="hidden" name="orderGoodsNo[]" value="{.sno}"/>
+						<div class="goods_item_cell cell_img">
+							<div class="goods_img">
+								<img src="{.goodsImageSrc}" alt="{.goodsNm}">
+							</div>
+						</div>
+						<div class="goods_item_cell cell_info">
+							{.goodsNm}<br>
+							{.optionName}
+						</div>
+						<div class="goods_item_cell cell_price">
+							{=gd_currency_display(.totalGoodsPrice)}
+						</div>
+						<div class="goods_item_cell cell_delete">
+							<button type="button" class="item_remove js_select_remove">
+								<img src="\{=c.PATH_MOBILE_SKIN}img/btn/btn_x.png" alt="{=__('삭제')}">
+							</button>
+						</div>
+					</div>
+					<!--{/}-->
+				</div>
+				<!--{/}-->
+			</div>
+			<!--{/}-->
+			<!--{ ? bdWrite.cfg.bdGoodsPtFl == 'y' }-->
+			<dl>
+				<dt><label>{=__('평가')}</label></dt>
+				<dd>
+					<input type="hidden" name="goodsPt" value="{bdWrite.data.goodsPt}"/>
+					<div class="select_small_outer choice_box">
+						<!-- [D] 활성화 시  class="selected" 추가 -->
+						<button type="button" class="bn_opt js_option_select">
+							<span><span></span></span>
+						</button>
+						<div class="optbx" style="display:block;display:none">
+							<!-- [D] 3행의 높이값 구하여 height적용 -->
+							<div class="scroll">
+								<ul class="choice_rating">
+									<!--{ @ range(5,1) }-->
+									<li><span class="rating" data-value="{.value_}"><span style="width:{.value_*20}%;">{=__('별')}{.value_}</span></span></li>
+									<!--{/}-->
+								</ul>
+							</div>
+						</div>
+					</div>
+				</dd>
+			</dl>
+			<!--{ / }-->
+			<!--{ ? bdWrite.cfg.bdMobileFl == 'y' }-->
+			<dl>
+				<dt><label for="writerMobile">{=__('휴대폰')}</label></dt>
+				<dd><input type="number" name="writerMobile" id="writerMobile" value="{=gd_isset(bdWrite.data.writerMobile)}" placeholder="{=__('- 없이 입력하세요')}" autocomplete="off"/></dd>
+			</dl>
+			<!--{ / }-->
+			<!--{ ? bdWrite.cfg.bdEmailFl == 'y' }-->
+			<dl>
+				<dt><label for="writerEmail">{=__('이메일')}</label></dt>
+				<dd>
+					<input type="text" class="board_input_email" name="writerEmail" id="writerEmail" placeholder=""/>
+					<div class="board_email_select_box">
+						<select id="emailDomain" name="emailDomain" class="board_email_select">
+							<!--{@ emailDomain}-->
+							<option value="{.key_}">{.value_}</option>
+							<!--{/}-->
+						</select>
+					</div>
+				</dd>
+			</dl>
+			<!--{ / }-->
+			<!--{ ? bdWrite.cfg.bdLinkFl == 'y' }-->
+			<dl>
+				<dt><label for="urlLink">{=__('외부링크')}</label></dt>
+				<dd><input type="text" name="urlLink" id="urlLink" value="{=gd_isset(bdWrite.data.urlLink)}" placeholder="{=__('외부링크')}"/></dd>
+			</dl>
+			<!--{ / }-->
+			<dl>
+				<dt><label for="subject">{=__('제목')}</label></dt>
+				<dd><input type="text" name="subject" id="subject" value="{=gd_isset(bdWrite.data.subject)}" placeholder="{=__('제목을 입력하세요')}"/></dd>
+			</dl>
+			<dl class="b_content">
+				<dt>
+					<label for="contents">{=__('내용')}</label>
+					<div class="b_content_chk">
+						<span class="inp_chk">
+							<!--{ ? bdWrite.cfg.bdSecretFl : '1' }-->
+							<input type="checkbox" id="secret" name="isSecret" value="y" checked/>
+							<label for="secret">{=__('비공개')}</label>
+							<!--{ : '2' }-->
+							<!--{ : '3' }-->
+							<img src="{bdWrite.cfg.iconImageMobile.secret.url}" alt="{=__('비밀글')}">
+							<label>{=__('비공개')}</label>
+							<!--{ : }-->
+							<!--{ ? req.mode == 'reply' && gd_isset(bdWrite.data.isSecret) == 'y' }-->    <!--// 비밀글 설정 - 부모글이 비밀글인 답글 작성시 무조건 비밀글-->
+							<input type="hidden" name="isSecret" value="y"/> {=__('해당글은 비밀글로만 작성이 됩니다.')}
+							<!--{ : }-->
+							<input type="checkbox" name="isSecret" value="y" id="secret" <!--{ ? gd_isset(bdWrite.data.isSecret) == 'y' }-->checked<!--{ / }--> />
+							<label for="secret">{=__('비공개')}</label>
+							<!--{ / }-->
+							<!--{ / }-->
+						</span>
+					</div>
+				</dt>
+				<dd>
+					<div class="textarea_box"><textarea class="textarea" name="contents" id="contents" placeholder="({=__('%s자 이상 입력해주세요.', '5')})">{=bdWrite.data.contents}</textarea></div>
+					<!--{ ? bdWrite.cfg.bdUploadFl == 'y' }-->
+					<div class="b_file">
+						<ul id="boardAttach">
+							<li class="item template">
+								<button class="file_face" type="button">{=__('파일첨부')}</button>
+								<input class="file_hidden" type="file" name="upfiles[]" accept="image/*" />
+							</li>
+						</ul>
+					</div>
+					<!--{ / }-->
+				</dd>
+			</dl>
+			<!--{ ? bdWrite.cfg.bdSpamBoardFl&2 }-->
+			<div class="input_wrap">
+				<div class="capcha">
+					<div class="capcha_img"><span><img src="../board/captcha.php" id="captchaImg" alt="{=__('자동등록방지 이미지')}"/></span></div>
+					<div class="capcha_body">
+						<p class="capcha_text">{=__('보이는 순서대로 %s숫자 및 문자를 모두 입력해 주세요.', '<br />')}</p>
+						<div class="capcha_input">
+							<input type="text" name="captchaKey" maxlength="5" onKeyUp="this.value=this.value.toUpperCase();" onfocus="this.select()" placeholder="{=__('문자를 입력해주세요.')}" class="captcha"/>
+						</div>
+						<div class="capcha_button"><button type="button" onclick="gd_captcha_reload()" class="captchareload_btn"><img src="img/etc/icon-reset.png" alt="{=__('이미지 새로고침')}"> {=__('이미지 새로고침')}</button></div>
+					</div>
+				</div>
+			</div>
+			<!--{ / }-->
+				<!--{ ? bdWrite.cfg.bdPrivateYN == "y" }-->
+				<dl class="b_guest">
+					<dt>
+						<span class="inp_chk">
+							<input type="checkbox" name="private" value="y" id="acceptTerms"/>
+							<label for="acceptTerms" class="check_s"><strong>{=__('비회원 글작성에 대한 개인정보 수집 및 이용동의')}</strong>
+							</label>
+							<a href="../service/private.php" target="_blank" class="c_red">{=__('전체보기')}&gt;</a>
+						</span>
+					</dt>
+					<dd><div class="textarea_box"><textarea class="policyCollectionTextarea">{bdWrite.private}</textarea></div></dd>
+				</dl>
+				<!--{ / }-->
+				<ul class="btn_box">
+					<li><button type="button" class="write_cancel_btn ly_btn_close">{=__('취 소')}</button></li>
+					<li><button type="submit" class="write_save_btn">{=__('저 장')}</button></li>
+				</ul>
+			</div>
+		</form>
+	</div>
+	<div class="close_btn">
+		<button type="button" class="lys_close_btn ly_btn_close">{=__('닫기')}</button>
+	</div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+		gd_select_email_domain('writerEmail');
+		$('#popupBoard .ly_ct').height('auto');
+
+        if (cfgUploadFl == 'y') {
+			gd_init_file_upload();
+        }
+
+        // 평가 설정
+        $(".js_option_select").on('click', function(e){
+            if($(this).next('div').is(':hidden')) {
+                $(this).addClass("selected");
+                $(this).next('div.optbx').show();
+
+            } else {
+                $(this).removeClass("selected");
+                $(this).next('div.optbx').hide();
+
+            }
+        });
+
+        $(".choice_rating li").on('click', function(){
+            $(".js_option_select").removeClass("selected");
+            $(".js_option_select").next('div.optbx').hide();
+
+            $(".select_small_outer > button > span").addClass('rating');
+            $(".js_option_select > .rating > span").css('width', $(this).children().children().css('width'));
+            $(".js_option_select > .rating > span").css('height', '15');
+            $('input[name="goodsPt"]').val($(this).children().data('value'));
+        });
+
+        if ($('input[name="goodsPt"]').val() > 0) {
+            $(".select_small_outer > button > span").addClass('rating');
+            $(".js_option_select > .rating > span").css('width', $('input[name="goodsPt"]').val() * 20 + '%');
+            $(".js_option_select > .rating > span").css('height', '15');
+        }
+
+        if ($('input[name="gboard"]').val() == 'r') {
+            $('#frmWrite').attr('target', 'ifrmProcess');
+        }
+
+        // 글쓰기 모달창 닫을시 패스워드 레이어도 닫음
+        $(".bn_cls.ly_btn_close").on('click',function (e){
+            if ($('.js_password_layer').length > 0) {
+                passwordLayer.close();
+            }
+        });
+    });
+</script>
+<script id="selectGoodsTblTr" type="text/html">
+    <div class="selected_goods_wrap">
+        <div class="selected_goods js_select_item">
+            <input type="hidden" name="goodsNo[]" value="<%=goodsNo%>"/>
+            <div class="goods_item_cell cell_img">
+                <div class="goods_img">
+                    <img src="<%=goodsImgageSrc%>" alt="<%=goodsName%>">
+                </div>
+            </div>
+            <div class="goods_item_cell cell_info">
+                <%=goodsName%>
+            </div>
+            <div class="goods_item_cell cell_price">
+                <%=goodsPrice%>
+            </div>
+            <div class="goods_item_cell cell_delete">
+                <button type="button" class="item_remove js_select_remove">
+                    <img src="\{=c.PATH_MOBILE_SKIN}img/btn/btn_x.png" alt="{=__('삭제')}">
+                </button>
+            </div>
+        </div>
+    </div>
+</script>
+<script id="selectOrderTblTr" type="text/html">
+    <div class="selected_goods_wrap">
+        <div class="selected_goods js_select_item">
+            <input type="hidden" name="orderGoodsNo[]" value="<%=orderGoodsNo%>"/>
+            <div class="goods_item_cell cell_img">
+                <div class="goods_img">
+                    <img src="<%=goodsImgageSrc%>" alt="<%=goodsName%>">
+                </div>
+            </div>
+            <div class="goods_item_cell cell_info">
+                <%=goodsName%><br>
+                <%=optionName%>
+            </div>
+            <div class="goods_item_cell cell_price">
+                <%=goodsPrice%>
+            </div>
+            <div class="goods_item_cell cell_delete">
+                <button type="button" class="item_remove js_select_remove">
+                    <img src="\{=c.PATH_MOBILE_SKIN}img/btn/btn_x.png" alt="{=__('삭제')}">
+                </button>
+            </div>
+        </div>
+    </div>
+</script>

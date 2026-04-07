@@ -1,0 +1,173 @@
+{*** 배송추적 | share/delivery_trace_json.php ***}
+{ # share_header }
+
+<style>
+    .deliveryTraceLayout { padding: 7px; }
+    .deliveryTraceLayout .deliveryTraceLayout-subject { margin: 15px 0 5px 0;}
+    .deliveryTraceLayout table {
+        width: 100%;
+        border-top: 1px solid #717171;
+    }
+    .deliveryTraceLayout table tr {
+        height: 30px;
+    }
+    .deliveryTraceLayout .deliveryTraceLayout-info > table > tbody > tr > th{
+        padding: 10px 0;
+        border-bottom: 1px solid #dbdbdb;
+        background: #f7f7f7;
+        color: #717171;
+        font-size: 12px !important;
+    }
+    .deliveryTraceLayout .deliveryTraceLayout-info > table > tbody > tr > td {
+        padding: 0 0 0 5px;
+        border-bottom: 1px solid #dbdbdb;
+        color: #444;
+        font-size: 12px !important;
+    }
+    .deliveryTraceLayout .deliveryTraceLayout-status > table > thead > tr > th {
+        padding: 10px 0;
+        border-bottom: 1px solid #dbdbdb;
+        background: #f7f7f7;
+        color: #717171;
+        font-size: 12px !important;
+    }
+    .deliveryTraceLayout .deliveryTraceLayout-status > table > tbody > tr > td {
+        padding: 10px 0;
+        border-bottom: 1px solid #dbdbdb;
+        color: #444;
+        font-size: 12px !important;
+        text-align: center;
+    }
+    .deliveryTraceLayout .deliveryTraceLayout-btnArea { margin: 50px 0 10px 0; }
+</style>
+
+<div class="deliveryTraceLayout">
+    <!-- 배송정보 -->
+    <div>
+        <div class="deliveryTraceLayout-subject">
+            <h2>{=__('배송정보')}</h2>
+        </div>
+        <div>
+            <!--{ ? deliveryTraceData.invoiceNumber }-->
+                <div class="deliveryTraceLayout-info">
+                    <table>
+                        <colgroup>
+                            <col width="30%" />
+                            <col width="*" />
+                        </colgroup>
+                        <tbody>
+                        <!--{ ? deliveryTraceData.invoiceNumber }-->
+                        <tr>
+                            <th>{=__('송장번호')}</th>
+                            <td style="word-break: break-all;">{deliveryTraceData.invoiceNumber}</td>
+                        </tr>
+                        <!--{ / }-->
+                        <!--{ ? deliveryTraceData.goodsNm }-->
+                        <tr>
+                            <th>{=__('품명')}</th>
+                            <td style="word-break: break-all;">{deliveryTraceData.goodsNm}</td>
+                        </tr>
+                        <!--{ / }-->
+                        <!--{ ? deliveryTraceData.goodsCnt }-->
+                        <tr>
+                            <th>{=__('수량')}</th>
+                            <td style="word-break: break-all;">{=number_format(deliveryTraceData.goodsCnt)}</td>
+                        </tr>
+                        <!--{ / }-->
+                        <!--{ ? deliveryTraceData.sendName }-->
+                        <tr>
+                            <th>{=__('보내는 분')}</th>
+                            <td style="word-break: break-all;">{deliveryTraceData.sendName}</td>
+                        </tr>
+                        <!--{ / }-->
+                        <!--{ ? deliveryTraceData.acceptName }-->
+                        <tr>
+                            <th>{=__('받으시는 분')}</th>
+                            <td style="word-break: break-all;">{deliveryTraceData.acceptName}</td>
+                        </tr>
+                        <!--{ / }-->
+                        <!--{ ? deliveryTraceData.startPlace }-->
+                        <tr>
+                            <th>{=__('발송 영업소')}</th>
+                            <td style="word-break: break-all;">{deliveryTraceData.startPlace}</td>
+                        </tr>
+                        <!--{ / }-->
+                        <!--{ ? deliveryTraceData.endPlace }-->
+                        <tr>
+                            <th>{=__('도착 영업소')}</th>
+                            <td style="word-break: break-all;">{deliveryTraceData.endPlace}</td>
+                        </tr>
+                        <!--{ / }-->
+                        </tbody>
+                    </table>
+                </div>
+            <!--{ : }-->
+                <div>{=__('배송정보가 없습니다.')}</div>
+            <!--{ / }-->
+        </div>
+    </div>
+    <!-- 배송정보 -->
+
+    <!-- 배송상태 -->
+    <div>
+        <div class="deliveryTraceLayout-subject">
+            <h2>{=__('배송상태')}</h2>
+        </div>
+        <div>
+            <div class="deliveryTraceLayout-status">
+                <table>
+                    <colgroup>
+                        <!--{ ? deliveryTraceData.stepStatusUseFl === 'y' }--><col /><!--{ / }-->
+                        <!--{ ? deliveryTraceData.stepRegDateUseFl === 'y' }--><col /><!--{ / }-->
+                        <!--{ ? deliveryTraceData.stepTelUseFl === 'y' }--><col /><!--{ / }-->
+                        <!--{ ? deliveryTraceData.stepLocationUseFl === 'y' }--><col /><!--{ / }-->
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <!--{ ? deliveryTraceData.stepStatusUseFl === 'y' }--><th>{=__('처리현황')}</th><!--{ / }-->
+                        <!--{ ? deliveryTraceData.stepRegDateUseFl === 'y' }--><th>{=__('처리일')}</th><!--{ / }-->
+                        <!--{ ? deliveryTraceData.stepTelUseFl === 'y' }--><th>{=__('담당 점소')}</th><!--{ / }-->
+                        <!--{ ? deliveryTraceData.stepLocationUseFl === 'y' }--><th>{=__('연락처')}</th><!--{ / }-->
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <!--{ ? deliveryTraceData.stepCount > 0 }-->
+                        <!--{ @ deliveryTraceData.step }-->
+                        <tr>
+                            <!--{ ? deliveryTraceData.stepStatusUseFl === 'y' }--><td>{.status}</td><!--{ / }-->
+                            <!--{ ? deliveryTraceData.stepRegDateUseFl === 'y' }--><td>{.regDate}</td><!--{ / }-->
+                            <!--{ ? deliveryTraceData.stepTelUseFl === 'y' }--><td>{.location}</td><!--{ / }-->
+                            <!--{ ? deliveryTraceData.stepLocationUseFl === 'y' }--><td>{.tel}</td><!--{ / }-->
+                        </tr>
+                        <!--{ / }-->
+                    <!--{ : }-->
+                        <tr>
+                            <td colspan="{deliveryTraceData.colspan}"> {=__('내용이 없습니다.')} </td>
+                        </tr>
+                    <!--{ / }-->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- 배송상태 -->
+
+    <div class="deliveryTraceLayout-btnArea" id="deliveryTraceLayout-btnArea">
+        <input type="button" class="btn hand" value="{=__('닫기')}" />
+    </div>
+</div>
+
+{ # share_footer }
+
+<script type="text/javascript">
+    <!--
+    $(document).ready(function () {
+        //닫기
+        $('#deliveryTraceLayout-btnArea').click(function () {
+            window.close();
+        });
+
+    });
+    //-->
+</script>

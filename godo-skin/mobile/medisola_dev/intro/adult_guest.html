@@ -1,0 +1,171 @@
+{*** 인트로 - 성인인증 | intro/intro.php ***}
+{ # share_header }
+{=acecounterScript}
+<link rel="stylesheet" type="text/css" href="../css/intro/adult_guest.css">
+<div class="adult_guest" <!--{ ? isMyapp }-->style="display: none;"<!--{ / }-->>
+    <!-- 성인인증 비로그인 -->
+    <div class="msg">
+        <strong>{=__('본 정보 내용은 %s청소년에게 유해한 정보를 포함하고 있어 %s성인인증 절차를 거쳐야 합니다.', '<br />', '<br /><span>', '</span>')}</strong>
+        <p>{=__('본 정보 내용은 청소년 유해매체물로서 정보통신망 %s이용촉진 및 정보보호등에 관한 법률 및 청소년 보호법의 %s규정에 의하여 19세 미만의 청소년이 이용할 수 없습니다.', '<br />', '<br />')}</p>
+    </div>
+    <button type="button" class="teenager_out site_exit">{=__('19세 미만 나가기')}</button>
+    <p class="tit">{=__('회원 로그인')}</p>
+    <div class="login_box">
+		<form id="formLogin" name="login_form" action="{=loginActionUrl}" method="post">
+			<fieldset>
+				<legend>{=__('로그인 영역')}</legend>
+				<input type="hidden" name="returnUrl" value="{returnUrl}"/>
+				<input type="hidden" name="close" value=""/>
+				<input type="hidden" name="saveFlag" value="{data.saveFlag}"/>
+				<input type="hidden" id="mode" name="mode" value="{modeLogin}"/>
+				<dl>
+					<dt><label for="loginId">{=__('아이디')}</label></dt>
+					<dd><input type="text" id="loginId" name="loginId" value="{data.loginId}" placeholder="{=__('아이디')}"/></dd>
+				</dl>
+				<dl>
+					<dt><label for="loginPwd">{=__('비밀번호')}</label></dt>
+					<dd><input type="password" placeholder="{=__('비밀번호')}" id="loginPwd" name="loginPwd" value="{data.loginPwd}"/></dd>
+				</dl>
+				<div class="inp_chk">
+					<input type="checkbox" name="saveAutoLogin" value="y" id="saveAutoLogin" <!--{? !empty(data.loginId) && !empty(data.loginPwd)}checked="checked"{/}--> />
+					<label for="saveAutoLogin">{=__('로그인 상태 유지')}</label>
+				</div>
+				<div class="submit">
+					<button type="submit" class="member_login_order_intro_btn">{=__('로그인')}</button>
+				</div>
+				<!-- //submit -->
+			</fieldset>
+		</form>
+        <!--{? usePaycoLogin || useFacebookLogin || useNaverLogin || useKakaoLogin || useWonderLogin || useAppleLogin }-->
+		<ul class="sns_login">
+			<!--{ ? useAppleLogin }-->
+			<li class="apple js_btn_apple_login" data-type="sign in">
+				<img id="apple_btn" src="../img/etc/txt_mo_apple.png" alt="{=__('Apple')} {=__('아이디 로그인')}">
+				<div id="appleid-signin" style="display: none"></div>
+			</li>
+			<!--{ / }-->
+			<!--{ ? usePaycoLogin }-->
+			<li class="payco js_btn_payco_login"><img src="../img/etc/txt_mo_payco.png" alt="{=__('PAYCO')} {=__('아이디 로그인')}"></li>
+			<!--{ / }-->
+			<!--{ ? useFacebookLogin }-->
+			<li class="facebook js_btn_facebook_login" data-facebook-url="{=facebookUrl}"><img src="../img/etc/txt_mo_facebook.png" alt="{=__('FACEBOOK')}{=__('아이디 로그인')}"></li>
+			<!--{ / }-->
+			<!--{? useNaverLogin}-->
+			<li class="naver js_btn_naver_login"><img src="../img/etc/txt_mo_naver.png" alt="{=__('네이버')}{=__('아이디 로그인')}" /></li>
+			<!--{/}-->
+			<!--{ ? useKakaoLogin }-->
+			<li class="kakao js_btn_kakao_login" data-kakao-type="login" data-return-url="{=returnUrl}"><img src="../img/etc/txt_mo_kakao.png" alt="{=__('카카오')}{=__('아이디 로그인')}"></li>
+			<!--{ / }-->
+			<!--{ ? useWonderLogin }-->
+			<li class="wonder js_btn_wonder_login" data-wonder-type="login" data-wonder-url="{=wonderReturnUrl}"><img src="../img/etc/txt_mo_wonder.png" alt="{=__('위메프')}{=__('아이디로 로그인')}"></li>
+			<!--{ / }-->
+		</ul>
+		<!-- //sns_login -->
+		<!--{ / }-->
+		<ul class="login_find">
+			<li><a href="../member/join_method.php">{=__('회원가입')}</a></li>
+			<li><a href="../member/find_id.php">{=__('아이디찾기')}</a></li>
+			<li><a href="../member/find_password.php">{=__('비밀번호찾기')}</a></li>
+		</ul>
+		<!-- //login_find -->
+	</div>
+	<!-- //login_box -->
+	<p class="tit top_line">{=__('비회원 성인 인증')}</p>
+	<!--{ ? authCellphoneFl  }--> <button class="certification authCellphone">{=__('휴대폰 인증 받기')}</button><!--{ / }-->
+	<!--{ ? ipinFl  }--><button class="certification authIpin">{=__('아이핀 인증 받기')}</button><!--{ / }-->
+	<span class="url">{=domainUrl}</span>
+	<input type="hidden" name="isMyapp" value="{isMyapp}"/>
+	<!-- //성인인증 비로그인 -->
+</div>
+<script type="text/javascript" src="../js/jquery/jquery.serialize.object.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.site_exit').click(function (e) {
+            history.back();
+        });
+
+        $('#formLogin').validate({
+            dialog: false,
+            rules: {
+                loginId: {
+                    required: true
+                },
+                loginPwd: {
+                    required: true
+                }
+            },
+            messages: {
+                loginId: {
+                    required: "{=__('아이디를 입력해주세요')}"
+                },
+                loginPwd: {
+                    required: "{=__('패스워드를 입력해주세요')}"
+                }
+            }, submitHandler: function (form) {
+                var params = $(form).serializeArray();
+                params.push({name: "mode", value: "login"});
+                $.post('{=loginActionUrl}', params).done(function (data) {
+                    var code = data.code;
+                    var message = data.message;
+                    var url = data.url;
+                    if (_.isUndefined(code) && _.isUndefined(message)) {
+                        var returnUrl = '{=returnUrl}';
+                        if (_.isEmpty(returnUrl)) {
+                            location.href = '/';
+                        } else {
+                            location.href = returnUrl;
+                        }
+                    } else {
+                        alert(message);
+                        if (_.isUndefined(url) === false) {
+                            location.href = url;
+                        }
+                    }
+                });
+            }
+        });
+
+        $("button.authIpin").on('click', function(){
+
+			window.open("/member/ipin/ipin_main.php?callType=certAdult&returnUrl={=urlencode(returnUrl)}");
+
+        });
+
+
+        $("button.authCellphone").on('click', function(){
+
+            var protocol = location.protocol;
+            var callbackUrl = "{=domainUrl}/member/authcellphone/dreamsecurity_result.php";
+			window.open(protocol + "//hpauthdream.godo.co.kr/module/Mobile_hpauthDream_Main.php?callType=certAdult&returnUrl={=urlencode(returnUrl)}&shopUrl=" + callbackUrl + "&cpid={=authDataCpCode}");
+        });
+
+        window.addEventListener('message', function (e) {
+            if (e.origin === 'http://hpauthdream.godo.co.kr') {
+                $('#layerSearch').remove();
+            }
+        });
+
+		<!--{ ? useAppleLogin }-->
+		$("#apple_btn").on("click", startClicked);
+		function startClicked(){
+			$("#appleid-signin").click();
+		}
+		<!--{ / }-->
+
+    });
+</script>
+
+<!--{ ? useAppleLogin }-->
+<script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script>
+<script type="text/javascript">
+	AppleID.auth.init({
+		clientId : '{client_id}',
+		scope : 'name email',
+		redirectURI: '{apple_redirectURI}',
+		state: '{state}',
+		// usePopup: true
+	});
+</script>
+<!--{ / }-->
+
+{ # share_footer }

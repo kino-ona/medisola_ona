@@ -1,0 +1,102 @@
+{*** PG사 결제 페이지 호출 | order/order.php ***}
+{ # share_header }
+<!-- 해당 페이지는 되도록이면 수정하지 마시기 바랍니다. 수정시 PG사 결제창이 뜨지 않을수 있습니다. -->
+<!-- 해당 페이지 수정에 대한 모든 책임은 수정자에게 있습니다. -->
+
+<h1 class="dn">결제 페이지 호출</h1>
+<script type="text/javascript">
+    <!--
+    /**
+     * 부모창에 결제 레이어창 띄우기
+     */
+    function gd_set_pg_settlement_layer() {
+        var params = {
+            orderNo: '{=orderNo}',
+        };
+
+        var ajaxUrl = "../payment/{=pgName}/pg_start.php";
+
+        parent.$.ajax({
+            method: "HEAD",
+            cache: false,
+            url: ajaxUrl,
+            success: function () {
+                gd_settle_ajax(ajaxUrl);
+            },
+            error: function () {
+                ajaxUrl = "../../payment/{=pgName}/pg_start.php";
+                gd_settle_ajax(ajaxUrl);
+            }
+        });
+
+        function gd_settle_ajax(url) {
+            parent.$('#pgSettlementApplyLayer').empty();
+            parent.$.ajax({
+                method: "POST",
+                cache: false,
+                url: url,
+                data: params,
+                async: false,
+                success: function (data) {
+                    var progressFl = true;
+                    if (data == 'NO_ORDER_DATA') {
+                        alert("{=__('결제 정보가 없습니다. 다시 확인 바랍니다.')}");
+                        progressFl = false;
+                    }
+
+                    if (data == 'INVALID_ORDER_DATA') {
+                        alert("{=__('결제를 진행할 수 없습니다.')}");
+                        progressFl = false;
+                    }
+
+                    if (progressFl == true) {
+                        // 화면 출력 템플릿 구성
+                        var complied = _.template($('#settleBoxLayer').html());
+
+                        // 결제 진행
+                        parent.$('#pgSettlementApplyLayer').append(complied({content: data}));
+                        if (typeof parent.pgSettleStart === 'function') {
+                            parent.pgSettleStart();
+                        }
+                    } else {
+                        // 장바구니로 이동
+                    }
+                },
+                error: function (data) {
+                    console.log(data);
+                    alert(data);
+                }
+            });
+        }
+    }
+
+    /**
+     * 결제창 닫기 부분은 order.php에 구현
+     */
+    $(document).ready(function () {
+        gd_set_pg_settlement_layer();
+    });
+    //-->
+</script>
+<script id="settleBoxLayer" type="text/template">
+    <input type="hidden" id="orderNo" value="{=orderNo}" />
+    <div class="pg_gate" data-key="pg-layer">
+        <div class="pg_buy_info">
+            <div class="pg_bx">
+                <p class="tx">
+                    <strong>{=__('결제 진행중')}</strong>{=__('잠시후 결제창이 자동으로 열리게 됩니다. 결제창이 열리지 않으면 아래 결제창 열기를 눌러주세요.')}</br>
+                    <%=content%>
+                </p>
+                <div class="btn_wish_bx">
+                    <ul class="btn_bx">
+                        <li><button type="button" class="pg_order_open_btn" onclick="pgSettleStartAfterCheck();">{=__('결제창 열기')}</button></li>
+                        <li><a href="../order/order_end.php?orderNo={=orderNo}&amp;mode=pgUserStop" class="pg_order_cancel_btn">{=__('결제 취소')}</a></li>
+                    </ul>
+                    <div class="cart_btn_box"><a href="../order/cart.php" class="pg_order_cart_btn">{=__('장바구니 이동')}</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+{ # share_footer }

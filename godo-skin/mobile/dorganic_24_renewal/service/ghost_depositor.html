@@ -1,0 +1,142 @@
+{*** 미확인 입금자 리스트 | service/ghost_depositor.php ***}
+<div class="m_ghost_depositor pc">
+    <div class="ly_head">
+        <h1 class="h_tit">{=__('미확인 입금 고객')}</h1>
+    </div>
+    <div id="ghost_depositor_cont" class="ly_ct">
+        <div class="top_banner"><img src="../img/etc/ghost_depositor_title_{mobileDesignSkin}_m.png" alt="{=__('입금자명/입금액이 미확인된 고객입니다. 고객센터 또는 게시판으로 문의 바랍니다.')}" /></div>
+        <div class="datepicker_area">
+            <div>
+                <div>
+                    <label for="depositDate">
+                        <strong>{=__('입금일자')}</strong> <input type="date" id="depositDate" name="depositDate" value="{searchDate}"/>
+                    </label>
+                </div>
+                <div>
+                    <label for="ghostDepositor">
+                        <strong>{=__('입금자명')}</strong> <input type="text" id="ghostDepositor" name="ghostDepositor" value="{searchName}"/>
+                    </label>
+                </div>
+            </div>
+            <div class="piker_search_btn">
+                <button type="button" class="h_search_btn">{=__('검색')}</button>
+            </div>
+        </div>
+        <div class="ghost_depositor_table">
+            <table>
+                <colgroup>
+                    <col style="width:19%" />
+                    <col style="width:27%" />
+                    <col style="width:27%" />
+                    <col style="width:27%" />
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>{=__('입금일자')}</th>
+                    <th>{=__('고객명')}</th>
+                    <th>{=__('은행')}</th>
+                    <th>{=__('입금액')}</th>
+                </tr>
+                </thead>
+                <tbody class="js_gd_list">
+                    <!--{ ? loop }-->
+                    <!--{ @ loop }-->
+                    <tr>
+                        <td>{= substr(.depositDate, 2, 10) }</td>
+                        <td>{.ghostDepositor}</td>
+                        <td>{.bankName}</td>
+                        <td>{.depositPrice}{=__('원')}</td>
+                    </tr>
+                    <!--{ / }-->
+                    <!--{ / }-->
+                </tbody>
+            </table>
+
+        </div>
+        <!-- // ghost_depositor_table -->
+        <div class="ghost_depositor_more_btn">
+            <button type="button" class="more_btn">{=__('더보기')}</button>
+        </div>
+    </div>
+    <!-- 리스트 내용이 없을 경우 -->
+    <div class="ghost_depositor_no_list">
+        <p>{=__('등록된 미확인 입금 고객이 없습니다.')}</p>
+    </div>
+    <!-- // ghost_depositor_no_list -->
+    <!-- // ghost_depositor_cont -->
+    <div class="close_btn">
+        <button type="button" class="lys_close_btn ly_btn_close">{=__('닫기')}</button>
+    </div>
+</div>
+<!-- //m_ghost_depositor -->
+
+<script>
+    var page = 1;
+    var totalPage = {=total};
+
+    $(document).ready(function () {
+        $(".ghost_depositor_no_list").hide();
+        $('.more_btn').hide();
+
+        if(totalPage == 0) {
+            $(".ghost_depositor_no_list").show();
+        } else if(page < totalPage) {
+            $('.more_btn').show();
+        }
+
+        $('.more_btn').bind('click',function () {
+            page=Number(page)+1;
+            gd_load_ghost_depositor_list(page);
+        });
+
+        $('.h_search_btn').bind('click',function () {
+            page = 1;
+            gd_load_ghost_depositor_list(page);
+            $('.js_gd_list').empty();
+        });
+
+        function gd_load_ghost_depositor_list (page) {
+
+            $(".ghost_depositor_no_list").hide();
+            $('.more_btn').hide();
+
+            var depositDate = $("#depositDate").val();
+            var ghostDepositor = $("#ghostDepositor").val();
+            var html = '';
+
+            $.ajax({
+                url: '../service/ghost_depositor_ps.php',
+                data: {page: page, depositDate: depositDate, ghostDepositor: ghostDepositor},
+                method: 'get',
+                type: 'text',
+                cache: false,
+            }).success(function (result) {
+                result = JSON.parse(result);
+                for(var i in result.data) {
+                    var d = result.data[i];
+                    html += "<tr>";
+                    html += "<td>"+d.depositDate.substring(2,10)+"</td>";
+                    html += "<td>"+d.ghostDepositor+"</td>";
+                    html += "<td>"+d.bankName+"</td>";
+                    html += "<td>"+d.depositPrice+"{=__('원')}</td>";
+                    html += "</tr>";
+                }
+
+                $('.js_gd_list').append(html);
+
+                totalPage = result.total;
+                totalPage = Number(totalPage);
+                if(page < totalPage) {
+                    $('.more_btn').show();
+                }
+
+                if(totalPage == 0) {
+                    $(".ghost_depositor_no_list").show();
+                    $('.more_btn').hide();
+                }
+            }).error(function (e){
+                console.log(e);
+            });
+        }
+    });
+</script>

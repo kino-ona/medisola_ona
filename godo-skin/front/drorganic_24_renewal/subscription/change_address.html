@@ -1,0 +1,114 @@
+{*** 주소변경 | front/subscription/change_address.php ***}
+{=includeFile('subscription/outline/_popup_header.html')}
+<script src='../js/gd_common.js'></script>
+<div class='subscription_popup2'>
+    <div class='mtitle'>배송주소 변경</div>
+    <form method='post' action='../subscription/indb.php' autocomplete='off' target='ifrmProcess'> 
+    <input type='hidden' name='mode' value='change_address'>
+    <input type='hidden' name='uid' value='{uid}'>
+    
+    <div class='stitle'>주문자 정보</div>
+    <table class='table_style1 mb20' cellpadding=0 cellspacing=0 width='100%'>
+        <tr class='tr_head'>
+            <th width='90'>주문자명</th>
+            <td><input type='text' name='orderName' value='{orderName}' class='form-control'></td>
+        </tr>
+        <tr>
+            <th>유선전화</th>
+            <td>
+                <input type='text' name='orderPhone[]' value='{orderPhone[0]}' size='4' class='form-control'> -
+                <input type='text' name='orderPhone[]' value='{orderPhone[1]}' size='4' class='form-control'> - 
+                <input type='text' name='orderPhone[]' value='{orderPhone[2]}' size='4' class='form-control'>
+            </td>
+         </tr>
+         <tr>
+            <th>휴대전화</th>
+            <td>
+                <input type='text' name='orderCellPhone[]' value='{orderCellPhone[0]}' size='4' class='form-control'> -
+                <input type='text' name='orderCellPhone[]' value='{orderCellPhone[1]}' size='4' class='form-control'> - 
+                <input type='text' name='orderCellPhone[]' value='{orderCellPhone[2]}' size='4' class='form-control'>
+            </td>
+        </tr>
+        <tr>
+            <th>주소</th>
+            <td>
+                <div style='margin-bottom: 5px;'>
+                    <span title="우편번호를 입력해주세요!">
+                        <input type="text" size="6" maxlength="5" name="orderZonecode" class="form-control js-number" data-number="5" value="{orderZonecode}" readonly>
+                        <input type="hidden" name="orderZipcode" value="{orderZipcode}" readonly>
+                        <span id="zipcodeText" class="number">({orderZipcode})</span>
+                        <input type="button" onclick="gd_postcode_search('orderZonecode', 'orderAddress', 'orderZipcode');" value="우편번호찾기" class="wbtn1">
+                    </span>
+                </div>
+                <div>
+                    <span title="주소를 입력해주세요!">
+                        <input type="text" name="orderAddress" id="orderAddress"
+                                class="form-control" style='margin-bottom: 5px; width: 100%; display: block;'
+                                 value="{orderAddress}" readonly>
+                    </span>
+                    <span title="상세주소를 입력해주세요!">
+                        <input type="text" name="orderAddressSub" id="orderAddressSub"
+                                 class="form-control" style='width: 100%; display: block;'
+                                 value="{orderAddressSub}"/>
+                     </span>
+                </div> 
+            </td>
+        </tr>
+    </table>
+    
+    <div class='stitle'>받는분 정보</div>
+    <table class='table_style1 mb10' cellpadding=0 cellspacing=0 width='100%'>
+        <tr class='tr_head'>
+            <th width='90'>받는분</th>
+            <td><input type='text' name='receiverName' value='{receiverName}' class='form-control'></td>
+        </tr>
+        <tr>
+            <th>유선전화</th>
+            <td>
+                <input type='text' name='receiverPhone[]' value='{receiverPhone[0]}' size='4' class='form-control'> -
+                <input type='text' name='receiverPhone[]' value='{receiverPhone[1]}' size='4' class='form-control'> - 
+                <input type='text' name='receiverPhone[]' value='{receiverPhone[2]}' size='4' class='form-control'>
+            </td>
+         </tr>
+         <tr>
+            <th>휴대전화</th>
+            <td class='form-inline'>
+                <input type='text' name='receiverCellPhone[]' value='{receiverCellPhone[0]}' size='4' class='form-control'> -
+                <input type='text' name='receiverCellPhone[]' value='{receiverCellPhone[1]}' size='4' class='form-control'> - 
+                <input type='text' name='receiverCellPhone[]' value='{receiverCellPhone[2]}' size='4' class='form-control'>
+            </td>
+        </tr>
+        <tr>
+            <th>주소</th>
+            <td>
+                <div class="form-inline " style='margin-bottom: 5px;'>
+                    <span title="우편번호를 입력해주세요!">
+                        <input type="text" size="6" maxlength="5" name="receiverZonecode" class="form-control js-number" data-number="5" value="{receiverZonecode}" readonly>
+                        <input type="hidden" name="receiverZipcode" value="{receiverZipcode}">
+                        <span id="zipcodeText" class="number">({receiverZipcode})</span>
+                        <input type="button" onclick="gd_postcode_search('receiverZonecode', 'receiverAddress', 'receiverZipcode');" value="우편번호찾기" class="wbtn1">
+                    </span>
+                </div>
+                <div class="form-inline">
+                    <span title="주소를 입력해주세요!">
+                        <input type="text" name="receiverAddress" id="receiverAddress"
+                                class="form-control" style='margin-bottom: 5px; width: 100%; display: block;'
+                                 value="{receiverAddress}" readonly>
+                    </span>
+                    <span title="상세주소를 입력해주세요!">
+                        <input type="text" name="receiverAddressSub" id="receiverAddressSub"
+                                 class="form-control" style='width: 100%; display: block;'
+                                 value="{receiverAddressSub}">
+                     </span>
+                </div> 
+            </td>
+        </tr>
+        <tr>
+            <th>배송메세지</th>
+            <td><input type='text' name='orderMemo' value='{orderMemo}' style='width: 100%;'></td>
+        </tr>
+    </table>
+    <div class='ac'><input type='submit' value='변경하기' class='submit_btn' onclick="return confirm('정말 변경하시겠습니까?');"></div>
+    </form>
+</div>
+{=includeFile('subscription/outline/_popup_footer.html')}

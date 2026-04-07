@@ -1,0 +1,365 @@
+{*** [위젯] 홈 카테고리 상품 리뷰 | front/board/_home_product_review.html ***}
+{? hasTabs}
+<section class="mm_sec12_review" data-initial-visible-count="{=initialVisibleCount}" data-tab-config-sno="{=tabConfigSno}" data-review-limit="{=reviewLimit}">
+    <div class="m_titleArea wow fadeInUp" data-wow-delay="0s" data-wow-duration="1s">
+        <div class="t01">맞춤형 식단 선택형 메뉴</div>
+    </div>
+
+    <div class="home_review_tabs">
+        {@ tabs}
+        <a href="javascript:void(0)" class="home_review_tab_btn {? .isActive}is_active{/}" data-tab-key="{=.tabKey}">{=.tabName}</a>
+        {/}
+    </div>
+
+    {@ tabs}
+    <div class="home_review_panel {? .isActive}is_active{/}" data-tab-key="{=.tabKey}" data-loaded="{? .loaded}true{:}false{/}">
+        <div class="home_product_scroll_wrap">
+            <div class="home_product_scroll">
+                {@ .products}
+                <div class="home_product_item" data-goods-no="{=..goodsNo}">
+                    <a href="../goods/goods_view.php?goodsNo={=..goodsNo}" class="home_product_top">
+                        <div class="home_product_thumb">
+                            {? ..thumb}
+                            <img src="{=..thumb}" alt="{=..goodsNm}" loading="lazy" />
+                            {:}
+                            <div class="thumb_empty"></div>
+                            {/}
+                        </div>
+                        <div class="home_product_name">{=..goodsNm}</div>
+                        <div class="home_product_price m_price_box">
+                            {? ..showGoodsSale}
+                            <span class="msale">{=..goodsSalePrice}원</span>
+                            <span class="through">{=..goodsPrice}원</span>
+                            {:}
+                            {? ..showStrikePrice}
+                            <span class="msale">{=..goodsPrice}원</span>
+                            <span class="through">{=..goodsFixedPrice}원</span>
+                            {:}
+                            <span class="msale">{=..goodsPrice}원</span>
+                            {/}
+                            {/}
+                        </div>
+                    </a>
+
+                    <div class="product_reviews_container">
+                        {? .loaded}
+                            {? ..hasReviews}
+                            <ul class="product_review_list">
+                                {@ ..reviews}
+                                <li class="product_review_item {? ...index_ < initialVisibleCount}is_visible{:}is_hidden{/}">
+                                    <a href="../goods/goods_view.php?goodsNo={=...goodsNo}" class="product_review_link">
+                                        <div class="review_thumb">
+                                            {? ...reviewThumb}
+                                            <img src="{=...reviewThumb}" alt="{=...goodsNm}" loading="lazy" />
+                                            {:}
+                                            <div class="thumb_empty"></div>
+                                            {/}
+                                        </div>
+                                        <div class="review_body">
+                                            <div class="review_stars">{? ...reviewScore >= 1}★{/}{? ...reviewScore >= 2}★{/}{? ...reviewScore >= 3}★{/}{? ...reviewScore >= 4}★{/}{? ...reviewScore >= 5}★{/}</div>
+                                            <div class="review_text">{=...reviewMessage}</div>
+                                        </div>
+                                    </a>
+                                </li>
+                                {/}
+                            </ul>
+                            {/}
+                        {:}
+                            <div class="review_skeleton_list">
+                                <div class="review_skeleton_item"><div class="skel_thumb"></div><div class="skel_body"><div class="skel_line"></div><div class="skel_line short"></div></div></div>
+                                <div class="review_skeleton_item"><div class="skel_thumb"></div><div class="skel_body"><div class="skel_line"></div><div class="skel_line short"></div></div></div>
+                                <div class="review_skeleton_item"><div class="skel_thumb"></div><div class="skel_body"><div class="skel_line"></div><div class="skel_line short"></div></div></div>
+                            </div>
+                        {/}
+                    </div>
+                </div>
+                {/}
+            </div>
+            <button type="button" class="scroll_arrow scroll_arrow_right" aria-label="다음">&#8250;</button>
+        </div>
+        <div class="home_review_batch_more_wrap">
+            <button type="button" class="home_review_more_btn_batch"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg> 더보기</button>
+        </div>
+    </div>
+    {/}
+</section>
+
+<style>
+.mm_sec12_review { margin: 48px auto 28px; padding: 0; }
+.mm_sec12_review .home_review_tabs { display: flex; align-items: center; justify-content: center; gap: 70px; }
+.mm_sec12_review .home_review_tab_btn { position: relative; border: none; background: none; margin: 38px 0; font-family: 'Paperozi', sans-serif; font-size: 1.8rem; color: #aaa; font-weight: 400; white-space: nowrap; text-decoration: none; cursor: pointer; transition: color .2s, font-weight .2s; }
+.mm_sec12_review .home_review_tab_btn::after { content: ''; position: absolute; left: -6px; right: -6px; bottom: 0; height: 2px; background: #e0e0e0; border-radius: 1px; }
+.mm_sec12_review .home_review_tab_btn:hover { color: #666; }
+.mm_sec12_review .home_review_tab_btn.is_active { color: #314ea9; font-weight: 600; }
+.mm_sec12_review .home_review_tab_btn.is_active::after { background: #314ea9; }
+.mm_sec12_review .home_review_panel { display: none; margin-top: 20px; }
+.mm_sec12_review .home_review_panel.is_active { display: block; }
+
+.mm_sec12_review .home_product_scroll_wrap { position: relative; }
+.mm_sec12_review .home_product_scroll { display: flex; overflow-x: auto; gap: 20px; scroll-behavior: smooth; -ms-overflow-style: none; scrollbar-width: none; }
+.mm_sec12_review .home_product_scroll::-webkit-scrollbar { display: none; }
+
+.mm_sec12_review .home_product_item { flex: 0 0 calc((100% - 60px) / 4); min-width: 0; }
+.mm_sec12_review .home_product_top { display: block; text-decoration: none; color: inherit; }
+.mm_sec12_review .home_product_thumb { overflow: hidden; background: #f5f5f5; aspect-ratio: 1 / 1; }
+.mm_sec12_review .home_product_thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.mm_sec12_review .home_product_name { margin-top: 10px; font-size: 1.6rem; color: #222; line-height: 1.45; word-break: keep-all; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mm_sec12_review .home_product_price { margin-top: 3px; font-size: 1.9rem; font-family: 'Paperozi', sans-serif; font-weight: 400; }
+.mm_sec12_review .home_product_price .msale { color: #111; }
+.mm_sec12_review .home_product_price .through { text-decoration: line-through; color: #999; font-weight: 400; margin-left: 4px; }
+
+.mm_sec12_review .product_review_list { margin-top: 34px; display: grid; gap: 10px; list-style: none; padding: 0; }
+.mm_sec12_review .product_review_item .product_review_link { display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; }
+.mm_sec12_review .review_thumb { width: 100px; min-width: 100px; height: 100px; border-radius: 0; overflow: hidden; background: #f5f5f5; }
+.mm_sec12_review .review_thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.mm_sec12_review .review_body { min-width: 0; flex: 1; }
+.mm_sec12_review .review_stars { font-size: 20px; color: #f5a623; letter-spacing: -1px; line-height: 1; margin-bottom: 4px; }
+.mm_sec12_review .review_text { font-size: 1.3rem; color: #333; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; }
+.mm_sec12_review .product_review_item.is_hidden { display: none; }
+.mm_sec12_review .home_review_panel:not([data-batch-done="true"]) .product_review_list {
+    -webkit-mask-image: linear-gradient(180deg, #000 50%, transparent 100%);
+    mask-image: linear-gradient(180deg, #000 50%, transparent 100%);
+}
+
+.mm_sec12_review .home_review_batch_more_wrap { text-align: center; margin-top: 20px; }
+.mm_sec12_review .home_review_more_btn_batch { border: none; border-radius: 8px; background: none; height: 36px; padding: 0; font-size: 1.3rem; color: #999; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 3px; transition: color .2s; }
+.mm_sec12_review .home_review_more_btn_batch:hover { color: #666; }
+.mm_sec12_review .home_review_more_btn_batch svg { flex-shrink: 0; }
+.mm_sec12_review .home_review_more_btn_batch:disabled { opacity: 0.7; cursor: not-allowed; }
+.mm_sec12_review .home_review_batch_more_wrap.is_hidden { display: none; }
+
+.mm_sec12_review .review_empty { margin-top: 20px; font-size: 13px; color: #999; text-align: center; padding: 16px; border: 1px solid #eee; border-radius: 10px; }
+.mm_sec12_review .home_review_more_btn { margin-top: 14px; width: 100%; border: 1px solid #e0e0e0; border-radius: 8px; background: #fff; height: 36px; font-size: 13px; color: #555; cursor: pointer; transition: background .2s, border-color .2s; }
+.mm_sec12_review .home_review_more_btn:hover { background: #fafafa; border-color: #ccc; }
+.mm_sec12_review .thumb_empty { width: 100%; height: 100%; background: #f5f5f5; }
+
+.mm_sec12_review .scroll_arrow { position: absolute; top: 0; height: calc(100% - 60px); width: 36px; border: none; background: linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,.92) 40%); color: #333; font-size: 28px; cursor: pointer; z-index: 2; display: none; align-items: center; justify-content: flex-end; padding-right: 2px; }
+.mm_sec12_review .scroll_arrow_right { right: -4px; }
+.mm_sec12_review .scroll_arrow.is_show { display: flex; }
+
+.mm_sec12_review .review_skeleton_list { margin-top: 14px; display: grid; gap: 10px; }
+.mm_sec12_review .review_skeleton_item { display: flex; align-items: center; gap: 10px; }
+.mm_sec12_review .skel_thumb { width: 100px; min-width: 100px; height: 100px; border-radius: 0; background: #ebebeb; }
+.mm_sec12_review .skel_body { flex: 1; min-width: 0; }
+.mm_sec12_review .skel_line { height: 10px; border-radius: 5px; background: #ebebeb; margin-bottom: 7px; }
+.mm_sec12_review .skel_line:last-child { margin-bottom: 0; }
+.mm_sec12_review .skel_line.short { width: 55%; }
+@keyframes reviewPulse { 0%, 100% { opacity: 1; } 50% { opacity: .45; } }
+.mm_sec12_review .review_skeleton_list { animation: reviewPulse 1.4s ease-in-out infinite; }
+.mm_sec12_review .expand_skel_item { animation: reviewPulse 1.4s ease-in-out infinite; }
+.mm_sec12_review .expand_skel_item .review_thumb { background: #ebebeb; }
+</style>
+
+<script type="text/javascript">
+(function() {
+    var AJAX_URL = '../board/home_review_ps.php';
+
+    function renderStars(score) {
+        var s = '';
+        for (var i = 1; i <= 5; i++) { if (score >= i) s += '★'; }
+        return s;
+    }
+
+    function escHtml(str) {
+        if (!str) return '';
+        return $('<span>').text(str).html();
+    }
+
+    function renderReviewItem(r, visibleCount, idx) {
+        var cls = idx < visibleCount ? 'is_visible' : 'is_hidden';
+        var thumbHtml = r.reviewThumb
+            ? '<img src="' + escHtml(r.reviewThumb) + '" alt="' + escHtml(r.goodsNm) + '" loading="lazy" />'
+            : '<div class="thumb_empty"></div>';
+        return '<li class="product_review_item ' + cls + '">'
+            + '<a href="../goods/goods_view.php?goodsNo=' + r.goodsNo + '" class="product_review_link">'
+            + '<div class="review_thumb">' + thumbHtml + '</div>'
+            + '<div class="review_body">'
+            + '<div class="review_stars">' + renderStars(r.reviewScore) + '</div>'
+            + '<div class="review_text">' + escHtml(r.reviewMessage) + '</div>'
+            + '</div></a></li>';
+    }
+
+    function initScrollArrow(panel) {
+        var scrollEl = panel.find('.home_product_scroll');
+        if (!scrollEl.length) return;
+        checkScrollArrow(scrollEl);
+        scrollEl.off('scroll.reviewArrow').on('scroll.reviewArrow', function() {
+            var arrow = scrollEl.siblings('.scroll_arrow_right');
+            if (scrollEl[0].scrollLeft + scrollEl[0].clientWidth >= scrollEl[0].scrollWidth - 10) {
+                arrow.removeClass('is_show');
+            } else if (scrollEl[0].scrollWidth > scrollEl[0].clientWidth + 10) {
+                arrow.addClass('is_show');
+            }
+        });
+    }
+
+    function checkScrollArrow(scrollEl) {
+        if (!scrollEl.length) return;
+        var arrow = scrollEl.siblings('.scroll_arrow_right');
+        if (scrollEl[0].scrollWidth > scrollEl[0].clientWidth + 10) {
+            arrow.addClass('is_show');
+        } else {
+            arrow.removeClass('is_show');
+        }
+    }
+
+    function generateExpandSkeletons(count) {
+        var html = '';
+        for (var i = 0; i < count; i++) {
+            html += '<li class="product_review_item expand_skel_item">'
+                + '<div class="product_review_link">'
+                + '<div class="review_thumb"></div>'
+                + '<div class="review_body">'
+                + '<div class="skel_line"></div>'
+                + '<div class="skel_line short"></div>'
+                + '</div></div></li>';
+        }
+        return html;
+    }
+
+    function loadTabReviews(panel) {
+        var $panel = $(panel);
+        if ($panel.attr('data-loaded') === 'true') return;
+
+        var section = $panel.closest('.mm_sec12_review');
+        var tabKey = $panel.attr('data-tab-key');
+        var tabConfigSno = section.attr('data-tab-config-sno');
+        var reviewLimit = parseInt(section.attr('data-review-limit'), 10) || 3;
+        var visibleCount = parseInt(section.attr('data-initial-visible-count'), 10) || 3;
+
+        $.ajax({
+            url: AJAX_URL,
+            data: { mode: 'get_tab_reviews', tabKey: tabKey, tabConfigSno: tabConfigSno, reviewLimit: reviewLimit },
+            dataType: 'json',
+            success: function(res) {
+                if (res && res.error === 0 && res.reviewsByGoods) {
+                    $panel.find('.home_product_item').each(function() {
+                        var $item = $(this);
+                        var goodsNo = String($item.attr('data-goods-no'));
+                        var $container = $item.find('.product_reviews_container');
+                        var reviews = res.reviewsByGoods[goodsNo];
+
+                        if (reviews && reviews.length > 0) {
+                            var html = '<ul class="product_review_list">';
+                            for (var i = 0; i < reviews.length; i++) {
+                                html += renderReviewItem(reviews[i], visibleCount, i);
+                            }
+                            html += '</ul>';
+                            $container.html(html);
+                        } else {
+                            $container.empty();
+                        }
+                    });
+                } else {
+                    $panel.find('.review_skeleton_list').remove();
+                }
+                $panel.attr('data-loaded', 'true');
+            },
+            error: function() {
+                $panel.find('.review_skeleton_list').remove();
+                $panel.attr('data-loaded', 'true');
+            }
+        });
+    }
+
+    $(document).on('click', '.mm_sec12_review .home_review_tab_btn', function(e) {
+        e.preventDefault();
+        var tabKey = $(this).data('tab-key');
+        var section = $(this).closest('.mm_sec12_review');
+
+        section.find('.home_review_tab_btn').removeClass('is_active');
+        $(this).addClass('is_active');
+        section.find('.home_review_panel').removeClass('is_active');
+
+        var targetPanel = section.find('.home_review_panel[data-tab-key="' + tabKey + '"]');
+        targetPanel.addClass('is_active');
+
+        if (targetPanel.attr('data-loaded') !== 'true') {
+            loadTabReviews(targetPanel);
+        }
+
+        initScrollArrow(targetPanel);
+
+        if (typeof amplitude !== 'undefined') {
+            amplitude.logEvent('home_reviewtab_click', {tab_key: tabKey, device: 'desktop'});
+        }
+    });
+
+    $(document).on('click', '.mm_sec12_review .scroll_arrow_right', function() {
+        var scrollEl = $(this).siblings('.home_product_scroll');
+        scrollEl.animate({scrollLeft: scrollEl.scrollLeft() + scrollEl.width() * 0.8}, 300);
+    });
+
+    var expandLimit = 5;
+    var chevronDown = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"><' + '/polyline><' + '/svg>';
+    var chevronUp = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 15 12 9 18 15"><' + '/polyline><' + '/svg>';
+    var moreHtml = chevronDown + ' 더보기';
+    var collapseHtml = chevronUp + ' 접기';
+    var loadingHtml = chevronDown + ' 불러오는 중...';
+
+    $(document).on('click', '.mm_sec12_review .home_review_more_btn_batch', function() {
+        var btn = $(this);
+        var panel = btn.closest('.home_review_panel');
+        var section = btn.closest('.mm_sec12_review');
+        var visibleCount = parseInt(section.attr('data-initial-visible-count'), 10) || 3;
+
+        if (panel.attr('data-batch-done') === 'true') {
+            panel.find('.home_product_item').each(function() {
+                $(this).find('.product_review_list .product_review_item').each(function(idx) {
+                    $(this).toggleClass('is_visible', idx < visibleCount).toggleClass('is_hidden', idx >= visibleCount);
+                });
+            });
+            panel.attr('data-batch-done', 'false');
+            btn.html(moreHtml);
+            if (typeof amplitude !== 'undefined') amplitude.logEvent('home_reviewcta_click', {action: 'batch_collapse', tab_key: panel.attr('data-tab-key'), device: 'desktop'});
+            return;
+        }
+
+        var tabKey = panel.attr('data-tab-key');
+        var tabConfigSno = section.attr('data-tab-config-sno');
+        btn.prop('disabled', true).html(loadingHtml);
+
+        $.ajax({
+            url: AJAX_URL,
+            data: { mode: 'get_tab_reviews', tabKey: tabKey, tabConfigSno: tabConfigSno, reviewLimit: expandLimit },
+            dataType: 'json',
+            success: function(res) {
+                if (res && res.error === 0 && res.reviewsByGoods) {
+                    panel.find('.home_product_item').each(function() {
+                        var $item = $(this);
+                        var goodsNo = String($item.attr('data-goods-no'));
+                        var $container = $item.find('.product_reviews_container');
+                        var reviews = res.reviewsByGoods[goodsNo];
+                        if (reviews && reviews.length > 0) {
+                            var html = '<ul class="product_review_list">';
+                            for (var i = 0; i < reviews.length; i++) {
+                                html += renderReviewItem(reviews[i], reviews.length, i);
+                            }
+                            html += '</ul>';
+                            $container.html(html);
+                        }
+                    });
+                    panel.attr('data-batch-done', 'true');
+                    btn.prop('disabled', false).html(collapseHtml);
+                } else {
+                    btn.prop('disabled', false).html(moreHtml);
+                }
+            },
+            error: function() {
+                btn.prop('disabled', false).html(moreHtml);
+            }
+        });
+
+        if (typeof amplitude !== 'undefined') {
+            amplitude.logEvent('home_reviewcta_click', {action: 'batch_more', tab_key: tabKey, device: 'desktop'});
+        }
+    });
+
+    $(function() {
+        $('.mm_sec12_review .home_review_panel[data-loaded="true"]').each(function() {
+            initScrollArrow($(this));
+        });
+    });
+})();
+</script>
+{/}

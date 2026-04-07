@@ -1,0 +1,204 @@
+{*** 쿠폰 | mypage/coupon.php ***}
+{ # header }
+<div class="coupon">
+	<!-- 쿠폰 등록 -->
+	<h3>{=__('쿠폰 등록')}</h3>
+	<div class="my_coupon">
+		<form name="frmCouponOffline" id="frmCouponOffline" method="post" action="coupon_ps.php">
+			<fieldset>
+				<legend>{=__('쿠폰 등록 영역')}</legend>
+					<div class="inp_tx">
+						<input type="hidden" name="mode" value="couponOfflineRegist"/>
+						<input type="text" name="couponOfflineNumber" size="5" maxlength="12" class="inputnum" placeholder="{=__('쿠폰 번호 입력')}" required />
+					</div>
+					<div class="btn"><button type="submit" class="coupon_ok_btn">{=__('쿠폰 등록')}</button></div>
+			</fieldset>
+		</form>
+		<p class="tx">{=__('모바일, 이메일 또는 인쇄물 등을 통해 발급받은%s 쿠폰 인증번호를 등록해주세요.', '<br>')}</p>
+	</div>
+	<!--쿠폰 내역-->
+	<!--{ ? data }-->
+	<h3>{=__('쿠폰 내역')} <!--{ ? selected['memberCouponState'].y }--><span>({=__('사용 가능한 쿠폰 %s장', '<strong>' + count(data) + '</strong>')})</span><!--{ / }--></h3>
+	<form name="frmCouponSearch" method="get">
+		<input type="hidden" name="memberCouponState" value=""/>
+		<input type="hidden" name="pageType" value="mobile"/>
+	</form>
+	<div class="tab_menu">
+		<ul>
+			<li <!--{ ? selected['memberCouponState'].y }-->class="tab_btn active"<!--{ : }-->class="tab_btn"<!--{ / }-->><a href="#" onclick="gd_coupon_state('y')">{=__('사용가능')}</a></li>
+			<li  <!--{ ? selected['memberCouponState'].n }-->class="tab_btn active"<!--{ : }-->class="tab_btn"<!--{ / }-->><a href="#" onclick="gd_coupon_state('n')">{=__('사용불가')}</a></li>
+		</ul>
+	</div>
+	<ul class="coupon_bx">
+		<!--{ @ data }-->
+		<li class="coupon-li">
+			<dl>
+				<dt><span class="elp">{.couponNm}</span></dt>
+				<!--{ ? selected['memberCouponState'].n }-->
+				<dd><strong>{=__('사용상태')}</strong>
+						<!--{ ? .memberCouponUsable == 'USE_ORDER' }-->
+						<span class="coupon_order_use">{=__('주문사용')}</span>
+						<!--{ : .memberCouponUsable == 'USE_COUPON' }-->
+						<span class="coupon_order_use">{=__('사용완료')}</span>
+						<!--{ : .memberCouponUsable == 'EXPIRATION_START_PERIOD' }-->
+						<span class="coupon_before_use">{=__('사용전')}</span>
+						<!--{ : .memberCouponUsable == 'USE_CART' || .memberCouponUsable == 'EXPIRATION_END_PERIOD' }-->
+						<span class="coupon_expire_use">{=__('사용만료')}</span>
+						<!--{ / }-->
+						({=gd_date_format('Y-m-d',.memberCouponUseDate)})
+				</dd>
+				<!--{ / }-->
+				<dd>
+					<strong><!--{ ? .couponUseType == 'gift'}-->{=__('혜택금액')}<!--{ : }-->{=__('할인금액')}<!--{ / }--></strong>{=gd_money_format(.couponBenefit)}
+					<!--{ ? .couponBenefitType === 'percent'}-->
+						<!--{ ? .couponKindType == 'add'}-->% {=__('적립')}
+						<!--{ : }-->% {=__('할인')}<!--{ / }-->
+					<!--{ : }-->
+						<!--{ ? .couponKindType == 'add'}-->{=mileageConfig.unit} 적립
+						<!--{ : .couponKindType === 'deposit' }-->{=depositConfig.unit} 지급
+						<!--{ : }-->{=__('원 할인')}<!--{ / }-->
+					<!--{ / }-->
+					<!--{ ? convertArrData[data.index_].couponMaxBenefit }-->
+						({=convertArrData[data.index_].couponMaxBenefit}
+						<!--{ ? .couponKindType == 'sale'}-->{=__('할인')}
+						<!--{ : .couponKindType == 'add'}-->{=mileageConfig.unit} 적립
+						<!--{ / }-->)
+					<!--{ / }-->
+				</dd>
+				<dd class="limit"><strong>{=__('유효기간')}</strong>{=gd_date_format('Y-m-d H:i',.memberCouponEndDate)} {=__('까지')}</dd>
+				<dd><strong>{=__('취득일자')}</strong>{=gd_date_format('Y-m-d H:i',.regDt)}</dd>
+				<dd>
+					<strong>{=__('혜택구분')}</strong>
+					<!--{ ? .couponKindType === 'sale' }-->{=__('상품 할인')}
+					<!--{ : .couponKindType == 'add'}-->{=mileageConfig.name} 적립
+					<!--{ : .couponKindType === 'deposit' }-->{=depositConfig.name} 지급
+					<!--{ : }-->{=__('배송비 할인')}<!--{ / }-->
+				</dd>
+				<dd><strong>{=__('비고')}</strong><!--{ ? .couponDeviceType === 'all' }-->{=__('PC + 모바일')}<!--{ : .couponKindType === 'pc' }-->{=__('PC 전용')}<!--{ : }-->{=__('모바일 전용')}<!--{ / }-->
+					<!--{ ? .couponApplyMemberGroup || .couponApplyProductType != 'all' || .couponExceptProviderType == 'y' || .couponExceptCategoryType == 'y' || .couponExceptBrandType == 'y' || .couponExceptGoodsType == 'y' || .couponApplyDuplicateType == 'n' }-->
+					<a href="#lyUseCase" class="detail" data-member-coupon-no="{=.memberCouponNo}"><img src="../img/btn/btn_coupon_detail.png"  alt="{=__('자세히 보기')}"></a>
+					<!--{ / }-->
+					<!--{ ? convertArrData[data.index_].couponMinOrderPrice }-->
+					<br>
+					<label style="line-height: 25px; padding-left: 50px; display: table-cell;">
+						<!--{ ? .couponUseType == 'product' && .couponProductMinOrderType == 'product'}-->
+						{=__('상품')}
+						<!--{ : .couponUseType == 'product' && .couponProductMinOrderType == 'order'}-->
+						{=__('주문')}
+						<!--{ : .couponUseType == 'order' || .couponUseType == 'delivery'}-->{=__('주문')}
+						<!--{ : }-->{=__('상품')}
+						<!--{ / }-->
+						{=convertArrData[data.index_].couponMinOrderPrice}
+					</label>
+					<!--{ / }-->
+				</dd>
+			</dl>
+			<!--{ ? .memberCouponUsable == 'YES' && .couponUseType == 'gift' }-->
+			<div id="useGiftCoupon{=.memberCouponNo}" class="coupon-inline coupon_gift_before_use">{=__('쿠폰 사용')}</div>
+			<!--{ / }-->
+		</li>
+		<!--{ / }-->
+	</ul>
+	<!--{ : }-->
+	<h3>{=__('쿠폰 내역')} <!--{ ? selected['memberCouponState'].y }--><span>({=__('사용 가능한 쿠폰 %s장', '<strong>0</strong>')})</span><!--{ / }--></h3>
+	<form name="frmCouponSearch" method="get">
+		<input type="hidden" name="memberCouponState" value=""/>
+		<input type="hidden" name="pageType" value="mobile"/>
+	</form>
+	<div class="tab_menu">
+		<ul>
+			<li <!--{ ? selected['memberCouponState'].y }-->class="tab_btn active"<!--{ : }-->class="tab_btn"<!--{ / }-->><a href="#" onclick="gd_coupon_state('y')">{=__('사용가능')}</a></li>
+			<li  <!--{ ? selected['memberCouponState'].n }-->class="tab_btn active"<!--{ : }-->class="tab_btn"<!--{ / }-->><a href="#" onclick="gd_coupon_state('n')">{=__('사용불가')}</a></li>
+		</ul>
+	</div>
+	<div class="coupon_bx no">
+		<p>{=__('발행된 쿠폰 내역이 없습니다.')}</p>
+	</div>
+	<!--{ / }-->
+</div>
+
+<div class="ly_overlay"></div>
+
+<!-- 쿠폰 자세히 보기 레이어 -->
+<div id="lyUseCase" class="ly_pop ly_effect_3"></div>
+<!-- 쿠폰 자세히 보기 레이어 -->
+
+<script type="text/javascript">
+	<!--
+	$(document).ready(function () {
+		var couponSubmitFl = true;
+		$("#frmCouponOffline").validate({
+			submitHandler: function (form) {
+				if (couponSubmitFl === false) {
+					alert(__('처리중입니다. 잠시만 기다려주세요.'));
+					return false;
+				}
+				form.target = 'ifrmProcess';
+				form.submit();
+				couponSubmitFl = false;
+			},
+			rules: {
+				couponOfflineNumber: {
+					required: true,
+					minlength: 8,
+					maxlength: 12,
+				},
+			},
+			messages: {
+				couponOfflineNumber: {
+					required: "{=__('쿠폰 인증 번호를 입력하세요.')}",
+					minlength: "{=__('쿠폰 인증 번호의 길이는 최소 8자 입니다.')}",
+					maxlength: "{=__('쿠폰 인증 번호의 길이는 최대 12자 입니다.')}",
+				},
+			}
+		});
+
+        $('div[id^="useGiftCoupon"]').on('click', function () {
+            $(this).hide();
+            sOrgId = $(this).prop('id');
+            sId = sOrgId.replace('useGiftCoupon', '');
+            $.ajax({
+                method: 'post',
+                url: './coupon_ps.php',
+                data: {
+                    mode: 'couponGiftUse',
+                    cno: sId
+                },
+                dataType: 'json'
+            }).success(function (data) {
+                if (data.result == 'T') {
+                    alert(data.msg);
+                    window.location.reload();
+                } else {
+                    alert(data.msg);
+                    $('#' + sOrgId).show();
+                }
+            }).error(function (e) {
+                alert('처리 중 오류가 발생했습니다. 다시 시도해주세요.');
+                window.location.reload();
+            });
+        });
+
+        // 쿠폰 자세히 보기
+        $('.detail').on('click', function(e) {
+            var memberCouponNo = $(this).data('member-coupon-no');
+            var memberCouponState = <!--{ ? selected['memberCouponState'].y }--> 'y' <!--{ : }--> 'n' <!--{ / }-->;
+            $('#lyUseCase').modal({
+                remote: 'layer_coupon_detail.php',
+                cache: false,
+                params: {memberCouponNo:memberCouponNo, memberCouponState:memberCouponState},
+                type : 'POST',
+                show: true
+            });
+
+        });
+    });
+
+    // 쿠폰 사용가능 및 불가 탭
+    function gd_coupon_state(flag){
+        $('input:hidden[name="memberCouponState"]').val(flag);
+        document.frmCouponSearch.submit();
+    }
+	//-->
+</script>
+{ # footer }

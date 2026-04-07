@@ -1,0 +1,35 @@
+{*** 자동연장 관리 | front/subscription/auto_extend.php ***}
+{=includeFile('subscription/outline/_popup_header.html')}
+<div class='subscription_popup2'>
+    <div class='mtitle'>자동연장관리</div>
+    
+    <div class='selection_area'>
+        <input type='checkbox' name='autoExtend' id='autoExtend' value='1'<!--{ ? autoExtend }--> checked<!--{ / }-->>자동연장 사용
+    </div> <!-- selection_area -->
+</div>  <!-- subscription_popup2 -->
+
+<script>
+$(function() {
+    $('#autoExtend').click(function() {
+        var checked = 0;
+        if ($(this).prop('checked'))
+            checked = 1;
+        var uid = '{uid}'
+        $.ajax({
+            url : "../subscription/ajax.php",
+            type : "post", 
+            dataType : "text",
+            data : { mode : "changeAutoExtend", chk : checked, uid : uid },
+            async : false,
+            success: function (data) {
+                parent.location.reload();
+            },
+            error : function (res) {
+                console.log(res);
+            }
+        });
+        
+    });
+});
+</script>
+{=includeFile('subscription/outline/_popup_footer.html')}

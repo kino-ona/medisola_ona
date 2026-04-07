@@ -1,0 +1,29 @@
+{*** 배송방식 정보노출 | mypage/layer_order_delivery_method.php ***}
+<div class="ly_head">
+    <h1 class="h_tit elp">{orderGoodsData['deliveryMethodFlText']}</span></h1>
+</div>
+
+<div class="ly_ct">
+    <div class="layer-delivery-method">
+        <div class="input_wrap ty2">
+            <div class="input_title">{=__('배송 정보')}</div>
+            <div class="input_content">{orderGoodsData['invoiceNo']}</div>
+        </div>
+        <!--{? orderGoodsData['deliveryMethodFl'] == 'visit' }-->
+        <div class="input_wrap ty2">
+            <div class="input_title">{=__('방문수령지')}</div>
+            <div class="input_content">{deliveryVisitAddress}</div>
+        </div>
+        <!--{ / }-->
+        <div class="input_wrap ty2">
+            <div class="input_title">{=__('처리일')}</div>
+            <div class="input_content">{orderGoodsData['deliveryDt']}</div>
+        </div>
+
+        <div class="layer-delivery-btn-area">
+            <button type="button" class="delivery_method_confirm_btn ly_btn_close"><em>{=__('확인')}</em></button>
+        </div>
+    </div>
+</div>
+
+<div class="close_btn"><button type="button" class="lys_close_btn ly_btn_close">{=__('닫기')}</button></div>

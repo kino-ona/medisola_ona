@@ -1,0 +1,47 @@
+<!--{ ? data.list}-->
+<div class="board_zone_list">
+    <div class="board_list_plus_review">
+
+        <ul class="plus_review_goods_list">
+            <!--{@data.list}-->
+            <li class="item" data-goodsno="{.goodsNo}">
+                <div class="plus_review_cont">
+                    <div class="board_img">
+                        <img src="{=.goodsImageSrc}" class="js_pr_btn_link_goods" alt="{=.goodsNm}">
+                    </div>
+                    <div class="plus_review_info_cont">
+                        <div class="board_tit">
+                            <a href="javascript:void(0);" class="js_pr_btn_link_goods">
+                                <strong>{=.goodsNm}</strong>
+                            </a>
+                        </div>
+                        <div class="board_review_list">
+                            <ul>
+                                <!--{ @ .article}-->
+                                <li><span <!--{ ? ..isNew == 'y' }-->class="new"<!--{/}-->>{..contents}</span></li>
+                                <!--{/}-->
+                            </ul>
+                        </div>
+                        <div class="board_review_num">
+                            <em>{=__('평가')} <strong>{.avgGoodsPt}</strong> {=__('리뷰')} <strong>{.countArticle}</strong></em>
+                        </div>
+                    </div>
+                    <!-- //plus_review_info_cont -->
+                </div>
+                <!-- //plus_review_cont -->
+            </li>
+            <!--{/}-->
+        </ul>
+    </div>
+    <!-- //board_list_plus_review -->
+
+    {=data.pagination}
+
+</div>
+<!-- //board_zone_list -->
+<!--{:}-->
+<div class="no_data">
+    작성된 리뷰가 없습니다.
+</div>
+<script>$('.plus_review_loading').addClass('dn');</script>
+<!--{/}-->

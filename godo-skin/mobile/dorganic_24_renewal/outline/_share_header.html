@@ -1,0 +1,103 @@
+{*** 상단 레이아웃 | main/index.php ***}
+<!doctype html>
+<html lang="ko">
+<head>
+	<title>{=gMall.mallTitle}</title>
+	<meta charset="utf-8" />
+	<meta name="description" content="{=gMall.mallDescription}" />
+	<meta name="keywords" content="{=gMall.mallKeyword}" />
+	<meta name="csrf-token" content="{=token}" />
+	<meta name="viewport" content="user-scalable=yes, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+	<!--{ ? is_array(gd_isset(headerMeta)) }-->
+	<!-- Add Meta : start -->
+	<!--{ @ headerMeta }-->
+	<!--{ .value_ }-->
+	<!--{ / }-->
+	<!-- Add Meta : end -->
+	<!--{ / }-->
+
+	<!--{ @ snsShareMetaTag }-->
+	{.value_}
+	<!--{ / }-->
+
+	<!--{ ? gMall.mallFavicon }-->
+	<link rel="icon" href="/data/common/favicon.ico" type="image/x-icon" />
+  <link rel="icon" href="/data/common/favicon_48.png" type="image/png" sizes="48x48" />
+	<link rel="icon" href="/data/common/favicon_96.png" type="image/png" sizes="96x96" />
+	<!--{ / }-->
+
+    <!--{ ? isset(gMobile.mobileShopIcon) !== false }-->
+    <link rel="apple-touch-icon-precomposed" href="{=gMobile.mobileShopIcon}" />
+    <link rel="shortcut icon" href="{=gMobile.mobileShopIcon}">
+    <!--{ : }-->
+    <link rel="apple-touch-icon-precomposed" href="/data/commonimg/defaultShopIcon.png" />
+    <link rel="shortcut icon" href="/data/commonimg/defaultShopIcon.png">
+    <!--{ / }-->
+	<!--{ ? gMall.robotsFl == 'n' }-->
+	<meta name="robots" content="noindex, nofollow" />
+	<meta name="robots" content="noarchive" />
+	<!--{ / }-->
+	<link type="text/css" rel="stylesheet" href="{=setBrowserCache('../css/plugins/sidebarEffects.css')}">
+	<link type="text/css" rel="stylesheet" href="{=setBrowserCache('../css/plugins/modalEffects.css')}">
+	<link type="text/css" rel="stylesheet" href="{=setBrowserCache('../css/plugins/multiMenuEffects.css')}">
+	<link type="text/css" rel="stylesheet" href="{=setBrowserCache('../js/jquery/chosen/chosen.min.css')}" />
+	<link type="text/css" rel="stylesheet" href="{=setBrowserCache('../css/gd_reset.css')}" />
+	<link type="text/css" rel="stylesheet" href="{=setBrowserCache('../css/gd_layout.css')}" />
+	<link type="text/css" rel="stylesheet" href="{=setBrowserCache('../css/gd_common.css')}" />
+	<link type="text/css" rel="stylesheet" href="{=setBrowserCache('../css/gd_button.css')}" />
+	<link type="text/css" rel="stylesheet" href="{=setBrowserCache(c.PATH_MOBILE_SKIN+'css/'+gThisDirName+'/'+gThisDirName+'.css')}" />
+
+	<!--{ ? is_array(gd_isset(headerStyle)) }-->
+	<!-- Add style : start -->
+	<!--{ @ headerStyle }-->
+	<link type="text/css" rel="stylesheet" href="{=.value_}" />
+	<!--{ / }-->
+	<!-- Add style : end -->
+	<!--{ / }-->
+
+	<script type="text/javascript">
+		<!--{=includeFile(gGlobal.languageJson)}-->
+	</script>
+	<script type="text/javascript" src="{=setBrowserCache('../js/gd_gettext.js')}"></script>
+	<script type="text/javascript" src="{=setBrowserCache('../js/vendor/modernizr.custom.js')}"></script>
+	<script type="text/javascript" src="{=setBrowserCache('../js/vendor/underscore-min.js')}"></script>
+	<script type="text/javascript" src="{=setBrowserCache('../js/jquery/jquery.min.js')}"></script>
+	<script type="text/javascript" src="{=setBrowserCache('../js/jquery/validation/jquery.validate.min.js')}"></script>
+	<script type="text/javascript" src="{=setBrowserCache('../js/jquery/validation/additional-methods.min.js')}"></script>
+	<script type="text/javascript" src="{=setBrowserCache('../js/gd_common.js')}"></script>
+	<script type="text/javascript" src="{=setBrowserCache('../js/numeral/numeral.min.js')}"></script>
+
+	<!-- <script type="text/javascript" src="../js/gd_ui.js"></script> -->
+
+	<!--{ ? is_array(gd_isset(headerScript)) }-->
+	<!-- Add script : start -->
+	<!--{ @ headerScript }-->
+	<script type="text/javascript" src="{.value_}"></script>
+	<!--{ / }-->
+	<!-- Add script : end -->
+	<!--{ / }-->
+
+	<style type="text/css">
+		body {
+		<!--{ ? layout.outbg_img }-->background: url("{=layout.outbg_img}") repeat left top;<!--{ / }-->
+		<!--{ ? layout.outbg_color }-->background-color: #{=str_replace('#', '', layout.outbg_color)};<!--{ / }-->
+		}
+
+		/* body > #wrap > #top : 상단 영역 */
+		header .header_box {
+		<!--{ ? layout.outbg_color }-->background-color: #{=str_replace('#', '', layout.outbg_color)};<!--{ / }-->
+		<!--{ ? layout.topbg_img }-->background: url("{=layout.topbg_img}") repeat 0 0;<!--{ / }-->
+		}
+
+		/* body > #wrap > #container : 메인 영역 */
+		#container {
+		<!--{ ? layout.inbg_img }-->background: url("{=layout.inbg_img}") repeat 0 0;<!--{ / }-->
+		<!--{ ? layout.inbg_color }-->background-color: {=layout.inbg_color};<!--{ / }-->
+		}
+	</style>
+
+</head><body class="portrait">
+<div class="st-container" id="stContainter">

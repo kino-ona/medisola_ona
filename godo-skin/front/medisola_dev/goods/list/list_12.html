@@ -1,0 +1,1235 @@
+{*** 복수선택형 | goods/list/list_12.html ***}
+<div class="item-display type-gallery">
+    <div class="list">
+<style>
+    .detail_explain_box .item_info_cont{display:block;}
+    .detail_explain_box .item_tit_box .form_element{display:inline;}
+    .detail_explain_box .item_tit_box .form_element label{font-size:0; vertical-align:top; top:1px; padding:0 0 0 5px;}
+    .detail_explain_box .item_tit_box .item_name{display:inline;}
+    .multiple_selection_btn{background:#f0f0f0; text-align:center; padding:15px 0; margin-top:40px;}
+    .multiple_selection_btn a{line-height:45px !important; width:260px !important; height:45px !important; font-size:15px !important; font-weight:bold !important; margin:0 0 0 30px !important;}
+    .multiple_selection_btn a:first-child{margin:0 !important;}
+    .multiple_selection_btn + div ul li{margin:20px 0;}
+    .multiple_product_option{padding-top:10px;}
+    .multiple_product_option > *{margin-top:10px;}
+    .multiple_product_option .chosen-container *{text-align:left !important;}
+    .multiple_product_option .chosen-container .chosen-results{max-height:125px;}
+    .multiple_product_option .chosen-container-single .chosen-sch{height:31px; line-height:29px;}
+    /*.multiple_product_option select{width:100% !important;}*/
+    .multiple_product_option select.amount + .chosen-container > a{background:#fafafa;}
+    .multiple_product_option .txt-field{height:30px; position: relative; padding: 0 10px; background: #fff; border: 1px solid #d0d0d0;}
+    .multiple_product_option .txt-field .text{height:30px; border:none; width:100%; padding:0; color:#444; line-height:30px;}
+    .multiple_product_option .infor-txt{font-size:11px; color:#555555; margin-top:5px; text-align:left; padding:0 15px;}
+    .multiple_product_option .product_amount{border-top:#e9e9e9 1px solid;}
+    .multiple_product_option .product_amount > div:after{content:''; clear:both; display:block;}
+    .multiple_product_option input[type="text"]::-ms-clear{display:none;}
+</style>
+<script type="text/javascript">
+    function replaceAllOrderInfo(str) {
+        str = str.split("goodsNo[]").join("goodsNo{=goodsView['goodsNo']}[]");
+        str = str.split("optionSno[]").join("optionSno{=goodsView['goodsNo']}[]");
+        str = str.split("goodsPriceSum[]").join("goodsPriceSum{=goodsView['goodsNo']}[]");
+        str = str.split("addGoodsPriceSum[]").join("addGoodsPriceSum{=goodsView['goodsNo']}[]");
+        str = str.split("displayOptionkey[]").join("displayOptionkey{=goodsView['goodsNo']}[]");
+        str = str.split("couponApplyNo[]").join("couponApplyNo{=goodsView['goodsNo']}[]");
+        str = str.split("couponSalePriceSum[]").join("couponSalePriceSum{=goodsView['goodsNo']}[]");
+        str = str.split("couponAddPriceSum[]").join("couponAddPriceSum{=goodsView['goodsNo']}[]");
+        str = str.split("goodsCnt[]").join("goodsCnt{=goodsView['goodsNo']}[]");
+        str = str.split("optionPriceSum[]").join("optionPriceSum{=goodsView['goodsNo']}[]");
+        str = str.split("optionPriceSum[]").join("optionPriceSum{=goodsView['goodsNo']}[]");
+        str = str.split("optionText[").join("optionText{=goodsView['goodsNo']}[");
+        str = str.split("optionTextPriceSum[").join("optionTextPriceSum{=goodsView['goodsNo']}[");
+        str = str.split("addGoodsNo[").join("addGoodsNo{=goodsView['goodsNo']}[");
+        str = str.split("addGoodsCnt[").join("addGoodsCnt{=goodsView['goodsNo']}[");
+        str = str.split("add_goods_price_").join("add_goods_price{=goodsView['goodsNo']}_");
+        str = str.split("add_goods_total_price[").join("add_goods_total_price{=goodsView['goodsNo']}[");
+
+        return str;
+    }
+
+    function syncHidden(){
+        if($('#frmView select[name="deliveryCollectFl"]').length > 0) {
+            $('#relateGoodsList input[name=\'deliveryCollectFl\']')[0].value = $('#frmView select[name="deliveryCollectFl"]')[0].value;
+        }
+        if($('#frmView select[name="deliveryMethodFl"]').length > 0) {
+            $('#relateGoodsList input[name=\'deliveryMethodFl\']')[0].value = $('#frmView select[name="deliveryMethodFl"]')[0].value;
+        }
+        $('#relateGoodsList input[name=\'mode{=goodsView['goodsNo']}\']')[0].value = $('#frmView input[name=\'mode\']')[0].value
+        $('#relateGoodsList input[name=\'scmNo{=goodsView['goodsNo']}\']')[0].value = $('#frmView input[name=\'scmNo\']')[0].value
+        $('#relateGoodsList input[name=\'cartMode{=goodsView['goodsNo']}\']')[0].value = $('#frmView input[name=\'cartMode\']')[0].value
+        $('#relateGoodsList input[name=\'set_goods_price{=goodsView['goodsNo']}\']')[0].value = $('#frmView input[name=\'set_goods_price\']')[0].value
+        $('#relateGoodsList input[name=\'set_goods_fixedPrice{=goodsView['goodsNo']}\']')[0].value = $('#frmView input[name=\'set_goods_fixedPrice\']')[0].value
+        $('#relateGoodsList input[name=\'set_goods_mileage{=goodsView['goodsNo']}\']')[0].value = $('#frmView input[name=\'set_goods_mileage\']')[0].value
+        $('#relateGoodsList input[name=\'set_goods_stock{=goodsView['goodsNo']}\']')[0].value = $('#frmView input[name=\'set_goods_stock\']')[0].value
+        $('#relateGoodsList input[name=\'set_coupon_dc_price{=goodsView['goodsNo']}\']')[0].value = $('#frmView input[name=\'set_coupon_dc_price\']')[0].value
+        $('#relateGoodsList input[name=\'set_goods_total_price{=goodsView['goodsNo']}\']')[0].value = $('#frmView input[name=\'set_goods_total_price\']')[0].value
+        $('#relateGoodsList input[name=\'set_option_price{=goodsView['goodsNo']}\']')[0].value = $('#frmView input[name=\'set_option_price\']')[0].value
+        $('#relateGoodsList input[name=\'set_option_text_price{=goodsView['goodsNo']}\']')[0].value = $('#frmView input[name=\'set_option_text_price\']')[0].value
+        $('#relateGoodsList input[name=\'set_add_goods_price{=goodsView['goodsNo']}\']')[0].value = $('#frmView input[name=\'set_add_goods_price\']')[0].value
+        $('#relateGoodsList input[name=\'set_total_price{=goodsView['goodsNo']}\']')[0].value = $('#frmView input[name=\'set_total_price\']')[0].value
+        $('#relateGoodsList input[name=\'mileageFl{=goodsView['goodsNo']}\']')[0].value = $('#frmView input[name=\'mileageFl\']')[0].value
+        $('#relateGoodsList input[name=\'mileageGoods{=goodsView['goodsNo']}\']')[0].value = $('#frmView input[name=\'mileageGoods\']')[0].value
+        $('#relateGoodsList input[name=\'mileageGoodsUnit{=goodsView['goodsNo']}\']')[0].value = $('#frmView input[name=\'mileageGoodsUnit\']')[0].value
+        $('#relateGoodsList input[name=\'goodsDiscountFl{=goodsView['goodsNo']}\']')[0].value = $('#frmView input[name=\'goodsDiscountFl\']')[0].value
+        $('#relateGoodsList input[name=\'goodsDiscount{=goodsView['goodsNo']}\']')[0].value = $('#frmView input[name=\'goodsDiscount\']')[0].value
+        $('#relateGoodsList input[name=\'goodsDiscountUnit{=goodsView['goodsNo']}\']')[0].value = $('#frmView input[name=\'goodsDiscountUnit\']')[0].value
+        $('#relateGoodsList input[name=\'taxFreeFl{=goodsView['goodsNo']}\']')[0].value = $('#frmView input[name=\'taxFreeFl\']')[0].value
+        $('#relateGoodsList input[name=\'taxPercent{=goodsView['goodsNo']}\']')[0].value = $('#frmView input[name=\'taxPercent\']')[0].value
+        $('#relateGoodsList input[name=\'brandCd{=goodsView['goodsNo']}\']')[0].value = $('#frmView input[name=\'brandCd\']')[0].value
+        $('#relateGoodsList input[name=\'cateCd{=goodsView['goodsNo']}\']')[0].value = $('#frmView input[name=\'cateCd\']')[0].value
+        $('#relateGoodsList #set_dc_price{=goodsView['goodsNo']}').val($('#frmView #set_dc_price').val())
+        $('#relateGoodsList #goodsOptionCnt{=goodsView['goodsNo']}').val($('#frmView #goodsOptionCnt').val())
+        $('#relateGoodsList input[name=\'optionFl{=goodsView['goodsNo']}\']')[0].value = $('#frmView input[name=\'optionFl\']')[0].value
+        <!--{ ? goodsView['timeSaleFl'] }-->
+        <!--{ ? goodsView['timeSaleInfo']['mileageFl'] == 'n' }-->
+        $('#relateGoodsList input[name=\'goodsMileageExcept{=goodsView['goodsNo']}\']')[0].value = $('#frmView input[name=\'goodsMileageExcept\']')[0].value
+        <!--{ / }-->
+        <!--{ ? goodsView['timeSaleInfo']['memberDcFl'] == 'n' }-->
+        $('#relateGoodsList input[name=\'memberBenefitExcept{=goodsView['goodsNo']}\']')[0].value = $('#frmView input[name=\'memberBenefitExcept\']')[0].value
+        <!--{ / }-->
+        <!--{ ? goodsView['timeSaleInfo']['couponFl'] == 'n' }-->
+        $('#relateGoodsList input[name=\'couponBenefitExcept{=goodsView['goodsNo']}\']')[0].value = $('#frmView input[name=\'couponBenefitExcept\']')[0].value
+        <!--{ / }-->
+        <!--{ / }-->
+        $('#relateGoodsList input[name=\'useBundleGoods{=goodsView['goodsNo']}\']')[0].value = $('#frmView input[name=\'useBundleGoods\']')[0].value
+    }
+
+    $(document).ready(function() {
+        $('.btn_add_cart_related').on('click', function(e){
+            goodsOptionCnt = [];
+            try{gd_total_calculate();} catch (e){}
+            try{total_calculate();} catch (e){}
+            var returned = true;
+
+            if($('[id^=multiProduct]:checked').length == 0){
+                alert("{=__('관련 상품이 선택 되지 않았습니다!')}");
+                return false;
+            }
+
+            syncHidden();
+            $('#relateGoodsList input[name=\'mode{=goodsView['goodsNo']}\']')[0].value = 'cartIn';
+
+            $('.option_display_area{=goodsView['goodsNo']}')[0].innerHTML = replaceAllOrderInfo($('.option_display_area')[0].innerHTML);
+            for(cntCnt = 0; cntCnt < $('.option_display_area{=goodsView['goodsNo']} input[name="goodsCnt{=goodsView['goodsNo']}[]"]').length; cntCnt++){
+                $('.option_display_area{=goodsView['goodsNo']} input[name="goodsCnt{=goodsView['goodsNo']}[]"]')[cntCnt].value = $('.option_display_area input[name="goodsCnt[]"]')[cntCnt].value;
+            }
+            for(cntCnt = 0; cntCnt < $('.option_display_area{=goodsView['goodsNo']} input[name^="addGoodsCnt{=goodsView['goodsNo']}"]').length; cntCnt++){
+                $('.option_display_area{=goodsView['goodsNo']} input[name^="addGoodsCnt{=goodsView['goodsNo']}"]')[cntCnt].value = $('.option_display_area input[name^="addGoodsCnt"]')[cntCnt].value;
+            }
+            if(gd_goods_order_main('c') == false){
+                return false;
+            }
+            $('[id^=multiProduct]:checked').each( function( idex, value ){
+                var funcName = 'gd_goods_order_related_' + (value.id.replace('multiProduct', ''));
+                returned = window[funcName]('c');
+                if(returned == false){ return false; }
+            });
+            if(returned == true) {
+                $('#relateGoodsList').attr('target', '');
+                if ('{=cartInfo['moveCartPageFl']}' == 'n' && ('{=cartInfo['moveCartPageDeviceFl']}' == 'pc' || '{=cartInfo['moveCartPageDeviceFl']}' == 'all')) {
+                    var params = $("#relateGoodsList").serialize();
+
+                    var ajaxUrl = '../order/cart_ps.php';
+                    var target = $("#addCartLayer");
+
+                    $.ajax({
+                        method: "POST",
+                        cache: false,
+                        url: ajaxUrl,
+                        data: params,
+                        success: function (data) {
+                            // error 메시지 예외 처리용
+                            if (!_.isUndefined(data.error) && data.error == 1) {
+                                alert(data.message);
+                                return false;
+                            }
+
+                            target.removeClass('dn');
+                            $('#layerDim').removeClass('dn');
+                            target.find('> div').center();
+                        },
+                        error: function (data) {
+                            alert(data.message);
+                        }
+                    });
+                } else {
+                    $('#relateGoodsList').submit();
+                }
+            }
+            return false;
+        });
+        $('.btn_add_order_related').on('click', function(e){
+            goodsOptionCnt = [];
+            try{gd_total_calculate();} catch (e){}
+            try{total_calculate();} catch (e){}
+            var returned = true;
+
+            if($('[id^=multiProduct]:checked').length == 0){
+                alert("{=__('관련 상품이 선택 되지 않았습니다!')}");
+                return false;
+            }
+            syncHidden();
+
+            $('.option_display_area{=goodsView['goodsNo']}')[0].innerHTML = replaceAllOrderInfo($('.option_display_area')[0].innerHTML);
+            for(cntCnt = 0; cntCnt < $('.option_display_area{=goodsView['goodsNo']} input[name="goodsCnt{=goodsView['goodsNo']}[]"]').length; cntCnt++){
+                $('.option_display_area{=goodsView['goodsNo']} input[name="goodsCnt{=goodsView['goodsNo']}[]"]')[cntCnt].value = $('.option_display_area input[name="goodsCnt[]"]')[cntCnt].value;
+            }
+            for(cntCnt = 0; cntCnt < $('.option_display_area{=goodsView['goodsNo']} input[name^="addGoodsCnt{=goodsView['goodsNo']}"]').length; cntCnt++){
+                $('.option_display_area{=goodsView['goodsNo']} input[name^="addGoodsCnt{=goodsView['goodsNo']}"]')[cntCnt].value = $('.option_display_area input[name^="addGoodsCnt"]')[cntCnt].value;
+            }
+            $('#relateGoodsList input[name=\'mode{=goodsView['goodsNo']}\']')[0].value = 'cartIn';
+
+            if(gd_goods_order_main('d') == false){
+                return false;
+            }
+
+            $('[id^=multiProduct]:checked').each( function( idex, value ){
+                var funcName = 'gd_goods_order_related_' + (value.id.replace('multiProduct', ''));
+                returned = window[funcName]('d');
+                if(returned == false) return false;
+            });
+            if(returned == true){
+                $('#relateGoodsList').attr('target','');
+                $('#relateGoodsList').submit();
+            }
+            return false;
+        });
+    })
+
+    /**
+     * 바로구매, 장바구니, 상품 보관함 메인상품 참조용
+     *
+     * @param string modeStr 처리 모드
+     */
+    var salesUnit_main = parseInt("{=gd_isset(goodsView['salesUnit'],1)}");
+    var minOrderCnt_main = parseInt("{=gd_isset(goodsView['minOrderCnt'],1)}");
+    var maxOrderCnt_main = parseInt("{=gd_isset(goodsView['maxOrderCnt'],0)}");
+    function gd_goods_order_main(modeStr)
+    {
+        {customScript}
+        $('#frmView input[name=\'cartMode\']').val(modeStr);
+
+        if (modeStr == 'w') {
+            <!--{ ? gd_is_login() === false }-->
+            alert("{=__('로그인하셔야 본 서비스를 이용하실 수 있습니다.')}");
+            document.location.href = "../member/login.php";
+            return false;
+            <!--{ : }-->
+
+            var goodsNoCnt = $('#frmView input[name*="goodsNo[]"]').length;
+            if(goodsNoCnt == 0) {
+                $('#frmView input[name="cartMode"]').val('{=goodsView["goodsNo"]}');
+            }
+
+            $('#frmView input[name="mode"]').val('wishIn');
+            <!--{ / }-->
+        } else {
+            $('#frmView input[name="mode"]').val('cartIn');
+
+            <!--{ ? goodsView['optionFl'] == 'y'}-->
+            var goodsInfo = $('#frmView input[name*=\'optionSno[]\']').length;
+            <!--{ : }-->
+            var goodsInfo = $('#frmView input[name="optionSnoInput"]').val();
+            <!--{ / }-->
+
+            if (goodsInfo == '') {
+                alert("{=__('메인상품 가격 정보가 없거나 옵션이 선택되지 않았습니다!')}");
+                return false;
+            }
+
+            <!--{ ? gd_isset(goodsView['optionTextFl']) == 'y' }-->
+            if(!goodsViewController.option_text_valid("#frmView")) {
+                alert("{=__('메인상품 입력 옵션을 확인해주세요.')}");
+                return false;
+            }
+            <!--{ / }-->
+
+            <!--{ ? goodsView['addGoods'] }-->
+            //추가상품
+            if(!goodsViewController.add_goods_valid("#frmView")) {
+                alert("{=__('메인상품 필수 추가 상품을 확인해주세요.')}");
+                return false;
+            }
+            <!--{ / }-->
+
+        }
+
+        submitFl = true;
+        var salesUnitMsgFl = false;
+        if (isNaN(goodsTotalCnt)) goodsTotalCnt = 1;
+        if (_.isEmpty(goodsOptionCnt)) goodsOptionCnt[0] = 1;
+        <!--{ ? goodsView['fixedSales'] == 'goods' }-->
+        var perSalesCnt = goodsTotalCnt % salesUnit_main;
+
+        if (perSalesCnt !== 0) {
+            alert(__('메인상품이 %s개 단위로 묶음 주문 상품입니다.', salesUnit_main));
+            salesUnitMsgFl = true;
+            if(modeStr != 'c') submitFl = false;
+        }
+        <!--{ : }-->
+        for (i in goodsOptionCnt) {
+            if (isNaN(goodsOptionCnt[i])) goodsOptionCnt[i] = 0;
+            var perSalesCnt = goodsOptionCnt[i] % salesUnit_main;
+
+            if (perSalesCnt !== 0) {
+                alert(__('메인상품이 %s개 단위로 묶음 주문 상품입니다.', salesUnit_main));
+                salesUnitMsgFl = true;
+                if(modeStr != 'c') submitFl = false;
+                break;
+            }
+        }
+        <!--{ / }-->
+
+        if (submitFl == true) {
+            <!--{ ? goodsView['fixedOrderCnt'] == 'goods' }-->
+            if (minOrderCnt_main > 1 && goodsTotalCnt < minOrderCnt_main && salesUnitMsgFl == false) {
+                alert(__('메인상품은 최소 %s개 이상 구매가능합니다.', minOrderCnt_main));
+                if(modeStr == 'd') submitFl = false;
+            } else if (maxOrderCnt_main > 0 && goodsTotalCnt > maxOrderCnt_main && salesUnitMsgFl == false) {
+                alert(__('메인상품은 최대 %s개 이하 구매가능합니다.', maxOrderCnt_main));
+                submitFl = false;
+            }
+            <!--{ : goodsView['fixedOrderCnt'] == 'id' }-->
+            //ajax로 id구매카운트 체크
+            var params = {
+                    mode: 'check_memberOrderGoodsCount',
+                    goodsNo: {=goodsView["goodsNo"]},
+                };
+            $.ajax({
+                method: "POST",
+                async: false,
+                cache: false,
+                url: '../order/order_ps.php',
+                data: params,
+                success: function (data) {
+                    // error 메시지 예외 처리용
+                    if (!_.isUndefined(data.error) && data.error == 1) {
+                        alert(data.message);
+                        return false;
+                    }
+
+                    if (minOrderCnt_main > 1 && (goodsTotalCnt + data.count) < minOrderCnt_main && salesUnitMsgFl == false) {
+                        alert(__('메인상품은 최소 %s개 이상 구매가능합니다.', minOrderCnt_main));
+                        if(modeStr == 'd') submitFl = false;
+                    } else if (minOrderCnt_main > 1 && goodsTotalCnt < minOrderCnt_main && salesUnitMsgFl == false) {
+                        alert(__('메인상품은 최소 %s개 이상 구매가능합니다.', minOrderCnt_main));
+                        if(modeStr == 'd') submitFl = false;
+                    } else if (maxOrderCnt_main > 0 && (goodsTotalCnt + data.count) > maxOrderCnt_main && salesUnitMsgFl == false) {
+                        alert(__('메인상품은 최대 %s개 이하 구매가능합니다.', maxOrderCnt_main));
+                        submitFl = false;
+                    } else if (maxOrderCnt_main > 0 && goodsTotalCnt > maxOrderCnt_main && salesUnitMsgFl == false) {
+                        alert(__('메인상품은 최대 %s개 이하 구매가능합니다.', maxOrderCnt_main));
+                        submitFl = false;
+                    }
+                },
+                error: function (data) {
+                    alert(data.message);
+                    submitFl = false;
+                }
+            });
+            <!--{ : }-->
+            var salesMinMsgFl = false;
+            var salesMaxMsgFl = false;
+
+            for (i in goodsOptionCnt) {
+                if (isNaN(goodsOptionCnt[i])) goodsOptionCnt[i] = 0;
+                var perSalesCnt = goodsOptionCnt[i] % salesUnit;
+
+                if (minOrderCnt_main > 1 && goodsOptionCnt[i] < minOrderCnt_main && salesUnitMsgFl == false) {
+                    if(salesMinMsgFl == false){
+                        alert(__('메인상품은 최소 %s개 이상 구매가능합니다.', minOrderCnt_main));
+                        salesMinMsgFl = true;
+                    }
+                    if(modeStr == 'd') submitFl = false;
+                    //break;
+                } else if (maxOrderCnt_main > 0 && goodsOptionCnt[i] > maxOrderCnt_main && salesUnitMsgFl == false) {
+                    if(salesMaxMsgFl == false) {
+                        alert(__('메인상품은 최대 %s개 이하 구매가능합니다.', maxOrderCnt_main));
+                        salesMaxMsgFl = true;
+                    }
+                    submitFl = false;
+                    break;
+                }
+            }
+            <!--{ / }-->
+        }
+        if ((modeStr == 'd') && submitFl === false) {
+            return false;
+        }
+
+        return submitFl;
+    }
+
+    function updateAmount(goodsNo, amount){
+        $('input[name^=goodsCnt'+goodsNo+']').val(amount)
+    }
+
+    function updateAmountSelect(goodsNo){
+        $('select[name^=optionSnoInputCnt'+goodsNo+']').val($('input[name^=goodsCnt'+goodsNo+']').val())
+        $('select[name^=optionSnoInputCnt'+goodsNo+']').trigger("chosen:updated");
+    }
+
+    function updateAmountAddGoods(goodsNo, key, amount){
+        $('input[name^="addGoodsCnt'+goodsNo+'['+key+']').val(amount)
+    }
+</script>
+<form id="relateGoodsList" method="post">
+<input type="hidden" name="deliveryCollectFl" value=""/>
+<input type="hidden" name="deliveryMethodFl" value=""/>
+<input type="hidden" name="mainGoods" value="{=goodsView['goodsNo']}"/>
+<input type="hidden" name="mode{=goodsView['goodsNo']}" value="cartIn" />
+<input type="hidden" name="scmNo{=goodsView['goodsNo']}" value="{=goodsView['scmNo']}" />
+<input type="hidden" name="cartMode{=goodsView['goodsNo']}" value="" />
+<input type="hidden" name="set_goods_price{=goodsView['goodsNo']}" value="{=gd_global_money_format(gd_isset(goodsView['goodsPrice'], 0), false)}" />
+<input type="hidden" id="set_goods_fixedPrice{=goodsView['goodsNo']}" name="set_goods_fixedPrice{=goodsView['goodsNo']}" value="{=gd_isset(goodsView['fixedPrice'], 0)}" />
+<input type="hidden" name="set_goods_mileage{=goodsView['goodsNo']}" value="{=gd_isset(goodsView['goodsMileageBasic'], 0)}" />
+<input type="hidden" name="set_goods_stock{=goodsView['goodsNo']}" value="{=gd_isset(goodsView['stockCnt'], 0)}" />
+<input type="hidden" name="set_coupon_dc_price{=goodsView['goodsNo']}" value="{=gd_isset(goodsView['goodsPrice'], 0)}" />
+<input type="hidden" id="set_goods_total_price{=goodsView['goodsNo']}" name="set_goods_total_price{=goodsView['goodsNo']}" value="0" />
+<input type="hidden" id="set_option_price{=goodsView['goodsNo']}" name="set_option_price{=goodsView['goodsNo']}" value="0" />
+<input type="hidden" id="set_option_text_price{=goodsView['goodsNo']}" name="set_option_text_price{=goodsView['goodsNo']}" value="0" />
+<input type="hidden" id="set_add_goods_price{=goodsView['goodsNo']}" name="set_add_goods_price{=goodsView['goodsNo']}" value="0" />
+<input type="hidden" name="set_total_price{=goodsView['goodsNo']}" value="{=gd_global_money_format(gd_isset(goodsView['goodsPrice'], 0), false)}" />
+<input type="hidden" name="mileageFl{=goodsView['goodsNo']}" value="{=goodsView['mileageFl']}" />
+<input type="hidden" name="mileageGoods{=goodsView['goodsNo']}" value="{=goodsView['mileageGoods']}" />
+<input type="hidden" name="mileageGoodsUnit{=goodsView['goodsNo']}" value="{=goodsView['mileageGoodsUnit']}" />
+<input type="hidden" name="goodsDiscountFl{=goodsView['goodsNo']}" value="{=goodsView['goodsDiscountFl']}" />
+<input type="hidden" name="goodsDiscount{=goodsView['goodsNo']}" value="{=goodsView['goodsDiscount']}" />
+<input type="hidden" name="goodsDiscountUnit{=goodsView['goodsNo']}" value="{=goodsView['goodsDiscountUnit']}" />
+<input type="hidden" name="taxFreeFl{=goodsView['goodsNo']}" value="{=goodsView['taxFreeFl']}" />
+<input type="hidden" name="taxPercent{=goodsView['goodsNo']}" value="{=goodsView['taxPercent']}" />
+<input type="hidden" name="scmNo{=goodsView['goodsNo']}" value="{=goodsView['scmNo']}" />
+<input type="hidden" name="brandCd{=goodsView['goodsNo']}" value="{=goodsView['brandCd']}" />
+<input type="hidden" name="cateCd{=goodsView['goodsNo']}" value="{=goodsView['cateCd']}" />
+<input type="hidden" id="set_dc_price{=goodsView['goodsNo']}" value="0" />
+<input type="hidden" id="goodsOptionCnt{=goodsView['goodsNo']}" value="1" />
+<input type="hidden" name="optionFl{=goodsView['goodsNo']}" value="{=goodsView['optionFl']}" />
+<!--{ ? goodsView['timeSaleFl'] }-->
+<!--{ ? goodsView['timeSaleInfo']['mileageFl'] == 'n' }-->
+<input type="hidden" name="goodsMileageExcept{=goodsView['goodsNo']}" value="y" />
+<!--{ / }-->
+<!--{ ? goodsView['timeSaleInfo']['memberDcFl'] == 'n' }-->
+<input type="hidden" name="memberBenefitExcept{=goodsView['goodsNo']}" value="y" />
+<!--{ / }-->
+<!--{ ? goodsView['timeSaleInfo']['couponFl'] == 'n' }-->
+<input type="hidden" name="couponBenefitExcept{=goodsView['goodsNo']}" value="y" />
+<!--{ / }-->
+<!--{ / }-->
+<input type="hidden" name="useBundleGoods{=goodsView['goodsNo']}" value="1" />
+
+<input type="hidden" id="multiProduct{=goodsView['goodsNo']}" class="require" name="chkRelatedGoods[]" value="{=goodsView['goodsNo']}"/>
+
+<table class="option_display_area{=goodsView['goodsNo']}" border="0" cellpadding="0" cellspacing="0" style="display:none">
+    <colgroup>
+        <col width="330px">
+        <col>
+        <col width="80px">
+        <col width="40px">
+    </colgroup>
+</table>
+
+<div id="relateGoodsList" method="post">
+    <input type="hidden" name="mode" value="cartInMulti" />
+    <input type="hidden" name="cartMode" value="" />
+    <!--{ ? widgetTheme.detailSetPosition['12'] == 'UB' || widgetTheme.detailSetPosition['12'] == 'UP' }-->
+    <div class="multiple_selection_btn">
+        <!--{ ? widgetTheme.detailSetButton['12'] == 'C' || widgetTheme.detailSetButton['12'] == 'B' }-->
+        <a href="#" class="btn_add_cart_related"><em>{=__('장바구니')}</em></a>
+        <!--{ / }-->
+        <!--{ ? widgetTheme.detailSetButton['12'] == 'D' || widgetTheme.detailSetButton['12'] == 'B' }-->
+        <a href="#" class="btn_add_order_related"><em>{=__('바로 구매')}</em></a>
+        <!--{ / }-->
+    </div>
+    <!--{ / }-->
+    <!--{ ? goodsList }-->
+    <div>
+        <ul style="background-color: white; margin-bottom: 15px;">
+            <!--{ @ goodsList }-->
+            <!--{ @ .value_ }-->
+            <input type="hidden" name="mode{=..goodsNo}" value="cartIn" />
+            <input type="hidden" name="scmNo{=..goodsNo}" value="{=..scmNo}" />
+            <input type="hidden" name="cartMode{=..goodsNo}" value="" />
+            <input type="hidden" name="set_goods_price{=..goodsNo}" value="{=gd_global_money_format(gd_isset(..goodsPrice, 0), false)}" />
+            <input type="hidden" id="set_goods_fixedPrice{=..goodsNo}" name="set_goods_fixedPrice{=..goodsNo}" value="{=gd_isset(..fixedPrice, 0)}" />
+            <input type="hidden" name="set_goods_mileage{=..goodsNo}" value="{=gd_isset(..goodsMileageBasic, 0)}" />
+            <input type="hidden" name="set_goods_stock{=..goodsNo}" value="{=gd_isset(..stockCnt, 0)}" />
+            <input type="hidden" name="set_coupon_dc_price{=..goodsNo}" value="{=gd_isset(..goodsPrice, 0)}" />
+            <input type="hidden" id="set_goods_total_price{=..goodsNo}" name="set_goods_total_price{=..goodsNo}" value="0" />
+            <input type="hidden" id="set_option_price{=..goodsNo}" name="set_option_price{=..goodsNo}" value="0" />
+            <input type="hidden" id="set_option_text_price{=..goodsNo}" name="set_option_text_price{=..goodsNo}" value="0" />
+            <input type="hidden" id="set_add_goods_price{=..goodsNo}" name="set_add_goods_price{=..goodsNo}" value="0" />
+            <input type="hidden" name="set_total_price{=..goodsNo}" value="{=gd_global_money_format(gd_isset(..goodsPrice, 0), false)}" />
+            <input type="hidden" name="mileageFl{=..goodsNo}" value="{=..mileageFl}" />
+            <input type="hidden" name="mileageGoods{=..goodsNo}" value="{=..mileageGoods}" />
+            <input type="hidden" name="mileageGoodsUnit{=..goodsNo}" value="{=..mileageGoodsUnit}" />
+            <input type="hidden" name="goodsDiscountFl{=..goodsNo}" value="{=..goodsDiscountFl}" />
+            <input type="hidden" name="goodsDiscount{=..goodsNo}" value="{=..goodsDiscount}" />
+            <input type="hidden" name="goodsDiscountUnit{=..goodsNo}" value="{=..goodsDiscountUnit}" />
+            <input type="hidden" name="taxFreeFl{=..goodsNo}" value="{=..taxFreeFl}" />
+            <input type="hidden" name="taxPercent{=..goodsNo}" value="{=..taxPercent}" />
+            <input type="hidden" name="brandCd{=..goodsNo}" value="{=..brandCd}" />
+            <input type="hidden" name="cateCd{=..goodsNo}" value="{=..cateCd}" />
+            <input type="hidden" id="set_dc_price{=..goodsNo}" value="0" />
+            <input type="hidden" id="goodsOptionCnt{=..goodsNo}" value="1" />
+            <input type="hidden" name="optionFl{=..goodsNo}" value="{=..optionFl}" />
+            <!--{ ? goodsView['timeSaleFl'] }-->
+            <!--{ ? goodsView['timeSaleInfo']['mileageFl'] == 'n' }-->
+            <input type="hidden" name="goodsMileageExcept{=..goodsNo}" value="y" />
+            <!--{ / }-->
+            <!--{ ? goodsView['timeSaleInfo']['memberDcFl'] == 'n' }-->
+            <input type="hidden" name="memberBenefitExcept{=..goodsNo}" value="y" />
+            <!--{ / }-->
+            <!--{ ? goodsView['timeSaleInfo']['couponFl'] == 'n' }-->
+            <input type="hidden" name="couponBenefitExcept{=..goodsNo}" value="y" />
+            <!--{ / }-->
+            <!--{ / }-->
+            <input type="hidden" name="useBundleGoods{=..goodsNo}" value="1" />
+
+            <script type="text/javascript">
+                <!--
+                var goodsViewController_{=..goodsNo} = new gd_goods_view();
+
+                $(document).ready(function(){
+                    var parameters = {
+                        'setControllerName' : goodsViewController_{=..goodsNo},
+                        'setOptNo' : '{=..goodsNo}',
+                        'setOptionFl' : '{=..optionFl}',
+                        'setOptionTextFl'	: '{=..optionTextFl}',
+                        'setOptionDisplayFl'	: '{=..optionDisplayFl}',
+                        'setAddGoodsFl'	: '{? ..addGoods}y{ : }n{ / }',
+                        'setIntDivision'	: '{=c.INT_DIVISION}',
+                        'setStrDivision'	: '{=c.STR_DIVISION}',
+                        'setMileageUseFl'	: 'n',
+                        'setCouponUseFl'	: 'n',
+                        'setMinOrderCnt'	: '{=..minOrderCnt}',
+                        'setMaxOrderCnt'	: '{=..maxOrderCnt}',
+                        'setStockFl'	: '{=..stockFl}',
+                        'setSalesUnit' : '{=gd_isset(..salesUnit, 1)}',
+                        'setDecimal' : '{currency.decimal}',
+                        'setGoodsPrice' : '{=..goodsPrice}',
+                        'setGoodsNo' : '{=..goodsNo}',
+                        'setMileageFl' : ' {=..mileageFl}',
+                        'setFixedSales' : '{=..fixedSales}',
+                        'setFixedOrderCnt' : '{=..fixedOrderCnt}',
+                        'setGoodsNm' : "{=..goodsNm}"
+                    };
+                    goodsViewController_{=..goodsNo}.init(parameters);
+                });
+
+                /**
+                 * 관련상품 총 합산
+                 */
+                function total_calculate_{=..goodsNo}()
+                {
+                    var goodsPrice = parseFloat($('input[name="set_goods_price{=..goodsNo}"]').val());
+
+                    //총합계 계산
+                    var goodsTotalCnt =  0;
+                    $('input[name*=\'goodsCnt{=..goodsNo}[]\']').each(function (index) {
+                        goodsTotalCnt += parseFloat($(this).val());
+                        goodsOptionCnt[index] = parseFloat($(this).val());
+                    });
+                    var goodsTotalPrice = goodsPrice*goodsTotalCnt;
+
+
+                    var setOptionPrice =  0;
+
+
+                    $('input[name*="optionPriceSum{=..goodsNo}[]"]').each(function () {
+                        setOptionPrice += parseFloat($(this).val());
+                    });
+
+                    var setOptionTextPrice =  0;
+                    $('input[name*="optionTextPriceSum{=..goodsNo}[]"]').each(function () {
+                        setOptionTextPrice += parseFloat($(this).val());
+                    });
+
+
+                    var setAddGoodsPrice =  0;
+                    $('input[name*="add_goods_total_price{=..goodsNo}"]').each(function () {
+                        setAddGoodsPrice += parseFloat($(this).val());
+                    });
+
+                    $('input[name="set_option_price{=..goodsNo}"]').val(setOptionPrice);
+                    $('input[name="set_option_text_price{=..goodsNo}"]').val(setOptionTextPrice);
+                    $('input[name="set_add_goods_price{=..goodsNo}"]').val(setAddGoodsPrice);
+
+
+                    var totalGoodsPrice = (goodsTotalPrice + setOptionPrice + setOptionTextPrice + setAddGoodsPrice).toFixed({currency.decimal});
+                    $('input[name="set_total_price{=..goodsNo}"]').val(totalGoodsPrice);
+                    $(".goods_total_price{=..goodsNo}").html(" {=gd_global_currency_symbol()} "+gd_money_format(totalGoodsPrice)+"<b>{=gd_global_currency_string()}</b>");
+
+                    <!--{ ? addGlobalCurrency }-->
+                    $(".goods_total_price{=..goodsNo}").append("<p class='add_currency ta-r'>{=gd_global_add_currency_symbol()} "+gd_add_money_format(totalGoodsPrice)+"{=gd_global_add_currency_string()}</p>");
+                    <!--{ / }-->
+                    $('button.goods_cnt').attr('disabled', false);
+                    $('button.add_goods_cnt').attr('disabled', false);
+                }
+
+                /**
+                 * 바로구매, 장바구니, 상품 보관함 - 관련상품
+                 *
+                 * @param string modeStr 처리 모드
+                 */
+                var salesUnit_{=..goodsNo} = parseInt("{=gd_isset(..salesUnit,1)}");
+                var minOrderCnt_{=..goodsNo} = parseInt("{=gd_isset(..minOrderCnt,1)}");
+                var maxOrderCnt_{=..goodsNo} = parseInt("{=gd_isset(..maxOrderCnt,0)}");
+                function gd_goods_order_related_{=..goodsNo}(modeStr)
+                {
+                    var goodsNm = "{=gd_htmlspecialchars_addslashes(..goodsNm)}";
+
+                    {customScript}
+                    //$('#relateGoodsList input[name=\'cartMode{=..goodsNo}\']').val(modeStr);
+                    $('#relateGoodsList input[name=\'cartMode\']').val(modeStr);
+
+                    $('#relateGoodsList input[name="mode{=..goodsNo}"]').val('cartInMulti');
+                    $('#relateGoodsList input[name="mode"]').val('cartInMulti');
+                    $('#relateGoodsList').attr('action','../order/cart_ps.php');
+
+                    <!--{ ? ..optionFl == 'y'}-->
+                    var goodsInfo = $('#relateGoodsList input[name*=\'optionSno{=..goodsNo}[]\']').length;
+                    <!--{ : }-->
+                    var goodsInfo = $('#relateGoodsList input[name="optionSnoInput{=..goodsNo}"]').val();
+                    <!--{ / }-->
+
+                    if (goodsInfo == '') {
+                        alert(__('%1$s: 가격 정보가 없거나 옵션이 선택되지 않았습니다!', goodsNm));
+                        return false;
+                    }
+
+                    <!--{ ? gd_isset(..optionTextFl) == 'y' }-->
+                    if(!goodsViewController_{..goodsNo}.option_text_valid("#relateGoodsList")) {
+                    alert(__('%1$s: 입력 옵션을 확인해주세요.', goodsNm));
+                    return false;
+                }
+                    <!--{ / }-->
+
+                    <!--{ ? ..addGoods }-->
+                    //추가상품
+                    if(!goodsViewController_{..goodsNo}.add_goods_valid("#relateGoodsList")) {
+                    alert(__('%1$s: 필수 추가 상품을 확인해주세요.', goodsNm));
+                    return false;
+                }
+                    <!--{ / }-->
+
+
+                    var submitFl = true;
+                    var salesUnitMsgFl = false;
+                    var goodsTotalCnt{=..goodsNo} = $('input[name="goodsCnt{=..goodsNo}[]"]').val();
+                    var goodsOptionCnt{=..goodsNo} = $('input[name="goodsCnt{=..goodsNo}[]"]').val();
+                    <!--{ ? ..fixedSales == 'goods' }-->
+                    var perSalesCnt = goodsTotalCnt{=..goodsNo} % salesUnit_{=..goodsNo};
+
+                    if (perSalesCnt !== 0) {
+                        alert(__('%1$s: %2$s개 단위로 묶음 주문 상품입니다.', [goodsNm, salesUnit_{=..goodsNo}]));
+                        salesUnitMsgFl = true;
+                        if(modeStr == 'd') submitFl = false;
+                    }
+                    <!--{ : }-->
+                    if (isNaN(goodsOptionCnt{=..goodsNo})) goodsOptionCnt{=..goodsNo} = 0;
+                    var perSalesCnt = goodsOptionCnt{=..goodsNo} % salesUnit_{=..goodsNo};
+
+                    if (perSalesCnt !== 0) {
+                        alert(__('%1$s: %2$s개 단위로 묶음 주문 상품입니다.', [goodsNm, salesUnit_{=..goodsNo}]));
+                        salesUnitMsgFl = true;
+                        if(modeStr == 'd') submitFl = false;
+                    }
+                    <!--{ / }-->
+
+                    if (submitFl == true && perSalesCnt == 0) {
+                        <!-- {=..fixedOrderCnt} -->
+                        <!--{ ? ..fixedOrderCnt == 'goods' }-->
+                        if (goodsTotalCnt{=..goodsNo} < minOrderCnt_{=..goodsNo} && salesUnitMsgFl == false) {
+                            alert(__('%1$s 상품당 최소 %2$s개 이상 구매가능합니다.', [goodsNm, minOrderCnt_{=..goodsNo}]));
+                            if(modeStr == 'd') submitFl = false;
+                        } else if (maxOrderCnt_{=..goodsNo} > 0 && goodsTotalCnt{=..goodsNo} > maxOrderCnt_{=..goodsNo} && salesUnitMsgFl == false) {
+                            alert(__('%1$s 상품당 최대 %2$s개 이하 구매가능합니다.', [goodsNm, maxOrderCnt_{=..goodsNo}]));
+                            submitFl = false;
+                        } else if ($('input[name="goodsCnt{=..goodsNo}[]"]').data('stockFl') == 'y' && $('input[name="goodsCnt{=..goodsNo}[]"]').data('stock') < $('input[name="goodsCnt{=..goodsNo}[]"]').val() && salesUnitMsgFl == false) {
+                            alert(__('%1$s 상품당 최대 %2$s개 이하 구매가능합니다.', [goodsNm, $('input[name="goodsCnt{=..goodsNo}[]"]').data('stock')]));
+                            submitFl = false;
+                        }
+                        <!--{ : ..fixedOrderCnt == 'id' }-->
+                        var params = {
+                            mode: 'check_memberOrderGoodsCount',
+                            goodsNo: {=..goodsNo},
+                        };
+                        $.ajax({
+                            method: "POST",
+                            async: false,
+                            cache: false,
+                            url: '../order/order_ps.php',
+                            data: params,
+                            success: function (data) {
+                                // error 메시지 예외 처리용
+                                if (!_.isUndefined(data.error) && data.error == 1) {
+                                    alert(data.message);
+                                    submitFl = false;
+                                }
+
+                                if (goodsTotalCnt{=..goodsNo} < minOrderCnt_{=..goodsNo} && salesUnitMsgFl == false) {
+                                    alert(__('%1$s ID당 최소 %2$s개 이상 구매가능합니다.', [goodsNm, minOrderCnt_{=..goodsNo}]));
+                                    if(modeStr == 'd') submitFl = false;
+                                } else if ((goodsTotalCnt{=..goodsNo} + data.count) < minOrderCnt_{=..goodsNo} && salesUnitMsgFl == false) {
+                                    alert(__('%1$s ID당 최소 %2$s개 이상 구매가능합니다.', [goodsNm, minOrderCnt_{=..goodsNo}]));
+                                    if(modeStr == 'd') submitFl = false;
+                                } else if (maxOrderCnt_{=..goodsNo} > 0 && goodsTotalCnt{=..goodsNo} > maxOrderCnt_{=..goodsNo} && salesUnitMsgFl == false) {
+                                    alert(__('%1$s ID당 최대 %2$s개 이하 구매가능합니다.', [goodsNm, maxOrderCnt_{=..goodsNo}]));
+                                    submitFl = false;
+                                } else if ($('input[name="goodsCnt{=..goodsNo}[]"]').data('stockFl') == 'y' && $('input[name="goodsCnt{=..goodsNo}[]"]').data('stock') < $('input[name="goodsCnt{=..goodsNo}[]"]').val() && salesUnitMsgFl == false) {
+                                    alert(__('%1$s ID당 최대 %2$s개 이하 구매가능합니다.', [goodsNm, $('input[name="goodsCnt{=..goodsNo}[]"]').data('stock')]));
+                                    submitFl = false;
+                                } else if (maxOrderCnt_{=..goodsNo} > 0 && (goodsTotalCnt{=..goodsNo} + data.count) > maxOrderCnt_{=..goodsNo} && salesUnitMsgFl == false) {
+                                    alert(__('%1$s ID당 최대 %2$s개 이하 구매가능합니다.', [goodsNm, maxOrderCnt_{=..goodsNo}]));
+                                    submitFl = false;
+                                }
+                            },
+                            error: function (data) {
+                                alert(data.message);
+                                submitFl = false;
+                            }
+                        });
+                        <!--{ : }-->
+                        if (isNaN(goodsOptionCnt{=..goodsNo})) goodsOptionCnt{=..goodsNo} = 0;
+                        var perSalesCnt = goodsOptionCnt{=..goodsNo} % salesUnit_{=..goodsNo};
+
+                        if (goodsOptionCnt{=..goodsNo} < minOrderCnt_{=..goodsNo} && salesUnitMsgFl == false) {
+                            alert(__('%1$s 옵션당 최소 %2$s개 이상 구매가능합니다.', [goodsNm, minOrderCnt_{=..goodsNo}]));
+                            if(modeStr == 'd') submitFl = false;
+                        } else if (maxOrderCnt_{=..goodsNo} > 0 && goodsOptionCnt{=..goodsNo} > maxOrderCnt_{=..goodsNo} && salesUnitMsgFl == false) {
+                            alert(__('%1$s 옵션당 최대 %2$s개 이하 구매가능합니다.', [goodsNm, maxOrderCnt_{=..goodsNo}]));
+                            submitFl = false;
+                        } else if ($('input[name="goodsCnt{=..goodsNo}[]"]').data('stockFl') == 'y' && $('input[name="goodsCnt{=..goodsNo}[]"]').data('stock') < $('input[name="goodsCnt{=..goodsNo}[]"]').val() && salesUnitMsgFl == false) {
+                            alert(__('%1$s 옵션당 최대 %2$s개 이하 구매가능합니다.', [goodsNm, $('input[name="goodsCnt{=..goodsNo}[]"]').data('stock')]));
+                            submitFl = false;
+                        }
+                        <!--{ / }-->
+                    }
+                    return submitFl;
+                }
+
+                $("body").undelegate('button.goods_cnt{=..goodsNo}', 'click');
+                $('body').delegate('button.goods_cnt{=..goodsNo}', 'click', function(e) {
+                    goodsViewController_{=..goodsNo}.count_change(this);
+                });
+
+                $("body").undelegate('button.add_goods_cnt{=..goodsNo}', 'click');
+                $('body').delegate('button.add_goods_cnt{=..goodsNo}', 'click', function(e) {
+                    goodsViewController_{=..goodsNo}.count_change(this);
+                });
+
+                //chosen select 사이즈 조절
+                function resizeOption(type, goodsNo){
+
+                    if(type == 'single'){
+                        var minWidth = $('select[name="optionSnoInput'+goodsNo+'"] + div').outerWidth();
+                        var maxWidth = minWidth;
+                        for(i=0; i < $('select[name="optionSnoInput'+goodsNo+'"] + div div.chosen-drop li').length; i++){
+                            if(maxWidth < $('select[name="optionSnoInput'+goodsNo+'"] + div div.chosen-drop li:eq('+i+')')[0].scrollWidth){
+                                maxWidth = $('select[name="optionSnoInput'+goodsNo+'"] + div div.chosen-drop li:eq('+i+')')[0].scrollWidth;
+                            }
+                        }
+
+                        if (minWidth != maxWidth) maxWidth = maxWidth + 45;
+
+                        $('select[name="optionSnoInput'+goodsNo+'"] + div div.chosen-drop').css({'width': maxWidth});
+                    }else if(type == 'double'){
+                        var minWidth = $('select[name="optionNo'+goodsNo+'"] + div').outerWidth();
+                        var maxWidth = minWidth;
+                        for(i=0; i < $('select[name="optionNo'+goodsNo+'"] + div div.chosen-drop li').length; i++){
+                            if(maxWidth < $('select[name="optionNo'+goodsNo+'"] + div div.chosen-drop li:eq('+i+')')[0].scrollWidth){
+                                maxWidth = $('select[name="optionNo'+goodsNo+'"] + div div.chosen-drop li:eq('+i+')')[0].scrollWidth;
+                            }
+                        }
+
+                        if (minWidth != maxWidth) maxWidth = maxWidth + 30;
+
+                        $('select[name="optionNo'+goodsNo+'"] + div div.chosen-drop').css({'width': maxWidth});
+                    }else if (type == "add"){
+                        var minWidth = $('select[name="addGoodsInput'+goodsNo+'"] + div').outerWidth();
+                        var maxWidth = minWidth;
+                        for(i=0; i < $('select[name="addGoodsInput'+goodsNo+'"] + div div.chosen-drop li').length; i++){
+                            if(maxWidth < $('select[name="addGoodsInput'+goodsNo+'"] + div div.chosen-drop li:eq('+i+')')[0].scrollWidth){
+                                maxWidth = $('select[name="addGoodsInput'+goodsNo+'"] + div div.chosen-drop li:eq('+i+')')[0].scrollWidth;
+                            }
+                        }
+
+                        if (minWidth != maxWidth) maxWidth = maxWidth + 70;
+
+                        $('select[name="addGoodsInput'+goodsNo+'"] + div div.chosen-drop').css({'width': maxWidth});
+                    }
+                }
+            </script>
+            <script type="text/html" id="optionTemplateRelated{=..goodsNo}">
+                <tbody id="option_display_item_{=..goodsNo}_<%=displayOptionkey%>">
+                <tr class="check optionKey{=..goodsNo}_<%=optionSno%>">
+                    <td class="cart_prdt_name">
+                        <span id="option_text_display{=..goodsNo}_<%=displayOptionkey%>" style="display:none"></span>
+                        <input type="hidden" name="goodsNo{=..goodsNo}[]" value="{=..goodsNo}" />
+                        <input type="hidden" name="optionSno{=..goodsNo}[]" value="<%=optionSno%>" />
+                        <input type="hidden" name="goodsPriceSum{=..goodsNo}[]" value="0" />
+                        <input type="hidden" name="addGoodsPriceSum{=..goodsNo}[]" value="0" />
+                        <input type="hidden" name="displayOptionkey{=..goodsNo}[]" value="<%=displayOptionkey%>" />
+                        <input type="hidden" name="option_price{=..goodsNo}_<%=displayOptionkey%>" value="<%=optionPrice%>" />
+                        <input type="hidden" name="optionPriceSum{=..goodsNo}[]" value="0" />
+                        <span class="count" style="padding: 0px;">
+                            <span class="goods_qty">
+                                <div style=" float:left;">
+                                    <input type="text" class="text goodsCnt{=..goodsNo}_<%=displayOptionkey%>" style="width:<!--{=widgetTheme.relationImgSize-24}-->px" title="{=__('수량')}" name="goodsCnt{=..goodsNo}[]" value="1" data-value="1" data-stock-fl="{..stockFl}" data-stock="<%=optionStock%>" data-key="<%=displayOptionkey%>" onchange="updateAmountSelect({=..goodsNo});goodsViewController_{=..goodsNo}.input_count_change(this, 1);return false;" />
+                                </div>
+                                <div style="width:23px; float:left;">
+                                    <span>
+                                        <button type="button" class="up goods_cnt{=..goodsNo}" title="{=__('증가')}"  value="up{=c.STR_DIVISION}{=..goodsNo}">{=__('증가')}</button>
+                                        <button type="button" class="down goods_cnt{=..goodsNo}" title="{=__('감소')}" value="dn{=c.STR_DIVISION}{=..goodsNo}">{=__('감소')}</button>
+                                    </span>
+                                </div>
+                            </span>
+                        </span>
+                    </td>
+                </tr>
+                </tbody>
+            </script>
+
+            <script type="text/html" id="addGoodsTemplateRelated{=..goodsNo}">
+                <tbody id="add_goods_display_item_<%=displayOptionkey%>">
+                    <tr>
+                        <td>
+                            <input type="hidden" name="addGoodsNo{=..goodsNo}[<%=optionIndex%>][]" value="<%=optionSno%>" data-group="<%=addGoodsGroup%>" />
+                            <span class="count" style="padding:0px">
+                                <span class="goods_qty">
+                                    <div style=" float:left;">
+                                        <input type="text" style="padding:0; width:24px" name="addGoodsCnt{=..goodsNo}[<%=optionIndex%>][]" class="text addGoodsCnt{=..goodsNo}_<%=displayOptionkey%>_<%=displayAddGoodsKey%>" title="{=__('수량')}" value="1"  data-key="<%=displayOptionkey%>{=c.INT_DIVISION}<%=displayAddGoodsKey%>" data-value="1" data-stock-fl="<%=addGoodsStockFl%>"  data-stock="<%=addGoodsStock%>" onchange="addGoodsViewController_<%=optionSno%>.input_count_change(this);return false;"/>
+                                        <input type="hidden" name="add_goods_price{=..goodsNo}_<%=displayOptionkey%>_<%=displayAddGoodsKey%>" value="<%=addGoodsPrice%>" />
+                                        <input type="hidden" name="add_goods_total_price{=..goodsNo}_[<%=optionIndex%>][]" value="" />
+                                    </div>
+                                    <div style="width:23px; float:left;">
+                                        <span>
+                                            <button type="button" class="up add_goods_cnt{=..goodsNo}" title="{=__('증가')}"  value="up{=c.STR_DIVISION}<%=displayOptionkey%>{=c.INT_DIVISION}<%=displayAddGoodsKey%>">{=__('증가')}</button>
+                                            <button type="button" class="down add_goods_cnt{=..goodsNo}" title="{=__('감소')}" value="dn{=c.STR_DIVISION}<%=displayOptionkey%>{=c.INT_DIVISION}<%=displayAddGoodsKey%>">{=__('감소')}</button>
+                                        </span>
+                                    </div>
+                                </span>
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </script>
+
+            <li <!--{ ? themeInfo.soldOutIconFl == 'y' && ..soldOut =='y' && soldoutDisplay.soldout_overlay != '0' }-->class="item_soldout"<!--{ / }--> style="width:{=(100/themeInfo.lineCnt)}%;">
+                <div class="item_cont" style="width:<!--{=widgetTheme.relationImgSize}-->px">
+                    <div class="item_photo_box" <!--{ ? ..goodsData }-->{=..goodsData}<!--{ / }-->>
+                        <a href="{=gd_goods_url(..goodsUrl, ..goodsNo)}" <!--{ ? themeInfo.relationLinkFl == 'blank' }--> target="_blank"<!--{ / }-->>
+                            <!--{ ? in_array('img', themeInfo.displayField) && gd_isset(..goodsImage) }-->
+                                {..goodsImage}
+                            <!--{ / }-->
+                            <!--{ ? ..timeSaleFl }-->
+                                <span class="icon_time_sale"><img src="../../img/icon/goods_icon/icon_time_sale.png" alt="{=__('타임세일')}" /></span>
+                            <!--{ / }-->
+                            <!--{ ? themeInfo.soldOutIconFl == 'y' && ..soldOut =='y' && soldoutDisplay.soldout_overlay != '0' }-->
+                                <strong class="item_soldout_bg" style="background-image:url({soldoutDisplay.soldout_overlay_img});">SOLD OUT</strong>
+                            <!--{ / }-->
+                        </a>
+                    </div>
+                    <!-- //item_photo_box -->
+                    <!--{ ? in_array('goodsColor',themeInfo.displayField) }-->
+                    {..goodsColor}
+                    <!--{ / }-->
+                    <div class="item_info_cont">
+                        <div class="item_tit_box">
+                            <!--{ ? in_array('brandCd', themeInfo.displayField) && gd_isset(..brandNm) || in_array('makerNm', themeInfo.displayField) && gd_isset(..makerNm) }-->
+                                <span class="item_brand">
+                                    <!--{ ? in_array('brandCd', themeInfo.displayField) && gd_isset(..brandNm) }-->
+                                        <strong>[{..brandNm}]</strong>
+                                    <!--{ / }-->
+                                    <!--{ ? in_array('makerNm', themeInfo.displayField) && gd_isset(..makerNm) }-->
+                                        {..makerNm}
+                                    <!--{ / }-->
+                                </span>
+                            <!--{ / }-->
+                            <a href="{=gd_goods_url(..goodsUrl, ..goodsNo)}"<!--{ ? themeInfo.relationLinkFl == 'blank' }--> target="_blank"<!--{ / }-->>
+                                <span class="form_element">
+                                    <!--{ ? ..checkable == 'n' || ..orderPossible != 'y' }-->
+                                    <input type="checkbox" id="multiProduct{=..goodsNo}" disabled class="require" name="chkRelatedGoods[]" value="{=..goodsNo}"/>
+                                    <label class="check_s" for="multiProduct{=..goodsNo}">선택</label>
+                                    <!--{ : }-->
+                                    <input type="checkbox" id="multiProduct{=..goodsNo}" class="require" name="chkRelatedGoods[]" value="{=..goodsNo}"/>
+                                    <label class="check_s" for="multiProduct{=..goodsNo}">선택</label>
+                                    <!--{ / }-->
+                                </span>
+                                <!--{ ? in_array('goodsNm', themeInfo.displayField) && gd_isset(..goodsNm) }-->
+                                <strong class="item_name" style="display: inline-block; word-break:break-all;">{..goodsNm}</strong>
+                                <!--{ / }-->
+                                <!--{ ? in_array('shortDescription', themeInfo.displayField) && gd_isset(..shortDescription) }-->
+                                    <span class="item_name_explain">{..shortDescription}</span>
+                                <!--{ / }-->
+                            </a>
+                        </div>
+                        <!-- //item_tit_box -->
+
+                        <div class="item_money_box">
+                            <!--{ ? in_array('fixedPrice', themeInfo.displayField) && gd_isset(..fixedPrice) && ..fixedPrice > 0 && ..goodsPriceDisplayFl =='y'}-->
+                            <span style="<!--{ ? in_array('fixedPrice', themeInfo.priceStrike)}-->color:#888; text-decoration:line-through;<!--{ / }-->">{=gd_global_currency_symbol()}{=gd_global_money_format(..fixedPrice)}{=gd_global_currency_string()} {=gd_global_add_currency_display(..fixedPrice)}</span>
+                            <!--{ / }-->
+                            <!--{ ? in_array('goodsPrice', themeInfo.displayField) && gd_isset(..goodsPrice) }-->
+                                <!--{ ? themeInfo.soldOutIconFl == 'y' && ..soldOut =='y' && soldoutDisplay.soldout_price == 'text' }-->
+                                    <strong class="item_price">{=soldoutDisplay.soldout_price_text}</strong>
+                                <!--{ : themeInfo.soldOutIconFl == 'y' && ..soldOut =='y' && soldoutDisplay.soldout_price == 'custom' }-->
+                                    <strong class="item_price"><img src="{soldoutDisplay.soldout_price_img}" alt="{soldoutDisplay.soldout_price_img_filename}" /></strong>
+                                <!--{ : }-->
+                                    <strong class="item_price">
+                                        <!--{ ? ..goodsPriceString != '' }-->
+                                            {..goodsPriceString}
+                                        <!--{ : }-->
+                                            <!--{ ? ..timeSaleFl && ..timeSaleGoodsPriceViewFl == 'y' && ..goodsPriceDisplayFl =='y'}-->
+                                                {=gd_global_currency_symbol()}{=gd_global_money_format(..oriGoodsPrice)}{=gd_global_currency_string()} {=gd_global_add_currency_display(..oriGoodsPrice)}<br />
+                                            <!--{ / }-->
+                                            <span <!--{ ? ..timeSaleFl }-->class='time_sale_cost'<!--{ : }--> style="<!--{ ? in_array('goodsPrice', themeInfo.priceStrike) && ((in_array('coupon', themeInfo.displayField) && ..couponPrice != '' && ..goodsPriceDisplayFl =='y') || (in_array('goodsDiscount', themeInfo.displayField) && ..dcPrice > 0)) }-->text-decoration:line-through<!--{ / }-->"<!--{ / }-->>{=gd_global_currency_symbol()}{=gd_global_money_format(..goodsPrice)}{=gd_global_currency_string()} {=gd_global_add_currency_display(..goodsPrice)}</span>
+                                        <!--{ / }-->
+                                    </strong>
+                                <!--{ / }-->
+                            <!--{ / }-->
+                            <!--{ ? in_array('goodsDiscount', themeInfo.displayField) && ..dcPrice > 0 && ..goodsPriceDisplayFl =='y' }-->
+                            <strong class="item_price">
+                                {=gd_global_currency_symbol()}{=gd_global_money_format(..goodsPrice - ..dcPrice)}{=gd_global_currency_string()} {=gd_global_add_currency_display(..goodsPrice - ..dcPrice)}<!--{ ? in_array('dcRate', themeInfo.displayAddField) && gd_isset(..goodsDcRate) }--> <span class="item_number_box">({=..goodsDcRate}%)</span><!--{ / }-->
+                            </strong>
+                            <!--{ / }-->
+                            <!--{ ? in_array('coupon', themeInfo.displayField) && ..couponPrice != '' && ..goodsPriceDisplayFl =='y'}-->
+                                <strong class="item_sale">
+                                    {=gd_global_currency_symbol()}{=gd_global_money_format(..couponPrice)} {=gd_global_currency_string()} {=gd_global_add_currency_display(..couponPrice)}
+                                    <!--{ ? in_array('dcRate', themeInfo.displayAddField) && gd_isset(..couponDcRate) }--> <span class="item_number_box">({=..couponDcRate}%)</span><!--{ / }-->
+                                    <a class="icon_item_coupon"><img src="../../img/icon/goods_icon/icon_coupon.png" alt="{=__('쿠폰')}" title="{=__('쿠폰')}" /></a>
+                                </strong>
+                            <!--{ / }-->
+                            <!--{ ? in_array('goodsDcPrice',themeInfo.displayField) && gd_isset(..goodsDcPrice) && ..goodsPriceDisplayFl =='y'}-->
+                                <span class="mileage"><img src="../../img/icon/goods_icon/icon_discount.png" alt="{=__('상품할인금액')}"> {=gd_global_money_format(..goodsDcPrice)} {=gd_global_currency_string()}</span><br/>
+                            <!--{ / }-->
+                            <!--{ ? in_array('mileage', themeInfo.displayField) && gd_isset(..mileageBasic) && ..goodsPriceDisplayFl =='y' }-->
+                               <span class="item_mileage">
+                                    <img src="../../img/icon/goods_icon/icon_mileage.png" alt="{=__('마일리지')}" title="{=__('마일리지')}" /> {..mileageBasic} {=mileageData['unit']}
+                               </span>
+                            <!--{ / }-->
+                        </div>
+                        <!-- //item_money_box -->
+
+                        <!--{ ? (in_array('goodsModelNo', themeInfo.displayField) && gd_isset(..goodsModelNo)) || (in_array('goodsNo',themeInfo.displayField) && gd_isset(..goodsNo)) }-->
+                            <div class="item_number_box">
+                                <!--{ ? in_array('goodsModelNo',themeInfo.displayField) && gd_isset(..goodsModelNo) }-->
+                                    <span class="num_model">{=__('모델번호')} : {..goodsModelNo}</span>
+                                <!--{ / }-->
+                                <!--{ ? in_array('goodsNo', themeInfo.displayField) && gd_isset(..goodsNo) }-->
+                                    <span class="num_code">{=__('상품코드')} : {..goodsNo}</span>
+                                <!--{ / }-->
+                            </div>
+                            <!-- //item_number_box -->
+                        <!--{ / }-->
+                        <!--{ ? themeInfo.iconFl == 'y' || (themeInfo.soldOutIconFl == 'y' && ..soldOut =='y' && soldoutDisplay.soldout_icon != 'disable') }-->
+                            <div class="item_icon_box">
+                                <!--{ ? themeInfo.iconFl == 'y' }-->{..goodsIcon}<!--{ / }-->
+                                <!--{ ? themeInfo.soldOutIconFl == 'y' && ..soldOut =='y' && soldoutDisplay.soldout_icon != 'disable' }-->
+                                <img src="{soldoutDisplay.soldout_icon_img}" alt="{=__('품절')}" />
+                                <!--{ / }-->
+                            </div>
+                            <!-- //item_icon_box -->
+                        <!--{ / }-->
+                    </div>
+                    <!-- //item_info_cont -->
+
+
+                    <!--{ ? ..checkable != 'n' && ..orderPossible == 'y' }-->
+                    <div class="multiple_product_option">
+                        <!--{ ? ..optionFl == 'y' }-->
+                            <!--{ ? ..optionDisplayFl == 's' }-->
+                                <select name="optionSnoInput{=..goodsNo}" style="width:<!--{=widgetTheme.relationImgSize}-->px" onchange="goodsViewController_{=..goodsNo}.option_price_display(this);" class="chosen-select" <!--{ ?..orderPossible != 'y' }-->disabled="disabled"<!--{ / }-->>
+                                    <option value="0" style="white-space:nowrap; overflow-y: hidden; overflow-x:visible;">
+                                        =
+                                        <!--{ ? ..optionEachCntFl == 'many' && empty(..optionName) === false }-->
+                                            {=..optionName}
+                                        <!--{ : }-->
+                                            {=__('옵션')}
+                                        <!--{ / }-->
+                                         : {=__('가격')}
+                                        <!--{ ? in_array('optionStock',displayAddField) }-->: {=__('재고')}<!--{ / }-->
+                                        =
+                                    </option>
+                                    <!--{ @ ..option }-->
+                                        <!--{ ? ...optionViewFl =='y' }-->
+                                            <option value="{=...sno}{=c.INT_DIVISION}{=gd_global_money_format(...optionPrice,false)}{=c.INT_DIVISION}{=...mileage}{=c.INT_DIVISION}{=...stockCnt}{=c.STR_DIVISION}{...optionValue}<!--{ ? (..stockFl == 'y' && ...optionSellFl == 't') }-->{=c.STR_DIVISION}<!--{=optionSoldOutCode[...optionSellCode]}--><!--{ / }--><!--{ ? ...optionDeliveryFl == 't' && optionDeliveryDelayCode[...optionDeliveryCode] != '' }-->{=c.STR_DIVISION}<!--{=optionDeliveryDelayCode[...optionDeliveryCode]}--><!--{ / }-->"<!--{ ? (..stockFl == 'y' && ...stockCnt < ..minOrderCnt) || ...optionSellFl =='n' || ...optionSellFl =='t' }--> disabled="disabled"<!--{ / }--> style="white-space:nowrap; overflow-y: hidden; overflow-x:visible;">
+                                                {=...optionValue}
+                                                <!--{ ? gd_isset(...optionPrice) != '0' }--> : {=gd_global_currency_symbol()}<!--{ ? gd_isset(...optionPrice) > 0 }-->+<!--{ / }-->{=gd_global_money_format(...optionPrice)}{=gd_global_currency_string()}<!--{ / }-->
+                                                <!--{ ? (...optionSellFl == 't') }-->[<!--{=optionSoldOutCode[...optionSellCode]}-->]
+                                                <!--{ : (..stockFl == 'y' && ...stockCnt <  ..minOrderCnt) || ...optionSellFl ==  'n' }-->[<!--{=optionSoldOutCode['n']}-->]
+                                                <!--{ : }-->
+                                                <!--{ ? in_array('optionStock',displayAddField) && ..stockFl == 'y' }--> : {=number_format(..stockCnt)}{=__('개')}
+                                                <!--{ / }-->
+                                                <!--{ / }-->
+                                                <!--{ ? ...optionDeliveryFl == 't' && optionDeliveryDelayCode[...optionDeliveryCode] != '' }-->[<!--{=optionDeliveryDelayCode[...optionDeliveryCode]}-->]
+                                                <!--{ / }-->
+                                            </option>
+                                        <!--{ / }-->
+                                    <!--{ / }-->
+                                </select>
+                                <script type="text/javascript">
+                                    $('select[name="optionSnoInput{=..goodsNo}"]').on('chosen:showing_dropdown', function () {
+                                        resizeOption('single', {=..goodsNo});
+                                    });
+                                </script>
+                            <!--{ : ..optionDisplayFl == 'd' }-->
+                                <!--{ @ ..optionName }-->
+                                    <!--{ ? ...index_ == 0 }-->
+                                        <input type="hidden" name="optionSnoInput{=..goodsNo}" value="" />
+                                        <input type="hidden" name="optionCntInput{=..goodsNo}" value="{=...size_}" />
+                                    <!--{ / }-->
+                                    <select name="optionNo{=..goodsNo}_{=...index_}" class="chosen-select" style="width:<!--{=widgetTheme.relationImgSize}-->px" <!--{ ?..orderPossible == 'y' }-->onchange="$;goodsViewController_{=..goodsNo}.option_select(this, '{=...index_}', '{=gd_isset(..optionName[(...index_ + 1)])}', '<!--{ ? in_array('optionStock',displayAddField) }-->y<!--{ : }-->n<!--{ / }-->');"<!--{ / }--><!--{ ? ...index_ > 0 || ..orderPossible != 'y' }--> disabled="disabled"<!--{ / }-->">
+                                        <option value="0" style="white-space:nowrap; overflow-y: hidden; overflow-x:visible;">
+                                            =
+                                            <!--{ ? ...index_ == 0 }-->
+                                                {=...value_} {=__('선택')}
+                                            <!--{ : }-->
+                                                {=__('%s을 먼저 선택해 주세요', ..optionName[(...index_ - 1)])}
+                                            <!--{ / }-->
+                                            =
+                                        </option>
+                                        <!--{ ? ...index_ == 0 }-->
+                                            <!--{ @ ..optionDivision }-->
+                                                <option value="{=....value_}" style="white-space:nowrap; overflow-y: hidden; overflow-x:visible;" <!--{ ? (..stockFl == 'y' && ..stockCnt < ..minOrderCnt) || (..stockFl == 'y' && goodsView['fixedOrderCnt'] == 'option' && isset(..optionDivisionStock) && ..optionDivisionStock[....key_]['stockCnt'] < ..minOrderCnt) || (..stockFl == 'y' && ..optionDivisionStock[....key_]['stockCnt'] == '0') || ..optionDivisionStock[....key_]['optionSellFl'] ==  'n' || ..optionDivisionStock[....key_]['optionSellFl'] ==  't' }--> disabled="disabled"<!--{ / }-->>
+                                                    {=....value_}
+                                                    <!--{ ? (..optionDivisionStock[....key_]['optionSellFl'] == 't') }-->[<!--{=optionSoldOutCode[..optionDivisionStock[....key_]['optionSellCode']]}-->]
+                                                    <!--{ : (..stockFl == 'y' && ..optionDivisionStock[....key_]['stockCnt'] == '0') || ..optionDivisionStock[....key_]['optionSellFl'] == 'n' }-->[<!--{=optionSoldOutCode['n']}-->]
+                                                    <!--{ / }-->
+                                                </option>
+                                            <!--{ / }-->
+                                        <!--{ / }-->
+                                    </select>
+                                    <div id="iconImage_{=...index_}" class="option_icon"></div>
+                                    <script type="text/javascript">
+                                        $('select[name="optionNo{=..goodsNo}_{=...index_}"]').on('chosen:showing_dropdown', function () {
+                                            resizeOption('double', '{=..goodsNo}_{=...index_}');
+                                        });
+                                    </script>
+                                <!--{ / }-->
+                            <!--{ / }-->
+                        <div>
+                            <table class="option_display_area{=..goodsNo}" border="0" cellpadding="0" cellspacing="0">
+                                <tbody id="option_display_item_{=..goodsNo}_0">
+                                <tr class="check optionKey_0">
+                                    <td class="cart_prdt_name">
+                                        <span class="count" style="padding:0px">
+                                            <span class="goods_qty">
+                                                <div style=" float:left;">
+                                                  <input type="text" name="goodsCnt{=..goodsNo}[]" style="width:<!--{=widgetTheme.relationImgSize-24}-->px" class="text goodsCnt{=..goodsNo}_0" title="{=__('수량')}" value="1" data-key="0" data-value="1" data-stock-fl="{=..stockFl}" data-stock="{=..totalStock}" onchange="updateAmountSelect({=..goodsNo});goodsViewController_{=..goodsNo}.input_count_change(this, 1);return false;" disabled />
+                                                </div>
+                                                <div style="width:23px; float:left;">
+                                                <span>
+                                                    <button type="button" class="up goods_cnt{=..goodsNo}" title="{=__('증가')}"  value="up{=c.STR_DIVISION}{=..goodsNo}" disabled>{=__('증가')}</button>
+                                                    <button type="button" class="down goods_cnt{=..goodsNo}" title="{=__('감소')}" value="dn{=c.STR_DIVISION}{=..goodsNo}" disabled>{=__('감소')}</button>
+                                                </span>
+                                                </div>
+                                            </span>
+                                        </span>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!--{ : }--><!--{* { ..optionFl == 'y' } *}-->
+                        <div>
+                            <table class="option_display_area{=..goodsNo}" border="0" cellpadding="0" cellspacing="0">
+                                <tbody id="option_display_item_{=..goodsNo}_0">
+                                <span id="option_text_display{=..goodsNo}_<%=displayOptionkey%>" style="display:none"></span>
+                                <tr class="check optionKey_0">
+                                    <td class="cart_prdt_name">
+                                        <input type="hidden" name="goodsNo{=..goodsNo}[]" value="{=..goodsNo}" />
+                                        <input type="hidden" name="optionSno{=..goodsNo}[]" value="{=gd_isset(..option[0]['sno'])}" />
+                                        <input type="hidden" name="goodsPriceSum{=..goodsNo}[]" value="0" />
+                                        <input type="hidden" name="addGoodsPriceSum{=..goodsNo}[]" value="0" />
+                                        <span class="count" style="padding:0px">
+                                            <span class="goods_qty">
+                                                <div style=" float:left;">
+                                                  <input type="text" name="goodsCnt{=..goodsNo}[]" style="width:<!--{=widgetTheme.relationImgSize-24}-->px" class="text goodsCnt{=..goodsNo}_0" title="{=__('수량')}" value="1" data-key="0" data-value="1" data-stock-fl="{=..stockFl}" data-stock="{=..totalStock}" onchange="goodsViewController_{=..goodsNo}.input_count_change(this, 1);return false;" />
+                                                </div>
+                                                <div style="width:23px; float:left;">
+                                                <span>
+                                                    <button type="button" class="up goods_cnt{=..goodsNo}" title="{=__('증가')}"  value="up{=c.STR_DIVISION}{=..goodsNo}">{=__('증가')}</button>
+                                                    <button type="button" class="down goods_cnt{=..goodsNo}" title="{=__('감소')}" value="dn{=c.STR_DIVISION}{=..goodsNo}">{=__('감소')}</button>
+                                                </span>
+                                                </div>
+                                            </span>
+                                        </span>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!--{ / }--><!--{* { ..optionFl == 'y' } *}-->
+                    </div>
+
+                    <!--{ ? ..optionTextFl == 'y' }-->
+                        <div class="multiple_product_option">
+                            <!--{ @ ..optionText }-->
+                                <!--{ ? ...index_ == 0 }-->
+                                    <input type="hidden" id="optionTextCnt" value="{=...size_}" />
+                                <!--{ / }-->
+                                <input type="hidden" name="optionTextMust{=..goodsNo}_{=...index_}" value="{=...mustFl}" />
+                                <input type="hidden" name="optionTextLimit{=..goodsNo}_{=...index_}" value="{=...inputLimit}" />
+                                <input type="hidden" name="optionTextSno{=..goodsNo}_{=...index_}" value="{=...sno}"/>
+                                <input type="text" name="optionTextInput{=..goodsNo}_{=...index_}" value="" style="width:<!--{=widgetTheme.relationImgSize}-->px;" size="30" class="text" onkeyup="goodsViewController_{=..goodsNo}.max_length_alert(this)" onchange="goodsViewController_{=..goodsNo}.option_text_select(this)" placeholder="<!--{ ? ...mustFl == 'y' }-->(필수)<!--{ / }-->{=...optionName}" maxlength="{=...inputLimit+1}"<!--{ ? ..orderPossible != 'y' }--> disabled="disabled"<!--{ / }-->/>
+                                <input type="hidden" value="{=...addPrice}"/>
+                                <!--{ ? ...addPrice != 0 }-->
+                                    <p><strong>※ {=__('작성시 %s%s%s 추가', gd_global_currency_symbol(), gd_global_money_format(...addPrice), gd_global_currency_string())}</strong></p>
+                                <!--{ / }-->
+                            <!--{ / }-->
+                        </div>
+                    <!--{ / }--> <!--{* ..optionTextFl == 'y' *}-->
+
+                    <!--{ ? ..addGoods }-->
+                        <div class="multiple_product_option">
+                            <!--{ @ ..addGoods }-->
+                                <div class="product_amount" style="border-top:0px;">
+                                    <div class="product_amount_box" style="width:<!--{=widgetTheme.relationImgSize}-->px;">
+                                        <div style="float:left; width:<!--{=widgetTheme.relationImgSize-58}-->px; margin-top:10px">
+                                            <!--{ ? ...mustFl =='y' }-->
+                                            <input type="hidden" name="addGoodsInputMustFl{=..goodsNo}[]" value="{...index_}"/>
+                                            <!--{ / }-->
+                                                <select name="addGoodsInput{=..goodsNo}{=...index_}" style="width:100%" class="tune chosen-select" onchange="goodsViewController_{=..goodsNo}.add_goods_select(this)" data-key="{...index_}"<!--{ ? ..orderPossible != 'y' }--> disabled="disabled"<!--{ / }-->>
+                                                    <option value="0" style="white-space:nowrap; overflow-y: hidden; overflow-x:visible;"><!--{ ? ...mustFl == 'y' }-->(필수)<!--{ / }-->{=...title}</option>
+                                                        <!--{ @ ...addGoodsList }-->
+                                                            <option style="white-space:nowrap; overflow-y: hidden; overflow-x:visible;"
+                                                                <!--{ ? ...addGoodsImageFl=='y' }-->
+                                                                    <!--{ ? ....imageSrc }-->
+                                                                        data-img-src="{....imageSrc}"
+                                                                    <!--{ : }-->
+                                                                        data-img-src="blank"
+                                                                    <!--{ / }-->
+                                                                <!--{ / }-->
+                                                                value="{=....addGoodsNo}{=c.INT_DIVISION}{=....goodsPrice}{=c.STR_DIVISION}{=....goodsNm}
+                                                                <!--{ ? ..optionNm }-->({=....optionNm})<!--{ / }-->
+                                                                {=c.STR_DIVISION}{=rawurlencode(gd_html_add_goods_image(....addGoodsNo, ....imageNm, ....imagePath, ....imageStorage, 30, ....goodsNm, '_blank'))}{=c.STR_DIVISION}{=...index_}{=c.STR_DIVISION}{=....stockUseFl}{=c.STR_DIVISION}{=....stockCnt}"
+                                                                <!--{ ? ....soldOutFl =='y' || (....stockUseFl =='1' && ....stockCnt == '0')  }-->
+                                                                    disabled="disabled"
+                                                                <!--{ / }-->>
+                                                                {=....goodsNm}
+                                                                <!--{ ? ....optionNm || gd_isset(....goodsPrice) != '0' || (....soldOutFl =='y' || (....stockUseFl =='1' && ....stockCnt == '0')) }-->
+                                                                    (
+                                                                    <!--{ ? ....optionNm }-->
+                                                                        {=....optionNm}
+                                                                        <!--{ ? gd_isset(....goodsPrice) != '0' || (....soldOutFl =='y' || (....stockUseFl =='1' && ....stockCnt == '0')) }-->
+                                                                            /
+                                                                            <!--{ ? gd_isset(....goodsPrice) != '0'  }-->
+                                                                                {=gd_global_currency_symbol()}
+                                                                                <!--{ ? gd_isset(....goodsPrice) > 0   }-->+<!--{ / }-->
+                                                                                {=gd_global_money_format(....goodsPrice)}{=gd_global_currency_string()}
+                                                                                <!--{ ? ....soldOutFl =='y' || (....stockUseFl =='1' && ....stockCnt == '0') }--> / {=__('품절')}<!--{ / }-->
+                                                                            <!--{ : }-->
+                                                                                {=__('품절')}
+                                                                            <!--{ / }-->
+                                                                        <!--{ / }-->
+                                                                    <!--{ : gd_isset(....goodsPrice) != '0' || (....soldOutFl =='y' || (....stockUseFl =='1' && ....stockCnt == '0')) }-->
+                                                                        <!--{ ? gd_isset(....goodsPrice) != '0' }-->
+                                                                            {=gd_global_currency_symbol()}
+                                                                            <!--{ ? gd_isset(....goodsPrice) > 0 }-->+<!--{ / }-->
+                                                                            {=gd_global_money_format(....goodsPrice)}{=gd_global_currency_string()}
+                                                                            <!--{ ? ....soldOutFl =='y' || (....stockUseFl =='1' && ....stockCnt == '0') }--> / {=__('품절')}<!--{ / }-->
+                                                                        <!--{ : }-->
+                                                                            {=__('품절')}
+                                                                        <!--{ / }-->
+                                                                    <!--{ : }-->
+                                                                        {=__('품절')}
+                                                                    <!--{ / }-->
+                                                                    )
+                                                                <!--{ / }-->
+                                                            </option>
+                                                        <!--{ / }-->
+                                                    </select>
+                                            <script type="text/javascript">
+                                                <!--{ @ ...addGoodsList }-->
+                                                var addGoodsViewController_{=....addGoodsNo} = new gd_goods_view();
+                                                var parameters		= {
+                                                    'setControllerName' : addGoodsViewController_{=....addGoodsNo},
+                                                'setOptionFl' : '{=..optionFl}',
+                                                    'setOptNo' : '{=..goodsNo}',
+                                                    'setOptionTextFl'	: '{=..optionTextFl}',
+                                                    'setOptionDisplayFl'	: '{=..optionDisplayFl}',
+                                                    'setAddGoodsFl'	: '<!--{ ? is_array(..addGoods) }-->y<!--{ : }-->n<!--{ / }-->',
+                                                    'setIntDivision'	: '{=c.INT_DIVISION}',
+                                                    'setStrDivision'	: '{=c.STR_DIVISION}',
+                                                    'setMileageUseFl'	: '{=mileageData['useFl']}',
+                                                    'setCouponUseFl'	: '{=couponUse}',
+                                                    'setMinOrderCnt'	: '1',
+                                                    'setMaxOrderCnt'	: '{=..maxOrderCnt}',
+                                                    'setStockFl'	: '{=gd_isset(..stockFl)}',
+                                                    'setSalesUnit' : '{=gd_isset(..salesUnit,1)}',
+                                                    'setDecimal' : '{currency.decimal}',
+                                                    'setGoodsPrice' : '{=gd_isset(..goodsPrice,0)}',
+                                                    'setGoodsNo' : '{=..goodsNo}',
+                                                    'setMileageFl' : ' {=..mileageFl}',
+                                                    /*'setGoodsNm': "{=..goodsNm}",*/
+                                                    'setImage': "{=..social}",
+                                                    'setFixedSales' : "{=..fixedSales}",
+                                                    'setFixedOrderCnt' : "{=..fixedOrderCnt}"
+                                                };
+                                                scriptParameters = parameters;
+                                                addGoodsViewController_{=....addGoodsNo}.init(parameters);
+                                                <!--{ / }-->
+                                            </script>
+                                            <script type="text/javascript">
+                                                $('select[name="addGoodsInput{=..goodsNo}{=...index_}"]').on('chosen:showing_dropdown', function () {
+                                                    resizeOption('add', '{=..goodsNo}{=...index_}');
+                                                });
+                                            </script>
+                                        </div>
+
+                                        <div style="width:48px; float:right; margin-top:10px;">
+                                            <table id="add_goods_display_area_{=..goodsNo}_{=...index_}" border="0" cellpadding="0" cellspacing="0">
+                                                <tbody id="add_goods_display_item_{=..goodsNo}_{=...index_}">
+                                                <tr class="check optionKey_0">
+                                                    <td class="cart_prdt_name">
+                                                        <input type="hidden" name="addGoodsNo{=..goodsNo}[{=...index_}][]"/>
+                                                        <span class="count" style="padding:0px">
+                                                            <span class="goods_qty">
+                                                                <div style=" float:left;">
+                                                                  <input type="text" name="addGoodsCnt{=..goodsNo}[{=...index_}]" style="padding:0; width:24px" class="text addGoodsCnt_{=...addGoodsList[...index_]['addGoodsNo']}_{=..index_}" title="{=__('수량')}" value="1" data-key="0" data-value="1" data-stock="{=..totalStock}" onchange="goodsViewController_{=...goodsNo}.input_count_change(this, 1);return false;" disabled />
+                                                                </div>
+                                                                <div style="width:23px; float:left;">
+                                                                <span>
+                                                                    <button type="button" class="up goods_cnt{=...addGoodsList[...index_]['addGoodsNo']}" title="{=__('증가')}"  value="up{=c.STR_DIVISION}{=...addGoodsList[...index_]['addGoodsNo']}" disabled>{=__('증가')}</button>
+                                                                    <button type="button" class="down goods_cnt{=...addGoodsList[...index_]['addGoodsNo']}" title="{=__('감소')}" value="dn{=c.STR_DIVISION}{=...addGoodsList[...index_]['addGoodsNo']}" disabled>{=__('감소')}</button>
+                                                                </span>
+                                                                </div>
+                                                            </span>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            <!--{ / }-->
+                        </div>
+                    <!--{ / }-->
+                </div>
+                <!--{ / }-->
+                <!-- //item_cont -->
+
+            </li>
+            <!--{ / }-->
+            <!--{ / }-->
+        </ul>
+    </div>
+    <!--{ : }-->
+        <div class="goods_no_data"><strong>{=__('상품이 존재하지 않습니다.')}</strong></div>
+    <!--{ / }-->
+
+    <!--{ ? widgetTheme.detailSetPosition['12'] == 'UB' || widgetTheme.detailSetPosition['12'] == 'BO' }-->
+    <div class="multiple_selection_btn">
+        <!--{ ? widgetTheme.detailSetButton['12'] == 'C' || widgetTheme.detailSetButton['12'] == 'B' }-->
+        <a href="#" class="btn_add_cart_related"><em>{=__('장바구니')}</em></a>
+        <!--{ / }-->
+        <!--{ ? widgetTheme.detailSetButton['12'] == 'D' || widgetTheme.detailSetButton['12'] == 'B' }-->
+        <a href="#" class="btn_add_order_related"><em>{=__('바로 구매')}</em></a>
+        <!--{ / }-->
+    </div>
+        <!--{ / }-->
+</form>
+</div>
+</div>

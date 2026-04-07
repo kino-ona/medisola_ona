@@ -1,0 +1,407 @@
+{*** 상단 기본파일 | main/index.php ***}
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;700;800&display=swap"
+  rel="stylesheet"
+/>
+<link
+  rel="stylesheet"
+  as="style"
+  crossorigin
+  href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css"
+/>
+
+<link rel="stylesheet" type="text/css" href="../../css/swiper-bundle.min.css" />
+<link rel="stylesheet" type="text/css" href="../../css/mcss.css" />
+<link rel="stylesheet" type="text/css" href="../../css/animate.css" />
+
+<script
+  type="text/javascript"
+  src="../../js/mo_js/swiper-bundle.min.js"
+></script>
+<script type="text/javascript" src="../../js/mo_js/wow.min.js"></script>
+<script type="text/javascript" src="../../js/mo_js/mcommon.js"></script>
+
+<div id="mheader" class="fixed">
+  <!-- 상단01 : 메뉴 -->
+  <div class="mh_sec01">
+    <!-- 상단 : 로고 -->
+    <div class="mh_logo">
+      <a href="/"><img src="../../img/mimg/mh_logo.svg" alt="로고" /></a>
+    </div>
+
+    <div class="top_right">
+      <div class="mh_search">
+        <span class="open">{=includeFile('/img/mimg/mh_search.svg')}</span>
+        <span class="close">{=includeFile('/img/mimg/mh_close.svg')}</span>
+      </div>
+      <div class="mh_cart">
+        <a
+          href="../order/cart.php"
+          onclick="amplitude.logEvent('gnb_cart_click');"
+          >{=includeFile('/img/mimg/mh_cart.svg')}<span
+            >{=dataCartGoodsCnt()}</span
+          ></a
+        >
+      </div>
+      <div class="mh_all fold">
+        {=includeFile('/img/mimg/mh_hamburger.svg')}
+      </div>
+    </div>
+    <!-- //top_right -->
+  </div>
+  <!-- //mh_sec01 -->
+
+  <!-- 상단02 : 카테고리 -->
+  <div
+    class="mh_sec02"
+    style="<!--{? activeMenu.children === null}-->height: 48px;<!--{/}-->"
+  >
+    <div class="gradient-bg"></div>
+    <div class="gradient-bg2"></div>
+    <div id="mcategory" class="menu_tree">
+      <!-- TODO: 현재 페이지 bold 처리 -->
+      <div id="first-category">
+        <ul>
+          <!--{@ menuTree}-->
+          <li
+            class="{=menuTree.id} <!--{? menuTree.active}-->selected<!--{/}-->"
+          >
+            <!--{? .new === true}--><span class="new-badge">•</span><!--{/}-->
+            <a href="{=menuTree.url}">{=menuTree.text['default']}</a>
+          </li>
+          <!--{/}-->
+        </ul>
+      </div>
+      <div
+        id="second-category"
+        style="<!--{? activeMenu.children === null}-->height: 0;<!--{/}-->"
+      >
+        <!--{? activeMenu.children}-->
+        <ul class="{=activeMenu.id}">
+          <!--{@ activeMenu.children}-->
+          <li class="{=.id} flex <!--{? .active}-->selected<!--{/}-->">
+            <a href="{=.url}" class="relative flex-grow">
+              <!--{? .new === true}--><span class="new-badge">•</span><!--{/}-->
+              <span>{=.text['default']}</span>
+            </a>
+          </li>
+          <!--{/}-->
+        </ul>
+        <!--{/}-->
+      </div>
+    </div>
+    <!-- mcategory -->
+  </div>
+
+  <!-- 상단03 : 검색 -->
+  <div class="mh_sec03">
+    <form
+      name="frmSearchTop"
+      id="frmSearchTop"
+      action="../goods/goods_search.php"
+      method="get"
+    >
+      <!--{ ? adUrl }-->
+      <input type="hidden" name="adUrl" value="{adUrl}" />
+      <!--{ / }-->
+      <fieldset>
+        <!-- 상단03 : 검색창 문구 설정 -->
+        <legend class="dn">"검색어"를 입력해주세요.</legend>
+
+        <dl>
+          <dt class="dn"><label for="sch">{=__('검색')}</label></dt>
+          <dd>
+            <div class="keyword_box">
+              <input
+                type="search"
+                name="keyword"
+                class="js_auto_focus"
+                title="{adKeyword}"
+                placeholder="{adKeyword}"
+                id="sch"
+                placeholder="{=__('검색어를 입력해주세요.')}"
+                autocomplete="off"
+              />
+              <button type="submit" class="h_search_btn">
+                <img
+                  src="../../img/mimg/mh_search.svg"
+                />
+              </button>
+            </div>
+          </dd>
+        </dl>
+      </fieldset>
+      <div class="mh_popular">
+        <!--{ @ dataHitKeyword() }-->
+        <ul>
+          <!--{ @ .value_ }-->
+          <li>
+            <a href="../goods/goods_search.php?keyword={=urlencode(..value_)}"
+              >#{=..value_}</a
+            >
+          </li>
+          <!--{ / }-->
+        </ul>
+        <!--{ / }-->
+      </div>
+    </form>
+  </div>
+  <!-- //quick_search -->
+
+  <div id="dimmedSlider"></div>
+</div>
+<!-- //mheader -->
+
+<span class="mh_empty"></span>
+<!--{? gPageName && gCurrentPageName }-->
+<div id="header_wrap">
+  <div class="header_box">
+    <!--{ ? gCurrentPageName != 'main/index' }-->
+    <div class="sub_top">
+      <div class="sub_top_left">
+        <!--{ ? gReturnUrl }-->
+        <a href="{=gReturnUrl}" class="all_page_prev"
+          >{=includeFile('/img/mimg/history.svg')}</a
+        >
+        <!--{ : }-->
+        <!--{ ? gCurrentPageName != 'board/list' && gCurrentPageName != 'board/plus_review_goods' && !(gCurrentPageName == 'board/view' && gPageName == '메디톡톡') && gCurrentPageName != 'service/faq_list' && gCurrentPageName != 'goods/goods_list'}-->
+        <a href="{=gReferer}" class="all_page_prev js_bn_back"
+          >{=includeFile('/img/mimg/history.svg')}</a
+        >
+        <!--{ / }-->
+        <!--{ / }-->
+      </div>
+      <!-- { ? gCurrentPageName != 'board/list' && gCurrentPageName != 'board/plus_review_goods' && !(gCurrentPageName == 'board/view' && gPageName == '메디톡톡')  && gCurrentPageName != 'service/faq_list'  && gCurrentPageName != 'goods/goods_list'} -->
+      <div id="titleArea">
+        <h2>
+          <a href="#" class="js_page_reload"
+            ><!--{ ? gPageName }-->{=gPageName}<!--{:}-->{=layout.page_name}<!--{/}--></a
+          >
+        </h2>
+      </div>
+      <!-- { / } -->
+      <!-- { ? (gCurrentPageName == 'board/list' || gCurrentPageName == 'mypage/mypage_qa' || gCurrentPageName == 'mypage/mypage_goods_qa' || gCurrentPageName == 'mypage/mypage_goods_review') && bdList.cfg.auth.write == 'y'} -->
+      <div class="sub_top_right3">
+        <a
+          href="../board/write.php?bdId={req.bdId}&mypageFl={req.mypageFl}&goodsNo={goodsView.goodsNo}&gboard=r&noheader=y"
+          data-toggle="modal"
+          data-target="#popupBoard"
+          class="board_btn"
+          >{=__('글쓰기')}
+        </a>
+      </div>
+      <!-- { / } -->
+      <!--{ ? gCurrentPageName == 'board/view' && gPageName != '메디톡톡' }-->
+      <div class="sub_top_right2">
+        <a
+          href="../board/list.php?bdId={req.bdId}&mypageFl={req.mypageFl}"
+          class="board_btn"
+          >{=__('목록가기')}</a
+        >
+      </div>
+      <!--{ / }-->
+      <!--{ ? plusReviewBtn }-->
+      <div class="btn_plus_review_register">
+        <a
+          href="../board/plus_review_popup_write.php?mode=addPopup"
+          class="ogl_reviewrite"
+          data-toggle="modal"
+          data-target="#popupBoard"
+          >{=__('리뷰등록')}</a
+        >
+      </div>
+      <!--{ / }-->
+    </div>
+    <!--{ / }-->
+  </div>
+</div>
+<!--{/}-->
+<!-- //header_wrap -->
+
+<div class="m_side">
+  <div class="bg"></div>
+  <!-- 사이드바01 : 로그인 -->
+  <div class="ms_top">
+    <div class="ms_lang m_off">
+      <div class="current">
+        <span>KR</span>{=includeFile('/img/mimg/down.svg')}
+      </div>
+      <ul>
+        <li><a href="#none">KR</a></li>
+        <li><a href="#none">EN</a></li>
+      </ul>
+    </div>
+
+    <div class="ms_login">
+      <!--{ ? gd_is_login() === false }-->
+      <a href="../member/login.php">로그인</a>
+      {=includeFile('/img/mimg/ms_slash.svg')}
+      <a href="../member/join_method.php">회원가입</a>
+      <!--{ : }-->
+      <a href="../member/logout.php">로그아웃</a>
+      {=includeFile('/img/mimg/ms_slash.svg')}
+      <a href="../mypage/index.php">정보수정</a>
+      <!--{ / }-->
+    </div>
+
+    <div class="btnClose">{=includeFile('/img/mimg/close.svg')}</div>
+  </div>
+  <div class="nav_bg_box">
+    <div class="nav_box">
+      <div class="nav_iscroll_box">
+        <div class="nav_content_box">
+          <div class="nav_language">
+            {=includeWidget('proc/_global_select.html')}
+          </div>
+          <!-- //nav_language -->
+
+          <!-- 사이드바02 : 카테고리 -->
+          <div class="ms_cate">
+            <ul class="menu_tree">
+              <!--{@ menuTree}-->
+              <li class="{=.id} <!--{? .active}-->selected<!--{/}--> <!--{? .new === true}-->new-red-dot<!--{/}-->">
+                <a href="{=.url}" class="view">{=.text['default']}</a>
+                <!--{? .children}-->
+                <a href="javascript:;" class="cate"></a>
+                <ul
+                  class="<!--{? .columns > 1}-->grid-rows-{=.rows}<!--{/}-->"
+                  style="<!--{? .active == false}-->display: none;<!--{/}-->"
+                >
+                  <!--{@ children}-->
+                  <li
+                    class="{=..id} flex justify-start <!--{? ..active}-->selected<!--{/}-->"
+                  >
+                    <a href="{=..url}" class="view relative flex-grow" style="position: relative;">
+                      <!--{? ..new === true}--><span class="new-badge">•</span><!--{/}-->
+                      <span>{=..text['default']}</span>
+                    </a>
+                  </li>
+                  <!--{/}-->
+                </ul>
+                <!--{/}-->
+              </li>
+              <!--{/}-->
+            </ul>
+          </div>
+
+          <!-- 사이드바03 : 마이페이지 -->
+          <div class="ms_mypage">
+            <a href="../mypage/index.php">마이페이지</a>
+            <a href="../mypage/order_list.php">주문/배송조회</a>
+            <a href="/order/cart.php">장바구니</a>
+            <a href="/service/faq.php">자주 하는 질문</a>
+            <a href="/service/qa.php">1:1문의</a>
+          </div>
+        </div>
+        <!-- //nav_content_box -->
+      </div>
+    </div>
+    <!-- //nav_box -->
+  </div>
+  <!-- //nav_bg_box -->
+</div>
+<div class="bg"></div>
+<div id="container">
+  <div id="contents_wrap"></div>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    $(".ms_mypage a").on("click", function (event) {
+      amplitude.logEvent(
+        window.isEnvDev ? "DEV_gnb_submenu_click" : "gnb_submenu_click",
+        {
+          title: $(this).text(),
+          location: "drawer",
+        }
+      );
+    });
+
+    $("#mcategory > #first-category > ul > li.selected")?.[0]?.scrollIntoView({
+      inline: "center",
+    });
+
+    $("#mcategory > #second-category > ul > li.selected")?.[0]?.scrollIntoView({
+      inline: "center",
+    });
+
+    $(".m_side .ms_cate > ul > li.selected")?.[0]?.scrollIntoView({
+      block: "center",
+    });
+
+    $("#first-category li a").each((index, elem) => {
+      //   $(elem).css("color", "green");
+      const menuText = $(elem).text();
+      $(elem).on("click", () => {
+        amplitude.logEvent(
+          window.isEnvDev ? "DEV_gnb_tab_click" : "gnb_tab_click",
+          {
+            title: menuText,
+            location: "top",
+          }
+        );
+      });
+    });
+
+    const currentMenuText = $("#first-category li.selected a").text();
+
+    $("#second-category a").each((index, elem) => {
+      //   $(elem).css("color", "red");
+      const submenuText = $(elem).text();
+      $(elem).on("click", () => {
+        amplitude.logEvent(
+          window.isEnvDev ? "DEV_gnb_subtab_click" : "gnb_subtab_click",
+          {
+            main_tab: currentMenuText,
+            title: submenuText,
+          }
+        );
+      });
+    });
+
+    $(".ms_cate > ul > li > a.view").each((index, elem) => {
+      //   $(elem).css("color", "green");
+      const menuText = $(elem).text();
+      $(elem).on("click", () => {
+        amplitude.logEvent(
+          window.isEnvDev ? "DEV_gnb_tab_click" : "gnb_tab_click",
+          {
+            title: menuText,
+            location: "drawer",
+          }
+        );
+      });
+
+      $(elem)
+        .siblings("ul")
+        .find("a.view")
+        .each((index, subElem) => {
+          //   $(subElem).css("color", "red");
+          const subMenuText = $(subElem).text();
+          $(subElem).on("click", function (e) {
+            amplitude.logEvent(
+              window.isEnvDev ? "DEV_gnb_subtab_click" : "gnb_subtab_click",
+              {
+                main_tab: menuText,
+                title: subMenuText,
+                location: "drawer",
+              }
+            );
+          });
+        });
+    });
+  });
+
+  (function(w, d, a){
+    w.__beusablerumclient__ = {
+        load : function(src){
+            var b = d.createElement("script");
+            b.src = src; b.async=true; b.type = "text/javascript";
+            d.getElementsByTagName("head")[0].appendChild(b);
+        }
+    };w.__beusablerumclient__.load(a + "?url=" + encodeURIComponent(d.URL));
+})(window, document, "//rum.beusable.net/load/b221209e145510u133");
+
+</script>

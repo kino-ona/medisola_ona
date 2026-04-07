@@ -1,0 +1,293 @@
+{*** 찜리스트 | mypage/wish_list.php ***}
+{#header}
+<div class="wish_list">
+	<!--{ ? wishInfo }-->
+	<form id="frmWish" name="frmWish" method="post" target="ifrmProcess">
+		<div class="wish_content_box">
+			<input type="hidden"  name="mode" value=""/>
+			<input type="hidden"  name="isCart" value="false"/>
+			<!-- [D] 스크롤 시 해당영역이 최상단에 위치할시 클래스 fixed 추가해주세요. -->
+			<div class="allchk">
+				<div class="inp_chk">
+					<input type="checkbox" id="buyall" class="sp gd_checkbox_all"  data-target-name="sno[]" data-target-form="#frmWish" />
+					<label for="buyall">{=__('전체선택')}</label>
+				</div>
+			</div>
+			<ul class="my_goods">
+				<!--{ @ wishInfo }-->
+				<!--{ @ .value_ }-->
+				<!--{ @ ..value_ }-->
+				<li>
+					<div class="info">
+						<a href="../goods/goods_view.php?goodsNo={...goodsNo}">
+							<!--{ ? ...orderPossibleMessageList }-->
+							<div class="order_possible_list">
+								<div class="inner_title">
+									<span class="icon_exclamationmark"></span><strong>{=__('구매 이용 조건 안내')}</strong><button type="button" class="pm_more_btn js_possible_list_toggle">더보기</button>
+									<ul class="dn">
+										<li class="title">{=__('결제 제한 조건 사유')}</li>
+										<!--{@ ...orderPossibleMessageList }-->
+										<li>{=....value_}</li>
+										<!--{/}-->
+									</ul>
+								</div>
+							</div>
+							<!--{ / }-->
+							<div class="itemhead">
+								<div class="thmb_box">
+									<span class="thmb">{...goodsImage}</span>
+									<!--{ ? ...timeSaleFl }-->
+									<div class="timesale_box">
+										<img src="../img/icon/icon_timesale.png" alt="{=__('타임세일')}">
+										<span class="timetext">{=__('타임세일')}</span>
+									</div>
+									<!--{ / }-->
+								</div>
+							</div>
+							<div class="itembody">
+								<!--{ ? ...duplicationGoods === 'y' }-->
+								<p class="c_red" >
+									<span class="icon_exclamationmark"></span>
+									<strong>{=__('중복 상품')}</strong>
+								</p>
+								<!--{ / }-->
+								<!--{ ? ...orderPossible === 'y' }-->
+								<div class="option_btn">
+									<button data-key="optionViewLayer" class="cart_option_modify js_option_layer" data-goodsno="{...goodsNo}" data-sno="{...sno}">{=__('옵션변경')}</button>
+								</div>
+								<!--{ / }-->
+								<p class="name">{...goodsNm}</p>
+								<!--{ @ ...option }-->
+								<!--{ ? ....optionName }-->
+								<p>
+									{=....optionName} : {=....optionValue}
+									<!--{ ? ((....index_ + 1) == ....size_) && ....optionPrice != 0 && optionPriceFl == 'y' }-->
+									(<!--{ ? ....optionPrice > 0 }-->+<!--{ / }-->{=gd_global_currency_display(....optionPrice)})
+									<!--{ / }-->
+									<!--{ ? ((....index_ + 1) == ....size_) }-->
+										<!--{ ? empty(....optionSellStr) === false }-->[{=....optionSellStr}]<!--{ / }--><!--{ ? empty(....optionDeliveryStr) === false }-->[{=....optionDeliveryStr}]<!--{ / }-->
+									<!--{ / }-->
+								</p>
+								<!--{ / }-->
+								<!--{ / }-->
+
+								<!--{ @ ...optionText }-->
+								<!--{ ? ....optionValue }-->
+								<p>
+									{=....optionName} : {=....optionValue}
+									<!--{ ? ....optionTextPrice != 0 && optionPriceFl == 'y' }-->
+									(<!--{ ? ....optionTextPrice > 0 }-->+<!--{ / }-->{=gd_global_currency_display(....optionTextPrice)})
+									<!--{ / }-->
+								</p>
+								<!--{ / }-->
+								<!--{ / }-->
+
+								<strong class="prc">
+									<!--{ ? empty(...goodsPriceString) === false }-->
+									{=...goodsPriceString}
+									<!--{ : }-->
+									{=gd_global_currency_display(...price['goodsPriceSubtotal'])} <span class='add_currency'>{=gd_global_add_currency_display(...price['goodsPriceSubtotal'])}
+									<!--{ / }-->
+								</span></strong>
+							</div>
+						</a>
+						<div class="select_del_box"><button type="button" class="wish_onedel_btn" data-sno="{...sno}">{=__('삭제')}</button></div>
+						<!--{ ? empty(...addGoods) === false }-->
+						<div class="add_goods_box">
+							<p class="add_title">{=__('추가상품')}</p>
+							<ul class="add_goods_list">
+								<!--{ @ ...addGoods }-->
+								<li>
+									<a href="#goods">
+										<div class="add_goods_img">{=....addGoodsImage}</div>
+										<div class="add_goods_content">
+											<span class="title">{=....addGoodsNm}</span>
+											<div class="add_goods_text">
+												<span class="goods_number">{=__('주문 수량')} : <em> {=....addGoodsCnt}</em>{=__('개')}</span>
+												<!--{ ? empty(...goodsPriceString) === false }-->
+												<span class="goods_price"><em>{=gd_global_currency_display(0)}</em></span>
+												<!--{ : }-->
+													<span class="goods_price"><em>{=gd_global_currency_display((....addGoodsPrice * ....addGoodsCnt))}<span class='add_currency'>{=gd_global_add_currency_display((....addGoodsPrice * ....addGoodsCnt))}</span></em></span>
+												<!--{ / }-->
+											</div>
+										</div>
+									</a>
+								</li>
+								<!--{ / }-->
+							</ul>
+						</div>
+						<!--{ / }-->
+					</div>
+					<div class="chk_box">
+						<span class="inp_chk">
+							<input id="js_wish_{...sno}" type="checkbox" value="{...sno}" name="sno[]" data-goodsno="{...goodsNo}" data-sno="{...sno}" data-order-possible="{...orderPossible}"/>
+							<label for="js_wish_{...sno}">{=__('상품선택')}</label>
+						</span>
+					</div>
+				</li>
+				<!--{ / }-->
+				<!--{ / }-->
+				<!--{ / }-->
+			</ul>
+		</div>
+		<div class="btn_wish_bx">
+			<ul class="btn_bx">
+				<li><button type="button" class="select_prd_del_btn">{=__('선택 상품 삭제')}</button></li>
+				<li><button type="button" class="wish_cart_add_btn">{=__('장바구니 담기')}</button></li>
+			</ul>
+		</div>
+	</form>
+	<!--{ : }-->
+	<div class="no_bx">
+		<p><strong>{=__('찜리스트에 담긴 상품이 없습니다')}</strong></p>
+	</div>
+	<!--{ / }-->
+</div>
+
+{=fbWishListScript}
+<script type="text/javascript">
+    // DOM 로드
+    $(document).ready(function () {
+
+        // 개별 삭제버튼 클릭
+        $('.wish_onedel_btn').on('click', function(){
+            $(':checkbox[name="sno[]"]').prop("checked",false);
+            $("#js_wish_"+$(this).data('sno')).prop("checked",true);
+            gd_submit_wish('delete');
+        });
+
+        // 삭제버튼 클릭
+        $('.select_prd_del_btn').on('click', function(){
+            gd_submit_wish('delete');
+        });
+
+
+        $('.wish_cart_add_btn').on('click', function(e){
+            gd_submit_wish('wishToCart');
+        });
+
+        $('.js_possible_list_toggle').bind('click',function (e) {
+            e.preventDefault();
+            if($(this).closest('.order_possible_list').find('ul').is(':visible')){
+                $(this).removeClass('active');
+            }
+            else {
+                $(this).addClass('active');
+            }
+
+            $(this).closest('.order_possible_list').find('ul').toggle();
+        })
+
+        $('.js_option_layer').on('click', function(e){
+			var params = {
+				type : 'wish',
+				sno: $(this).data('sno'),
+				goodsNo: $(this).data('goodsno')
+			};
+
+			$('#popupOption').modal({
+				remote: '../goods/layer_option.php',
+				cache: false,
+				params: params,
+				type : 'POST',
+				show: true
+			});
+        });
+    });
+
+
+    function gd_submit_wish(mode) {
+
+        var checkedCnt = $('#frmWish  input:checkbox[name="sno[]"]:checked').length;
+        var orderImpossibleFl = false;
+
+        if(mode == 'delete') {
+            msg = "{=__('상품을 찜리스트에서 삭제하시겠습니까?')}";
+        } else {
+            msg = "{=__('상품을 장바구니로 저장하시겠습니까?')}";
+        }
+
+        $('#frmWish input[name="sno[]"]:checked').each(function() {
+            if ($(this).data('order-possible') == 'n') {
+                orderImpossibleFl = true;
+                return false;
+            }
+        });
+
+        if (checkedCnt == 0) {
+            alert("{=__('선택하신 상품이 없습니다.')}");
+            return false;
+        } else if (mode == 'wishToCart' && orderImpossibleFl) {
+            alert("{=__('선택하신 상품 중에 구매불가 상품이 있습니다.')}");
+            return false;
+        } else {
+            if (confirm("{=__('선택하신')}" + " " + msg) === true) {
+                $('#frmWish input[name="mode"]').val(mode);
+                var params = $("#frmWish").serialize();
+
+                $.ajax({
+                    method : "POST",
+                    cache  : false,
+                    url    : "../mypage/wish_list_ps.php",
+                    data   : params,
+                    success: function (data) {
+
+                        if (mode == 'delete') {
+                            location.reload();
+                        } else {
+                            <!--{ ? moveWishPageFl == 'n' }-->
+                            $('#frmWish input[name="mode"]').val('delete');
+                            var params = $("#frmWish").serialize();
+                            $.ajax({
+                                method: "POST",
+                                cache: false,
+                                url: "../mypage/wish_list_ps.php",
+                                data: params,
+                                success: function (data) {
+                                    location.href = "../order/cart.php";
+                                },
+                                error: function (data) {
+                                    alert(data.message);
+                                }
+                            });
+                            <!--{ : }-->
+                            location.href="../order/cart.php";
+                            <!--{ / }-->
+                        }
+
+                    },
+                    error  : function (data) {
+                        alert(data.message);
+
+                    }
+                });
+            }
+            return true;
+        }
+    }
+
+    function gd_option_view_result(params) {
+
+        params += "&mode=wishModify";
+
+        $.ajax({
+            method: "POST",
+            cache: false,
+            url: '../mypage/wish_list_ps.php',
+            data: params,
+            success: function (data) {
+                document.location.reload();
+            },
+            error: function (data) {
+                alert(data.message);
+
+            }
+        });
+
+    }
+
+</script>
+
+
+
+{#footer}

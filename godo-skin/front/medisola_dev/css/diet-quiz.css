@@ -1,0 +1,1900 @@
+/* ============================================================
+   Diet Quiz - "나만의 식단 플랜" Onboarding Quiz
+   Desktop Version — V0 pixel-perfect match
+   7 Screens: Entry, Gender, BirthYear, Height, Weight, Condition, AI Analysis
+   ============================================================ */
+
+/* --- CSS Variables --- */
+:root {
+  --dq-primary: #3e4e97;
+  --dq-primary-fg: #ffffff;
+  --dq-background: #f8f9fc;
+  --dq-foreground: #1a1a2e;
+  --dq-card: #ffffff;
+  --dq-muted: #f1f5f9;
+  --dq-muted-fg: #64748b;
+  --dq-border: #e2e8f0;
+  --dq-accent: #f1f5f9;
+}
+
+/* ============================================================
+   Animations
+   ============================================================ */
+@keyframes dq-spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes dq-spin-reverse {
+  to { transform: rotate(-360deg); }
+}
+@keyframes dq-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+@keyframes dq-blink {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+@keyframes dq-slide-down {
+  from { opacity: 0; transform: translateY(-0.5rem); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes dq-fade-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes dq-dot-expand {
+  from { width: 0.5rem; }
+  to { width: 1.5rem; }
+}
+
+/* ============================================================
+   Global
+   ============================================================ */
+.dq-app {
+  width: 100%;
+  min-height: 100vh;
+  font-family: 'Pretendard', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  color: var(--dq-foreground);
+  background-color: var(--dq-background);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.dq-app *, .dq-app *::before, .dq-app *::after {
+  box-sizing: border-box;
+}
+
+.dq-screen-container {
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+}
+
+.dq-screen {
+  display: none;
+  width: 100%;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.dq-screen.active {
+  display: flex;
+}
+
+/* --- Desktop / Mobile visibility --- */
+.dq-desktop-only { display: flex; }
+.dq-mobile-only { display: none !important; }
+
+/* ============================================================
+   Quiz Card Layout (Desktop — V0 centered card)
+   ============================================================ */
+.dq-quiz-screen {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+  background-color: var(--dq-background);
+}
+
+.dq-quiz-card {
+  background: var(--dq-card);
+  border-radius: 1.5rem;
+  border: 1px solid var(--dq-border);
+  box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 32rem;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.dq-quiz-card .dq-header {
+  max-width: 100%;
+  padding: 1.25rem 1.5rem;
+  margin: 0;
+  border-bottom: 1px solid var(--dq-border);
+}
+
+.dq-quiz-card .dq-screen-body {
+  padding: 2rem 2rem 2rem;
+  min-height: auto;
+  max-width: 100%;
+  margin: 0;
+  background-color: lab(98.8244% -.267386 -1.87224);
+}
+
+.dq-quiz-card .dq-footer {
+  position: relative;
+  background: none;
+  padding: 0 2rem 2rem;
+  border-top: 1px solid var(--dq-border);
+  padding-top: 1.5rem;
+}
+
+.dq-quiz-card .dq-next-btn {
+  max-width: 100%;
+}
+
+/* Picker gradient adapts to card bg */
+.dq-quiz-card .dq-picker-gradient-top {
+  background: linear-gradient(to bottom, var(--dq-card) 0%, transparent 100%);
+}
+.dq-quiz-card .dq-picker-gradient-bottom {
+  background: linear-gradient(to top, var(--dq-card) 0%, transparent 100%);
+}
+.dq-quiz-card .dq-picker-highlight {
+  background-color: rgba(62,78,151,0.06);
+}
+
+/* Condition body inside card */
+.dq-quiz-card .dq-condition-body {
+  overflow-y: auto;
+  max-height: 60vh;
+  justify-content: flex-start;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+/* ============================================================
+   Navigation - Header (Back + Progress Dots)
+   V0: px-5 py-4 flex items-center gap-4
+   ============================================================ */
+.dq-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  width: 100%;
+  max-width: 32rem;
+  margin: 0 auto;
+}
+
+/* V0: p-2 -ml-2 hover:bg-muted rounded-xl transition-colors */
+.dq-back-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  margin-left: -0.5rem;
+  border-radius: 0.75rem;
+  border: none;
+  background: transparent;
+  color: var(--dq-foreground);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.dq-back-btn:hover { background-color: var(--dq-muted); }
+/* V0: w-6 h-6 = 1.5rem */
+.dq-back-btn svg { width: 1.5rem; height: 1.5rem; }
+
+/* V0: flex-1 flex items-center justify-center gap-2 */
+.dq-progress {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+/* V0: h-2 rounded-full transition-all */
+.dq-progress-dot {
+  height: 0.5rem;
+  width: 0.5rem;
+  border-radius: 9999px;
+  background-color: #cbd5e1;
+  transition: all 0.3s ease;
+}
+/* V0 completed: w-2 bg-primary */
+.dq-progress-dot.completed {
+  background-color: var(--dq-primary);
+}
+/* V0 active: w-6 bg-primary (elongated pill) */
+.dq-progress-dot.active {
+  width: 1.5rem;
+  background-color: var(--dq-primary);
+  animation: dq-dot-expand 0.3s ease forwards;
+}
+
+/* Spacer matches back-btn effective flex width (2.5rem - 0.5rem margin = 2rem) */
+.dq-header-spacer {
+  width: 2rem;
+}
+
+/* ============================================================
+   Navigation - Footer (Next Button)
+   ============================================================ */
+.dq-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem 1.5rem 2rem;
+  background: linear-gradient(to top, var(--dq-background) 60%, transparent);
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+}
+
+.dq-next-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 28rem;
+  height: 3.5rem;
+  border-radius: 1rem;
+  background-color: var(--dq-primary);
+  color: var(--dq-primary-fg);
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  gap: 0.5rem;
+}
+.dq-next-btn:hover {
+  opacity: 0.9;
+  box-shadow: 0 10px 15px -3px rgba(62,78,151,0.3), 0 4px 6px -4px rgba(62,78,151,0.2);
+}
+.dq-next-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.dq-next-btn:disabled:hover { box-shadow: none; }
+
+/* ============================================================
+   Screen Title / Subtitle  (shared)
+   ============================================================ */
+.dq-screen-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-align: center;
+  color: var(--dq-foreground);
+  line-height: 1.3;
+  margin-bottom: 0.75rem;
+}
+
+.dq-title-lg {
+  font-size: 1.875rem;
+}
+
+.dq-screen-subtitle {
+  font-size: 0.875rem;
+  color: var(--dq-muted-fg);
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* Quiz body (Gender–Condition screens) */
+.dq-screen-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.5rem 6rem;
+  max-width: 32rem;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* ============================================================
+   Screen 1: Entry  (V0 pixel-perfect)
+   ============================================================ */
+.dq-entry {
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* --- Hero (Left Column – Desktop) --- */
+.dq-entry-hero {
+  width: 50%;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #3e4e97;
+}
+
+.dq-hero-bg {
+  position: absolute;
+  inset: 0;
+}
+
+.dq-hero-bg .dq-hero-circle {
+  position: absolute;
+  border-radius: 9999px;
+  border: 1px solid rgba(255,255,255,0.1);
+  pointer-events: none;
+}
+.dq-hero-bg .dq-hero-circle:nth-child(1) {
+  width: 16rem;
+  height: 16rem;
+  top: 5rem;
+  left: 5rem;
+}
+.dq-hero-bg .dq-hero-circle:nth-child(2) {
+  width: 24rem;
+  height: 24rem;
+  bottom: 5rem;
+  right: 5rem;
+}
+.dq-hero-bg .dq-hero-circle:nth-child(3) {
+  width: 20rem;
+  height: 20rem;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  border-color: rgba(255,255,255,0.2);
+}
+
+.dq-entry-hero-content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 3rem;
+  max-width: 30rem;
+}
+
+.dq-entry-brand {
+  font-size: 1.5rem;
+  color: #ffffff;
+  letter-spacing: 0.025em;
+  line-height: 1;
+  margin-bottom: 2rem;
+}
+.dq-entry-brand strong { font-weight: 700; }
+.dq-entry-brand span { font-weight: 300; color: rgba(255,255,255,0.7); }
+
+.dq-entry-headline {
+  color: #ffffff;
+  font-size: 2.25rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 1.5rem;
+}
+
+.dq-entry-desc {
+  color: rgba(255,255,255,0.8);
+  font-size: 1.125rem;
+  line-height: 1.75;
+  max-width: 28rem;
+}
+
+/* Desktop stats (in hero) */
+.dq-entry-stats {
+  display: flex;
+  gap: 2rem;
+  border-top: 1px solid rgba(255,255,255,0.2);
+  padding-top: 2rem;
+  margin-top: 3rem;
+}
+.dq-entry-stat { text-align: center; color: #ffffff; }
+.dq-entry-stat-value { font-size: 1.875rem; font-weight: 700; line-height: 1.2; }
+.dq-entry-stat-label { font-size: 0.875rem; color: rgba(255,255,255,0.6); margin-top: 0.25rem; }
+
+/* --- Content (Right Column) --- */
+.dq-entry-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  max-width: 36rem;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Mobile brand header — hidden on desktop */
+.dq-mobile-brand { display: none; }
+
+.dq-entry-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 2.5rem 1.5rem;
+  justify-content: center;
+}
+
+/* AI Badge */
+.dq-entry-ai-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: rgba(62,78,151,0.08);
+  color: var(--dq-primary);
+  border-radius: 9999px;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+  align-self: flex-start;
+}
+.dq-entry-ai-badge svg { width: 1rem; height: 1rem; }
+
+/* Entry title: 3 lines, last in primary */
+.dq-entry-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--dq-foreground);
+  line-height: 1.35;
+  margin-bottom: 1rem;
+}
+
+/* Entry body text */
+.dq-entry-body {
+  color: var(--dq-muted-fg);
+  font-size: 1.125rem;
+  line-height: 1.75;
+  margin-bottom: 2.5rem;
+}
+
+/* Trust Indicators */
+.dq-entry-features {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+.dq-entry-feature {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.dq-entry-feature-icon {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.75rem;
+  background-color: rgba(62,78,151,0.07);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--dq-primary);
+}
+.dq-entry-feature-icon svg { width: 1.5rem; height: 1.5rem; }
+
+.dq-entry-feature-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.dq-feature-title {
+  font-weight: 600;
+  color: var(--dq-foreground);
+  font-size: 0.9375rem;
+  line-height: 1.4;
+}
+
+.dq-feature-sub {
+  font-size: 0.875rem;
+  color: var(--dq-muted-fg);
+  margin-top: 0.125rem;
+  line-height: 1.5;
+}
+
+/* Mobile-only stats — hidden on desktop */
+.dq-entry-stats-mobile { display: none; }
+
+/* CTA Button */
+.dq-entry-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 3.5rem;
+  border-radius: 1rem;
+  background-color: var(--dq-primary);
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 1.125rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  gap: 0.5rem;
+}
+.dq-entry-cta:hover {
+  opacity: 0.9;
+  box-shadow: 0 10px 15px -3px rgba(62,78,151,0.3), 0 4px 6px -4px rgba(62,78,151,0.2);
+}
+.dq-entry-cta svg { width: 1.25rem; height: 1.25rem; }
+
+.dq-entry-cta-sub {
+  font-size: 0.75rem;
+  color: var(--dq-muted-fg);
+  text-align: center;
+  margin-top: 0.75rem;
+}
+
+/* ============================================================
+   Screen 2: Gender  (V0 match)
+   ============================================================ */
+.dq-gender-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  max-width: 20rem;
+  margin: 2rem auto 0;
+  width: 100%;
+}
+
+.dq-gender-btn {
+  aspect-ratio: 1 / 1;
+  border-radius: 1rem;
+  border: 2px solid var(--dq-border);
+  background-color: var(--dq-card);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  padding: 1rem;
+}
+.dq-gender-btn:hover { border-color: rgba(62,78,151,0.5); }
+.dq-gender-btn.selected {
+  border-color: var(--dq-primary);
+  background-color: rgba(62,78,151,0.05);
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1);
+  transform: scale(1.02);
+}
+
+/* V0: w-16 h-16 lg (64px), rounded-xl */
+.dq-gender-icon {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* V0: w-8 h-8 (32px) */
+.dq-gender-icon svg { width: 2rem; height: 2rem; }
+
+.dq-gender-icon.male {
+  background-color: rgba(59,130,246,0.125);
+  color: #3B82F6;
+}
+.dq-gender-icon.female {
+  background-color: rgba(236,72,153,0.125);
+  color: #EC4899;
+}
+
+.dq-gender-label {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--dq-foreground);
+  transition: color 0.2s ease;
+}
+
+/* ============================================================
+   Scroll Picker — Shared (BirthYear / Height / Weight)
+   ============================================================ */
+.dq-picker-icon-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Default picker icon: 48px */
+.dq-picker-icon {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.75rem;
+  background-color: rgba(62,78,151,0.1);
+  color: var(--dq-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dq-picker-icon svg { width: 1.5rem; height: 1.5rem; }
+
+/* V0 BirthYear: w-20 h-20 (80px) rounded-3xl */
+.dq-picker-icon-lg {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 1.5rem;
+}
+.dq-picker-icon-lg svg { width: 2.5rem; height: 2.5rem; }
+
+/* Picker container — base */
+.dq-picker-container {
+  position: relative;
+  overflow: hidden;
+  max-width: 20rem;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* V0 BirthYear: h-[320px] */
+.dq-birth-picker { height: 20rem; }
+
+/* V0 Height/Weight: h-[280px] */
+.dq-hw-picker { height: 17.5rem; }
+
+/* Scroll area */
+.dq-picker-scroll {
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  -webkit-overflow-scrolling: touch;
+  height: 100%;
+}
+.dq-picker-scroll::-webkit-scrollbar { display: none; }
+.dq-picker-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Gradient fades */
+.dq-picker-gradient-top,
+.dq-picker-gradient-bottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 6rem;
+  pointer-events: none;
+  z-index: 2;
+}
+.dq-picker-gradient-top {
+  top: 0;
+  background: linear-gradient(to bottom, var(--dq-background) 0%, transparent 100%);
+}
+.dq-picker-gradient-bottom {
+  bottom: 0;
+  background: linear-gradient(to top, var(--dq-background) 0%, transparent 100%);
+}
+
+/* Highlight bar — base */
+.dq-picker-highlight {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  width: 80%;
+  background-color: rgba(62,78,151,0.1);
+  border: 2px solid var(--dq-primary);
+  border-radius: 1rem;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* V0 BirthYear highlight: h-16 (64px) */
+.dq-birth-highlight { height: 4rem; }
+
+/* V0 Height/Weight highlight: h-14 (56px) */
+.dq-hw-highlight { height: 3.5rem; }
+
+/* --- Picker Items — base --- */
+.dq-picker-item {
+  scroll-snap-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  color: var(--dq-muted-fg);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+  border: none;
+  background: transparent;
+  width: 100%;
+}
+
+/* --- BirthYear items: V0 h-16 (64px), text-4xl active --- */
+.dq-birth-item {
+  height: 4rem;
+  font-size: 1.25rem;
+  font-variant-numeric: tabular-nums;
+  color: rgba(100,116,139,0.4);
+}
+.dq-birth-item.active {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: var(--dq-primary);
+  transform: scale(1.1);
+}
+
+/* --- Height/Weight items: V0 h-14 (56px), text-2xl active, adjacent styling --- */
+.dq-hw-item {
+  height: 3.5rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: rgba(26,26,46,0.3);
+  transform: scale(0.9);
+}
+.dq-hw-item.active {
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: var(--dq-primary);
+  transform: scale(1.1);
+}
+.dq-hw-item.adjacent {
+  color: rgba(26,26,46,0.6);
+  transform: scale(1);
+}
+.dq-hw-item.far {
+  color: rgba(26,26,46,0.3);
+  transform: scale(0.9);
+}
+
+/* --- Age Display (BirthYear) --- */
+.dq-age-display {
+  margin-top: 2rem;
+  text-align: center;
+  font-size: 1rem;
+  color: var(--dq-muted-fg);
+}
+.dq-age-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--dq-primary);
+  margin: 0 0.25rem;
+}
+
+/* --- Direct Input (Height / Weight) --- */
+.dq-direct-input {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.dq-direct-input input {
+  width: 7rem;
+  height: 4rem;
+  font-size: 1.875rem;
+  font-weight: 700;
+  text-align: center;
+  border: 2px solid var(--dq-border);
+  border-radius: 1rem;
+  background-color: var(--dq-card);
+  color: var(--dq-foreground);
+  outline: none;
+  transition: border-color 0.2s ease;
+  font-family: inherit;
+}
+.dq-direct-input input:focus { border-color: var(--dq-primary); }
+.dq-direct-input input::-webkit-outer-spin-button,
+.dq-direct-input input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.dq-direct-input input[type="number"] { -moz-appearance: textfield; }
+
+.dq-unit-label {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--dq-muted-fg);
+}
+
+/* ============================================================
+   Screen 6: Condition  (V0 match)
+   ============================================================ */
+
+/* Condition body: scrollable */
+.dq-condition-body {
+  overflow-y: auto;
+  justify-content: flex-start;
+  padding-top: 2rem;
+  padding-bottom: 6rem;
+}
+
+.dq-condition-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-width: 28rem;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.dq-condition-section {
+  margin-bottom: 0.5rem;
+}
+
+/* V0: text-sm font-medium text-muted — NOT uppercase */
+.dq-condition-section-title {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--dq-muted-fg);
+  margin-bottom: 0.25rem;
+  margin-top: 1rem;
+}
+
+.dq-condition-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.dq-condition-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  border: 2px solid var(--dq-border);
+  background-color: var(--dq-card);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+  width: 100%;
+}
+.dq-condition-item:hover { border-color: rgba(62,78,151,0.3); }
+.dq-condition-item.selected {
+  border-color: var(--dq-primary);
+  background-color: rgba(62,78,151,0.05);
+  box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05);
+}
+
+/* V0: w-12 h-12 (48px) rounded-xl */
+.dq-condition-icon {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.dq-condition-icon svg { width: 1.5rem; height: 1.5rem; }
+
+.dq-condition-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.dq-condition-label {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--dq-foreground);
+  line-height: 1.3;
+  display: block;
+  transition: color 0.2s ease;
+}
+
+.dq-condition-subtitle {
+  font-size: 0.875rem;
+  color: var(--dq-muted-fg);
+  margin-top: 0.125rem;
+  display: block;
+}
+
+/* V0: w-7 h-7 rounded-full bg-primary */
+.dq-condition-check {
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 9999px;
+  background-color: var(--dq-primary);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.dq-condition-check svg { width: 1rem; height: 1rem; }
+
+/* Smaller check for kidney sub items: w-6 h-6 */
+.dq-check-sm {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+.dq-check-sm svg { width: 0.75rem; height: 0.75rem; }
+
+/* Chevron (kidney toggle) */
+.dq-condition-chevron {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  flex-shrink: 0;
+  color: var(--dq-muted-fg);
+  transition: transform 0.2s ease;
+}
+.dq-condition-chevron svg { width: 1.25rem; height: 1.25rem; }
+
+/* Kidney Sub-items */
+.dq-kidney-sub {
+  margin-left: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  animation: dq-slide-down 0.2s ease forwards;
+}
+
+.dq-kidney-sub-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  border: 2px solid var(--dq-border);
+  background-color: var(--dq-card);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+  width: 100%;
+}
+.dq-kidney-sub-item:hover { border-color: rgba(62,78,151,0.3); }
+.dq-kidney-sub-item.selected {
+  border-color: var(--dq-primary);
+  background-color: rgba(62,78,151,0.05);
+}
+
+/* V0: w-8 h-8 (32px) rounded-lg with inner dot */
+.dq-kidney-sub-icon {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* V0: w-2 h-2 (8px) rounded-full dot */
+.dq-kidney-sub-dot-inner {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 9999px;
+  background-color: currentColor;
+}
+
+/* Disease Management Toggle */
+.dq-disease-toggle-section {
+  margin-top: 0.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--dq-border);
+}
+.dq-disease-toggle {
+  border-style: solid;
+}
+.dq-disease-section {
+  animation: dq-slide-down 0.25s ease forwards;
+}
+.dq-section-hint {
+  font-size: 0.75rem;
+  color: var(--dq-muted-fg);
+  font-weight: 400;
+}
+
+/* Disabled goal (BMI restriction) */
+.dq-condition-item.disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.dq-goal-disabled-hint {
+  display: block;
+  font-size: 0.6875rem;
+  color: #EF4444;
+  line-height: 1.3;
+  text-align: right;
+  max-width: 8rem;
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   Screen 7: AI Analysis  (V0 match — card, two-column)
+   ============================================================ */
+.dq-analysis {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--dq-background);
+  padding: 1.5rem;
+}
+
+/* V0 desktop: bg-card rounded-3xl border shadow-xl p-12 */
+.dq-analysis-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 42rem;
+  background-color: var(--dq-card);
+  border-radius: 1.5rem;
+  border: 1px solid var(--dq-border);
+  box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1);
+  padding: 3rem;
+}
+
+/* Animated Rings */
+.dq-analysis-rings {
+  position: relative;
+  width: 12rem;
+  height: 12rem;
+  margin: 0 auto 3rem;
+}
+
+.dq-ring-outer {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  border: 4px solid rgba(62,78,151,0.2);
+  border-top-color: var(--dq-primary);
+  animation: dq-spin 8s linear infinite;
+}
+
+.dq-ring-inner {
+  position: absolute;
+  inset: 1rem;
+  border-radius: 9999px;
+  border: 4px solid rgba(62,78,151,0.4);
+  border-bottom-color: var(--dq-primary);
+  animation: dq-spin-reverse 6s linear infinite;
+}
+
+.dq-ring-center {
+  position: absolute;
+  inset: 2rem;
+  border-radius: 9999px;
+  background-color: rgba(62,78,151,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dq-ring-brain {
+  color: var(--dq-primary);
+  animation: dq-pulse 1.5s ease-in-out infinite;
+}
+.dq-ring-brain svg { width: 3rem; height: 3rem; }
+
+/* Analysis Text */
+.dq-analysis-title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  text-align: center;
+  color: var(--dq-foreground);
+  margin-bottom: 0.5rem;
+}
+
+.dq-analysis-subtitle {
+  font-size: 0.9375rem;
+  color: var(--dq-muted-fg);
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+/* V0 desktop: lg:flex lg:gap-8 (two columns) */
+.dq-analysis-columns {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  width: 100%;
+}
+
+/* Left column: user data */
+.dq-analysis-data {
+  flex: 1;
+  background-color: var(--dq-muted);
+  border-radius: 1rem;
+  padding: 1.25rem;
+}
+
+/* Section labels */
+.dq-analysis-section-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--dq-muted-fg);
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+/* Data grid (4 cells) */
+.dq-data-summary {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.dq-data-cell {
+  background-color: rgba(241,245,249,0.5);
+  border-radius: 0.75rem;
+  padding: 0.5rem;
+  text-align: center;
+}
+
+/* V0: BMI cell bg-primary/10 */
+.dq-data-cell-bmi {
+  background-color: rgba(62,78,151,0.1) !important;
+}
+
+/* V0: label on TOP, then value */
+.dq-data-label {
+  font-size: 0.75rem;
+  color: var(--dq-muted-fg);
+  margin-bottom: 0.125rem;
+}
+
+.dq-data-value {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--dq-foreground);
+  line-height: 1.2;
+}
+
+/* Conditions section */
+.dq-analysis-conditions {
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--dq-border);
+}
+
+.dq-conditions-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.dq-condition-badge {
+  padding: 0.25rem 0.75rem;
+  background-color: rgba(62,78,151,0.1);
+  color: var(--dq-primary);
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+/* Right column: analysis steps */
+.dq-analysis-steps {
+  flex: 1;
+}
+
+.dq-steps-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.dq-step-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  transition: all 0.3s ease;
+}
+
+/* V0: Completed — bg-primary/10, icon bg-primary text-white (solid!) */
+.dq-step-item.completed {
+  background-color: rgba(62,78,151,0.1);
+}
+.dq-step-item.completed .dq-step-icon {
+  background-color: var(--dq-primary);
+  color: #ffffff;
+}
+
+/* V0: Current — bg-card border-primary */
+.dq-step-item.current {
+  background-color: var(--dq-card);
+  border: 1px solid var(--dq-primary);
+}
+.dq-step-item.current .dq-step-icon {
+  background-color: rgba(62,78,151,0.2);
+  color: var(--dq-primary);
+}
+
+/* V0: Pending — bg-card border-border opacity-50 */
+.dq-step-item.pending {
+  background-color: var(--dq-card);
+  border: 1px solid var(--dq-border);
+  opacity: 0.5;
+}
+.dq-step-item.pending .dq-step-icon {
+  background-color: var(--dq-muted);
+  color: var(--dq-muted-fg);
+}
+
+/* V0: w-10 h-10 (40px) rounded-xl */
+.dq-step-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.dq-step-icon svg { width: 1.25rem; height: 1.25rem; }
+
+.dq-step-text {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--dq-foreground);
+  flex: 1;
+}
+
+/* Loading Dots */
+.dq-loading-dots {
+  display: flex;
+  gap: 0.25rem;
+  margin-left: auto;
+  align-items: center;
+}
+
+.dq-loading-dot {
+  width: 0.375rem;
+  height: 0.375rem;
+  border-radius: 9999px;
+  background-color: var(--dq-primary);
+  animation: dq-blink 1s ease-in-out infinite;
+}
+.dq-loading-dot:nth-child(2) { animation-delay: 0.15s; }
+.dq-loading-dot:nth-child(3) { animation-delay: 0.3s; }
+
+/* BMI Status Colors (unused now but kept for report) */
+.dq-bmi-underweight { background-color: #dbeafe; color: #1d4ed8; }
+.dq-bmi-normal { background-color: #dcfce7; color: #15803d; }
+.dq-bmi-overweight { background-color: #fef9c3; color: #a16207; }
+.dq-bmi-obese { background-color: #fee2e2; color: #b91c1c; }
+
+/* ============================================================
+   Screen 8: Nutrition Report (.dqr-*)
+   ============================================================ */
+.dqr-report {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--dq-background);
+  padding-bottom: 8rem;
+}
+
+/* --- Report Header --- */
+.dqr-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background-color: rgba(248,249,252,0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--dq-border);
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  max-width: 100%;
+}
+
+.dqr-back-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  border-radius: 0.75rem;
+  border: none;
+  background: transparent;
+  color: var(--dq-foreground);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  flex-shrink: 0;
+}
+.dqr-back-btn:hover { background-color: var(--dq-muted); }
+.dqr-back-btn svg { width: 1.5rem; height: 1.5rem; }
+
+.dqr-header-titles {
+  flex: 1;
+  text-align: left;
+}
+
+.dqr-header-title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--dq-foreground);
+  line-height: 1.3;
+}
+
+.dqr-header-sub {
+  font-size: 0.8125rem;
+  color: var(--dq-muted-fg);
+  margin-top: 0.125rem;
+}
+
+/* --- Coaching Hero --- */
+.dqr-hero {
+  background: linear-gradient(135deg, rgba(62,78,151,0.08) 0%, var(--dq-background) 100%);
+  padding: 2.5rem 1.5rem 2rem;
+  max-width: 72rem;
+  margin: 0 auto;
+}
+
+.dqr-hero-icon {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  background-color: rgba(62,78,151,0.1);
+  color: var(--dq-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 0 1.25rem;
+}
+.dqr-hero-icon svg { width: 1.75rem; height: 1.75rem; }
+
+.dqr-hero-icon-solid {
+  background-color: var(--dq-primary);
+  color: #ffffff;
+}
+
+.dqr-coaching-text {
+  margin: 0 0 0.625rem;
+  font-size: 0.9375rem;
+  line-height: 1.8;
+  color: var(--dq-foreground);
+  text-align: left;
+  word-break: keep-all;
+}
+.dqr-coaching-text strong { color: var(--dq-primary); font-weight: 600; }
+.dqr-coaching-text:last-child { margin-bottom: 0; }
+
+/* --- Content Layout --- */
+.dqr-content {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+.dqr-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.dqr-col-left,
+.dqr-col-right {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* --- Card --- */
+.dqr-card {
+  background-color: var(--dq-card);
+  border-radius: 1.25rem;
+  border: 1px solid var(--dq-border);
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.dqr-section-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--dq-muted-fg);
+  margin-bottom: 1.25rem;
+}
+
+/* --- BMI Display --- */
+.dqr-bmi-display {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.dqr-bmi-value {
+  font-size: 3.75rem;
+  font-weight: 700;
+  color: var(--dq-foreground);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.dqr-bmi-unit {
+  font-size: 1rem;
+  color: var(--dq-muted-fg);
+  font-weight: 500;
+}
+
+.dqr-bmi-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  margin-left: 0.5rem;
+}
+.dqr-bmi-underweight { background-color: #dbeafe; color: #1d4ed8; }
+.dqr-bmi-normal { background-color: #dcfce7; color: #15803d; }
+.dqr-bmi-overweight { background-color: #fef9c3; color: #a16207; }
+.dqr-bmi-obese { background-color: #fee2e2; color: #b91c1c; }
+
+/* --- BMI Bar --- */
+.dqr-bmi-bar-wrap {
+  position: relative;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.dqr-bmi-bar {
+  display: flex;
+  height: 0.75rem;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.dqr-bmi-zone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.dqr-bmi-zone-label {
+  position: absolute;
+  top: 1.25rem;
+  font-size: 0.625rem;
+  color: var(--dq-muted-fg);
+  white-space: nowrap;
+}
+
+.dqr-bmi-marker {
+  position: absolute;
+  top: -0.25rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  background-color: var(--dq-foreground);
+  border: 3px solid var(--dq-card);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  transform: translateX(-50%);
+  z-index: 2;
+}
+
+/* --- BMI Stats (calories / protein) --- */
+.dqr-bmi-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.dqr-bmi-stat {
+  background-color: var(--dq-muted);
+  border-radius: 0.75rem;
+  padding: 0.875rem;
+  text-align: center;
+}
+
+.dqr-bmi-stat-label {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--dq-muted-fg);
+  margin-bottom: 0.25rem;
+}
+
+.dqr-bmi-stat-value {
+  display: block;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--dq-primary);
+}
+
+/* --- Status Cards --- */
+/* --- Daily Nutrients Section --- */
+.dqr-dn-highlights {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+.dqr-dn-box {
+  text-align: center;
+  padding: 1rem 0.5rem;
+  border-radius: 0.75rem;
+  background-color: var(--dq-muted);
+}
+.dqr-dn-big {
+  display: block;
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--dq-primary);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+.dqr-dn-inline-unit {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--dq-muted-fg);
+}
+.dqr-dn-unit {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--dq-muted-fg);
+  margin-top: 0.25rem;
+}
+.dqr-dn-desc {
+  font-size: 0.8125rem;
+  color: var(--dq-muted-fg);
+  margin-bottom: 0.625rem;
+  font-weight: 500;
+}
+
+/* Macro bar (stacked horizontal) */
+.dqr-macro-bar {
+  display: flex;
+  height: 1.75rem;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+.dqr-macro-seg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dqr-macro-seg span {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+/* Macro rows */
+.dqr-macro-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.dqr-macro-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+}
+.dqr-macro-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 9999px;
+  flex-shrink: 0;
+}
+.dqr-macro-label {
+  flex: 1;
+  color: var(--dq-foreground);
+}
+.dqr-macro-value {
+  font-weight: 600;
+  color: var(--dq-foreground);
+  min-width: 3rem;
+  text-align: right;
+}
+.dqr-macro-pct {
+  color: var(--dq-muted-fg);
+  min-width: 2.5rem;
+  text-align: right;
+}
+
+/* Micro divider */
+.dqr-micro-divider {
+  height: 1px;
+  background-color: var(--dq-border);
+  margin: 1rem 0;
+}
+
+/* Micro nutrient rows */
+.dqr-micro-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.dqr-micro-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.dqr-micro-icon {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.dqr-micro-icon svg { width: 1rem; height: 1rem; }
+.dqr-micro-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.dqr-micro-label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--dq-foreground);
+}
+.dqr-micro-desc {
+  font-size: 0.6875rem;
+  color: var(--dq-muted-fg);
+}
+.dqr-micro-value {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* --- Strategy Cards --- */
+.dqr-strategies {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.dqr-strategy-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  background-color: var(--dq-muted);
+}
+
+.dqr-strategy-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.625rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.dqr-strategy-icon svg { width: 1.25rem; height: 1.25rem; }
+
+.dqr-strategy-info { flex: 1; }
+
+.dqr-strategy-label {
+  display: block;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--dq-foreground);
+}
+
+.dqr-strategy-target {
+  display: block;
+  font-size: 0.8125rem;
+  color: var(--dq-primary);
+  font-weight: 500;
+  margin-top: 0.125rem;
+}
+
+.dqr-strategy-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* --- Recommended Line Cards --- */
+.dqr-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.dqr-line-card {
+  padding: 1.25rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--dq-border);
+  background-color: var(--dq-card);
+}
+
+.dqr-line-card:first-child {
+  border: 2px solid var(--dq-primary);
+  background-color: rgba(62,78,151,0.03);
+}
+
+.dqr-line-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.dqr-line-number {
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  color: #ffffff;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.dqr-line-label {
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: var(--dq-foreground);
+}
+
+.dqr-line-reason {
+  font-size: 0.8125rem;
+  color: var(--dq-muted-fg);
+  line-height: 1.6;
+  margin-bottom: 0.75rem;
+}
+
+.dqr-line-benefits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+}
+
+.dqr-benefit-tag {
+  display: inline-block;
+  padding: 0.25rem 0.625rem;
+  border-radius: 9999px;
+  font-size: 0.6875rem;
+  font-weight: 500;
+}
+
+/* --- Conditions Row --- */
+.dqr-conditions-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--dq-border);
+}
+
+.dqr-conditions-label {
+  font-size: 0.75rem;
+  color: var(--dq-muted-fg);
+  font-weight: 500;
+}
+
+.dqr-condition-tag {
+  display: inline-block;
+  padding: 0.1875rem 0.625rem;
+  background-color: rgba(62,78,151,0.1);
+  color: var(--dq-primary);
+  border-radius: 9999px;
+  font-size: 0.6875rem;
+  font-weight: 500;
+}
+
+/* --- Brand Message --- */
+.dqr-brand {
+  text-align: center;
+  padding: 2rem 1.5rem;
+}
+
+.dqr-brand-icon {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background-color: rgba(239,68,68,0.1);
+  color: #EF4444;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+}
+.dqr-brand-icon svg { width: 1.5rem; height: 1.5rem; }
+
+.dqr-brand-msg {
+  font-size: 0.9375rem;
+  color: var(--dq-muted-fg);
+  line-height: 1.7;
+  margin-bottom: 1rem;
+}
+.dqr-brand-msg strong { color: var(--dq-primary); }
+
+.dqr-brand-tagline {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--dq-primary);
+}
+
+/* --- Fixed CTA --- */
+.dqr-cta-wrap {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 30;
+  background: rgba(248,249,252,0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-top: 1px solid var(--dq-border);
+  padding: 1rem 1.5rem 1.5rem;
+  text-align: center;
+}
+
+.dqr-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 28rem;
+  height: 3.5rem;
+  border-radius: 1rem;
+  background-color: var(--dq-primary);
+  color: #ffffff;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.dqr-cta-btn:hover {
+  opacity: 0.9;
+  box-shadow: 0 10px 15px -3px rgba(62,78,151,0.3), 0 4px 6px -4px rgba(62,78,151,0.2);
+}
+.dqr-cta-btn svg { width: 1.25rem; height: 1.25rem; }
+
+.dqr-cta-sub {
+  font-size: 0.75rem;
+  color: var(--dq-muted-fg);
+  margin-top: 0.5rem;
+}
+
+/* ============================================================
+   Desktop – Larger screen adjustments
+   ============================================================ */
+@media (min-width: 1200px) {
+  .dq-entry-hero { width: 45%; }
+  .dq-entry-hero-content { padding: 4rem; max-width: 32rem; }
+  .dq-entry-headline { font-size: 2.75rem; }
+  .dq-entry-stat-value { font-size: 2.25rem; }
+  .dq-analysis-card { padding: 3rem; }
+  .dq-analysis-rings { width: 12rem; height: 12rem; }
+
+  .dqr-content { padding: 2rem 2.5rem; }
+  .dqr-bmi-value { font-size: 4.5rem; }
+}
+
+/* ============================================================
+   Report – Mobile responsive (single column)
+   ============================================================ */
+@media (max-width: 768px) {
+  .dqr-columns {
+    grid-template-columns: 1fr;
+  }
+  .dqr-bmi-value { font-size: 3rem; }
+  .dqr-hero { padding: 2rem 1rem 1.5rem; }
+  .dqr-content { padding: 1.5rem 1rem; }
+}

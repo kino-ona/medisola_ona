@@ -1,0 +1,313 @@
+{*** [위젯] 홈 카테고리 상품 리뷰 (모바일) | mobile/board/_home_product_review.html ***}
+{? hasTabs}
+<section class="mm_sec12_review" data-initial-visible-count="{=initialVisibleCount}" data-tab-config-sno="{=tabConfigSno}" data-review-limit="{=reviewLimit}">
+    <div class="m_titleArea wow fadeInUp" data-wow-delay="0s" data-wow-duration="1s">
+        <div class="review_title">{=sectionTitle}</div>
+    </div>
+
+    <div class="home_review_tabs">
+        {@ tabs}
+        <a href="javascript:void(0)" class="home_review_tab_btn {? .isActive}is_active{/}" data-tab-key="{=.tabKey}">{=.tabName}</a>
+        {/}
+    </div>
+
+
+    {@ tabs}
+    <div class="home_review_panel {? .isActive}is_active{/}" data-tab-key="{=.tabKey}" data-loaded="{? .loaded}true{:}false{/}">
+        <div class="home_product_scroll">
+            {@ .products}
+            <div class="home_product_item" data-goods-no="{=..goodsNo}">
+                <a href="../goods/goods_view.php?goodsNo={=..goodsNo}" class="home_product_top">
+                    <div class="home_product_thumb">
+                        {? ..thumb}
+                        <img src="{=..thumb}" alt="{=..goodsNm}" loading="lazy" />
+                        {:}
+                        <div class="thumb_empty"></div>
+                        {/}
+                    </div>
+                    <div class="home_product_name">{=..goodsNm}</div>
+                    <div class="home_product_price m_price_box">
+                        {? ..showGoodsSale}
+                        <span class="msale">{=..goodsSalePrice}원</span>
+                        <span class="through">{=..goodsPrice}원</span>
+                        {:}
+                        {? ..showStrikePrice}
+                        <span class="msale">{=..goodsPrice}원</span>
+                        <span class="through">{=..goodsFixedPrice}원</span>
+                        {:}
+                        <span class="msale">{=..goodsPrice}원</span>
+                        {/}
+                        {/}
+                    </div>
+                </a>
+
+                <div class="product_reviews_container">
+                    {? .loaded}
+                        {? ..hasReviews}
+                        <ul class="product_review_list">
+                            {@ ..reviews}
+                            <li class="product_review_item {? ...index_ < initialVisibleCount}is_visible{:}is_hidden{/}">
+                                <a href="../goods/goods_view.php?goodsNo={=...goodsNo}" class="product_review_link">
+                                    <div class="review_thumb">
+                                        {? ...reviewThumb}
+                                        <img src="{=...reviewThumb}" alt="{=...goodsNm}" loading="lazy" />
+                                        {:}
+                                        <div class="thumb_empty"></div>
+                                        {/}
+                                    </div>
+                                    <div class="review_body">
+                                        <div class="review_stars">{? ...reviewScore >= 1}★{/}{? ...reviewScore >= 2}★{/}{? ...reviewScore >= 3}★{/}{? ...reviewScore >= 4}★{/}{? ...reviewScore >= 5}★{/}</div>
+                                        <div class="review_text">{=...reviewMessage}</div>
+                                    </div>
+                                </a>
+                            </li>
+                            {/}
+                        </ul>
+                    {/}
+                    {:}
+                        <div class="review_skeleton_list">
+                            <div class="review_skeleton_item"><div class="skel_thumb"></div><div class="skel_body"><div class="skel_line"></div><div class="skel_line short"></div></div></div>
+                            <div class="review_skeleton_item"><div class="skel_thumb"></div><div class="skel_body"><div class="skel_line"></div><div class="skel_line short"></div></div></div>
+                            <div class="review_skeleton_item"><div class="skel_thumb"></div><div class="skel_body"><div class="skel_line"></div><div class="skel_line short"></div></div></div>
+                        </div>
+                    {/}
+                </div>
+            </div>
+            {/}
+        </div>
+        <div class="home_review_batch_more_wrap">
+            <button type="button" class="home_review_more_btn_batch"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg> 더보기</button>
+        </div>
+    </div>
+    {/}
+</section>
+
+<style>
+.mm_sec12_review { padding: 0 16px; margin: 40px 0 24px; }
+.mm_sec12_review .home_review_tabs { display: flex; align-items: center; justify-content: center; gap: 20px;}
+.mm_sec12_review .home_review_tab_btn { position: relative; border: none; background: none; padding: 8px 0; font-family: 'Paperozi', sans-serif; font-size: 14px; color: #aaa; font-weight: 400; white-space: nowrap; text-decoration: none; transition: color .2s, font-weight .2s; }
+.mm_sec12_review .home_review_tab_btn.is_active { color: #314ea9; font-weight: 700; }
+.mm_sec12_review .home_review_tab_btn.is_active::after { content: ''; position: absolute; left: -4px; right: -4px; bottom: 0; height: 2px; background: #314ea9; border-radius: 1px; }
+.mm_sec12_review .home_review_panel { display: none; margin-top: 16px; }
+.mm_sec12_review .home_review_panel.is_active { display: block; }
+
+.mm_sec12_review .home_product_scroll { display: flex; overflow-x: auto; gap: 12px; scroll-behavior: smooth; -ms-overflow-style: none; scrollbar-width: none; margin: 0 -16px; padding: 0 16px; }
+.mm_sec12_review .home_product_scroll::-webkit-scrollbar { display: none; }
+
+.mm_sec12_review .home_product_item { flex: 0 0 calc((100vw - 40px) / 2.2); min-width: 0; }
+.mm_sec12_review .home_product_top { display: block; text-decoration: none; color: inherit; }
+.mm_sec12_review .home_product_thumb { overflow: hidden; background: #f5f5f5; aspect-ratio: 1 / 1; }
+.mm_sec12_review .home_product_thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.mm_sec12_review .home_product_name { margin-top: 6px; font-size: 12px; color: #222; line-height: 1.4; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mm_sec12_review .home_product_price { margin-top: 2px; font-size: 13px; font-family: 'Paperozi', sans-serif; }
+.mm_sec12_review .home_product_price .msale { color: #111; font-weight: 700; }
+.mm_sec12_review .home_product_price .through { text-decoration: line-through; color: #999; font-weight: 400; margin-left: 4px; }
+
+.mm_sec12_review .product_review_list { margin-top: 10px; display: grid; gap: 8px; list-style: none; padding: 0; }
+.mm_sec12_review .product_review_item .product_review_link { display: flex; align-items: center; gap: 8px; text-decoration: none; color: inherit; }
+.mm_sec12_review .review_thumb { width: 36px; min-width: 36px; height: 36px; border-radius: 6px; overflow: hidden; background: #f5f5f5; }
+.mm_sec12_review .review_thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.mm_sec12_review .review_body { min-width: 0; flex: 1; }
+.mm_sec12_review .review_stars { font-size: 9px; color: #f5a623; letter-spacing: -1px; line-height: 1; margin-bottom: 2px; }
+.mm_sec12_review .review_text { font-size: 11px; color: #333; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; }
+.mm_sec12_review .product_review_item.is_hidden { display: none; }
+.mm_sec12_review .home_review_panel:not([data-batch-done="true"]) .product_review_list {
+    -webkit-mask-image: linear-gradient(180deg, #000 50%, transparent 100%);
+    mask-image: linear-gradient(180deg, #000 50%, transparent 100%);
+}
+
+.mm_sec12_review .review_empty { margin-top: 16px; font-size: 12px; color: #999; text-align: center; padding: 12px; border: 1px solid #eee; border-radius: 10px; }
+.mm_sec12_review .home_review_batch_more_wrap { text-align: center; margin-top: 16px; }
+.mm_sec12_review .home_review_more_btn_batch { margin-top: 0; border: none; border-radius: 8px; background: none; height: 28px; font-size: 11px; color: #999; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 2px; }
+.mm_sec12_review .home_review_more_btn_batch svg { flex-shrink: 0; }
+.mm_sec12_review .home_review_more_btn_batch:disabled { opacity: 0.7; cursor: not-allowed; }
+.mm_sec12_review .home_review_batch_more_wrap.is_hidden { display: none; }
+.mm_sec12_review .thumb_empty { width: 100%; height: 100%; background: #f5f5f5; }
+
+.mm_sec12_review .review_skeleton_list { margin-top: 10px; display: grid; gap: 8px; }
+.mm_sec12_review .review_skeleton_item { display: flex; align-items: center; gap: 8px; }
+.mm_sec12_review .skel_thumb { width: 36px; min-width: 36px; height: 36px; border-radius: 6px; background: #ebebeb; }
+.mm_sec12_review .skel_body { flex: 1; min-width: 0; }
+.mm_sec12_review .skel_line { height: 8px; border-radius: 4px; background: #ebebeb; margin-bottom: 6px; }
+.mm_sec12_review .skel_line:last-child { margin-bottom: 0; }
+.mm_sec12_review .skel_line.short { width: 55%; }
+@keyframes reviewPulse { 0%, 100% { opacity: 1; } 50% { opacity: .45; } }
+.mm_sec12_review .review_skeleton_list { animation: reviewPulse 1.4s ease-in-out infinite; }
+.mm_sec12_review .expand_skel_item { animation: reviewPulse 1.4s ease-in-out infinite; }
+.mm_sec12_review .expand_skel_item .review_thumb { background: #ebebeb; }
+</style>
+
+<script type="text/javascript">
+(function() {
+    var AJAX_URL = '../board/home_review_ps.php';
+
+    function renderStars(score) {
+        var s = '';
+        for (var i = 1; i <= 5; i++) { if (score >= i) s += '★'; }
+        return s;
+    }
+
+    function escHtml(str) {
+        if (!str) return '';
+        return $('<span>').text(str).html();
+    }
+
+    function renderReviewItem(r, visibleCount, idx) {
+        var cls = idx < visibleCount ? 'is_visible' : 'is_hidden';
+        var thumbHtml = r.reviewThumb
+            ? '<img src="' + escHtml(r.reviewThumb) + '" alt="' + escHtml(r.goodsNm) + '" loading="lazy" />'
+            : '<div class="thumb_empty"></div>';
+        return '<li class="product_review_item ' + cls + '">'
+            + '<a href="../goods/goods_view.php?goodsNo=' + r.goodsNo + '" class="product_review_link">'
+            + '<div class="review_thumb">' + thumbHtml + '</div>'
+            + '<div class="review_body">'
+            + '<div class="review_stars">' + renderStars(r.reviewScore) + '</div>'
+            + '<div class="review_text">' + escHtml(r.reviewMessage) + '</div>'
+            + '</div></a></li>';
+    }
+
+    function generateExpandSkeletons(count) {
+        var html = '';
+        for (var i = 0; i < count; i++) {
+            html += '<li class="product_review_item expand_skel_item">'
+                + '<div class="product_review_link">'
+                + '<div class="review_thumb"></div>'
+                + '<div class="review_body">'
+                + '<div class="skel_line"></div>'
+                + '<div class="skel_line short"></div>'
+                + '</div></div></li>';
+        }
+        return html;
+    }
+
+    function loadTabReviews(panel) {
+        var $panel = $(panel);
+        if ($panel.attr('data-loaded') === 'true') return;
+
+        var section = $panel.closest('.mm_sec12_review');
+        var tabKey = $panel.attr('data-tab-key');
+        var tabConfigSno = section.attr('data-tab-config-sno');
+        var reviewLimit = parseInt(section.attr('data-review-limit'), 10) || 3;
+        var visibleCount = parseInt(section.attr('data-initial-visible-count'), 10) || 3;
+
+        $.ajax({
+            url: AJAX_URL,
+            data: { mode: 'get_tab_reviews', tabKey: tabKey, tabConfigSno: tabConfigSno, reviewLimit: reviewLimit },
+            dataType: 'json',
+            success: function(res) {
+                if (res && res.error === 0 && res.reviewsByGoods) {
+                    $panel.find('.home_product_item').each(function() {
+                        var $item = $(this);
+                        var goodsNo = String($item.attr('data-goods-no'));
+                        var $container = $item.find('.product_reviews_container');
+                        var reviews = res.reviewsByGoods[goodsNo];
+
+                        if (reviews && reviews.length > 0) {
+                            var html = '<ul class="product_review_list">';
+                            for (var i = 0; i < reviews.length; i++) {
+                                html += renderReviewItem(reviews[i], visibleCount, i);
+                            }
+                            html += '</ul>';
+                            $container.html(html);
+                        } else {
+                            $container.empty();
+                        }
+                    });
+                } else {
+                    $panel.find('.review_skeleton_list').remove();
+                }
+                $panel.attr('data-loaded', 'true');
+            },
+            error: function() {
+                $panel.find('.review_skeleton_list').remove();
+                $panel.attr('data-loaded', 'true');
+            }
+        });
+    }
+
+    $(document).on('click', '.mm_sec12_review .home_review_tab_btn', function(e) {
+        e.preventDefault();
+        var tabKey = $(this).data('tab-key');
+        var section = $(this).closest('.mm_sec12_review');
+
+        section.find('.home_review_tab_btn').removeClass('is_active');
+        $(this).addClass('is_active');
+        section.find('.home_review_panel').removeClass('is_active');
+
+        var targetPanel = section.find('.home_review_panel[data-tab-key="' + tabKey + '"]');
+        targetPanel.addClass('is_active');
+
+        if (targetPanel.attr('data-loaded') !== 'true') {
+            loadTabReviews(targetPanel);
+        }
+
+        if (typeof amplitude !== 'undefined') {
+            amplitude.logEvent('home_reviewtab_click', {tab_key: tabKey, device: 'mobile'});
+        }
+    });
+
+    var expandLimit = 5;
+    var moreHtml = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"><' + '/polyline><' + '/svg> 더보기';
+    var collapseHtml = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 15 12 9 18 15"><' + '/polyline><' + '/svg> 접기';
+    var loadingHtml = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"><' + '/polyline><' + '/svg> 불러오는 중...';
+
+    $(document).on('click', '.mm_sec12_review .home_review_more_btn_batch', function() {
+        var btn = $(this);
+        var panel = btn.closest('.home_review_panel');
+        var section = btn.closest('.mm_sec12_review');
+        var visibleCount = parseInt(section.attr('data-initial-visible-count'), 10) || 3;
+
+        if (panel.attr('data-batch-done') === 'true') {
+            panel.find('.home_product_item').each(function() {
+                $(this).find('.product_review_list .product_review_item').each(function(idx) {
+                    $(this).toggleClass('is_visible', idx < visibleCount).toggleClass('is_hidden', idx >= visibleCount);
+                });
+            });
+            panel.attr('data-batch-done', 'false');
+            btn.html(moreHtml);
+            if (typeof amplitude !== 'undefined') amplitude.logEvent('home_reviewcta_click', {action: 'batch_collapse', tab_key: panel.attr('data-tab-key'), device: 'mobile'});
+            return;
+        }
+
+        var tabKey = panel.attr('data-tab-key');
+        var tabConfigSno = section.attr('data-tab-config-sno');
+        btn.prop('disabled', true).html(loadingHtml);
+
+        $.ajax({
+            url: AJAX_URL,
+            data: { mode: 'get_tab_reviews', tabKey: tabKey, tabConfigSno: tabConfigSno, reviewLimit: expandLimit },
+            dataType: 'json',
+            success: function(res) {
+                if (res && res.error === 0 && res.reviewsByGoods) {
+                    panel.find('.home_product_item').each(function() {
+                        var $item = $(this);
+                        var goodsNo = String($item.attr('data-goods-no'));
+                        var $container = $item.find('.product_reviews_container');
+                        var reviews = res.reviewsByGoods[goodsNo];
+                        if (reviews && reviews.length > 0) {
+                            var html = '<ul class="product_review_list">';
+                            for (var i = 0; i < reviews.length; i++) {
+                                html += renderReviewItem(reviews[i], reviews.length, i);
+                            }
+                            html += '</ul>';
+                            $container.html(html);
+                        }
+                    });
+                    panel.attr('data-batch-done', 'true');
+                    btn.prop('disabled', false).html(collapseHtml);
+                } else {
+                    btn.prop('disabled', false).html(moreHtml);
+                }
+            },
+            error: function() {
+                btn.prop('disabled', false).html(moreHtml);
+            }
+        });
+
+        if (typeof amplitude !== 'undefined') {
+            amplitude.logEvent('home_reviewcta_click', {action: 'batch_more', tab_key: tabKey, device: 'mobile'});
+        }
+    });
+})();
+</script>
+{/}

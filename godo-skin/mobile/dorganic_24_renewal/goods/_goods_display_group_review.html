@@ -1,0 +1,273 @@
+{*** [위젯] 기획전 그룹 상품 + 리뷰 | goods/_goods_display_group_review.php ***}
+
+{? hasGroups}
+
+<!--{ ? eventThemeName }-->
+<div class="item_display_wrap">
+    <!-- <h3>{=eventThemeName}</h3> -->
+
+    <!--{ ? eventThemeContents }-->
+    <div class="contents">
+        {=eventThemeContents}
+    </div>
+    <!--{ / }-->
+
+    <!--{ ? otherEventData }-->
+    <div class="inp_sel">
+        <select name="otherEventData" onchange="javascript:location.href='/goods/event_sale.php?sno=' + this.value;">
+            <!--{ @ otherEventData }-->
+            <option value="{.value_['sno']}">{.value_['themeNm']}</option>
+            <!--{/}-->
+        </select>
+    </div>
+    <!--{ / }-->
+</div>
+<!--{ / }-->
+
+<!--{ @ groups }-->
+<div class="egr_section">
+    <!--{ ? .groupTitleHtml }-->
+    <div class="event_group_title">{=.groupTitleHtml}</div>
+    <!--{ / }-->
+
+    <!--{ ? .hasProducts }-->
+    <div class="egr_product_scroll_wrap">
+        <div class="egr_product_scroll">
+            <!--{ @ .products }-->
+            <div class="egr_product_item" data-goods-no="{=..goodsNo}">
+                <a href="../goods/goods_view.php?goodsNo={=..goodsNo}" class="egr_product_top">
+                    <div class="egr_product_thumb">
+                        <!--{ ? ..thumb }-->
+                        <img src="{=..thumb}" alt="{=..goodsNm}" loading="lazy" />
+                        <!--{ : }-->
+                        <div class="thumb_empty"></div>
+                        <!--{ / }-->
+                    </div>
+                    <div class="egr_product_name">{=..goodsNm}</div>
+                    <div class="egr_product_price">
+                        <!--{ ? ..showGoodsSale }-->
+                        <span class="msale">{=..goodsSalePrice}원</span>
+                        <span class="through">{=..goodsPrice}원</span>
+                        <!--{ : }-->
+                        <!--{ ? ..showStrikePrice }-->
+                        <span class="msale">{=..goodsPrice}원</span>
+                        <span class="through">{=..goodsFixedPrice}원</span>
+                        <!--{ : }-->
+                        <span class="msale">{=..goodsPrice}원</span>
+                        <!--{ / }-->
+                        <!--{ / }-->
+                    </div>
+                </a>
+
+                <div class="egr_reviews_container">
+                    <div class="review_skeleton_list">
+                        <div class="review_skeleton_item"><div class="skel_thumb"></div><div class="skel_body"><div class="skel_line"></div><div class="skel_line short"></div></div></div>
+                        <div class="review_skeleton_item"><div class="skel_thumb"></div><div class="skel_body"><div class="skel_line"></div><div class="skel_line short"></div></div></div>
+                        <div class="review_skeleton_item"><div class="skel_thumb"></div><div class="skel_body"><div class="skel_line"></div><div class="skel_line short"></div></div></div>
+                    </div>
+                </div>
+            </div>
+            <!--{/}-->
+        </div>
+    </div>
+    <div class="egr_batch_more_wrap">
+        <button type="button" class="egr_more_btn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg> 더보기</button>
+    </div>
+    <!--{ / }-->
+</div>
+<!--{/}-->
+
+<style>
+.item_display_wrap { margin-bottom: 34px; }
+.egr_section { margin: 0 0 32px; padding: 0 16px; }
+.egr_section .event_group_title { font-size: 16px; font-weight: 700; color: #222; margin-bottom: 12px; }
+.egr_section .event_group_title img { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+
+.egr_product_scroll_wrap { margin: 0 -16px; }
+.egr_product_scroll { display: flex; overflow-x: auto; gap: 12px; padding: 0 16px; scroll-behavior: smooth; -ms-overflow-style: none; scrollbar-width: none; }
+.egr_product_scroll::-webkit-scrollbar { display: none; }
+
+.egr_product_item { flex: 0 0 calc((100vw - 44px) / 2.2); min-width: 0; }
+.egr_product_top { display: block; text-decoration: none; color: inherit; }
+.egr_product_thumb { overflow: hidden; background: #f5f5f5; aspect-ratio: 1 / 1; }
+.egr_product_thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.egr_product_name { margin-top: 6px; font-size: 12px; color: #222; line-height: 1.4; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.egr_product_price { margin-top: 2px; font-size: 13px; font-family: 'Paperozi', sans-serif; font-weight: 400; }
+.egr_product_price .msale { color: #111; font-weight: 700; }
+.egr_product_price .through { text-decoration: line-through; color: #999; font-weight: 400; margin-left: 4px; }
+
+.egr_review_list { margin-top: 10px; display: grid; gap: 8px; list-style: none; padding: 0; }
+.egr_review_item .egr_review_link { display: flex; align-items: center; gap: 8px; text-decoration: none; color: inherit; }
+.egr_review_thumb { width: 36px; min-width: 36px; height: 36px; border-radius: 6px; overflow: hidden; background: #f5f5f5; }
+.egr_review_thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.egr_review_body { min-width: 0; flex: 1; }
+.egr_review_stars { font-size: 9px; color: #f5a623; letter-spacing: -1px; line-height: 1; margin-bottom: 2px; }
+.egr_review_text { font-size: 11px; color: #333; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; }
+.egr_review_item.is_hidden { display: none; }
+.egr_section:not([data-batch-done="true"]) .egr_review_list {
+    -webkit-mask-image: linear-gradient(180deg, #000 50%, transparent 100%);
+    mask-image: linear-gradient(180deg, #000 50%, transparent 100%);
+}
+
+.egr_batch_more_wrap { text-align: center; margin-top: 16px; }
+.egr_more_btn { border: none; border-radius: 8px; background: none; height: 28px; padding: 0; font-size: 11px; color: #999; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 2px; transition: color .2s; }
+.egr_more_btn:hover { color: #666; }
+.egr_more_btn svg { flex-shrink: 0; }
+.egr_more_btn:disabled { opacity: 0.7; cursor: not-allowed; }
+.egr_batch_more_wrap.is_hidden { display: none; }
+.thumb_empty { width: 100%; height: 100%; background: #f5f5f5; }
+
+.review_skeleton_list { margin-top: 10px; display: grid; gap: 8px; }
+.review_skeleton_item { display: flex; align-items: center; gap: 8px; }
+.review_skeleton_item .skel_thumb { width: 36px; min-width: 36px; height: 36px; border-radius: 6px; background: #ebebeb; }
+.review_skeleton_item .skel_body { flex: 1; min-width: 0; }
+.review_skeleton_item .skel_line { height: 8px; border-radius: 4px; background: #ebebeb; margin-bottom: 6px; }
+.review_skeleton_item .skel_line:last-child { margin-bottom: 0; }
+.review_skeleton_item .skel_line.short { width: 55%; }
+@keyframes egrPulse { 0%, 100% { opacity: 1; } 50% { opacity: .45; } }
+.review_skeleton_list { animation: egrPulse 1.4s ease-in-out infinite; }
+.egr_expand_skel { animation: egrPulse 1.4s ease-in-out infinite; }
+.egr_expand_skel .egr_review_thumb { background: #ebebeb; }
+.egr_expand_skel .egr_review_body .skel_line { height: 8px; border-radius: 4px; background: #ebebeb; margin-bottom: 6px; }
+.egr_expand_skel .egr_review_body .skel_line:last-child { margin-bottom: 0; }
+.egr_expand_skel .egr_review_body .skel_line.short { width: 55%; }
+</style>
+
+<script type="text/javascript">
+(function() {
+    var AJAX_URL = '../board/home_review_ps.php';
+
+    function renderStars(score) {
+        var s = '';
+        for (var i = 1; i <= 5; i++) { if (score >= i) s += '\u2605'; }
+        return s;
+    }
+
+    function escHtml(str) {
+        if (!str) return '';
+        return $('<span>').text(str).html();
+    }
+
+    function renderReviewItem(r, visibleCount, idx) {
+        var cls = idx < visibleCount ? 'is_visible' : 'is_hidden';
+        var thumbHtml = r.reviewThumb
+            ? '<img src="' + escHtml(r.reviewThumb) + '" alt="' + escHtml(r.goodsNm) + '" loading="lazy" />'
+            : '<div class="thumb_empty"></div>';
+        return '<li class="egr_review_item ' + cls + '">'
+            + '<a href="../goods/goods_view.php?goodsNo=' + r.goodsNo + '" class="egr_review_link">'
+            + '<div class="egr_review_thumb">' + thumbHtml + '</div>'
+            + '<div class="egr_review_body">'
+            + '<div class="egr_review_stars">' + renderStars(r.reviewScore) + '</div>'
+            + '<div class="egr_review_text">' + escHtml(r.reviewMessage) + '</div>'
+            + '</div></a></li>';
+    }
+
+    var initialLimit = 3;
+    var expandLimit = 5;
+    var chevronDown = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"><' + '/polyline><' + '/svg>';
+    var chevronUp = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 15 12 9 18 15"><' + '/polyline><' + '/svg>';
+    var moreHtml = chevronDown + ' 더보기';
+    var collapseHtml = chevronUp + ' 접기';
+    var loadingHtml = chevronDown + ' 불러오는 중...';
+
+    function collectGoodsNos(section) {
+        var nos = [];
+        section.find('.egr_product_item').each(function() {
+            nos.push($(this).data('goods-no'));
+        });
+        return nos;
+    }
+
+    function applyReviews(section, reviewsByGoods, visibleCount) {
+        section.find('.egr_product_item').each(function() {
+            var $item = $(this);
+            var goodsNo = String($item.attr('data-goods-no'));
+            var $container = $item.find('.egr_reviews_container');
+            var reviews = reviewsByGoods[goodsNo];
+            if (reviews && reviews.length > 0) {
+                var html = '<ul class="egr_review_list">';
+                for (var i = 0; i < reviews.length; i++) {
+                    html += renderReviewItem(reviews[i], visibleCount, i);
+                }
+                html += '</ul>';
+                $container.html(html);
+            } else {
+                $container.empty();
+            }
+        });
+    }
+
+    function loadSectionReviews(section) {
+        var goodsNos = collectGoodsNos(section);
+        if (!goodsNos.length) return;
+
+        $.ajax({
+            url: AJAX_URL,
+            data: { mode: 'get_group_reviews', goodsNos: goodsNos.join(','), limit: initialLimit },
+            dataType: 'json',
+            success: function(res) {
+                if (res && res.error === 0 && res.reviewsByGoods) {
+                    applyReviews(section, res.reviewsByGoods, initialLimit);
+                } else {
+                    section.find('.review_skeleton_list').remove();
+                }
+                section.attr('data-loaded', 'true');
+            },
+            error: function() {
+                section.find('.review_skeleton_list').remove();
+                section.attr('data-loaded', 'true');
+            }
+        });
+    }
+
+    $(document).on('click', '.egr_more_btn', function() {
+        var btn = $(this);
+        var section = btn.closest('.egr_section');
+        var cnt = initialLimit;
+
+        if (section.attr('data-batch-done') === 'true') {
+            section.find('.egr_product_item').each(function() {
+                $(this).find('.egr_review_list .egr_review_item').each(function(idx) {
+                    $(this).toggleClass('is_visible', idx < cnt).toggleClass('is_hidden', idx >= cnt);
+                });
+            });
+            section.attr('data-batch-done', 'false');
+            btn.html(moreHtml);
+            if (typeof amplitude !== 'undefined') amplitude.logEvent('event_reviewcta_click', {action: 'batch_collapse', device: 'mobile'});
+            return;
+        }
+
+        btn.prop('disabled', true).html(loadingHtml);
+        var goodsNos = collectGoodsNos(section);
+
+        $.ajax({
+            url: AJAX_URL,
+            data: { mode: 'get_group_reviews', goodsNos: goodsNos.join(','), limit: expandLimit },
+            dataType: 'json',
+            success: function(res) {
+                if (res && res.error === 0 && res.reviewsByGoods) {
+                    applyReviews(section, res.reviewsByGoods, 999);
+                    section.attr('data-batch-done', 'true');
+                    btn.prop('disabled', false).html(collapseHtml);
+                } else {
+                    btn.prop('disabled', false).html(moreHtml);
+                }
+            },
+            error: function() {
+                btn.prop('disabled', false).html(moreHtml);
+            }
+        });
+
+        if (typeof amplitude !== 'undefined') {
+            amplitude.logEvent('event_reviewcta_click', {action: 'batch_more', device: 'mobile'});
+        }
+    });
+
+    $(function() {
+        $('.egr_section').each(function() {
+            loadSectionReviews($(this));
+        });
+    });
+})();
+</script>
+{/}

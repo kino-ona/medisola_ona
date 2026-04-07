@@ -1,0 +1,76 @@
+<!-- { ? strResultCode == 1 && sCPRequest == strCPRequest } -->
+<script type="text/javascript">
+    var _joinGubun = "{=joinGubun}";
+    function loadAction() {
+        var strRetCd = "{=strResultCode}";		// '1' 이어야 한다.
+        var strMsg = "{=sRtnMsg}";
+
+        var strName = "{=strUserName}";					// 이름
+        var birthday = "{=strBirthDate}";				// 생년월일
+        var sex = "{=strGender}";			// 성별
+        var dupeInfo = "{=strDupInfo}";					// 아이핀 중복 조회 코드
+        var foreigner = "{=strNationalInfo}";			// 내국인/외국인 정보
+        var dupeCount = "{=chkCount}";					// 가입된 횟수
+        var nice_minoryn = "{=ipin['nice_minoryn']}";	// 성인인증
+        var under14Code = "{=under14Code}";				// 만14세 미만 회원가입 허용상태코드
+        var adultFl = "{=strAdult}";					// 아이핀 중복 조회 코드
+        var certificationType = "{=certificationType}";
+        //        var checkAge = "{=checkAge}";
+        //        var limitAge = "{=limitAge}";
+        //        var age = "{age}";
+        // 호출유형을 찾는다.
+        var callType = "{=ssCallType}";
+
+        if (strRetCd != "1") // 아이핀인증 실패 시
+        {
+            alert('아이핀인증이 실패했습니다.\n\n' + strMsg); //결과 메시지 출력
+            return;
+        }
+
+        alert("아이핀인증이 정상처리 되었습니다."); //결과 메시지 출력
+        // 아이디 찾기에서 호출한 경우, opener 에 act 엘레먼트가 있다.
+        // 휴면회원해제 인증의 경우 session에 인증 타입을 저장한다.
+        if (callType == "wakeMember") {
+            opener.document.location.href = '/member/wake.php';
+        } else if (callType == "certAdult") {
+            if (adultFl == 'y') {
+                opener.document.location.href = "{=returnUrl}";
+            }
+        } else if (callType == "findid" || callType == "findpwd") {
+            opener.document.formAuth.action = '/member/find_password_reset.php';
+            opener.document.formAuth.target = '';
+            opener.document.formAuth.rncheck.value = 'ipin';
+            opener.document.formAuth.dupeinfo.value = dupeInfo;
+            opener.document.formAuth.submit();
+        } else if (callType == "certGuest") {
+            opener.document.getElementById('cert_txt').innerHTML="본인인증이 완료되었습니다.";
+            opener.document.getElementById('btn_cert').style.display="none"; // 본인인증 버튼 숨김.
+            opener.document.getElementById('orderName').readOnly = true; // 본인인증 완료 후 readonly
+            opener.document.frmOrder.orderName.value = strName; //  이름
+            opener.document.getElementById('orderName').style.backgroundColor = '#eeeeee'; // 색상
+            opener.document.getElementById('cert_ok_txt').style.display="block"; // 본인인증 텍스트 노출
+        } else {
+            opener.document.formTerms.action = '/member/join.php';
+            opener.document.formTerms.target = '';
+            opener.document.formTerms.rncheck.value = 'ipin';
+            opener.document.formTerms.nice_nm.value = strName;
+            opener.document.formTerms.birthday.value = birthday;
+            opener.document.formTerms.sex.value = sex;
+            opener.document.formTerms.dupeinfo.value = dupeInfo;
+            opener.document.formTerms.foreigner.value = foreigner;
+            opener.document.formTerms.adultFl.value = adultFl;
+            opener.document.formTerms.submit();
+        }
+        self.close();
+    }
+
+    document.onload = loadAction();
+</script>
+<!-- { : } -->
+<script type="text/javascript">
+    alert('오류가 발생하였습니다.');
+    self.close();
+</script>
+{=strResultCode}<br>
+{=sCPRequest}
+<!-- { / } -->

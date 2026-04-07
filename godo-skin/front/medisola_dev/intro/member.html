@@ -1,0 +1,177 @@
+{*** 인트로 - 회원전용 | intro/intro.php ***}
+{ # share_header }
+{=acecounterScript}
+
+<div class="intro_member_wrap">
+    <div class="member_login_cont">
+        <div class="member_tit_box">
+            <p>{=__('회원 전용으로 운영되는 쇼핑몰입니다.')}</p>
+            <span>{=__('로그인 / 회원가입 후 이용이 가능합니다.')}</span>
+        </div>
+        <!-- //member_tit_box -->
+        <div class="member_login_box">
+            <form id="formLogin" method="post" action="{loginActionUrl}">
+            <input type="hidden" name="returnUrl" value="{returnUrl}"/>
+            <div class="member_login">
+                <h3>{=__('회원 로그인')}</h3>
+                <div class="login_input_sec">
+                    <div>
+                        <input type="text" id="loginId" name="loginId" value="{data.loginId}" placeholder="{=__('아이디')}" required="true"/>
+                        <input type="password" id="loginPwd" name="loginPwd" value="" placeholder="{=__('비밀번호')}" required="true" />
+                    </div>
+                    <button type="submit" class="member_login_order_btn">{=__('로그인')}</button>
+                </div>
+                <div class="id_chk">
+                    <span>
+                        <input type="checkbox" id="saveId" name="saveId" class="checkbox" value="y" class="checkbox" {=data.checkedId} />
+                        <label for="saveId" class="check-s {?!empty(data.loginId)}active{/}">  {=__('아이디 저장')}</label>
+                    </span>
+                </div>
+                <strong class="chk_none dn">{=__('아이디, 비밀번호가 일치하지 않습니다. 다시 입력해 주세요.')}</strong>
+
+            </div>
+
+            <div class="member_sns_login">
+                <!--{? usePaycoLogin}-->
+                <a class="js_btn_payco_login" href="#"><img src="../img/etc/pc_payco.png" alt="{=__('PAYCO')}{=__('아이디 로그인')}"></a>
+                <!--{/}-->
+                <!--{? useFacebookLogin}-->
+                <a class="js_btn_facebook_login" href="#" data-facebook-url="{=facebookUrl}"><img src="../img/etc/pc_facebook.png" alt="{=__('Facebook')}{=__('아이디 로그인')}"></a>
+                <!--{/}-->
+                <!--{? useNaverLogin}-->
+                <a class="js_btn_naver_login" href="#"><img src="../img/etc/pc_naver.png" alt="{=__('네이버')}{=__('아이디 로그인')}" /></a>
+                <!--{/}-->
+                <!--{? useKakaoLogin}-->
+                <a class="js_btn_kakao_login" data-kakao-type="login" data-return-url="{=returnUrl}" href="#"> <img src="../img/etc/pc_kakao.png" alt="{=__('카카오')}{=__('아이디 로그인')}"></a>
+                <!--{/}-->
+                <!--{? useWonderLogin}-->
+                <a class="js_btn_wonder_login" data-wonder-type="login" data-wonder-url="{=wonderReturnUrl}" href="#"><img src="../img/etc/pc_wonder.png" alt="{=__('위메프')}{=__('아이디로 로그인')}" /></a>
+                <!--{/}-->
+                <!--{? useAppleLogin}-->
+                <a href="#" class="js_btn_apple_login">
+                    <img id="apple_btn" src="../img/etc/pc_apple.png" alt="{=__('Apple')} {=__('아이디 로그인')}">
+                    <div id="appleid-signin" style="display: none"></div>
+                </a>
+                <!--{/}-->
+            </div>
+            <div class="btn_login_box">
+            <ul>
+                <li><button id="btnJoinMember" class="btn_join">{=__('회원가입')}</button></li>
+                <li><button id="btnFindId">{=__('아이디 찾기')}</button></li>
+                <li><button id="btnFindPwd">{=__('비밀번호 찾기')}</button></li>
+            </ul>
+            </div>
+            </form>
+            <!-- //btn_login_box -->
+        </div>
+        <!-- //member_login_box -->
+    </div>
+    <!-- //member_login_cont -->
+</div>
+<!-- //intro_member_wrap -->
+<script type="text/javascript" src="../js/jquery/jquery.serialize.object.js"></script>
+<script type="text/javascript">
+    var loginPolicy = <!--{=json_encode(loginPolicy)}-->;
+    $(document).ready(function () {
+        $('#btnJoinMember').click(function (e) {
+            e.preventDefault();
+            location.href = '../member/join_method.php';
+        });
+        $('#btnFindId').click(function (e) {
+            e.preventDefault();
+            location.href = '../member/find_id.php';
+        });
+        $('#btnFindPwd').click(function (e) {
+            e.preventDefault();
+            location.href = '../member/find_password.php';
+        });
+        /* id checkbox */
+        $('.id_chk span label').on({
+            'click':function(){
+                if(!$(this).parent().find('input').is(':checked')) $(this).addClass('active');
+                else $(this).removeClass('active');
+            }
+        });
+
+        $('#loginId, #loginPwd').focusin(function () {
+            $('.chk_none', '#formLogin').addClass('dn');
+        });
+
+        $('#formLogin').validate({
+            dialog: false,
+            rules: {
+                loginId: {
+                    required: true
+                },
+                loginPwd: {
+                    required: true
+                }
+            },
+            messages: {
+                loginId: {
+                    required: "{=__('아이디를 입력해주세요')}"
+                },
+                loginPwd: {
+                    required: "{=__('패스워드를 입력해주세요')}"
+                }
+            }, submitHandler: function (form) {
+                $('.member_login_order_btn').attr('disabled', true);
+                var params = $(form).serializeArray();
+                params.push({name: "mode", value: "login"});
+                $.post('../member/login_ps.php', params).done(function (data, textStatus, jqXHR) {
+                    console.log('gd_member ajax', data, textStatus, jqXHR);
+                    var code = data.code;
+                    var message = data.message;
+                    var url = data.url;
+                    var target = data.target;
+                    if (_.isUndefined(code) && _.isUndefined(message)) {
+                        var returnUrl = '{=returnUrl}';
+                        if (_.isEmpty(returnUrl)) {
+                            location.href = '/';
+                        } else {
+                            /*로그인 출석 체크 알림창 문구 출력*/
+                            var attendanceCheck = data;
+                            var start = attendanceCheck.indexOf("msg");
+                            if(start != -1) {
+                                var end = attendanceCheck.indexOf(';', start + 1);
+                                var attendaceLoginMsg = attendanceCheck.substring(start + 5, end - 1);
+                                alert(attendaceLoginMsg);
+                            }
+                            location.href = returnUrl;
+                        }
+                    } else {
+                        $(form).find('.chk_none').removeClass('dn').text(message);
+                        if (_.isUndefined(url) === false) {
+                            location.href = url;
+                        }
+                    }
+                    $('.member_login_order_btn').attr('disabled', false);
+                });
+            }
+        });
+
+        <!--{ ? useAppleLogin }-->
+        $("#apple_btn").on("click", startClicked);
+        function startClicked(){
+            $("#appleid-signin").click();
+        }
+        <!--{ / }-->
+
+    });
+</script>
+
+<!--{ ? useAppleLogin }-->
+<script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script>
+<script type="text/javascript">
+    AppleID.auth.init({
+        clientId : '{client_id}',
+        scope : 'name email',
+        redirectURI: '{redirectURI}',
+        state: '{state}',
+        // usePopup: true
+    });
+</script>
+<!--{ / }-->
+
+{ # share_footer }
+

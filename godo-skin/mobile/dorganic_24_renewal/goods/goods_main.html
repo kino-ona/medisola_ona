@@ -1,0 +1,95 @@
+{*** 상품리스트 | goods/goods_main.php ***}
+{#header}
+<!--{ ? mainData.displayFl == 'y'}-->
+<div class="goods_main js_main_wrap_{mainData.sno}_{mainData.groupSno}">
+	<div class="goods_list_content">
+		<div class="goods_top_box">
+			<div class="goods_arr_box">
+				<div class="goods_sort">
+					<div class="inp_sel">
+						<select name="goods_sort" onchange="gd_get_list{mainData.sno}g{mainData.groupSno}(1);">
+							<option value="">{=__('상품정렬')}</option>
+							<option value="date">{=__('등록순')}</option>
+							<option value="price_asc">{=__('낮은가격순')}</option>
+							<option value="price_dsc">{=__('높은가격순')}</option>
+						</select>
+					</div>
+				</div>
+				<div class="goods_view_type">
+					<input type="hidden" name="displayType" value="{mainData.displayType}" />
+					<ul>
+						<li><button class="<!--{ ? mainData.displayType =='02' }-->on<!--{ / }-->" data-key="02" >list</button></li>
+						<li><button class="<!--{ ? mainData.displayType =='09' }-->on<!--{ / }-->" data-key="09">gallery_type1</button></li>
+						<li><button class="<!--{ ? mainData.displayType =='01' }-->on<!--{ / }-->" data-key="01">gallery_type2</button></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="goods_list_box">
+			<ul class="goods_product_list goods_main{mainData.sno}g{mainData.groupSno}"></ul>
+			<div class="btn_box">
+				<button type="button" class="goods_main_more_btn btn_main_bottom_more" data-page="2" >{=__('더보기')}</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	<!--
+	var keyValue{mainData.sno}g{mainData.groupSno} = '{gGlobal.locale + mainData.sno}' + 'G{mainData.groupSno}';
+	var key{mainData.sno}g{mainData.groupSno} = {
+		html: 'html' + keyValue{mainData.sno}g{mainData.groupSno},
+	page: 'page' + keyValue{mainData.sno}g{mainData.groupSno}
+	};
+	var gdStorage{mainData.sno}g{mainData.groupSno} = gd_load_session(key{mainData.sno}g{mainData.groupSno}.html);
+	var page{mainData.sno}g{mainData.groupSno} = gd_load_session(key{mainData.sno}g{mainData.groupSno}.page);
+
+	$(document).ready(function(){
+		if (gdStorage{mainData.sno}g{mainData.groupSno}) {
+			$('.goods_main{mainData.sno}g{mainData.groupSno}').html(gdStorage{mainData.sno}g{mainData.groupSno});
+			if (page{mainData.sno}g{mainData.groupSno}) {
+				$('.js_main_wrap_{mainData.sno}_{mainData.groupSno} .btn_main_bottom_more').attr('data-page',page{mainData.sno}g{mainData.groupSno});
+				if($('input[name="totalPage"]').val() < parseInt(page{mainData.sno}g{mainData.groupSno})) {
+					$('.js_main_wrap_{mainData.sno}_{mainData.groupSno} .btn_main_bottom_more').hide();
+				}
+			}
+		} else {
+			gd_get_list{mainData.sno}g{mainData.groupSno}('1');
+		}
+
+		$('.js_main_wrap_{mainData.sno}_{mainData.groupSno} .btn_main_bottom_more').on('click', function(e){
+			gd_get_list{mainData.sno}g{mainData.groupSno}($(this).data('page'));
+		});
+
+		$('.goods_view_type ul li').on('click', function(e){
+			$(".goods_view_type ul li button").removeClass('on');
+			$('input[name="displayType"]').val($(this).find('button').data('key'));
+			$(this).find('button').addClass('on');
+		});
+
+	});
+
+	function gd_get_list{mainData.sno}g{mainData.groupSno}(page){
+
+		var sort =  $('select[name="goods_sort"]').val();
+		var displayType = $('input[name="displayType"]').val();
+
+		$.post('../goods/goods_ps.php', {'mode' : 'get_main', 'more' : page, 'mainSno' : '{mainData.sno}', 'sort' : sort, 'displayType' :displayType, 'groupSno' : '{mainData.groupSno}'}, function (data) {
+
+			$(".goods_main{mainData.sno}g{mainData.groupSno}").html(data);
+			gd_save_session(key{mainData.sno}g{mainData.groupSno}.html, data);
+
+			if($(data).filter("input[name='totalPage']").val() > 1) {
+				$('.js_main_wrap_{mainData.sno}_{mainData.groupSno} .btn_main_bottom_more').data('page',parseInt(page)+1);
+				gd_save_session(key{mainData.sno}g{mainData.groupSno}.page, parseInt(page)+1);
+			} else {
+				$('.js_main_wrap_{mainData.sno}_{mainData.groupSno} .btn_main_bottom_more').hide();
+				gd_save_session(key{mainData.sno}g{mainData.groupSno}.page, parseInt(page));
+			}
+		});
+	}
+
+	//-->
+</script>
+<!--{ / }-->
+
+{#footer}

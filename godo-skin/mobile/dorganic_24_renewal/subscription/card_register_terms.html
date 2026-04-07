@@ -1,0 +1,28 @@
+{*** 결제 카드 등록약관 동의 | front/subscription/card_register.php ***}
+{=includeFile('subscription/outline/_popup_header.html')}
+<div class='subscription_popup'>
+    <div class='top_area'>약관 동의</div>
+    <div class='content_area'>
+        <div class='terms_box mb10'>{=nl2br(subCfg.cardTerms)}</div>
+        <form name='frm' method='post' action=''>
+            <div class='terms_agree mb20'>
+                <input type='checkbox' name='isAgree' id='isAgree' value='1'>동의합니다.
+            </div>
+            <div class='submit_btn'>다음으로</div>
+        </form>
+    </div> <!-- content_area -->
+</div> <!-- subscription_popup -->
+<script>
+$(function() {
+    $(".submit_btn").click(function() {
+        if (!$("#isAgree").prop("checked")) {
+            alert('약관에 동의해 주세요.');
+            $("#isAgree").focus();
+            return;
+        }
+        
+        frm.submit();
+    });
+});
+</script>
+{=includeFile('subscription/outline/_popup_footer.html')}

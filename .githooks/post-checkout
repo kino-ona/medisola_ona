@@ -1,0 +1,18 @@
+#!/bin/bash
+
+branch=$(git rev-parse --abbrev-ref HEAD)
+
+if [[ "$branch" == "main" ]]; then
+    src=".vscode/sftp.main.json"
+else
+    src=".vscode/sftp.dev.json"
+fi
+
+if [ -f "$src" ]; then
+    cp -f "$src" .vscode/sftp.json
+    echo "Applied SFTP config for branch: $branch"
+    touch .vscode/sftp.json
+else
+    echo "Error: $src not found" >&2
+    exit 1
+fi

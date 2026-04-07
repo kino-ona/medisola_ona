@@ -1,0 +1,23 @@
+{*** 설문조사 | service/poll_end.php ***}
+{ # header }
+<div class="poll_end">
+	<div class="poll_complete">
+		<div>
+			<strong>
+				<span class="img_poll"></span><br>
+				<span class="c_red">{=__('설문 응답이 완료 되었습니다.')} </span>
+			</strong>
+			<p>
+				{=__('참여해주셔서 감사합니다.')}
+				<!--{ ? gd_is_login() === true && data.pollMileage > 0 }-->
+				<br>{=__('감사의 의미로 마일리지 %s원%s을 지급해 드렸습니다.', '<b>' + number_format(data.pollMileage), '</b>')}
+				<!--{ / }-->
+			</p>
+		</div>
+	</div>
+	<div class="btn_box">
+		<a href="/" class="poll_end_btn">{=__('홈으로 가기')}</a>
+	</div>
+</div>
+
+{ # footer }

@@ -1,0 +1,149 @@
+{*** 선물하기 개인정보수집 동의 | gift_order/gift_agree.php ***}
+{ # share_header }
+<style>
+    hr {
+        display: none;
+    }
+
+    body {
+        background-color: #f7f7f7;
+    }
+
+    .content {
+        font-size: 11px;
+        text-align: center;
+        padding: 10px;
+        margin: 20px 20px 10px 20px;
+    }
+    .content.scroll-box {
+        height: 100px;
+        overflow: scroll;
+        background: #fff;
+        border: 1px solid #e2e1e1;
+        text-align: left;
+        padding: 10px 15px;
+    }
+
+    .content strong {
+        font-size: 12px;
+    }
+
+    .agree-content {
+        font-size: 12px;
+        padding: 2px 5px;
+        float: right;
+
+    }
+
+    .agree-content input[type=checkbox] {
+        width: 23px;
+        height: 23px;
+        background: url("../img/wm/check_off_small.png") no-repeat 100%;
+        vertical-align: bottom;
+        background-size: 100%;
+    }
+
+    .content .agree-content label {
+        margin-left: 3px
+    }
+
+    .footer {
+        margin-top: 15vw;
+        font-size: 10px;
+        text-align: center;
+    }
+    .footer button {
+        font-family: 'S-CoreDream';
+        width: 100%;
+        display: block;
+        height: 52px;
+        line-height: 48px;
+        color: #ffffff;
+        font-size: 15px;
+        border: 1px solid #b42135;
+        background: #b42135;
+        text-align: center;
+        margin-top: 35px;
+    }
+    .logo {
+        padding: 35px;
+        text-align: center;
+    }
+    .logo img {
+        width: 10vh;
+    }
+    .gift_order_addess_page {background: url("../img/wm/background.png");}
+    .title h2 {font-weight: 500; text-align: center}
+</style>
+<link rel="stylesheet" type='text/css' href='../js/slider/slick/slick.css'>
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
+<form id="frmAgree" method='post' action='../gift_order/indb_gift_order.php'>
+    <input type="hidden" name="mode" value="agree">
+    <input type='hidden' name='orderNo' value='{orderNo}'>
+    <input type='hidden' name='giftCard' value='1'>
+
+    <div class='gift_view_page gift_order_addess_page'>
+        <div class="logo">
+            <img src="../img/banner/2cb463fb78222ea7be096ee66e1674a0_72772.png">
+        </div>
+        <div class="title" style="margin-bottom: 5vw;">
+            <h2 style="color: #b42135">LG에너지솔루션 공식 굿즈샵</h2>
+            <h2>상품 배송정보 제공을 위한</h2>
+            <h2>개인정보 수집 ∙ 이용 ∙ 제공 동의</h2>
+        </div>
+        <div class="content">
+            <div>귀하는 아래 동의를 거부할 수 있습니다. 다만, 동의하시지 않을
+                경우 서비스 이용이 제한될 수 있습니다. 동의 철회 또는 연락
+                중단을 원하실 경우,<br>
+                당사 홈페이지 및 고객센터(1588-9600),연락중지청구시스템
+                (www.donotcall.go.kr)을 통해 언제든지 요청할 수 있습니다.</div>
+        </div>
+        <div class="content scroll-box">
+            <div>아래의 내용을 확인했으며, [개인정보보호법] 제15조 및 제22조에 따라 개인정보 수집, 이용에 동의합니다.</div>
+            <div>1. 개인정보 수집주체 : LG에너지솔루션</div>
+            <div>2. 개인정보 수집 및 이용 목적 : 상품 배송</div>
+            <div>3. 수집하는 개인정보의 항목: 이름, 휴대전화번호, 배송지 주소</div>
+            <div>4. 개인정보 보유 및 이용기간: 동의일로부터 12개월</div>
+            <div>※ 본 동의를 통한 개인정보 및 배송지 정보는 상품배송을 위한 목적 외에는 사용되지 않습니다.</div>
+        </div>
+        <div class="agree-content">
+            <input type="checkbox" style="margin-right: 10px" id="agree1-y" name="agree1" value="y"><label
+                for="agree1-y">개인정보의 수집/이용에 관한 동의</label>
+        </div>
+        <div class="content scroll-box" style="margin-top: 15vw;">
+            <div>아래의 내용을 확인했으며, [개인정보보호법] 제17조 및 제22조에 따라 개인정보를 제공하는 것에 동의합니다.</div>
+            <div>1. 제공받는 자 : 한결마케팅</div>
+            <div>2. 제공받는 자의 수집 및 이용 목적 : 상품 발송</div>
+            <div>3. 제공하는 개인정보의 항목 : 이름, 휴대전화번호, 배송지 주소</div>
+            <div>4. 제공받는 자의 개인정보 보유 및 이용기간: 동의일로부터 12개월</div>
+            <div>※ 상기 내용에 동의하시는 경우 ‘정보를 제공받는 자’가 배송 관련 안내 전화를 드릴 수 있습니다.</div>
+        </div>
+        <div class="agree-content">
+            <input type="checkbox" style="margin-right: 10px" id="agree2-y" name="agree2" value="y"><label
+                for="agree2-y">개인정보의 처리 위탁에 관한 동의</label>
+        </div>
+
+        <div class="footer">
+            <button type="button" class="submit">전체 동의하고 배송 신청</button>
+        </div>
+    </div>
+</form>
+<!--// gift_view_page -->
+<script>
+    $('.agree-content input[type=checkbox]').click(function () {
+        if($(this).is(':checked')){
+            $(this).css('background', 'url("../img/icon/icon_chk_on.gif") no-repeat 100%');
+            $(this).css('background-size', '100%');
+        }else {
+            $(this).css('background', 'url("../img/wm/check_off_small.png") no-repeat 100%');
+            $(this).css('background-size', '100%');
+        }
+        //$('input[name=agree2]').not($(this)).css('background', 'url("../img/wm/check_off_small.png") no-repeat 100%');
+    });
+    $('.submit').on('click', function () {
+        if ($('input[name="agree1"]:checked').val() === 'y' && $('input[name="agree2"]:checked').val() === 'y') {
+            $( '#frmAgree' ).submit();
+        }
+    });
+</script>
+{ # share_footer }

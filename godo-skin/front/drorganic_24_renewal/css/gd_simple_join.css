@@ -1,0 +1,64 @@
+/* 주문 간단가입 */
+.display-none {display:none;}
+.simple_join {margin-top:20px; border:1px solid #d6d6d6; width:100%; display:table; table-layout:fixed; box-sizing:border-box;}
+.simple_join .sj_banner_box {width:50%; display:table-cell; vertical-align:middle; text-align:center; border-right:1px solid #d6d6d6;}
+.simple_join .sj_banner_box img {max-width:100%;}
+.simple_join .sj_join_box {position:relative; width:50%; display:table-cell; background:#fff; vertical-align:middle; padding:66px 19px 20px 19px;}
+.simple_join .sj_join_box .inner {/* height:222px;  */position:relative;}
+.simple_join .sj_join_box .tit {position:absolute; top:0; left:0; width:100%; height:46px; line-height:46px; background:#f7f7f7 url('../img/etc/icon_event.png') no-repeat 19px center; font-size:14px; font-weight:bold; color:#383838; letter-spacing:-1px; padding-left: 62px; box-sizing:border-box;}
+.simple_join .sj_join_box .input_area {padding-bottom:9px;}
+.simple_join .sj_join_box .email_area::after {content:''; display:block; clear:both;}
+.simple_join .sj_join_box .email_area .chosen-container {margin-left:5px; width:171px !important;}
+.simple_join .sj_join_box .email_area .chosen-container .chosen-single {border:1px solid #d0d0d0;}
+.simple_join .sj_join_box .input_email {width:385px; float:left;}
+.simple_join .sj_join_box .input_email input {width:385px; border:1px solid #d0d0d0;}
+.simple_join .sj_join_box .btn_area {position:relative; bottom:0; left:50%; margin-left:-104px; text-align:center; margin-top:14px;}
+.simple_join .sj_join_box .btn_area .btn_sj_submit {display:block; background:#666; border:1px solid #666; color:#fff; font-weight:bold; width:208px; height:45px; line-height:45px; font-size:16px;}
+.simple_join .sj_join_box .psw_area {overflow:hidden; clear:both;}
+.simple_join .sj_join_box .psw_area input[type="password"] {width:278px; border:1px solid #d0d0d0;}
+.simple_join .sj_join_box .psw_area li {float:left; width:49.4%;}
+.simple_join .sj_join_box .psw_area li:first-child {margin-right:6px;}
+.simple_join .sj_join_box .form_element label.check_s {letter-spacing:-0.1px; padding-top:1px; color:#777777;}
+.simple_join .sj_join_box .form_element label strong {color:#000;}
+.simple_join .sj_join_box .form_element label a {border-bottom:1px solid #333; color:#333333;}
+.simple_join .sj_join_box .min_txt {font-size:12px; color:#777777; padding-top:2px; display:none;}
+.simple_join .sj_join_box .min_txt.imp {color:#fa2828;}
+/* 100% */
+.simple_join .sj_join_box.type2 .inner {height:auto;}
+.simple_join .sj_join_box.type2 .input_email {width:276px;}
+.simple_join .sj_join_box.type2 .input_email input {width:276px;}
+.simple_join .sj_join_box.type2 .psw_area input {width:248px;}
+.simple_join .sj_join_box.type2 .email_area {float:left;}
+.simple_join .sj_join_box.type2 .psw_area {padding-left:15px; clear:none;}
+.simple_join .sj_join_box.type2 .psw_area li {width:35.9%;}
+.simple_join .sj_join_box.type2 .form_element {width:100%; padding-top:5px;}
+.simple_join .sj_join_box.type2 .btn_area {position:absolute; top:0; right:2px; left:auto; margin:0;}
+.simple_join .sj_join_box.type2 .btn_area .btn_sj_submit {width:173px; height:29px; line-height:29px; font-size:14px;}
+/* layer */
+.ly_dim {display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#66000000, endColorstr=#66000000);/* IE 8 */-ms-filter:"progid:DXImageTransform.Microsoft.gradient(startColorstr=#66000000,endColorstr=#66000000)"; z-index:300;}
+:root .ly_dim {filter:alpha(opacity=60)\9; /* IE 9 */}
+.ly_dim.on {display:block;}
+.simple_join_layer {display:none; position:absolute; left:50%; top:50%; width:405px; background:#fff; z-index:300;}
+.simple_join_layer .ly_simple_join{position:relative; border:none; background:#ffffff;}
+.simple_join_layer .ly_tit{padding:14px 20px 11px 20px; }
+.simple_join_layer .ly_tit h4{padding:0 30px 13px 0; font-size:18px; border-bottom:1px solid #666666;}
+.simple_join_layer .ly_tit h4 span{padding:0 0 0 5px; color:#777777; font-size:12px; font-weight:normal;}
+.simple_join_layer .ly_tit h4 strong{color:#ab3e55;}
+.simple_join_layer .ly_cont{padding:24px 15px 26px 15px; text-align:center;}
+.simple_join_layer .scroll_box{overflow-x:hidden; overflow-y:auto; color:#222222; background:url('../img/etc/icon_complete.png') no-repeat center 0; padding:75px 0 19px 0;}
+.simple_join_layer .scroll_box strong {font-size:14px; letter-spacing:-0.5px; padding-bottom:2px; display:block;}
+.simple_join_layer .btn_ly_ok {min-width:74px; height:39px;}
+.simple_join_layer .ly_close{display:block; position:absolute; top:0px; right:0px; padding:20px;}
+.simple_join_layer .ly_simple_join .benefit_box {display:none;}
+.simple_join_layer .ly_simple_join.type2 .scroll_box {background:none; padding-top:0; padding-bottom:27px;}
+.simple_join_layer .ly_simple_join.type2 .ly_cont {padding-top:19px;}
+.simple_join_layer .ly_simple_join.type2 .benefit_box {display:block; background:#f4f4f4; margin:0 42px 27px 42px; padding:21px 0 23px 0;}
+.simple_join_layer .ly_simple_join.type2 .benefit_box {font-size:13px; color:#222;}
+
+/* 이용약관, 개인정보 팝업*/
+.layer_popup{width: 600px; height: 436px;padding:20px;left:20px;right:20px;background:#fff;z-index: 301;}
+.layer_popup .title{font-weight:bold;font-size:20px;color:#222;}
+.layer_popup .box_text{height:292px;padding:20px;margin-top:10px;border:1px solid #eaeaea;overflow-y:scroll;line-height:19px;font-size:12px;color:#666;}
+.layer_popup .btn_wrap{margin-top:20px;text-align:center;}
+.layer_popup .btn_wrap .btn_close{display:inline-block;width:72px;height:42px;line-height:42px;font-weight:bold;font-size:13px;background:#444;color:#fff;}
+.ly_ag{display:none;position:absolute;top:0;}

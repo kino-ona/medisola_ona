@@ -1,0 +1,146 @@
+{*** 플러스리뷰 상품기준 리뷰 게시판 | board/plus_review_goods.php ***}
+{ # header }
+<div class="content">
+    <style type="text/css">
+        .plus_review_goods_list{position:relative;}
+        .plus_review_goods_list .item{position:absolute;}
+        .plus_review_goods_list .item img{width:100%; max-width:100%; height:auto; cursor:pointer;}
+    </style>
+
+    <div class="board_zone_sec">
+        <div class="board_zone_tit area_title">
+            <h2>{=__('상품기준 리뷰')}<span class="button"><a class="skinbtn point2 btn_review_write js_plus_review_write" href="javascript:gd_layer_plus_review_write()"><em>{=__('리뷰등록')}</em></a></span></h2>
+        </div>
+        <div class="plus_review_goods_search">
+            <form id="searchForm">
+                <div class="plus_review_goods_option">
+                    {=cateDisplay}
+                    <input type="text" name="searchWord" placeholder="상품명 검색" />
+                    <input type="hidden" name="searchField" value="goodsNm" />
+                    <a href="javascript:void(0);"  class="btn_search"><span>검색</span></a>
+                </div>
+            </form>
+        </div>
+        <div class="plus_review_loading"><img src="../img/etc/plus_loading.gif"  alt="{=__('로딩중')}" /></div>
+        <div class="board_zone_cont js_pr_list">
+
+        </div>
+        <!-- //board_zone_cont -->
+
+    </div>
+    <!-- //board_zone_sec -->
+
+
+</div>
+<div id="addPlusReviewGoodsLayer" class="dn"></div>
+<!-- //content -->
+
+{ # footer }
+<script>
+    $(document).ready(function () {
+        var page = 1;
+        var activeSno = 0;
+        var order = "regDt+desc";
+        page = gd_get_hash_value('page');
+        activeSno = gd_get_hash_value('activeSno');
+        order = gd_get_hash_value('order');
+
+        $('.js_pr_list').on('click','.js_pr_btn_link_goods', function () {
+            var goodsno = $(this).closest('.item').data('goodsno');
+            window.open('../goods/goods_view.php?goodsNo=' + goodsno);
+        })
+
+        var gd_load_plus_review_list = function (page, activeSno, order, addForm,searchFormData) {
+            if (_.isUndefined(order)) {
+                order = '';
+            }
+            gd_list_init();
+            $.ajax({
+                url: '../board/plus_review_goods_list.php',
+                data: {page: page, activeSno: activeSno, sort: order, searchFormData :searchFormData},
+                method: 'get',
+                type: 'text',
+                cache: false,
+            }).success(function (result) {
+                if (page > 1) {
+                    document.location.hash = "#page=" + page + "|order=" + order;
+                }
+                $('.js_pr_list').html(result);
+                gd_grid_start();
+
+            }).error(function (e) {
+                console.log(e);
+            });
+        }
+
+        if (_.isUndefined(page) || _.isEmpty(page)) {
+            page = 1;
+        }
+        gd_load_plus_review_list(page, activeSno);
+
+        $('.btn_search').on('click', function(e) {
+            var searchFormData = $("#searchForm").serialize();
+            gd_load_plus_review_list(1, 0, order, '',searchFormData);
+        });
+
+    });
+
+    var gd_parse_query = function (qstr) {
+        var query = {};
+        var a = (qstr[0] === '?' ? qstr.substr(1) : qstr).split('&');
+        for (var i = 0; i < a.length; i++) {
+            var b = a[i].split('=');
+            query[decodeURIComponent(b[0])] = decodeURIComponent(b[1] || '');
+        }
+        return query;
+    };
+
+    var gd_get_hash_value = function(key) {
+        var matches = location.hash.match(new RegExp(key+'=([^|]*)'));
+        return matches ? matches[1] : null;
+    };
+
+    function goAjaxPage(queryString) {
+        gd_list_init();
+        var queryString = gd_parse_query(queryString);
+        var order = _.isUndefined(queryString.order) ? '' : queryString.order;
+        var searchFormData = $("#searchForm").serialize();
+
+        $.ajax({
+            method: "GET",
+            cache: false,
+            url: "../board/plus_review_goods_list.php",
+            data: {page: queryString.page, sort : order,searchFormData :searchFormData},
+            dataType: 'text'
+        }).success(function (data) {
+            $('.js_pr_list').html(data);
+            document.location.hash = "#page=" + queryString.page+'|order='+order;
+            gd_grid_start(true);
+        }).error(function (e) {
+            alert(e.responseText);
+        });
+    }
+
+    function gd_grid_start(scrollFl) {
+        setTimeout(function () {
+            $('.plus_review_loading').addClass('dn');
+            $('.js_pr_list').removeClass('dn');
+            $('.plus_review_goods_list').pinterest_grid({
+                no_columns: 4,
+                padding_x: 20,
+                padding_y: 20,
+                margin_bottom: $('.plus_review_goods_list .item').length * 5,
+                single_column_breakpoint: 0
+            });
+            if(scrollFl){
+                $("html,body").scrollTop($('.js_pr_list').offset().top);
+            }
+        }, 1000);
+    }
+
+    function gd_list_init() {
+        $('.plus_review_loading').removeClass('dn');
+        $('.js_pr_list').html('');
+        $('.js_pr_list').addClass('dn');
+    }
+</script>

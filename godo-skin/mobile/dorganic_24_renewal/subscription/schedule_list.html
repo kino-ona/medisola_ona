@@ -1,0 +1,20 @@
+{*** 정기결제신청 목록 | mobile/subscription/schedule_list.php ***}
+{ # header }
+{=includeFile('subscription/_common.html')}
+<link rel="stylesheet" type="text/css" href='../css/mypage/mypage.css'>
+<div class="mypage_index">
+<!-- 마이페이지 회원 요약정보 -->
+{=includeWidget('mypage/_member_summary.html')}
+<!--// 마이페이지 회원 요약정보 -->
+<section class="mypage_menu schedule_list_page">
+    <h3 class="tit">정기결제 신청목록</h3>
+    <div class="mt20">
+        {=includeFile('subscription/_schedule_list.html')}   
+    </div>
+    <div class="board-paging" style="display: none">
+       {page->getPage()}
+     </div>
+</section>
+</div>
+<!-- //mypage_index -->
+{ # footer }

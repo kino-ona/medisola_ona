@@ -1,0 +1,117 @@
+{*** [위젯] 카드 선택 및 선물 받는분 정보 입력 | front/gift_order/_select_card.html ***}
+<div class='gift_select_card_widget'>
+	<div style="background: #f9f9f9; padding:15px; border-radius: 10px;">
+		<div class='receiver_info'>
+			<div class='box box1'>
+					<div class='mtitle mb10'>선물 받는분 정보</div>
+					<div class='rows'>
+						<input type='text' name='receiverName' placeholder='선물받는분 이름' value='{requestInfo.receiverName}'>
+					</div>
+					<div class='rows'>
+						<input class="inp-100" type="text" id="receiverCellPhone" class="inp75" name="receiverCellPhone" placeholder='선물 받는분 휴대폰 번호' value='{requestInfo.receiverCellPhone}'>
+					</div>
+					
+				<div class='add_address_box'>
+					<div class='inp_chk gift-addr'>
+						<input type='checkbox' name='addGiftAddress' class='add_gift_address' value='1' id='add_gift_address'>
+						<label for='add_gift_address' style="font-size: 13px; width:100%;"><span class='t'>배송지 입력하기 (받는분)</span></label>
+						<em style="display:inline-block; margin-left: 25px; width: 100%;">미입력시 선물 받는분 께서 직접 입력하실 수 있으니<br>안심하고 선물하세요</em>
+					</div>
+					<!--// rows -->
+					<div class='address_box dn'>
+						<div class="zipcode_box">
+							<div class="zipcode_top">
+							  <div class="zipcode_num">
+							<input type="text" name="_receiverZonecode" id='receiverZonecode2' readonly="readonly" class='receiverZonecode2'>
+							   <input type="hidden" name="_receiverZipcode"/>
+							   </div>
+							   
+							  <div class="zipcode_btn_box"><button class="zipcode_btn1 post_search" type="button" id="btnPostcode" onclick="gd_postcode_search('_receiverZonecode', '_receiverAddress', '_receiverZipcode');" style="border-radius : 8px;">{=__('우편번호')}</button></div>
+						   </div>
+						   <div class="address_input">
+						   <input type="text" class="inp100 inp-100 receiverAddress2" name="_receiverAddress" readonly="readonly">
+						   <input type="text" class="inp75 inp-100 receiverAddressSub2" name="_receiverAddressSub">
+						   </div>
+						</div>
+						<!--// address_box -->
+						<script>
+						$(function() {
+							$(".add_gift_address").click(function() {
+								$obj = $(".gift_select_card_widget .address_box");
+								if ($(this).prop("checked")) {
+									$obj.removeClass("dn");
+								} else {
+									$obj.removeClass("dn").addClass("dn");
+								}
+							});
+						});
+						</script>
+					</div>
+					<!--// add_address_box -->
+
+				</div>
+				
+				<div class='box box2'>
+					<div class='mtitle'>편지쓰기<span style="margin-left: 5px; color: #4472c4;">(선택)</span></div>
+					<div class='stitle'>받는 분에게 마음을 담은 편지를 써보세요</div>
+					<textarea name='giftMessage' class='giftMessage' placeholder='50자 이내로 입력해 주세요.' maxlength='50'></textarea>
+					<div class='setMessage' style="position:relative; text-align: right; top:-33px; right: -27px; font-size: 13px;"><span>0</span>/ 50자</div>
+				</div>
+				<script>
+					$(function() {
+						$(".giftMessage").on('keyup', function() {
+							var getMessage = $(this).val();
+							$('.setMessage span').text(getText(getMessage));
+						});
+					});
+					function getText(str){
+						var cnt = 0;
+						for(var i=0; i<str.length; i++){
+							cnt++;
+						}
+						return cnt;
+					}
+				</script>
+			</div>
+			<!--// receiver_info -->
+		</div>
+		<!--{ ? cards }-->
+		<div class='tab_grp'>
+		<!--{ @cards }-->
+			<div class='tab' style="width: {=(100 / count(cards))}%;">
+				<input type='radio' class='cardType' name='cardType' value='{.key_}'  id='cardType{.index_}'<!--{ ? .index_ == 0 }--> checked<!--{ / }-->>
+				<label for='cardType{.index_}'>{.key_}</label>
+			</div>
+			<!--// tab -->
+		<!--{ / }-->
+		</div>
+		<!--// tab_grp -->
+		{ ? gd_get('webnmobile')}
+		<div class='card_tabs'>
+			<!--{ @ cards }--><!--{ ? .index_ == 0 }--><!--{ @.value_ }-->
+				<input type='radio' name='cardImage' class='cardImage' value='{..imageUrl}' id='cardImage_{..uid}'<!--{ ? ..index_ == 0 }--> checked<!--{ / }-->>
+				<label for='cardImage_{..uid}' style="width: calc({=(100 / count(.value_))}% - 2px); background:url('{..imageUrl}') no-repeat center center; background-size: cover;"></label>
+			<!--{ / }--><!--{ / }--><!--{ / }-->
+		</div>
+		{ / }
+		<!--{ / }-->
+		<div class='card_contents'>
+				<!--{ ? cards }-->
+				<!--{ @ cards }--><!--{ ? .index_ == 0 }--><!--{ @.value_ }--><!--{ ? ..index_ == 0 }-->
+				<input type="hidden" name="cardImage" value="{..imageUrl}">
+				<div name = "cardImage" value="{..imageUrl}" class='images' style="background:url('{..imageUrl}') no-repeat center center; background-size: cover; border-radius: 20px;"></div>
+				<!--{ / }--><!--{ / }--><!--{ / }--><!--{ / }-->
+				<!--{ / }-->
+			<!--// card_contents -->
+		</div>
+	</div>
+</div>
+<!--// gift_select_card_widget -->
+<!--<script type='text/html' id='cardTypeTemplate'>
+	<input type='radio' name='cardImage' class='cardImage' value='<%=imageUrl%>' id='cardImage_<%=uid%>'>
+	<label for='cardImage_<%=uid%>' style="width: calc(<%=width%> - 2px); background:url('<%=imageUrl%>') no-repeat center center; background-size: cover;"></label>
+</script>-->
+<script type='text/html' id='cardTypeTemplate'>
+	<input type="hidden" name="cardImage" value="<%=imageUrl%>">
+	<div class = 'images' style="background:url('<%=imageUrl%>') no-repeat center center; background-size: cover; border-radius: 20px; height:<%=height%>"></div>
+</script>

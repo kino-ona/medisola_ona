@@ -1,0 +1,59 @@
+.mt15 { margin-top: 15px !important; }
+.mb20 { margin-bottom: 20px !important; }
+
+/* 공통 */
+.red_txt { color: red !important; font-weight: bold; }
+.blue_txt { color: blue !important; font-weight: bold; }
+
+/* subscription/card_list.html */
+.card_list_page, .card_list_page * { box-sizing: border-box; }
+.card_list_page .section-body { padding: 10px; }
+.card_list_page .card_list_box { display: table; width: 100%; margin-bottom: 10px;  }
+.card_list_page .card_list_box .card_box { display: table-cell; vertical-align: top; width: 49%; }
+.card_list_page .card_list_box .mg { display: table-cell; width: 2%; }
+.card_list_page .card_list_box .card_box .card { width: 100%; height: 130px; border-radius: 10px; overflow: hidden; cursor: pointer; background-color: #f2e7da; position: relative; }
+.card_list_page .card_list_box .card_box .card .select_card { position: absolute; width: 22px; height: 22px; background-color: #ffffff; border-radius: 50%; top: 5px; left: 5px; }
+.card_list_page .card_list_box .card_box .card .cardNm { background-color: #766c60; padding: 10px 20px; text-align: right; color: #ffffff; font-weight: bold; }
+.card_list_page .card_list_box .card_box .card.on .select_card { background: url("../img/card/checked.png") no-repeat center center; background-size: 22px 22px; }
+.card_list_page .card_list_box .card_box .card .cardInfo { text-align: left; margin-top: 30px; padding: 0 10px; font-size: 12px; font-weight: bold; }
+
+.card_list_page .card_list_box .addCard, .card_list_page .card_list_box .delCard { border: 1px solid #d8d8d8; display: table; border-radius: 10px; cursor: pointer; width: 100%; }
+.card_list_page .card_list_box .delCard { background-color: #f8f8f8; }
+.card_list_page .card_list_box .addCard > .inner_box, .card_list_page .card_list_box .delCard .inner_box { display: table-cell; vertical-align: middle; text-align: center; width: 100%; height: 120px; }
+.card_list_page .card_list_box .addCard > .inner_box .text, .card_list_page .card_list_box .delCard > .inner_box .text  { font-size: 12px; font-weight: bold; margin-top: 10px; }
+
+/* subscription/cart.html */
+.subscription_cart_page .mtitle { font-weight: bold; margin-top: 20px; font-size: 15px; }
+.subscription_selection_table th { padding: 10px 5px; border-bottom: 1px solid #dbdbdb; background: #f7f7f7; }
+.subscription_selection_table td { padding: 10px 5px; border-bottom: 1px solid #dbdbdb; }
+.subscription_selection_table .tr_head th, .subscription_selection_table .tr_head td { border-top: 1px solid #000000; }
+.subscription_selection_table .select_box { display: inline-block; min-width: 100px; font-size: 13px; margin-bottom: 10px; }
+.subscription_selection_table .select_box label { position: relative; top: 3px; font-size: 13px; }
+.subscription_selection_table .schedule_list_table thead td { background-color: #f7f7f7; border-top: 1px solid #dbdbdb; font-weight: bold;  }
+.subscription_selection_table .mtitle { font-weight: bold; font-weight: bold; margin: 20px 0 10px 0; border-bottom: 1px solid #000000; padding: 0 10px 10px 10px; font-size: 13px; }
+
+
+/* subscription/schedule_list.html */
+.schedule_list_page .schedule_list_area { border-top: 1px solid #d5d5d5; }
+.schedule_list_page .schedule_list_area .main_rows { display: table; width: 100%; cursor: pointer; }
+.schedule_list_page .schedule_list_area .main_rows > .cell { display: table-cell; vertical-align: middle; height: 45px; background-color: #f8f8f8; border-bottom: 1px solid #d5d5d5; padding: 0 15px; }
+.schedule_list_page .schedule_list_area .main_rows .date { font-weight: bold; }
+.schedule_list_page .schedule_list_area .schedule_contents { margin: 10px; }
+.schedule_list_page .schedule_list_area .summary_box { border: 1px solid #d5d5d5; padding: 10px;  margin-bottom: 10px; }
+.schedule_list_page .schedule_list_area .summary_box .rows { display: table; width: 100%; }
+.schedule_list_page .schedule_list_area .summary_box .rows > .cell { display: table-cell; vertical-align: top; padding: 3px 5px; text-align: right; }
+.schedule_list_page .schedule_list_area .summary_box .rows > .cell_title { font-weight: bold; text-align: left; width: 100px; }
+.schedule_list_page .schedule_list_area .wbtn1, .schedule_list_page .schedule_list_area .wbtn2 { border: 1px solid #ff4c2e; display: inline-block; color: #ff4c2e; font-size: 12px; font-weight: bold; display: inline-block; height: 22px; line-height: 22px; padding: 0 10px; cursor: pointer; }
+.schedule_list_page .schedule_list_area .wbtn2 { color: #71bae8; border: 1px solid #71bae8; }
+.schedule_list_page .schedule_list_area .red_txt { color: red; }
+.schedule_list_page .schedule_list_area .schedule_table .tr_head td { border-top: 1px solid #d5d5d5; }
+.schedule_list_page .schedule_list_area .schedule_table td.td-title { background-color: #f8f8f8; }
+.schedule_list_page .schedule_list_area .schedule_table td { border-bottom: 1px solid #d5d5d5; height: 40px; line-height: 40px; padding: 0 10px; word-break: break-all; }
+/* .schedule_list_page .schedule_list_area .schedule_contents { display: none; } */
+.schedule_list_page .schedule_list_area .schedule_contents1 { display: block; }
+
+.schedule_list_page .board-paging { text-align: center; }
+.schedule_list_page .board-paging  li { width: 40px !important; height: 40px !important; }
+
+/* subscription/cart.html */
+.change_period_btn { font-weight: normal; font-size: 12px; background-color: #ff9900; color: #ffffff; display: inline-block; cursor: pointer; padding: 2px 7px; margin-left: 10px; }

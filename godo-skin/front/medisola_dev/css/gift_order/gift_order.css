@@ -1,0 +1,165 @@
+/* 공통 */
+.mb30 { margin-bottom: 30px; }
+
+
+.cart_wrap .order_tit{overflow: hidden; border-bottom: 1px solid #dbdbdb }
+.cart_wrap .order_tit h3{float: left; font-size: 28px; color: #222222; margin-top: 10px;}
+.cart_wrap .order_tit ul{float: right; line-height: 62px;}
+.cart_wrap .order_tit .on{color: #ab3e55; font-weight: bold;}
+.cart_wrap .order_tit li span{font-size: 16px; font-weight: bold;}
+.cart_wrap .order_tit li span > img{padding: 0 14px; vertical-align: -1px;}
+.cart_wrap .order_tit ul li{float: left; font-size: 14px; color: #d1d1d1;}
+
+.cart_wrap .del_tab li {position: relative; display: inline-block; padding: 15px 90px; font-size: 22px; color: #000; font-weight: 400; cursor: pointer;}
+.cart_wrap .del_tab > li.on{color: #000000; font-weight: 700; border-bottom: 1px solid;}
+
+.table{display: Table; width: 100%; xxtable-layout: fixed;}
+.inner .cell .table .mtitle {vertical-align: top;}
+.inner .cell .table .mtitle .important{font-size: 100%; color: inherit;}
+.inner .cell .table .rows{display: table-cell; vertical-align: top;}
+.inner .cell .table .rows input{border-radius: 10px; background: #fff; font-size: 14px; padding: 0 20px; color: #474747; height: 40px; line-height: 46px; vertical-align: middle;}
+
+.add_address_box .form_element label{font-size: 16px;}
+.add_address_box .form_element label span{font-weight: bold; font-size: 15px !important;}
+.add_address_box .form_element em{display: block; font-size: 13px; padding-left: 27px;}
+.add_address_box .address_box .address_postcode input{border-radius: 10px; background: #fff; font-size: 13px; padding: 0 20px; color: #474747; height: 40px; line-height: 46px; vertical-align: middle;}
+.add_address_box .address_box .address_postcode button{width: 135px; height: 40px; line-height: 37px; padding: 0 !important; border: 2px solid #6495ED !important; border-radius: 10px; color: #6495ED; font-size: 13px; font-weight: bold;}
+
+.add_address_box .address_box .address_input input{border-radius: 10px; background: #fff; font-size: 13px; padding: 0 20px; color: #474747; height: 40px; line-height: 46px; vertical-align: middle; width: 100% !important}
+
+
+
+/* gift_order/_select_card.html */
+.gift_select_card_widget {
+    padding: 35px 130px;
+    background-color: #f5f5f5;
+    border-radius: 30px;
+	margin:40px auto;
+}
+.gift_select_card_widget, .gift_select_card_widget * { box-sizing: border-box; }
+.gift_select_card_widget .tab_grp { display: table; width: 100%; margin-bottom: 15px; }
+.gift_select_card_widget .tab_grp > .tab { display: table-cell; vertical-align: middle; position: relative; height: 65px; border-left: 1px solid #f5f5f5; }
+.gift_select_card_widget .tab_grp input[type='radio'] { display: none; }
+.gift_select_card_widget .tab_grp input[type='radio']+label { 
+    /* position: absolute; */
+    width: 100%;
+    /* height: 65px; */
+    /* line-height: 55px; */
+    display: block;
+    /* border: solid 5px #fff; */
+    /* background: #fff; */
+    font-size: 20px;
+    letter-spacing: -0.6px;
+    text-align: center;
+    color: #000;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    padding: 10px;
+	border-bottom:2px solid Rgba(0,0,0,0.1);
+	font-family: 'S-CoreDream' ;
+} 
+.gift_select_card_widget .tab_grp input[type='radio']:checked+label { 
+	color:#6495ED;
+	border-bottom:2px solid #6495ED;
+}
+.gift_select_card_widget .card_tabs { margin-bottom: 30px; }
+.gift_select_card_widget .card_tabs input[type='radio'] {display: none; }
+.gift_select_card_widget .card_tabs input[type='radio']+label { display: block; float: left; height: 74px; margin-left: 2px; cursor: pointer; border-radius: 15px;}
+.gift_select_card_widget .card_tabs input[type='radio']+label.on {border:2px solid #ff4c00;}
+.gift_select_card_widget .card_tabs:after { clear: left; content: ''; display: block; }
+.gift_select_card_widget .card_contents {
+	overflow: hidden; 
+}
+.gift_select_card_widget .card_contents .images { 
+	height: 350px;
+    width: 670px;
+    margin: 0 auto;
+    border-radius: 10px;
+}
+.gift_select_card_widget .receiver_info { 
+    padding: 35px 0 35px 10px;
+ }
+.gift_select_card_widget .receiver_info  > .inner { display: table; width: 100%; }
+.gift_select_card_widget .receiver_info  > .inner > .cell { }
+.gift_select_card_widget .receiver_info  > .inner > .cell1 {
+	margin-bottom:35px;
+}
+.gift_select_card_widget .receiver_info  > .inner > .cell2 {  }
+.gift_select_card_widget .receiver_info input[type="text"]{
+	width:95%;
+	box-shadow: 3.9px 4.6px 22.3px 1.7px rgba(0, 0, 0, 0.03);
+	bordeR:0;
+	float:right;
+}
+.gift_select_card_widget .receiver_info .rows{
+	
+}
+.gift_select_card_widget .receiver_info .mtitle { font-size: 15px;
+	color:#474747;
+	font-weight:700;
+    font-family: 'S-CoreDream' !important;
+	display:inline-block;
+}
+.gift_select_card_widget .receiver_info .stitle { font-size: 13px; margin-top: 5px;
+	color:#727272;
+	display:inline-block;
+}
+.gift_select_card_widget .receiver_info textarea { border: 0; resize: none; width: 100%; height: 135px; margin-top: 20px; font-size: 20px; color: #222;
+	background:transparent;
+	border:1px solid #bfbfbf; border-radius: 10px;
+}
+
+.gift_select_card_widget .receiver_info .rows { margin-bottom: 10px; }
+.gift_select_card_widget .receiver_info .mtitle .important{margin: 0 0 0 -10px; padding:0 0 0 10px; background:url('../../img/member/icon_dot_03.png') no-repeat 0 center;}
+
+.gift_select_card_widget .add_address_box { margin-left: 330px; margin-top: 10px;  }
+.gift_select_card_widget .add_address_box .t { color: #474747; font-size: 14px; position: relative; top: -4px; }
+.gift_select_card_widget .add_address_box label { cursor: pointer; }
+.gift_select_card_widget .add_address_box .address_postcode { padding: 0; }
+.gift_select_card_widget .add_address_box .address_postcode #receiverZonecode2 { width: 210px; float: left; margin-right: 5px; }
+.gift_select_card_widget .add_address_box:after, .gift_select_card_widget .add_address_box .address_postcode:after { clear: both; content: ''; display: block; }
+.gift_select_card_widget .add_address_box .address_postcode { margin-bottom: 7px; }
+.gift_select_card_widget .add_address_box .address_input input[type='text'] { margin-bottom: 7px; }
+
+ 
+/* gift_order/view.html */
+.gift_view_page, .gift_view_page * { box-sizing: border-box; }
+.gift_view_page .card_image { display: block; width: 100%; }
+.gift_view_page .info_box { padding: 20px; }
+.gift_view_page .info_box .goods_box { text-align: left; display: table; width: 100%;  }
+.gift_view_page .info_box .goods_box > .cell { display: table-cell; vertical-align: middle; }
+.gift_view_page .info_box .goods_box > .cell1 { width: 70px;  }
+.gift_view_page .info_box .goods_box > .cell2 { vertical-align: top; }
+.gift_view_page .info_box .goods_box .brandNm { color: #ff4c00; font-size: 14px; font-weight: bold; }
+.gift_view_page .info_box .goods_box .goodsNm { color: #343434; font-family: 'S-CoreDream'; font-size: 18px; }
+.gift_view_page .info_box .from { margin-bottom: 10px; }
+.gift_view_page .info_box .t1 { color: #ff4c00; font-size: 16px; font-weight: bold; font-style: italic;  padding-right: 10px; }
+.gift_view_page .info_box .t2 { color: #343434; font-family: 'S-CoreDream'; font-size: 15px; }
+.gift_view_page .info_box .message { color: #343434; font-family: 'S-CoreDream'; font-size: 14px; border: 1px solid #d5d5d5; padding: 10px; border-radius: 5px; height: 150px; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+
+.gift_view_page .wbtn1 { font-family: 'S-CoreDream'; width: 100%; display: block;  height: 52px; line-height: 52px;  color: #ffffff; font-size: 17px; border: 1px solid #ff4c00; background: #ff4c00; text-align: center; font-weight: bold; border-radius: 50px; margin-top: 20px;  }
+
+/* gift_order/order_address.html */
+.gift_order_addess_page { background-color: #f8f8f8; }
+.gift_order_addess_page .top_title { background-color: #493b3b; color: #ffffff; text-align: center; height: 50px; line-height: 50px; font-size: 17px; font-family: 'S-CoreDream'; font-weight: bold; position: fixed; top: 0; width: 100%; left: 0; z-index: 2; }
+.gift_order_addess_page .back_btn { position: fixed; top: 15px; left: 15px; z-index: 3; font-size: 22px; color: #ffffff; }
+.gift_order_addess_page > .inner { margin: 0 20px; padding-top: 70px; }
+.gift_order_addess_page table { border-spacing: 0; padding: 0; width: 100%; font-family: 'S-CoreDream'; }
+.gift_order_addess_page table th { width: 85px; text-align: left; padding: 7px 0; font-size: 13px; }
+.gift_order_addess_page table td { padding: 7px 0; }
+.gift_order_addess_page .bt th, .gift_order_addess_page .bt td { border-top: 1px solid #d5d5d5; }
+.gift_order_addess_page .important { position: relative; color: #bf0012; font-weight: bold; }
+.gift_order_addess_page .important .icon { position: absolute; right: 7px; }
+.gift_order_addess_page input[type='text'] { border: 2px solid #d5d5d5; border-radius: 3px; height: 40px; width: 100%; padding: 0 10px;  font-family: 'S-CoreDream';  font-size: 15px; }
+.gift_order_addess_page .cellphone_box { display: table; width: 100%; }
+.gift_order_addess_page .cellphone_box > .cell { display: table-cell; vertical-align: middle; }
+.gift_order_addess_page .cellphone_box > .cell1 { width: 32%; }
+.gift_order_addess_page .cellphone_box > .mg { width: 2%; text-align: center; }
+.gift_order_addess_page .address_box { display: table; width: 100%; margin-bottom: 5px; }
+.gift_order_addess_page .address_box > .cell { display: table-cell; vertical-align: middle; }
+.gift_order_addess_page .address_box > .cell2 { width: 105px; text-align: right; }
+.gift_order_addess_page .search_address { width: 100px; display: inline-block; background-color: #a5a5a5; color: #ffffff; height: 40px; line-height: 38px; text-align: center; border: 2px solid #909090; cursor: pointer; } 
+.gift_order_addess_page .address { margin-bottom: 5px; }
+.gift_order_addess_page .address_sub { background-color: #f8f8f8; }
+.gift_order_addess_page .required_guide { color: #bf0012; font-weight: bold; text-align: right; font-size: 14px; margin-bottom: 5px; font-family: 'S-CoreDream'; }

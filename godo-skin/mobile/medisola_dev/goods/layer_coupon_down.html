@@ -1,0 +1,141 @@
+{*** 쿠폰 다운받기 레이어 | goods/layer_coupon_down.php ***}
+<div class="layer_coupon_down">
+	<div class="ly_head">
+		<h2 class="h_tit">{=__('쿠폰 다운받기')}</h2>
+	</div>
+	<!--{ ? gd_is_login() === false }-->
+	<p>{=__('로그인하셔야 본 서비스를 이용하실 수 있습니다.')}</p>
+	<!--{ : }-->
+	<div class="ly_content ly_ct">
+		<div class="coupondown">
+			<div class="my_info">
+				<ul>
+					<li><strong>{=__('쿠폰 다운받기')} <!--{ ? goodsCouponCnt  > 0 }--><span class="goods-coupon-cnt">(<!--{ goodsCouponCnt }-->)</span><!--{/}--></strong></li>
+					<li><a href="#" class="coupon_all_down_btn" id="btnAllCouponDown">{=__('전체다운로드')}</a></li>
+				</ul>
+			</div>
+			<div class="coupon_down_list">
+				<ul>
+					<!--{ @ goodsCouponArrData }-->
+					<li>
+						<div class="coupon_left">
+							<dl>
+								<dt>{ .couponNm }  <strong>{ convertCouponArrData[.key_].couponBenefit }</strong> { convertCouponArrData[.key_].couponKindType }</dt>
+								<!--{ ? convertCouponArrData[.key_].couponMaxBenefit }-->
+								<dd>{ convertCouponArrData[.key_].couponMaxBenefit }</dd>
+								<!--{ / }-->
+								<!--{ ? convertCouponArrData[.key_].couponMinOrderPrice }-->
+								<dd>{ convertCouponArrData[.key_].couponMinOrderPrice }</dd>
+								<!--{ / }-->
+								<!--{ convertCouponArrData[.key_].couponApplyDuplicateType }-->
+								<!--{ ? .chkMemberCoupon == 'YES' }-->
+								<dd><img src="../img/icon/icon_chk_red.png" alt="{=__('체크')}" class="chk_img"><span class="c_red"><!--{ convertCouponArrData[.key_].useEndDate }--></span></dd>
+								<!--{ / }-->
+								<!--{ ? .chkMemberCoupon == 'NO_MEMBER_GROUP' }-->
+								<dd>{=__('해당 회원등급이 아닙니다.')}</dd>
+								<!--{ / }-->
+							</dl>
+						</div>
+						<div class="coupon_right">
+							<!--{ ? .chkMemberCoupon == 'NO_MEMBER_GROUP' }-->
+								<span class="coupon_download_no_btn">{=__('발급불가')}</span>
+							<!--{ : .chkMemberCoupon == 'DUPLICATE_COUPON' }-->
+								<span class="coupon_download_ok_btn">{=__('발급완료')}</span>
+							<!--{ : .chkMemberCoupon == 'YES' }-->
+								<span><a class="coupon_download_btn btn_coupon_down" data-coupon-no="{ .couponNo }">{=__('다운로드')}</a></span>
+							<!--{ / }-->
+						</div>
+					</li>
+					<!--{ / }-->
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="close_btn">
+		<button type="button" class="lys_close_btn ly_btn_close" >{=__('닫기')}</button>
+	</div>
+	<!--{ / }-->
+</div>
+
+<!--//쿠폰 다운받기 레이어 -->
+<!--{ ? gd_is_login() !== false }-->
+<script type="text/javascript">
+    <!--
+    $(document).ready(function () {
+		$('#popupCoupon .ly_ct').height($(window).height()-73);
+
+        //$('.couponlist-title .close-btn').on('click', function (e) {
+        //    close_layer($(this));
+        //    return false;
+        //});
+
+        $('.btn_coupon_down').click(function (e) {
+            var displayBtn = $(this).parent('span');
+            var couponNo = $(this).data('coupon-no');
+            $.ajax({
+                method: "POST",
+                cache: false,
+                url: "../goods/layer_coupon_ps.php",
+                data: "mode=coupon_down&couponNo=" + couponNo + "&goodsNo=" + {goodsNo},
+                dataType: 'json',
+                async: false,
+                success: function (data) {
+                    alert(data['message']);
+					displayBtn.html('');
+					if(data['code'] == 200) {
+						displayBtn.addClass('coupon_download_ok_btn');
+						displayBtn.html("{=__('발급완료')}");
+						$('.goods-coupon-cnt').html('(' + data['goodsCouponCnt'] + ')');
+					} else {
+						displayBtn.addClass('coupon_download_no_btn');
+						displayBtn.html("{=__('발급불가')}");
+					}
+                },
+                error: function (e) {
+                    console.log(e);
+                }
+            });
+        });
+        $('#btnAllCouponDown').click(function (e) {
+            var couponArrData = [];
+            $('.btn_coupon_down').each(function (index, item) {
+                couponArrData.push($(item).data('coupon-no'));
+            });
+            var countCoupon = couponArrData.length;
+            if (countCoupon > 0) {
+                var params = {
+                    couponNo: couponArrData,
+                    mode: 'coupon_down_all',
+                    goodsNo: '{goodsNo}'
+                };
+                $.ajax({
+                    method: "POST",
+                    cache: false,
+                    url: "../goods/layer_coupon_ps.php",
+                    data: params,
+                    dataType: 'json',
+                    async: false,
+                    success: function (data) {
+                        alert(data['message']);
+                        $('.goods-coupon-cnt').html('(' + data['goodsCouponCnt'] + ')');
+                        gd_coupon_down_layer_close();
+                    },
+                    error: function (e) {
+                        console.log(e);
+                    }
+                });
+            } else {
+                alert("{=__('발급 가능 쿠폰이 없습니다.')}");
+                return false;
+            }
+        });
+    });
+    function gd_coupon_down_layer_close() {
+        $('#couponDownLayer').closest('.layer_wrap').addClass('dn');
+        $('#layerDim').addClass('dn');
+        $('html').removeClass('oh-space');
+        //$('#scroll-left, #scroll-right').removeClass('dim');
+    }
+    //-->
+</script>
+<!--{ / }-->

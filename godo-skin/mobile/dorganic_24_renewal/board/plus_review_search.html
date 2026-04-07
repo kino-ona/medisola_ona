@@ -1,0 +1,83 @@
+<link type="text/css" rel="stylesheet" href="{=setBrowserCache('../css/gd_plus_review.css')}">
+<div class="plus_review_popup_alike_search">
+    <div class="ly_head">
+        <h1 class="h_tit">{= plusReviewConfig.addFormSearchTitle}</h1>
+    </div>
+    <div class="ly_ct">
+        <div class="alike_search_wrap">
+            <!--{ ? plusReviewConfig.addFormFl == 'y' }-->
+            <!--{ @ plusReviewConfig.serviceAddForm}-->
+            <!--{ ? .inputType == 'select'}-->
+            <div class="alike_search_cont">
+                <p>{=.labelName}</p>
+                <input type="hidden" name="labelNumberLayer[]" value="{=.labelNumber}"/>
+                <div class="alike_search_option">
+                    <ul>
+                        <!--{@.labelValue}-->
+                        <li><input type="checkbox" id="checkEach{=.labelNumber}_{=..index_}" name="labelValueLayer[]" value="{=..value_}"/><label for="checkEach{=.labelNumber}_{=..index_}">{=..value_}</label></li>
+                        <!--{/}-->
+                    </ul>
+                </div>
+            </div>
+            <!--{ / }-->
+            <!--{ / }-->
+            <!--{ / }-->
+            <ul class="btn_box">
+                <li><button type="button" class="plus_review_cancel_btn">{=__('초기화')}</button></li>
+                <li><button type="submit" class="plus_review_save_btn">{=__('적용하기')}</button></li>
+            </ul>
+        </div>
+    </div>
+    <div class="close_btn">
+        <button type="button" class="lys_close_btn ly_btn_close">{=__('닫기')}</button>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        var searchChecked = [];
+        <!--{@ searchChecked}-->
+        searchChecked[{=.index_}] = [];
+        searchChecked[{=.index_}].push('{=.value_[0]}');
+        searchChecked[{=.index_}].push('{=.value_[1]}');
+        <!--{/}-->
+        $('input[name=\'labelValueLayer[]\']').each(function (index) {
+            var closest = $(this).closest('.alike_search_cont');
+            var labelNumber = $(closest).find('input[name=\'labelNumberLayer[]\']').val();
+            var labelValue = $(this).val();
+            for(var i=0; i<searchChecked.length; i++){
+                if(searchChecked[i][0] == labelNumber && searchChecked[i][1] == labelValue){
+                    $(this).prop('checked', true);
+                }
+            }
+        });
+
+        $('.plus_review_save_btn').bind('click',function () {
+            var labelValueArry = [];
+            $('.plus_review_add_search').removeClass('on');
+            $('input[name=\'labelValueLayer[]\']').each(function (index) {
+                if($(this).is(":checked") == true){
+                    var tmp = []
+                    var closest = $(this).closest('.alike_search_cont');
+                    var labelNumber = $(closest).find('input[name=\'labelNumberLayer[]\']').val();
+                    tmp.push(labelNumber);
+                    tmp.push($(this).val());
+                    labelValueArry.push(tmp);
+                    $('.plus_review_add_search').addClass('on');
+                }
+            });
+            //전역변수 저장
+            $labelValueArry = labelValueArry;
+            gd_search_add_form();
+            $('.ly_btn_close').trigger('click');
+        });
+
+        $('.plus_review_cancel_btn').bind('click',function () {
+            $('input[name=\'labelValueLayer[]\']').each(function (index) {
+                if($(this).is(":checked") == true){
+                    $(this).prop('checked', false);
+                }
+            });
+        });
+
+    });
+</script>

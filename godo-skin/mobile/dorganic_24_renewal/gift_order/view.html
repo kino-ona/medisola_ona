@@ -1,0 +1,66 @@
+{*** 선물하기 | gift_order/view.php ***}
+{ # share_header }
+<style>
+hr { display: none; }
+body { background-color: #f7f7f7; }
+</style>
+<link rel="stylesheet" type='text/css'  href='../js/slider/slick/slick.css'>
+<link rel="stylesheet" type='text/css'  href='../css/gift_order/gift_order.css'>
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
+<div class='gift_view_page gift_order_addess_page'>
+<!--{ ? cardImage }-->
+<!-- <img src='{=str_replace("www.", "m.", cardImage)}' class='card_image' width='100%'> -->
+<img src='{=cardImage}' class='card_image' width='100%'>
+<!--{ / }-->
+<div class='info_box'>
+<!--{ ? items }-->
+<div class='goods_list'>
+<!--{ @ items }-->
+<div class='goods_box'>
+	<div class='cell cell1'>
+		<a href="../goods/goods_view.php?goodsNo={.goodsNo}">
+			<div class='goodsImage'>
+			{.goodsImage}	
+			</div>
+		</a>
+	</div>
+	<div class='cell cell2'>
+		<!--{ ? .brandNm }-->
+		<div class='brandNm'>{.brandNm}</div>
+		<!--{ / }-->
+		<a href="../goods/goods_view.php?goodsNo={.goodsNo}">
+			<div class='goodsNm'>{.goodsNm}
+		</a>
+		<!--{ ? .goodsCnt > 1 }--> X  {.goodsCnt}개<!--{ / }-->
+		</div>
+	</div>
+</div>
+<!--// goods_box -->
+<!--{ / }-->
+</div>
+<!--// goods_list -->
+<script>
+$(function() {
+	$(".goods_list").slick({
+		slidesToScroll : 1,
+		dots : false,
+		prevArrow :  false,
+		nextArrow : false,
+	});
+});
+</script>
+<!--{ / }-->
+<div class='gift_message'>
+<div class='from'><span class='t1'>From.</span><span class='t2'>{orderName}</span></div>
+<div class='message'>
+{giftMessage}
+</div>
+</div>
+<!--// gift_message -->
+<!--{ ? orderAddressPossible }-->
+<a href='../gift_order/order_address.php?orderNo={orderNo}' class='wbtn1 next_btn' <!--{ ? receiverAddress }-->style='background: #283976; border : 1px solid #283976;'<!--{ / }-->><!--{ ? receiverAddress }-->배송정보 입력완료<!--{ : }-->배송정보 입력하기<span class='xi-long-arrow-right icon'></span><!--{ / }--></a>
+<!--{ / }-->
+</div> <!--// info_box -->
+</div>
+<!--// gift_view_page -->
+{ # share_footer }

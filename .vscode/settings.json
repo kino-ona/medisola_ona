@@ -1,0 +1,20 @@
+{
+  "cSpell.words": ["kakao", "wanban"],
+  "files.readonlyInclude": {
+    "admin-skin/medisola_admin_skin_original/**": true,
+    "godo-dev-module/Bundle/**": true
+  },
+  "search.exclude": {
+    "godo-skin/front/8design_Copy/**": true,
+    "godo-skin/front/awesome/**": true,
+    "godo-skin/front/clematis/**": true,
+    "godo-skin/front/moment/**": true,
+    "godo-skin/mobile/8design_Copy/**": true,
+    "godo-skin/mobile/awesome/**": true,
+    "godo-skin/mobile/clematis/**": true,
+    "godo-skin/mobile/moment/**": true
+    },
+  "files.watcherExclude": {
+    "**/.vscode/sftp.json": false
+  }
+}

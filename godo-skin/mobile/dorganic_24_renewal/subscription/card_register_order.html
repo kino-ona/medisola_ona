@@ -1,0 +1,138 @@
+{*** 결제 카드 등록 | front/subscription/card_register.php ***}
+{=includeFile('subscription/outline/_popup_header.html')}
+<style>.card_password_popup .chars_select_box > .inner {
+    width: 100%
+}</style>
+<div class='subscription_popup card_password_popup'>
+    <div class='top_area'>결제카드 <!--{ ? isOrder }-->확인<!--{ : }--> 등록<!--{ / }--></div>
+    <div class='content_area'>
+        <div class='password_box'>
+            <div class='mtitle'>결제비밀번호</div>
+            <div class='char_box' style="width:100%">
+                <!--{ @range(1, 6) }-->
+                <div class='char' data-char=''>
+                    <div class='char_inner'></div>
+                </div>
+                <!--{ / }-->
+            </div> <!-- char_box -->
+        </div> <!-- password_box -->
+        <div class='chars_select_box'>
+            <div class='inner first'>
+                <!--{ @chars }-->
+                <!--{ ? .index_ > 0 && .index_ % 6 == 0 }--></div>
+            <div class='inner'><!--{ / }-->
+                <div class='ichar sel_char' data-char='{.value_}'>
+                    <div class='char_inner'>{.value_}</div>
+                </div>
+                <!--{ / }-->
+                <div class='ichar'></div>
+                <div class='ichar back'>
+                    <div class='char_inner'>←</div>
+                </div>
+            </div> <!-- inner -->
+        </div> <!-- chars_select_box -->
+        <div class='submit_btn'>다음으로</div>
+    </div> <!-- content_area -->
+</div> <!-- subscription_popup -->
+
+<script>
+    $(function () {
+        $(".sel_char").click(function () {
+            $list = $(".password_box .char");
+            var char = $(this).data('char');
+            var no = 0;
+            if ($list.length > 0) {
+                for (var i = 0; i < $list.length; i++) {
+                    $o = $list.eq(i);
+                    var c = $o.attr('data-char');
+                    if (c != "") {
+                        no++;
+                    }
+                }
+
+                if (no == 6) {
+                    alert("결제비밀번호를 모두 입력하셨습니다.");
+                    return;
+                }
+
+                for (var i = 0; i < $list.length; i++) {
+                    $o = $list.eq(i);
+
+                    var c = $o.data('char');
+                    //var c = $o.attr('data-char');
+                    if (typeof c == "number") {
+                        if (parseInt(c) == 0) {
+                            c = 1;
+                        }
+                    }
+
+
+                    if (c == "") {
+
+                        $o.data('char', char);
+                        $o.html("<div class='char_inner' style='color:#ff7062;'> * </div>");
+                        break;
+                    }
+                }
+            }
+        });
+
+        $(".chars_select_box .back").click(function () {
+            $list = $(".password_box .char");
+            $target = $list.eq(0);
+            if ($list.length > 0) {
+                for (var i = 0; i < $list.length; i++) {
+                    $o = $list.eq(i);
+                    var c = $o.data('char');
+
+
+                    if (typeof c == "number") {
+                        c = 1;
+                    }
+                    if (c != "") {
+                        $target = $o;
+                    }
+                } // endfor
+            } // endif
+
+            var cc = 0;
+            if (typeof $target.data("char") == "number") {
+                cc = 1;
+            }
+
+            if (cc == 1) {
+                $target.data("char", "");
+                $target.html("<div class='char_inner'></div>");
+            }
+        });
+
+        $(".submit_btn").click(function () {
+
+            var pass = [];
+            $list = $(".password_box .char");
+            if ($list.length > 0) {
+                for (var i = 0; i < $list.length; i++) {
+                    $o = $list.eq(i);
+                    var c = $o.data('char');
+
+                    if (c != "" || c == 0) {
+                        pass.push(c);
+                    } // endif
+                } // endfor
+            } // endif
+
+            if (pass.length < 6) {
+                alert("비밀번호를 모두 선택하세요.");
+                return;
+            }
+
+
+            if (typeof parent.wm.card.callback == "function") {
+                pass = pass.join('');
+
+                parent.wm.card.callback_register(pass);
+            }
+        });
+    });
+</script>
+{=includeFile('subscription/outline/_popup_footer.html')}

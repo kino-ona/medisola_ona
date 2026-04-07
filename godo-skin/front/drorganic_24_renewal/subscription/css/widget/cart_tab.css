@@ -1,0 +1,4 @@
+.cart_tab_widget .tab_grp { display: table; width: 100%; margin-bottom: 25px; }
+.cart_tab_widget .tab_grp > .tab { display: table-cell; width: 50%; vertical-align: middle; border: 1px solid #e2dfdf; border-bottom: 2px solid #0073e9; border-left: 0; padding-top: 17px; padding-bottom: 15px;  background: #f5f5f5; text-align: center; font-size: 18px; font-weight: bold; }
+.cart_tab_widget .tab_grp > .tab1 { border-left: 1px solid #e2dfdf;  }
+.cart_tab_widget .tab_grp > .tab.on { border: 2px solid #0073e9;  border-bottom: 2px solid #ffffff; background-color: #ffffff; color: #0073e9; }

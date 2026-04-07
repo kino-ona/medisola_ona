@@ -1,0 +1,187 @@
+{*** 상품상세 - 상품 후기/문의 상세 | goods/goods_board/goods_board_view.html ***}
+	<div id="boardContent" class="goods_board_view">
+		<!--{? bdView.cfg.bdLinkFl == 'y' && bdView.data.urlLink}-->
+		<div class="board_link"><span>{=__('링크')} : </span><a href="{=gd_isset(bdView.data.urlLink)}" target="_blank">{=bdView.data.urlLink}</a></div>
+		<!--{/}-->
+		<div class="contents_holder">{=bdView.data.workedContents}</div>
+		<!--{ ? bdView.cfg.bdReplyStatusFl == 'y' && bdView.data.replyStatus>1 && bdView.data.workedAnswerContents}-->
+		<div class="js_data_comment_row">
+			<div class="reply_box">
+				<div class="item_list_summary">
+					<div>
+						<span class="writer">{bdView.data.answerManagerNm}</span> |
+						<span class="date">{bdView.data.answerModDt}</span>
+					</div>
+				</div>
+				<dl class="contents_holder">
+					<dt>{bdView.data.answerSubject}</dt>
+					<dd>{bdView.data.workedAnswerContents}</dd>
+				</dl>
+			</div>
+		</div>
+		<!--{/}-->
+		<div class="comment_box">
+			<div class="comment_options">
+				<!--{? bdView.data.auth.modify : 'y' : 'c'}-->
+				<button type="button" class="d_comment_modify_btn" onclick="gd_btn_modify_write('{req.bdId}',{req.sno},'{bdView.data.auth.modify}')">
+					{=__('수정')}
+				</button>
+				<!--{/}-->
+				<!--{? bdView.data.auth.delete : 'y' : 'c'}-->
+				<button type="button" class="d_comment_del_btn" onclick="gd_btn_delete('{req.bdId}',{req.sno},'{bdView.data.auth.delete}')">
+					{=__('삭제')}
+				</button>
+				<!--{/}-->
+			</div>
+			<div class="sub_info">
+				<div id="recommendCount">
+					<!--{? bdView.cfg.bdRecommendFl == 'y' }-->
+					<a href="javascript:gd_recommend('{req.bdId}',{req.sno})" class="d_comment_recommend_btn">{=__('추천')} <strong>{=bdView.data.recommend}</strong></a>
+					<!--{/}-->
+				</div>
+			</div>
+		</div>
+		<!--{? bdView.data.isFile == 'y'}-->
+		<!-- 파일여부 -->
+		<div class="uploadFile">
+			<!--{ @ bdView.data.uploadedFile}-->
+			<div class="uploadFile-item">
+					<a href="../board/download.php?bdId={=bdView.cfg.bdId}&sno={req.sno}&fid={=.fid}" class="filename"><img src="../img/common/icon-folder.png" alt="{=__('파일')}" class="icon-folder">{.name}</a>
+			</div>
+			<!--{ / }-->
+		</div>
+		<!--{/}-->
+		<!--{ ? bdView.cfg.bdMemoFl == 'y'}-->
+		<!-- 게시글 댓글작성창 -->
+		<div class="comment_wrap js_comment_area" data-bdId="{req.bdId}" data-sno="{req.sno}">
+			<!--{ @ bdView.data.memoList }-->
+			<div data-memosno="{.sno}" data-memoauth="{.auth}" class="comment_list js_data_comment_row <!--{? .groupThread}-->rereply_row<!--{/}-->">
+				<div class="item_list_summary">
+					<div class="<!--{? .groupThread}--> reply <!--{/}-->">
+						<span class="writer">{.writer}</span> | 
+						<span class="date">{.regDt}</span>
+					</div>
+				</div>
+				<div class="contents_holder">
+					<!--{? bdView.data.allReplyShow == 'y' }-->
+					{.workedMemo}
+					<!--{:}-->
+					<!--{? .isSecretReply == 'y' }-->
+					<!--{? .isShowSecretReply == 'y' }-->
+					{.workedMemo}
+					<!--{:}-->
+					<input type="hidden" name="secretReply" value="y"/>
+					<em><img src="{bdView.cfg.iconImageMobile.secret.url}" alt="{=__('비밀글')}"><a href="#none" class="js_comment_btn_secret">{=secretReplyCheck.secretReplyTitle}</a></em>
+					<!--{/}-->
+					<!--{:}-->
+					{.workedMemo}
+					<!--{/}-->
+					<!--{/}-->
+				</div>
+				<div class="comment_box">
+					<div class="comment_options">
+					<!--{?! .groupThread}-->
+					<button type="button" class="d_comment_reply_btn js_comment_btn_reply">{=__('댓글에 댓글달기')}</button>
+					<!--{/}-->
+					<!--{? .auth : 'y' : 'c'}-->
+					<button type="button" class="d_comment_modify_btn js_comment_btn_modify" title="{=__('댓글 수정')}">{=__('댓글 수정')}</button>
+					<button type="button" class="d_comment_del_btn js_comment_btn_delete" title="{=__('댓글 삭제')}">{=__('댓글 삭제')}</button>
+					<!--{ / }-->
+					</div>
+				</div>
+				<!-- 비회원 개인정보 수집동의 -->
+				<div class="js_action_form reply_form"  style="display:none">
+					<!--{ ? !gd_is_login()}-->
+					<dl class="reply_info">
+						<dd><input type="text" name="writerNm" placeholder="{=__('이름')}"/></dd>
+						<dd><input type="password" name="password" placeholder="{=__('비밀번호')}"/></dd>
+					</dl>
+					<dl>
+						<dd>
+							<div class="inp_chk">
+								<input id="infoCollectionAgreeAction{.sno}" type="checkbox" data-dpmaxz-eid="11"/>
+								<label for="infoCollectionAgreeAction{.sno}">
+									({=__('비회원')}) {=__('개인정보 수집항목 동의')}
+								</label>
+								<a class="c_red" href="javascript:void(0)" onclick="gd_redirect_collection_agree()">{=__('전체보기')}&gt;</a>
+							</div>
+						</dd>
+					</dl>
+					<dl>
+						<dd><textarea rows="3">{=bdView.private}</textarea></dd>
+					</dl>
+					<!--{/}-->
+					<dl>
+						<dd>
+							<div class="inp_chk">
+								<!--{ secretReplyCheck.replyModify }-->
+							</div>
+						</dd>
+					</dl>
+					<div class="memo_outer_box">
+						<div class="memo_outer">
+							<div class="memo_box">
+								<textarea class="memo" name="memo" placeholder="{=__('댓글을 작성하세요.')}"></textarea>
+							</div>
+							<div class="memo_submit">
+								<button type="button" class="d_comment_confirm_btn js_comment_btn_action">{=__('확인')}</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			<!-- 비회원 개인정보 수집동의 // -->
+			</div>
+			<!--{/}-->
+			<!--{? bdView.cfg.auth.memo == 'y'}-->
+			<div class="reply_form js_form_write">
+				<!--{ ? !gd_is_login()}-->
+				<dl class="reply_info">
+					<dd><input type="text" name="writerNm" placeholder="{=__('이름')}"/></dd>
+					<dd><input type="password" name="password" placeholder="{=__('비밀번호')}"/></dd>
+				</dl>
+				<dl>
+					<dd>
+						<div class="inp_chk">
+							<input id="infoCollectionAgreeWrite" type="checkbox" data-dpmaxz-eid="11"/>
+							<label for="infoCollectionAgreeWrite">
+								({=__('비회원')}) {=__('개인정보 수집항목 동의')}
+							</label>
+							<a class="c_red" href="javascript:void(0)" onclick="gd_redirect_collection_agree()">{=__('전체보기')}&gt;</a>
+						</div>
+					</dd>
+				</dl>
+				<dl>
+					<dd><textarea rows="3">{=bdView.private}</textarea></dd>
+				</dl>
+				<!--{/}-->
+				<dl>
+					<dd>
+						<div class="inp_chk">
+							<!--{ secretReplyCheck.replyWrite }-->
+						</div>
+					</dd>
+				</dl>
+				<div class="memo_outer_box">
+					<div class="memo_outer">
+						<div class="memo_box">
+							<textarea class="memo" name="memo" placeholder="{=__('댓글을 작성하세요.')}"></textarea>
+						</div>
+						<div class="memo_submit">
+							<button type="button" class="d_comment_confirm_btn js_comment_btn_write">{=__('확인')}</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--{:}-->
+			<div class="comment_write js_form_write">
+				<!--{ ? gd_is_login() }-->
+				{=__('댓글 권한이 없습니다.')}
+				<!--{:}-->
+				{=__('로그인을 하셔야 댓글을 등록하실 수 있습니다.')}
+				<!--{/}-->
+			</div>
+			<!--{/}-->
+		</div>
+		<!--{/}-->
+	</div>
+</div>

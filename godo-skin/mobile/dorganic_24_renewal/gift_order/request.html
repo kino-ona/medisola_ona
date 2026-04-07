@@ -1,0 +1,171 @@
+{*** 선물하기 조르기 | gift_order/request.php ***}
+{ # header }
+<div class='request_page sb_top sb_side'>
+	<h3 class="mo-title">선물 요청하기</h3>
+
+	<div class='inner'>
+		<form id='frm' method='post' action='../gift_order/indb_gift_order.php' target='ifrmProcess' autocomplete='off'>
+			<input type='hidden' name='mode' value='gift_request'>
+			<input type='hidden' name='goodsNo' value='{goodsNo}'>
+			<input type='hidden' name='goodsCnt' value='{goodsCnt}'>
+			<input type='hidden' name='isMobile' value='1'>
+			<!--{ ? goods }-->
+			<div class='goods_info'>
+				<!--{ ? goods.goodsImageSrc }-->
+				<div class='cell cell1'>
+					<img src='{goods.goodsImageSrc}' class='image'>
+				</div>
+				<!--{ / }-->
+				<div class='cell cell2'>
+					{goods.goodsNm}
+					<!--{ ? goods.goodsCnt > 1 }-->
+					X {=number_format(goods.goodsCnt)}개
+					<!--{ / }-->
+				</div>
+			</div>
+			<!--// goods_info -->
+			<!--{ / }-->
+			<!--// goods_info -->
+			<div class='receiver_info'>
+				<div class='list_rows'>
+					<div class='cell cell1'>요청하실 분 전화번호</div>
+					<div class='cell cell2'>
+						<input type='text' name='orderCellPhone' class='orderCellPhone'>
+					</div>
+				</div>
+				<div class='dn'>
+				<!--{ ? shippingList }-->
+				<div class='list_rows'>
+					<div class='cell cell1'>배송지 선택</div>
+					<div class='cell cell2'>
+						<div class='inp_sel'>
+						<select id='shipping'>
+							<option value=''>- 배송지 선택 -</option>
+							<!--{ @shippingList }-->
+							<option value='{.shippingName}'
+								data-name='{.shippingName}'
+								data-cellphone='{.shippingCellPhone}'
+								data-zonecode='{.shippingZonecode}'
+								data-address='{.shippingAddress}'
+								data-address_sub='{.shippingAddressSub}'
+							>[{.shippingZonecode}]{.shippingAddress} {.shippingAddressSub}</option>
+							<!--{ / }-->
+						</select>
+						</div>
+					</div>
+				</div>
+				<!--// list_rows -->
+				<!--{ / }-->
+				</div>
+				<div class='list_rows'>
+					<div class='cell cell1'>선물받는 분</div>
+					<div class='cell cell2'>
+						<input type='text' name='receiverName' class='receiverName' value='{default.shippingName}'>
+					</div>
+				</div>
+				<!--// list_rows -->
+				<div class='list_rows'>
+					<div class='cell cell1'>선물받는 분 전화번호</div>
+					<div class='cell cell2'>
+						<input type='text' name='receiverCellPhone' class='receiverCellPhone' value='{default.shippingCellPhone}'>
+					</div>
+				</div>
+				<div class='dn'>
+				<div class='list_rows'>
+					<div class='cell cell1'>주소</div>
+					<div class='cell cell2'>
+						<div class="address_postcode">
+							<input type="text" name="receiverZonecode" id='receiverZonecode' readonly="readonly" class='receiverZonecode' value='{default.shippingZonecode}'>
+							<input type="hidden" name="receiverZipcode"/>
+						   <button type="button" class="btn_post_search" onclick="gd_postcode_search('receiverZonecode', 'receiverAddress', 'receiverZipcode');">{=__('우편번호검색')}</button>
+						</div>
+						<div class="address_input">
+							<input type="text" name="receiverAddress" readonly="readonly" class='receiverAddress' value='{default.shippingAddress}'>
+							<input type="text" name="receiverAddressSub" class='receiverAddressSub' value='{default.shippingAddressSub}'>
+						</div>
+					</div>
+					<!--// cell2 -->
+				</div>
+				<!--// list_rows -->
+				</div>
+			</div> <!-- receiver_info -->
+			<div class='ac'>
+				<input type='submit' value='선물 요청하기' class='request_btn'>
+			</div>
+		</form>
+	</div>
+	<!--// inner -->
+</div>
+<!--// request_page -->
+<script>
+$(function() {
+	$("#shipping").change(function() {
+		var receiverName = "";
+		var receiverCellPhone = "";
+		var receiverZonecode = "";
+		var receiverAddress = "";
+		var receiverAddressSub = "";
+		
+		if ($(this).val() != "") {
+			$op = $(this).find('option:selected');
+			if ($op.length > 0) {
+				receiverName = $op.data("name");
+				receiverCellPhone = $op.data("cellphone");
+				receiverZonecode = $op.data("zonecode");
+				receiverAddress = $op.data("address");
+				receiverAddressSub = $op.data("address_sub");
+			}
+		} // endif 
+		
+		$(".receiverName").val(receiverName);
+		$(".receiverCellPhone").val(receiverCellPhone);
+		$(".receiverZonecode").val(receiverZonecode);
+		$(".receiverAddress").val(receiverAddress);
+		$(".receiverAddressSub").val(receiverAddressSub);
+	});
+	
+	$("#frm").submit(function(e) {
+		try {
+		/*
+			var required = {
+				orderCellPhone : "선물요청 휴대전화",
+				receiverName : '선물받는분',
+				receiverCellPhone : '받는분 휴대전화',
+				receiverZonecode : "주소",
+				receiverAddress : "주소",
+				receiverAddressSub : "주소",
+			};
+			*/
+			var required = {
+				orderCellPhone : "선물하시는분 휴대전화",
+				receiverName : '선물받는분',
+				receiverCellPhone : '받는분 휴대전화',
+			}
+			for (var k in required) {
+				$obj = $("." + k);
+				if ($obj.length > 0 && $obj.val() == "") {
+					var err = {
+						message : required[k] + "을(를) 입력하세요.",
+						target : $obj
+					};
+					
+					if (required[k] == '주소') {
+						err.isJuso = true;
+					}
+					
+					throw err;
+				}
+			}
+		} catch (err) {
+			alert(err.message);
+			if (typeof err.isJuso != "undefined" && err.isJuso) {
+				gd_postcode_search('receiverZonecode', 'receiverAddress', 'receiverZipcode');
+			} else {
+				err.target.focus();
+			}
+			e.preventDefault();
+		}
+	});
+});
+</script>
+{ # footer }

@@ -1,0 +1,221 @@
+{*** 주문완료 | order/order_end.php ***}
+{ # header }
+<div class="order_end">
+	<!--{ ? gd_isset(orderInfo.orderStatus) == 'o' }-->
+	<!-- 주문 접수 완료 -->
+	<div class="order_end_box">
+		<h2>{=__('주문번호')} <strong>{orderInfo.orderNo}</strong></h2>
+		<div class="tx">
+			<ul>
+				<!--li>{=gd_isset(orderInfo.bankAccount[0])} : {=gd_isset(orderInfo.bankAccount[1])}
+				</li-->
+				<!--li>예금주 : {=gd_isset(orderInfo.bankAccount[2])}</li-->
+				<li>{=__('금액')} :
+					<span class="prc">{=gd_currency_display(gd_isset(orderInfo.settlePrice))}</span>
+				</li>
+				<li>
+					{=__('결제수단')} : {=gd_isset(orderInfo.settleName)}</strong><br />
+					<!--{ ? gd_isset(orderInfo.settleGateway) == 'f' }-->
+					<!--작업자는 간편결제 내용을 작성해주세요.-->
+					<!--{ : }-->
+					<!--{ ? gd_isset(orderInfo.settleKind) == 'gb' }-->
+					{=__('입금은행')} : {=gd_isset(orderInfo.bankAccount[0])} <br/>
+					{=__('입금계좌')} : {=gd_isset(orderInfo.bankAccount[1])} <br/>
+					{=__('예금주명')} : {=gd_isset(orderInfo.bankAccount[2])} <br/>
+					{=__('입금금액')} : <strong class="c_red">{=gd_currency_display(gd_isset(orderInfo.settlePrice))}</strong> <br/>
+					{=__('입금자명')} : {=gd_isset(orderInfo.bankSender)}<br/>
+					<!--{ : }-->
+					<!--{ ? gd_isset(orderInfo.settleMethod) == 'c' }-->
+					{=gd_isset(orderInfo.pgSettleNm[0])}
+					{=__('결제금액')} : <strong class="c_red">{=gd_currency_display(gd_isset(orderInfo.settlePrice))}</strong>
+					<!--{ : gd_isset(orderInfo.settleMethod) == 'b' }-->
+					{=__('이체은행')} : {=gd_isset(orderInfo.pgSettleNm[0])} <br/>
+					{=__('결제금액')} : <strong class="c_red">{=gd_currency_display(gd_isset(orderInfo.settlePrice))}</strong>
+					<!--{ : gd_isset(orderInfo.settleMethod) == 'v' }-->
+					{=__('입금은행')} : {=gd_isset(orderInfo.pgSettleNm[0])} <br/>
+					{=__('가상계좌')} : {=gd_isset(orderInfo.pgSettleNm[1])} <br/>
+					<!--{ ? gd_isset(orderInfo.pgSettleNm[2]) != '' }--> {=__('예금자명')} : {=gd_isset(orderInfo.pgSettleNm[2])} <br/><!--{ / }-->
+					<!--{ ? gd_isset(orderInfo.pgSettleCd[0]) != '' }--> {=__('송금일자')} : {=gd_date_format('Y-m-d', gd_isset(orderInfo.pgSettleCd[0]))} {=__('까지')} <br/><!--{ / }-->
+					{=__('입금금액')} : <strong class="c_red">{=gd_currency_display(gd_isset(orderInfo.settlePrice))}</strong>
+					<!--{ : gd_isset(orderInfo.settleMethod) == 'h' }-->
+					{=__('통신사')} : {=gd_isset(orderInfo.pgSettleNm[0])} <br/>
+					<!--{ ? gd_isset(orderInfo.pgSettleCd[0]) != '' }--> {=__('결제 휴대폰 번호')} : {=gd_isset(orderInfo.pgSettleCd[0])} <br/><!--{ / }-->
+					{=__('결제금액')} : <strong class="c_red">{=gd_currency_display(gd_isset(orderInfo.settlePrice))}</strong>
+					<!--{ / }-->
+					<!--{ / }-->
+					<!--{ / }-->
+				</li>
+			</ul>
+		</div>
+	</div>
+	<p class="tx2">
+		<span>
+			<strong>{=__('입금 후 구매가 확정됩니다.')}</strong>
+			<br>{=__('입금이 늦어질 경우%s해당 상품이 품절될 수 있습니다.', '<br>')}
+		</span>
+	</p>
+	
+	<!--// 웹앤모바일 2023-08-22 주문한 첫 배송일 노출-->
+	<!--{ ? orderInfo.firstFl }-->
+		<div style="text-align: center;">
+			<p>고객님께서 주문하신</p>
+			<!--{ ? orderInfo.goods }-->
+			<!--{ @ orderInfo.goods }-->
+				<!--{ ? .firstDate }-->
+				<p>{=.goodsNm}의 첫배송일은 <strong>{=.firstDate}</strong> 입니다.</p>
+				<!--{ / }-->
+			<!--{ / }-->
+			<!--{ / }-->
+			<br>
+			<p>신선하게 준비하여 배송해드릴게요.</p>
+			<p>곧 만나요!</p>
+		</div>
+	<!--{ / }-->					
+
+				
+	<!--{ : }-->
+	<div class="order_end_box">
+		<h2>{=__('주문번호')} <strong>{orderInfo.orderNo}</strong></h2>
+		<!--{ ? orderInfo.orderStatus == 'p' }-->
+		<!-- 결제 완료 -->
+		<p class="tx">{=__('결제가 완료 되었습니다.')}<br>{=__('감사합니다.')}</p>
+
+		<!--// 웹앤모바일 2023-08-22 주문한 첫 배송일 노출-->
+		<!--{ ? orderInfo.firstFl }-->
+			<div style="text-align: center;">
+				<p>고객님께서 주문하신</p>
+				<!--{ ? orderInfo.goods }-->
+				<!--{ @ orderInfo.goods }-->
+					<!--{ ? .firstDate }-->
+					<p>{=.goodsNm}의 첫배송일은 <strong>{=.firstDate}</strong> 입니다.</p>
+					<!--{ / }-->
+				<!--{ / }-->
+				<!--{ / }-->
+				<br>
+				<p>신선하게 준비하여 배송해드릴게요.</p>
+				<p>곧 만나요!</p>
+			</div>
+		<!--{ / }-->					
+			
+		<!--{ : orderInfo.orderStatus == 'f' }-->
+		<!-- 결제 실패 -->
+		<p class="tx">
+			<!--{ ? gd_pg_result_recheck(orderInfo.pgName) === true }-->
+			{=__('결제가 정상적으로 이루어지지 않았습니다. [결제확인] 버튼을 클릭하여 정상여부를 다시 확인해주시기 바랍니다.')}<br>
+			{=__('지속적으로 문제가 발생될 경우 관리자에게 문의 하시기 바랍니다.')}<br>
+			<a href="../payment/{=orderInfo.pgName}/pg_result_recheck.php?orderNo={orderInfo.orderNo}"><em>{=__('결제확인')}</em></a><br>\
+			<!--{ : }-->
+			{=__('결제가 정상적으로 이루어지지 않았습니다. 다시 결제 진행을 해주시기 바랍니다.')}<br>
+			{=__('지속적으로 문제가 발생될 경우 관리자에게 문의 하시기 바랍니다.')}<br>
+			<!--{ / }-->
+		</p>
+		<!--{ : empty(orderInfo.orderStatus) === false }-->
+		<!-- 재접속 등에 의한 기주문 완료 건으로 접속시 -->
+		<p class="tx">{=__('이미 결제가 완료된 주문입니다.')}<br>{=__('감사합니다.')}</p>
+		<!--{ : }-->
+		<!-- 재접속 등에 의한 기주문 완료 건으로 접속시 -->
+		<p class="tx">{=__('주문 정보가 없습니다. 다시 확인 바랍니다.')}<br>{=__('지속적으로 문제가 발생될 경우 관리자에게 문의 하시기 바랍니다.')}</p>
+		<!--{ / }-->
+	</div>
+	<!--{ / }-->
+	<ul class="btn_pay_wrap">
+		<!--{ ? orderInfo.orderStatus == 'p' }-->
+		<li><a href="../mypage/order_list.php" class="order_my_btn">{=__('나의 주문 확인하기')}</a></li>
+		<!--{ / }-->
+		<li><a href="/" class="order_home_btn">{=__('홈으로 가기')}</a></li>
+	</ul>
+</div>
+
+<!-- GTM ecommerce script Purchase 220118_UA And GA4 -->
+<script>
+  window.onload = function () {
+				
+		let status = 'unknown';
+		if(['o', 'p'].includes('{gd_isset(orderInfo.orderStatus)}')) {
+			status = 'success';
+		} else if ( '{orderInfo.orderStatus}' == 'f') {
+			status = 'fail';
+		}
+			
+    const transactionId = '{orderInfo.orderNo}';
+    const revenue = {=gd_isset(orderInfo.settlePrice, 0)};
+    const shipping = {=gd_isset(orderInfo.totalDeliveryCharge, 0)};
+
+    var productInfo = [
+      <!--{ @ orderInfo.goods }-->
+        {
+					'id': '{=.goodsNo}',
+					'name': '{=.goodsNm}',
+					'item_id': '{=.goodsNo}',
+					'item_name': '{=.goodsNm}',
+					'quantity': {=.goodsCnt},
+					'price': {=.goodsPrice}
+        },
+      <!--{ / }-->
+    ];		   
+
+    window.dataLayer = window.dataLayer || [];
+
+    if (
+        productInfo &&
+        productInfo.length > 0
+      ) {
+        window.dataLayer.push({ ecommerce: null });
+        window.dataLayer.push({
+          event: 'purchase',
+          ecommerce: {
+            transaction_id: transactionId,
+            affiliation: '메디쏠라',
+            value: revenue,
+            shipping: shipping,
+            items: productInfo,
+          },
+        });
+
+				var paymentMethod = $(".tx li").eq(1).text().replace('결제수단 :', '').trim();
+
+				var firstProductName = productInfo[0].name;
+				var additionalProductCount = productInfo.length - 1;
+				var orderName = additionalProductCount > 0 ?
+						firstProductName + ' 외 ' + additionalProductCount + '건' :
+						firstProductName;
+
+				amplitude.logEvent('action_purchase', {
+						order_name: orderName,
+						order_id: transactionId,
+						price: revenue,
+						payment_method: paymentMethod,
+						status: status,
+						items: productInfo
+				});
+      }
+
+		
+  };
+</script>
+<!-- GTM ecommerce script Purchase end -->
+
+<!-- Event snippet for 구매 conversion page playd 20230407 수정 -->
+<script>
+	gtag('event', 'conversion', {
+		  'send_to': 'AW-10796243376/FjiTCKjIxP4CELCzhpwo',
+		  'value': '{=gd_isset(orderInfo.settlePrice)}'.replace("원","").replace(/,/gi,""),
+		  'currency': 'KRW',
+		  'transaction_id': '{orderInfo.orderNo}'
+	  });
+</script>
+
+{=fbOrderEndScript}
+{=naverCommonInflowScript}
+
+
+<!-- Enliple Tracker Start -->
+<script type="text/javascript">
+    (function(a,g,e,n,t){a.enp=a.enp||function(){(a.enp.q=a.enp.q||[]).push(arguments)};n=g.createElement(e);n.async=!0;n.defer=!0;n.src="https://cdn.megadata.co.kr/dist/prod/enp_tracker_godomall_rent.min.js";t=g.getElementsByTagName(e)[0];t.parentNode.insertBefore(n,t)})(window,document,"script");
+    enp('create', 'conversion', 'mdsl_official', { device: 'M' });
+    enp('send', 'conversion', 'mdsl_official');
+</script>
+<!-- Enliple Tracker End -->
+
+
+{ # footer }

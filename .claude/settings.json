@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//Users/js.lee/Projects/medisola-custom-diet/components/meal-builder/**)",
+      "Read(//Users/js.lee/Projects/medisola-custom-diet/lib/**)"
+    ]
+  },
+  "awsAuthRefresh": "aws sso login --profile default",
+  "env": {
+    "CLAUDE_CODE_USE_BEDROCK": "1",
+    "AWS_REGION": "ap-northeast-2",
+    "AWS_PROFILE": "default"
+  }
+}

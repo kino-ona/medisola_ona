@@ -1,0 +1,60 @@
+{*** [위젯] 회원가입/정보 사업자 | member/_join_view_business.html ***}
+<!--{? joinField.businessinfo.use == 'y'}-->
+<div class="join_view_business {? !isMyPage}businessinfo dn{/}">
+	<p class="tit">{=__('사업자 정보')}</p>
+    <!--{? joinField.company.use == 'y'}-->
+    <div class="input_wrap">
+        <div class="input_title">{=__('상호')}</div>
+        <div class="input_content">
+            <input type="text"  name="company" value="{data.company}" maxlength="50" data-pattern="gdMemberNmGlobal"/>
+        </div>
+    </div>
+    <!--{/}--><!--{? joinField.busiNo.use == 'y'}-->
+    <div class="input_wrap">
+        <div class="input_title">{=__('사업자번호')}</div>
+        <div class="input_content">
+            <input type="text" name="busiNo" id="busiNo"  maxlength="10" placeholder="{=__('- 없이 입력하세요')}" data-pattern="gdNum" value="{data.busiNo}" data-overlap-businofl="{joinField.busiNo.overlapBusiNoFl}" data-charlen="{joinField.busiNo.charlen}" data-oldbusino="{data.busiNo}"/>
+        </div>
+    </div>
+    <!--{/}--><!--{? joinField.ceo.use == 'y'}-->
+    <div class="input_wrap">
+        <div class="input_title">{=__('대표자명')}</div>
+        <div class="input_content">
+            <input type="text"  name="ceo" value="{data.ceo}" maxlength="20" data-pattern="gdEngKor"/>
+        </div>
+    </div>
+    <!--{/}--><!--{? joinField.service.use == 'y'}-->
+    <div class="input_wrap">
+        <div class="input_title">{=__('업태')}</div>
+        <div class="input_content">
+            <input type="text"  name="service" value="{data.service}" maxlength="30" data-pattern="gdEngKor"/>
+        </div>
+    </div>
+    <!--{/}--><!--{? joinField.item.use == 'y'}-->
+    <div class="input_wrap">
+        <div class="input_title">{=__('종목')}</div>
+        <div class="input_content">
+            <input type="text"  name="item" value="{data.item}" maxlength="30" data-pattern="gdEngKor"/>
+        </div>
+    </div>
+    <!--{/}--><!--{? joinField.comAddress.use == 'y'}-->
+	<div class="input_wrap">
+		<div class="input_title"><label for="btnPostcode">{=__('주소')}</label></div>
+		<div class="input_content">
+			<div class="zipcode_box">
+				<div class="zipcode_top">
+					<div class="zipcode_num">
+						 <label for="" class="zipcode"><input type="text" class="text" name="comZonecode" readonly="readonly" value="{data.comZonecode}"/></label>
+						 <input type="hidden" name="comZipcode" value="{data.comZipcode}"/>
+					</div>
+					<div class="zipcode_btn_box"><button class="zipcode_btn" type="button" id="btnCompanyPostcode">{=__('우편번호')}</button></div>
+				</div>
+				<input type="text"  name="comAddress" readonly="readonly" value="{data.comAddress}"/>
+				<input type="text"  name="comAddressSub" value="{data.comAddressSub}"/>
+			</div>
+		</div>
+	</div>
+
+    <!--{/}-->
+</div>
+<!--{/}-->

@@ -1,0 +1,62 @@
+/* 주문 간단가입 */
+.display-none {display:none;}
+.simple_join {margin-bottom:30px;}
+.simple_join .sj_banner_box {text-align:center;}
+.simple_join .sj_banner_box img {max-width:100%; vertical-align:top;}
+.simple_join .sj_join_box {border-top:1px solid #eccfd1; border-bottom:1px solid #eccfd1; box-sizing:border-box;}
+.simple_join .sj_join_box .input_box_wrap {padding:16px 10px;}
+.simple_join .sj_join_box .tit_area {display:table; width:100%; background:#ffeff2;}
+.simple_join .sj_join_box .tit_area .tit {display:table-cell; width:89%; padding:15px 5px 15px 10px; vertical-align:middle; color:#424242; font-size:13px; font-weight:bold;}
+.simple_join .sj_join_box .tit_area .icon_event {width:42px; padding-right:5px; vertical-align:sub;}
+.simple_join .sj_join_box .tit_area .btn_toggle {display:table-cell; vertical-align:middle; text-align:center;}
+.simple_join .sj_join_box .tit_area .btn_toggle img {max-width:100%; width:22px; height:22px; vertical-align:middle; transition:all 0.5s ease;}
+.simple_join .sj_join_box .tit_area .btn_toggle.on img {transform: rotate(180deg);}
+.simple_join input[type="text"],
+.simple_join input[type="password"] {width:100%; border:1px solid #c3c3c3; color:#2b2b2b; font-size:12px; height:31px; padding:0 10px; box-sizing:border-box;}
+.simple_join .cell_bx {display:table; width:100%;}
+.simple_join .cell_bx .cell {display:table-cell; width:50%; vertical-align:top;}
+.simple_join .cell_bx .cell.email_input {width:56%;}
+.simple_join .cell_bx .cell .inp_sel {margin-left:5px;}
+.simple_join .cell_bx .cell .inp_sel_l {margin-left:2px;}
+.simple_join .cell_bx .cell .inp_sel_r {margin-right:3px;}
+.simple_join .min_txt {padding-top:2px; font-size:11px; display:none;}
+.simple_join .min_txt.imp {color:#fa2828;}
+.simple_join .input_area {margin-bottom:6px;}
+.simple_join .inp_chk {margin-top:25px; display:table; width:100%;}
+.simple_join .inp_chk input {display:table-cell; background-position-y:top;}
+.simple_join .inp_chk label {display:table-cell; padding-left:6px; word-break: break-all;}
+.simple_join .inp_chk label a {text-decoration:underline;}
+.simple_join .btn_sj_submit {display:block; margin-top:20px; background:#666666; color:#fff; font-size:13px; height:44px; line-height:45px; text-align:center;}
+/* layer */
+.ly_dim {display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);/* IE 8 */-ms-filter:"progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000,endColorstr=#99000000)"; z-index:300;}
+:root .ly_dim {filter:alpha(opacity=90)\9; /* IE 9 */}
+.ly_dim.on {display:block;}
+.simple_join_layer {display:none; position:absolute; left:50%; top:50%; width:calc(100% - 80px);  background:#fff; z-index:300; box-sizing:border-box;}
+.simple_join_layer .ly_simple_join {position:relative; border:none; background:#ffffff; padding:25px 16px 30px 16px; box-sizing:border-box;}
+.simple_join_layer .ly_tit h4 {padding:0 30px 11px 0; font-size:15px; border-bottom:1px solid #c4c4c4; color:#000; font-weight:bold;}
+.simple_join_layer .ly_cont {text-align:center; }
+.simple_join_layer .ly_cont .scroll_box {background:url('../img/etc/icon_complete.png') no-repeat center 0; background-size:35px 50px; padding:69px 0 0 0; margin-top:25px;}
+.simple_join_layer .ly_cont .scroll_box strong {font-size:13px; color:#3d3d3d;}
+.simple_join_layer .ly_cont .scroll_box p {color:#222222; font-size:11px; padding-top:4px;}
+.simple_join_layer .ly_cont .benefit_box {display:none; background:#f4f4f4; padding:16px 0; margin-top:20px;}
+.simple_join_layer .ly_cont .benefit_box strong {font-size:11px; color:#222;}
+.simple_join_layer .ly_cont .btn_center_box {margin-top:21px;}
+.simple_join_layer .ly_simple_join.type2 .ly_cont .scroll_box {padding:0; background:none; margin-top:17px;}
+.simple_join_layer .ly_simple_join.type2 .benefit_box {display:block;}
+.simple_join_layer .btn_ly_ok {font-size:13px;}
+.simple_join_layer .ly_close {display:inline-block; position:absolute; top:19px; right:18px; width:17px; height:17px; background:url('../img/btn/btn_ly_sj_close.png') no-repeat 0 0; background-size:17px 17px; font-size:0; text-indent:-9999px;}
+
+/* 이용약관, 개인정보 팝업*/
+.layer_popup{padding:20px;left:20px;right:20px;background:#fff;z-index: 301;}
+.layer_popup .title{font-weight:bold;font-size:20px;color:#222;}
+.layer_popup .box_text{height:292px;padding:20px;margin-top:10px;border:1px solid #eaeaea;overflow-y:scroll;line-height:19px;font-size:12px;color:#666;word-break: break-all;}
+.layer_popup .btn_wrap{margin-top:20px;text-align:center;}
+.layer_popup .btn_wrap .btn_close{display:inline-block;width:72px;height:42px;line-height:42px;font-weight:bold;font-size:13px;background:#444;color:#fff;}
+.ly_ag{display:none;position:absolute;top:0;}
+
+@media only screen and (max-width:499px){
+    /* layer popup */
+    .layer_popup .title{font-weight:bold;font-size:18px;color:#222;}
+    .layer_popup .box_text{height:292px;padding:20px;margin-top:10px;border:1px solid #eaeaea;overflow-y:auto;line-height:19px;font-size:12px;color:#666;word-break: break-all;}
+    .layer_popup .btn_wrap .btn_close{display:inline-block;width:72px;height:42px;line-height:42px;font-weight:bold;font-size:12px;background:#444;color:#fff;}
+}

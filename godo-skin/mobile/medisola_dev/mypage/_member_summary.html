@@ -1,0 +1,39 @@
+ {*** [위젯] 마이페이지 요약정보 | mypage/_member_summary.php ***}
+<!--{ ? checkLogin != 'guest' }-->
+<div class="member_summary">
+	<!-- 등급 혜택 -->
+	<div class="member_name">
+		<span>{=gMember.memNm}{=__('님, 즐거운쇼핑 되세요!')}</span>
+		<span class="member_modify"><a href="my_page_password.php" class="member_modify_btn">{=__('회원정보 변경')}</a></span>
+	</div>
+	<div class="member_grade">
+		<div class="grade_text <!--{ ? gMemberInfo.groupImageGb == 'none' }--> grade_text1 <!--{ / }-->">
+			<!--{ ? gMemberInfo.groupImageGb != 'none' }-->
+			<span class="grade_img">
+				<!-- 이미지 교체로 등급 이미지 변경 width, height 75px로 고정.-->
+				<img src="{=gd_get_group_image_http_path(gMember.groupSno)}" alt="{=gMemberInfo.groupNm}">
+			</span>
+			<!--{ / }-->
+			<span>
+				{=__('%s님의 회원등급은 %s입니다.', gMember.memNm, '<br><strong>' + gMemberInfo.groupNmWithLabel + '</strong>')}
+			</span>
+		</div>
+	</div>
+	<!-- 정보 요약 -->
+	<!--{? gd_use_coupon() || gd_use_deposit() || gd_use_deposit()}-->
+	<div class="mypage_number_summary">
+	<ul>
+		<!--{? gd_use_coupon()}-->
+		<li><a href="../mypage/coupon.php">{=__('보유쿠폰')}<span><strong>{=gd_money_format(myCouponCount)}</strong> 장</span></a></li>
+		<!--{/}-->
+		<!--{? gd_use_deposit()}-->
+		<li><a href="../mypage/deposit.php">{=gd_display_deposit('name')}<span><strong>{=gd_money_format(gMemberInfo.deposit)}</strong> {=gd_display_deposit('unit')}</span></a></li>
+		<!--{/}-->
+		<!--{? gd_use_deposit()}-->
+		<li><a href="../mypage/mileage.php">{=gd_display_mileage_name()}</p><span><strong>{=gd_money_format(gMemberInfo.mileage)}</strong> {=gd_display_mileage_unit()}</span></a></li>
+		<!--{/}-->
+	</ul>
+	</div>
+	<!--{/}-->
+</div>
+<!--{ / }-->

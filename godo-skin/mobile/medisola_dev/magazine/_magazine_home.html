@@ -1,0 +1,29 @@
+{*** [위젯] 푸드케어 레터 홈 섹션 (모바일) | mobile/magazine/_magazine_home.html ***}
+<section class="home-magazine">
+    <div class="magazine_title_area">
+        <div class="t01">푸드케어 레터</div>
+        <div class="t02">영양이담긴식사로,<br>일상속푸드케어를전해요</div>
+    </div>
+
+    {? hasMagazines}
+    <div class="magazine_scroll">
+        {@ magazines}
+        <div class="magazine_card_mobile" onclick="location.href='/magazine/view.php?id={=.articleId}'">
+            {? .imageUrl}
+            <div class="magazine_image_mobile">
+                <img src="{=.imageUrl}" alt="{=.subject}" loading="lazy">
+            </div>
+            {/}
+            <div class="magazine_content_mobile">
+                <h3>{=.subject}</h3>
+                <p>{=.summary}</p>
+            </div>
+        </div>
+        {/}
+    </div>
+
+    <div class="home-view-more">
+        <a href="/magazine/list.php">VIEW MORE &gt;</a>
+    </div>
+    {/}
+</section>

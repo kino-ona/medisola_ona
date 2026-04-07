@@ -1,0 +1,138 @@
+{*** 아이디 찾기 | member/find_id.php ***}
+{ # header }
+<div class="find_id">
+	<p class="find_txt">
+		<strong>{=__('아이디를 분실하셨나요?')}</strong>
+		{=__('이름과 가입 시 이메일 또는 휴대폰번호를 입력해주세요.')}
+	</p>
+	<form id="formLogin" name="login_form" action="" method="post">
+		<fieldset id="divFindId">
+			<legend>{=__('아이디 찾기')}</legend>
+			<span class="inp_rdo">
+                <input type="radio" id="findIdEmail" class="radio ignore sp" name="findIdFl" value="email" checked="checked"/>
+                <label for="findIdEmail" class="choice on" >{=__('이메일')}</label>
+                <input type="radio" id="findIdPhone" class="radio ignore sp" name="findIdFl" value="cellPhone"/>
+                <label for="findIdPhone" class="choice" >{=__('휴대폰번호')}</label>
+            </span>
+			<dl>
+				<dt><label for="userName" class="blind">{=__('고객이름')}</label></dt>
+				<dd><input type="text" id="userName" name="userName" placeholder="{=__('고객이름')}" required="required"/></dd>
+			</dl>
+			<dl class="userEmail">
+				<dt><label for="userEmail" class="blind">{=__('가입 시 이메일')}</label></dt>
+				<dd>
+					<input type="text" class="input_email" id="userEmail" name="userEmail" placeholder="{=__('가입 시 이메일')}" required="required"/>
+					<div class="email_select_box">
+						<select id="emailDomain" name="emailDomain" class="email_select">
+							<!--{@ emailDomain}-->
+							<option value="{.key_}">{.value_}</option>
+							<!--{/}-->
+						</select>
+					</div>
+				</dd>
+			</dl>
+			<!--{ ? gGlobal.isFront }-->
+			<dl class="inp_sel cellPhoneCountryCode" style="margin-bottom: 5px;">
+				{=gd_select_box('cellPhoneCountryCode', 'cellPhoneCountryCode', countryPhone, null, null, __('국가코드'), 'style="width: 100%; height:38px; padding:0 40px 0 10px; background-size: 490px 40px; display:none;"')}
+			</dl>
+			<!--{ / }-->
+			<dl class="inp_tx userCellPhoneNum" style="display: none;">
+				<dt><label for="userCellPhoneNum" class="blind">{=__('가입 휴대폰번호')}</label></dt>
+				<dd><input type="text" id="userCellPhoneNum" name="userCellPhoneNum" placeholder="{=__('가입 휴대폰번호')}" maxlength="12" required="required" disabled="disabled"/></dd>
+			</dl>
+			<p class="caution_msg1 hidden"></p>
+			<button type="submit" class="find_id_btn">{=__('아이디 찾기')}</button>
+		</fieldset>
+	</form>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function () {
+		gd_select_email_domain('userEmail');
+
+		$(document).on('click', '.btn_login', function (e) {
+			document.location.href = "./login.php"
+		});
+
+        $('input[name="findIdFl"]').on('click', function(){
+            if ($(this).val() == 'cellPhone') {
+                $('.userEmail').hide();
+                $('.userCellPhoneNum').show();
+                $('input[name="userEmail"]').prop('disabled', true);
+                $('input[name="userCellPhoneNum"]').show().prop('disabled', false);
+                $('#cellPhoneCountryCode').prop('disabled', false).show();
+            } else if ($(this).val() == 'email') {
+                $('.userEmail').show();
+                $('.userCellPhoneNum').hide();
+                $('input[name="userCellPhoneNum"]').hide().prop('disabled', true);
+                $('input[name="userEmail"]').prop('disabled', false).show();
+                $('#cellPhoneCountryCode').hide().prop('disabled', true);
+            }
+        })
+
+        $('input[id="userCellPhoneNum"]').on('keyup', function(){
+            var value = $(this).val();
+            $(this).val(value.replace(/[^\d]/g, ''));
+        })
+
+		//$('.btn_find_password', '.btn_cell').click(function (e) {
+		//	goMenu('findPwd');
+		//	e.preventDefault();
+		//});
+		$('#formLogin').validate({
+			dialog: false,
+			rules: {
+				userName: {
+					required: true
+				},
+				userEmail: {
+					required: true,
+					email: true
+				},
+                userCellPhoneNum: {
+                    required: true,
+                }
+			},
+			messages: {
+				userName: {
+					required: "{=__('이름을 입력해주세요.')}"
+				},
+				userEmail: {
+					required: "{=__('이메일을 입력해주세요.')}",
+					email: "{=__('메일 형식이 틀렸습니다.')}"
+				},
+                userCellPhoneNum: {
+                    required: "{=__('휴대폰 번호를 입력해주세요.')}",
+                }
+			}, submitHandler: function (form) {
+				var params = $(form).serializeArray();
+				params.push({name: "mode", value: "findId"});
+				$.post('../member/find_ps.php', params).done(function (data) {
+					//console.log(data);
+					if (data.result) {
+						var compiled = _.template($('#templateFindIdResult').html());
+						var templateData = {memberId: data.memberId, userName: $('#userName').val()};
+						$('#divFindId').html(compiled(templateData));
+					} else {
+                        if (data['code'] == 500) {
+                            alert(data['message']);
+                        } else {
+                            $(form).find('.caution_msg1').removeClass('hidden').text(data.message);
+                        }
+					}
+				});
+			}, invalidHandler: function (form, validator) {
+				var errors = validator.numberOfInvalids();
+				if (errors) {
+					$(form.target).find('.caution_msg1').removeClass('hidden').text(validator.errorList[0].message);
+					validator.errorList[0].element.focus();
+				}
+			}
+		});
+	});
+</script>
+<script type="text/template" id="templateFindIdResult">
+	<p class="find_id_msg"><%=userName%> {=__('회원님의 아이디는 %s 입니다', '<br><span class="c-red">'+'<%=memberId%>'+ '</span>')}</p>
+	<button type="button" class="find_id_btn btn_login">{=__('로그인')}</button>
+</script>
+{ # footer }

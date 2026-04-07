@@ -1,0 +1,113 @@
+<style>
+	#firstDelivery { 
+		position: absolute;
+		top: 0;
+		left: 0;
+		z-index: 320 !important;
+		background: #ffffff;
+	}
+	#dateTime { margin: 10px 0; }
+	#dateTime .calendar { padding: 10px;}
+	#dateTime table { width: 100%; border-collapse: collapse; }
+	#dateTime th { border-bottom: 1px solid #4da6ff; padding-bottom : 10px; font-size: 15px; }
+	#dateTime td { text-align:center; padding: 10px 0; font-size: 15px; }
+	#dateTime tr:nth-child(2) td { padding-top : 20px; }
+	#dateTime td label.pointer { cursor: pointer; }
+	#dateTime td label.not { color : #dbdbdb; }
+	
+	#dateTime p { font-size :15px; }
+	
+	.calendar td .img_div {
+		display:inline-block; position: absolute;
+	}
+	
+	.calendar td img {
+		width: 20px; height : 20px; position: relative; left: 5px;
+	}
+
+</style>
+
+<div id="dateTime">
+	<!--{ ? period }-->
+	<div style='position: relative; float: right; right: 10px; top: -2px;'>
+		<img src="../img/icon/layer_close.png" class="firstDelivery_close" style='width: 12px;'>
+	</div>
+	<div class="calendar">
+		<table>
+			<tr>
+				<th>월</th>
+				<th>화</th>
+				<th>수</th>
+				<th>목</th>
+				<th>금</th>
+			</tr>
+			<!--{ @ period['day']}-->
+			<tr>
+				<!--{ @ .value_ }-->
+				<!--{ ? ..key_ != 0 && ..key_ != 6}-->
+				<td>
+					<input type="radio" name="firstDeliverys" id="{=..value_}" value="{=..value_}" class="dn" <!--{ ? period['selectYoil'][.key_][..key_] == 'n'}-->disabled<!--{ / }-->>
+					<label for="{=..value_}" class="pointer on" <!--{ ? period['selectYoil'][.key_][..key_] == 'n'}-->style="color : #ddd; cursor:context-menu;"<!--{ / }-->>{=..value_}</label>
+					<div class="img_div">
+						<img src="../img/wm/check.png" class="dn">
+					</div>
+				</td>
+				<!--{ / }-->
+				<!--{ / }-->
+			</tr>
+			<!--{ / }-->
+		</table>
+	</div>
+	
+	<div class='calendar'>
+		<p>선택하신 첫 배송일은 당일 결제 기준이며, 가상계좌 및 무통장입금으로 인한 결제일이 변경될 경우, 첫 배송일이 변경 될 수 있습니다.</p>
+	</div>
+
+	<div style='text-align: center;'>
+		<div class="btn_check" style='border: 1px solid #000000; border-radius: 5px; background: #000000; color: #ffffff; padding: 5px 30px; display: inline-block; font-size: 14px;'>선택완료</div>
+	</div>
+
+	<!--{ / }-->
+</div>
+
+<script type="text/javascript">
+	$(function(){
+		$('input[name=firstDeliverys]').click(function(){
+			var id = $(this).attr('id');
+			
+			$('input[name=firstDeliverys]').each(function(e , index){
+				var eachId = $(this).attr('id');
+				if(id != eachId){
+					$(this).parent().find('img').addClass('dn');
+				}else{
+					$(this).parent().find('img').removeClass('dn');
+				}
+				
+			});
+			
+			$('.frmFirstDelivery').val(id);
+		});
+	});
+	
+	const target = document.querySelector('.btn_check');
+	target.addEventListener('click' , () => {
+		const first = document.getElementById('firstDelivery');
+		first.className = 'dn';
+		const bg = document.getElementById('bgdm');
+		bg.className = 'dn';
+		
+		const button = document.getElementById('firstButton');
+		button.classList.remove('on');
+	});
+	
+	const close = document.querySelector('.firstDelivery_close');
+	close.addEventListener('click' , () => {
+		const first = document.getElementById('firstDelivery');
+		first.className = 'dn';
+		const bg = document.getElementById('bgdm');
+		bg.className = 'dn';
+		
+		const button = document.getElementById('firstButton');
+		button.classList.remove('on');
+	});
+</script>

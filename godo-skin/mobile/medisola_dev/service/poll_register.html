@@ -1,0 +1,175 @@
+{*** 설문조사 | service/poll_register.php ***}
+{ # header }
+<div class="poll_register">
+	<!--{ ? itemSno == 0 && htmlContentFl == 'Y' }-->
+	<div class="html_content">{htmlContent}</div>
+	<!--{ / }-->
+	<form name="frmPoll" id="frmPoll" method="post">
+		<input type="hidden" name="mode" value="regist"/>
+		<input type="hidden" name="save" value="Y"/>
+		<input type="hidden" name="code" value="{code}"/>
+		<input type="hidden" name="itemSno" value="{=itemSno}"/>
+		<input type="hidden" name="resultData" value='{=resultData}'/>
+		<input type="hidden" name="resultEtcData" value="{=resultEtcData}"/>
+		<div class="poll_section">
+			<h3 class="poll_title">
+				<span class="poll_num">{=itemSno + 1}/{=count(data.itemTitle)}</span>
+				{data.itemTitle[itemSno]}<!--{ ? data.itemRequired[itemSno] == 'Y' }--> <span class="c_red">({=__('필수항목')})</span><!--{ / }-->
+			</h3>
+			<!--{ ? data.itemAnswerType[itemSno] == 'sub' }-->
+			<div class="poll_textarea">
+				<!--{ ? data.itemResponseType[itemSno] == 'short' }-->
+				<input type="text" name="result[{itemSno}]" value="{=result[itemSno]}" maxlength="{shortLen}"/>
+				<!--{ : data.itemResponseType[itemSno] == 'descript' }-->
+				<textarea name="result[{itemSno}]" cols="30" rows="10" maxlength="{descriptLen}">{=result[itemSno]}</textarea>
+				<!--{ / }-->
+			</div>
+			<!--{ : data.itemAnswerType[itemSno] == 'obj' }-->
+			<div class="poll_list">
+				<ul>
+					<!--{ @ data.itemAnswer[itemSno] }-->
+					<li>
+						<span class="inp_<!--{ ? data.itemResponseType[itemSno] == 'radio' }-->rdo<!--{ : }-->chk<!--{ / }-->">
+							<input type="{data.itemResponseType[itemSno]}" name="result[{itemSno}]<!--{ ? data.itemResponseType[itemSno] == 'checkbox' }-->[]<!--{ / }-->" class="{data.itemResponseType[itemSno]} sp" id="result_{data.itemResponseType[itemSno]}_{.key_}" value="{.key_}" data-key="{itemSno}" {checked[.key_]}/>
+							<label for="result_{data.itemResponseType[itemSno]}_{.key_}" class="<!--{ ? data.itemResponseType[itemSno] == 'radio' }-->choice<!--{ / }--> ">{.value_}</label>
+						</span>
+					</li>
+					<!--{ ? count(data.itemAnswer[itemSno]) - 1 == .key_ && data.itemLastAnswer[itemSno] === true }-->
+					<div class="poll_textarea">
+						<input type="text" name="resultEtc[{itemSno}]" value="{=resultEtc[itemSno]}" data-key="{itemSno}" maxlength="{shortLen}" <!--{ ? !resultEtc[itemSno] }-->disabled<!--{ / }-->/>
+					</div>
+					<!--{ / }-->
+					<!--{ / }-->
+				</ul>
+			</div>
+			<!--{ / }-->
+		</div>
+		<div class="btn_box">
+			<ul>
+				<li><button type="button" id="prev" class="poll_prev_btn">{=__('이전')}</button></li>
+				<!--{ ? itemSno != count(data.itemTitle) -1 }-->
+				<li><button type="button" id="next" class="poll_next_btn">{=__('다음')}</button></li>
+				<!--{ : }-->
+				<li><button type="button" id="next" class="poll_finish_btn">{=__('설문완료')}</button></li>
+				<!--{ / }-->
+			</ul>
+		</div>
+	</form>
+</div>
+<style>
+    .js_bn_back {display:none;}
+</style>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('input[name^="result"][type="radio"], input[name^="result"][type="checkbox"]').click(function(e){
+            var key = $(this).data('key');
+
+            if ($('input[name="resultEtc[' + key + ']"]').length > 0) {
+                if ($('input[name="' + this.name + '"]').last().prop('checked') === true) {
+                    $('input[name="resultEtc[' + key + ']"]').removeClass('disabled').prop('disabled', false);
+                } else {
+                    $('input[name="resultEtc[' + key + ']"]').val('').addClass('disabled').prop('disabled', true);
+                }
+            }
+        });
+        $(document).on('keyup keydown keypress', 'input[name^="result"][type="text"], textarea[name^="result"]', function(e){
+            var len = $(this).val().length;
+            var type = $(this).prop('type');
+            var maxLen = type == 'text' ? {shortLen} : {descriptLen};
+            var text = "<div class='c_red'>" + __('최대 %s자까지 입력 가능합니다.', maxLen) + "</div>";
+
+            if (len >= maxLen) {
+                if (!$(this).closest('div').find('.c_red').length) {
+                    $(this).after(text);
+                } else {
+                    $(this).closest('div').find('.c_red').show();
+                }
+            } else {
+                $(this).closest('div').find('.c_red').hide();
+            }
+        });
+        $('#prev, #next').click(function(){
+            var itemSno = Number($('input[name="itemSno"]').val());
+            var id = this.id;
+
+            switch (id) {
+                case 'prev':
+                    <!--{ ? itemSno == 0 }-->
+                    location.href = '/';
+                    <!--{ : }-->
+                    $('input[name="itemSno"]').val(itemSno - 1);
+                    $('input[name="save"]').val('N');
+                    $('#frmPoll').prop({
+                        'action': '../service/poll_register.php?code={code}',
+                        'target': ''
+                    }).removeData('validator').submit();
+                    <!--{ / }-->
+                    break;
+                case 'next':
+                    <!--{ ? itemSno != count(data.itemTitle) -1 }-->
+                    $('input[name="save"]').val('Y');
+                    $('#frmPoll').prop('action', '../service/poll_register.php?code={code}').submit();
+                    <!--{ : }-->
+                    $('#frmPoll').prop({
+                        'action': '../service/poll_ps.php?code={code}',
+                        'target': 'ifrmProcess'
+                    }).submit();
+                    <!--{ / }-->
+                    break;
+            }
+        });
+        $("#frmPoll").validate({
+            submitHandler: function (form) {
+                <!--{ ? itemSno != count(data.itemTitle) - 1 }-->
+                if ($('input[name="save"]').val() == 'Y') {
+                    $('input[name="itemSno"]').val(Number($('input[name="itemSno"]').val()) + 1);
+                }
+                <!--{ / }-->
+                form.submit();
+            },
+            rules: {
+                <!--{ ? data.itemResponseType[itemSno] == 'checkbox' }-->
+                'result[{=itemSno}][]': {
+                <!--{ : }-->
+                'result[{=itemSno}]': {
+                <!--{ / }-->
+                    <!--{ ? data.itemRequired[itemSno] == 'Y' }-->
+                    required: true,
+                    <!--{ / }-->
+                    <!--{ ? data.itemResponseType[itemSno] == 'short' }-->
+                    maxlength: {shortLen},
+                    <!--{ : data.itemResponseType[itemSno] == 'descript' }-->
+                    maxlength: {descriptLen},
+                    <!--{ / }-->
+                },
+                <!--{ ? data.itemLastAnswer[itemSno] === true }-->
+                'resultEtc[{=itemSno}]': {
+                    maxlength: {shortLen},
+                },
+                <!--{ / }-->
+            },
+            messages: {
+                <!--{ ? data.itemResponseType[itemSno] == 'checkbox' }-->
+                'result[{=itemSno}][]': {
+                <!--{ : }-->
+                'result[{=itemSno}]': {
+                    <!--{ / }-->
+                    <!--{ ? data.itemRequired[itemSno] == 'Y' }-->
+                    required: "응답이 완료되지 않은 필수항목이 있습니다.\n확인 후 설문 응답을 완료해주세요.",
+                    <!--{ / }-->
+                    <!--{ ? data.itemResponseType[itemSno] == 'short' }-->
+                    maxlength: "최대 {shortLen}자까지 입력 가능합니다.",
+                    <!--{ : data.itemResponseType[itemSno] == 'descript' }-->
+                    maxlength: "최대 {descriptLen}자까지 입력 가능합니다.",
+                    <!--{ / }-->
+                },
+                <!--{ ? data.itemLastAnswer[itemSno] === true }-->
+                'resultEtc[{=itemSno}]': {
+                    maxlength: "최대 {shortLen}자까지 입력 가능합니다.",
+                },
+                <!--{ / }-->
+            }
+        });
+    });
+</script>
+{ # footer }

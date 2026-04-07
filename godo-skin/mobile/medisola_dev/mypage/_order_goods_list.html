@@ -1,0 +1,661 @@
+{*** 마이페이지 주문상품리스트 | mypage/_order_goods_list.php ***}
+<div class="order_goods_list">
+    <!--
+	{ ? ordersByRegisterDay }
+		{ @ ordersByRegisterDay }
+	-->
+    <!--{ @ .value_ }-->
+    <!--{ ? pageName == 'list' }-->
+    <!--{ ? ..goods }-->
+    <!--{ ? ..orderGoodsCnt > 0 }-->
+    <p class="order_top_date">
+        {=.key_} ({=__('총 %s건', '<strong>' + ..orderGoodsCnt + '</strong>')})
+    </p>
+    <!--{ / }-->
+    <!--{ / }-->
+    <!--{ / }-->
+    <div class="orderlist_wrap">
+        <!--{ @ ..goods }-->
+        <!--{ ? ...index_ == 0 }-->
+        <div class="order_number_box">
+            <div class="order_number">
+                <div class="order_number_left">
+                    {=__('주문번호')}
+                    <!--{ ? mode === 'refundRegist' || mode === 'backRegist' || mode === 'exchangeRegist'}-->
+                    <a href="../mypage/order_view.php?orderNo={..orderNo}"
+                        >{..orderNo}<!--{ ? ...isGiftOrder}--><span
+                            style="
+                                border: 1px solid #eb4f5c;
+                                border-radius: 20px;
+                                padding: 3px 8px;
+                                background: #eb4f5c;
+                                color: #ffffff;
+                                margin-left: 10px;
+                            "
+                            >선물하기</span
+                        ><!--{ / }--></a
+                    >
+                    <!--{ : }-->
+                    {..orderNo}<!--{ ? ...isGiftOrder}--><span
+                        style="
+                            border: 1px solid #eb4f5c;
+                            border-radius: 20px;
+                            padding: 3px 8px;
+                            background: #eb4f5c;
+                            color: #ffffff;
+                            margin-left: 10px;
+                        "
+                        >선물하기</span
+                    ><!--{ / }-->
+                    <!--{ / // end of ? mode === 'refundRegist' || mode === 'backRegist' || mode === 'exchangeRegist'}-->
+                </div>
+                <!--{ ? pageName == 'view' }-->
+                <div class="order_number_right">
+                    <span class="order_date">{=.key_}</span>
+                </div>
+                <!--{ / }-->
+            </div>
+            <ul>
+                <!--{ ? mode === 'backRegist' || mode === 'refundRegist' || mode === 'exchangeRegist' }-->
+                <li>
+                    <button class="order_btn all_check_goods" value="n">
+                        {=__('전체선택')}
+                    </button>
+                </li>
+                <!--{ : substr(...orderStatus, 0, 1) == 'o' }-->
+                <!--{ ? ..orderChannelFl != 'naverpay' }-->
+                <li>
+                    <a
+                        href="#"
+                        order-no="{..orderNo}"
+                        class="order_btn btn_order_cancel"
+                        >{=__('주문취소')}</a
+                    >
+                </li>
+                <!--{ / }-->
+                <!--{ : }-->
+                <!--{ ? ..orderSettleButton == true }-->
+                <li>
+                    <a
+                        href="../mypage/layer_order_settle.php?orderNo={..orderNo}"
+                        data-toggle="modal"
+                        data-target="#popupSettle"
+                        data-type="post"
+                        data-cache="false"
+                        class="order_btn"
+                        >{=__('구매확정')}</a
+                    >
+                </li>
+                <!--{ / }-->
+                <!--{ ? gd_is_plus_shop(c.PLUSSHOP_CODE_USEREXCHANGE) === true && userHandleFl === true  && ..orderChannelFl != 'naverpay'}-->
+                <!--{ ? ..canRefund == true || ..canBack == true || ..canExchange == true }-->
+                <!--{ ? ..canRefund == true }-->
+                <li>
+                    <a
+                        href="../mypage/layer_order_refund_regist.php?mode=refundRegist&orderNo={..orderNo}&orderGoodsNo={...sno}&orderStatus={...orderStatus}"
+                        data-toggle="modal"
+                        data-target="#popupRefund"
+                        data-type="post"
+                        data-cache="false"
+                        class="order_btn"
+                        >{=__('환불신청')}</a
+                    >
+                </li>
+                <!--{ / }-->
+                <!--{ ? ..canBack == true }-->
+                <li>
+                    <a
+                        href="../mypage/layer_order_back_regist.php?mode=backRegist&orderNo={..orderNo}&orderGoodsNo={...sno}&orderStatus={...orderStatus}"
+                        data-toggle="modal"
+                        data-target="#popupBack"
+                        data-type="post"
+                        data-cache="false"
+                        class="order_btn"
+                        >{=__('반품신청')}</a
+                    >
+                </li>
+                <!--{ / }-->
+                <!--{ ? ..canExchange == true }-->
+                <li>
+                    <a
+                        href="../mypage/layer_order_exchange_regist.php?mode=exchangeRegist&orderNo={..orderNo}&orderGoodsNo={...sno}&orderStatus={...orderStatus}"
+                        data-toggle="modal"
+                        data-target="#popupExchange"
+                        data-type="post"
+                        data-cache="false"
+                        class="order_btn"
+                        >{=__('교환신청')}</a
+                    >
+                </li>
+                <!--{ / }-->
+                <!--{ / }-->
+                <!--{ / }-->
+                <!--{ / }-->
+            </ul>
+        </div>
+        <!--{ / }-->
+        <!--{ ? ...orderInfoRow }-->
+        <h3 style="padding: 10px 0 0 10px">
+            <!--{ ? ...orderInfoCd == 1 }-->{=__('메인 배송지')}<!--{ : }-->{=__('추가
+            배송지')}{=...orderInfoCd - 1}<!--{ / }-->
+        </h3>
+        <!--{ / }-->
+        <!--{ ? ...isComponentGoods !== '1' }-->
+        <!--{ ? ...goodsType === 'addGoods' && ...goodsNm === '선택 메뉴 추가 금액' }-->
+        <ul
+            class="my_goods"
+            data-order-no="{..orderNo}"
+            data-order-goodsno="{..sno}"
+            data-order-status="{...orderStatus}"
+        >
+        <li>
+            <div class="info">
+                <a href="#goods">
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <span class="title">{=...goodsNm}</span>
+                        <span >{=...goodsCnt}{=__('개')} (+{=gd_global_currency_display((...goodsPrice * ...goodsCnt))})</span>
+                    </div>
+                    <div>
+                        ({..priceAddedGoodsName})
+                    </div>
+                </a>
+            </div>
+        </li>
+        </ul>
+        <!--{ : }-->
+        <ul
+            class="my_goods"
+            data-order-no="{..orderNo}"
+            data-order-goodsno="{..sno}"
+            data-order-status="{...orderStatus}"
+        >
+            <li>
+                <div class="info">
+                    <a
+                        href="<!--{ ? pageName == 'list' }-->../mypage/order_view.php?orderNo={..orderNo}<!--{ : }-->../goods/goods_view.php?goodsNo=<!--{ ? ...goodsType === 'addGoods' }-->{...parentGoodsNo}<!--{ : }-->{...goodsNo}<!--{ / }--><!--{ / }-->"
+                    >
+                        <div class="itemhead">
+                            <div class="img">{...goodsImage}</div>
+                        </div>
+                        <div class="itembody">
+                            <!--{ ? ...handleMode === 'z' }-->
+                            <div class="exchange_add_info">
+                                <span>교환추가</span>
+                            </div>
+                            <!--{ / }-->
+
+                            <dl>
+                                <dt class="prd_name">{...goodsNm}</dt>
+                                <!--
+								{ ? ...optionInfo }
+									{ @ ...optionInfo }
+								-->
+                                <dd class="prd_option">
+                                    {....value_.optionName} :
+                                    {....value_.optionValue}
+                                    <!--{ ? ....value_.optionRealPrice != 0 && optionPriceFl == 'y' }-->
+                                    (<!--{ ? ....value_.optionRealPrice > 0 }-->+<!--{ / }-->{=gd_global_order_currency_display(....value_.optionRealPrice)})
+                                    <!--{ / }-->
+                                    <!--{ ? ....index_ == ....size_ - 1 && ....value_.deliveryInfoStr != "" }-->
+                                    <!--{ ? empty(....value_.deliveryInfoStr) === false }-->[{....value_.deliveryInfoStr}]<!--{ / }-->
+                                    <!--{ / }-->
+                                </dd>
+                                <!--
+									{ / }
+								{ / }
+								{ ? ...optionTextInfo }
+										{ @ ...optionTextInfo }
+								-->
+                                <dd class="prd_option">
+                                    {....value_.optionName} :
+                                    {....value_.optionValue}
+                                    <!--{ ? ....value_.optionTextPrice != 0 && optionPriceFl == 'y' }-->
+                                    (<!--{ ? ....value_.optionTextPrice > 0 }-->+<!--{ / }-->{=gd_global_order_currency_display(....value_.optionTextPrice)})
+                                    <!--{ / }-->
+                                </dd>
+                                <!--
+										{ / }
+									{ / }
+								-->
+
+                                <!--// 웹앤모바일 2023-08-28 첫 배송일-->
+                                <!--{ ? ...firstDate }-->
+                                <dd>{=...firstDate}</dd>
+                                <!--{ / }-->
+                            </dl>
+                        </div>
+                    </a>
+                    <!--{ ? empty(...addGoods) === false }-->
+                    <div class="add_goods_box">
+                        <em class="add_title">{=__('추가상품')}</em>
+                        <ul class="add_goods_list">
+                            <!--{ @ ...addGoods }-->
+                            <li>
+                                <div class="add_goods_img">
+                                    {....goodsImage}
+                                </div>
+                                <div class="add_goods_content">
+                                    <span class="title">{....goodsNm}</span>
+                                    <div class="add_goods_text">
+                                        <span class="goods_number"
+                                            >{=__('주문수량')} :
+                                            <em>{....goodsCnt}</em></span
+                                        >
+                                        <span class="goods_price"
+                                            ><em
+                                                >{=gd_global_order_currency_display(....goodsPrice,
+                                                ..exchangeRate,
+                                                ..currencyPolicy)}</em
+                                            ></span
+                                        >
+                                    </div>
+                                </div>
+                            </li>
+                            <!--{ / }-->
+                        </ul>
+                    </div>
+                    <!--{ / }-->
+                    <div class="order_info">
+                        <div class="info_box">
+                            <div class="info2">
+                                {=__('수량')} : {...goodsCnt} |
+                                {=gd_global_order_currency_display((...goodsPrice
+                                + ...optionPrice + ...optionTextPrice) *
+                                ...goodsCnt, ..exchangeRate, ..currencyPolicy)}
+                            </div>
+                            <div class="ing_chk">
+                                <!--{ ? ...userHandleSno > 0 && ...handleSno == 0 }-->
+                                <!--{ ? ...userHandleFl == 'n' }-->
+                                <!--{ ? ...userHandleMode == 'b' }-->
+                                <strong class="order_ing_btn">반품거절</strong>
+                                <!--{ : ...userHandleMode == 'r' }-->
+                                <strong class="order_ing_btn">환불거절</strong>
+                                <!--{ : ...userHandleMode == 'e' }-->
+                                <strong class="order_ing_btn">교환거절</strong>
+                                <!--{ / }-->
+                                <!--{ : ...userHandleFl == 'y' }-->
+                                <!--{ ? ...userHandleMode == 'b' }-->
+                                <strong class="order_ing_btn">반품승인</strong>
+                                <!--{ : ...userHandleMode == 'r' }-->
+                                <strong class="order_ing_btn">환불승인</strong>
+                                <!--{ : ...userHandleMode == 'e' }-->
+                                <strong class="order_ing_btn">교환승인</strong>
+                                <!--{ / }-->
+                                <!--{ : }-->
+                                <!--{ ? ...userHandleMode == 'b' }-->
+                                <strong class="order_ing_btn">반품신청</strong>
+                                <!--{ : ...userHandleMode == 'r' }-->
+                                <strong class="order_ing_btn">환불신청</strong>
+                                <!--{ : ...userHandleMode == 'e' }-->
+                                <strong class="order_ing_btn">교환신청</strong>
+                                <!--{ / }-->
+                                <!--{ / }-->
+                                <!--{ : }-->
+                                <!--{ ? gd_is_plus_shop(c.PLUSSHOP_CODE_USEREXCHANGE) === false && (substr(...orderStatus, 0, 1) == 'c' || ...orderStatus == 'b4' || ...orderStatus == 'e5' || ...orderStatus == 'r3') && ...handleDetailReasonShowFl == 'y' }-->
+                                <a
+                                    class="refund_comp_btn"
+                                    href="../mypage/layer_order_refund_reason.php?orderNo={..orderNo}&orderGoodsNo={...sno}&userHandleSno={...userHandleSno}&orderStatus={...orderStatus}"
+                                    data-toggle="modal"
+                                    data-target="#popupReason"
+                                    data-type="post"
+                                    data-cache="false"
+                                >
+                                    <!--{ ? ...orderStatus == 'd2' }-->
+                                    <strong class="order_finish_btn"
+                                        >{...orderStatusStr}</strong
+                                    >
+                                    <!--{ : }-->
+                                    <strong class="order_ing_btn"
+                                        >{...orderStatusStr}</strong
+                                    >
+                                    <!--{ / }-->
+                                    <span class="ico_blue_arrow"></span>
+                                </a>
+                                <!--{ : }-->
+                                <!--{ ? ...orderStatus == 'd2' }-->
+                                <strong class="order_finish_btn"
+                                    >{...orderStatusStr}</strong
+                                >
+                                <!--{ : }-->
+                                <strong class="order_ing_btn"
+                                    >{...orderStatusStr}</strong
+                                >
+                                <!--{ / }-->
+                                <!--{ / }-->
+                                <!--{ / }-->
+                            </div>
+                        </div>
+                        <!--{ ?  ...naverpayStatus.code == 'DelayProductOrder'}-->
+                        <p class="d_causation">
+                            ({=...naverpayStatus.notice} ,
+                            <a
+                                href="../mypage/layer_order_naverpay_reason.php?orderNo={..orderNo}&orderGoodsNo={...sno}"
+                                data-toggle="modal"
+                                data-target="#popupReason"
+                                data-type="post"
+                                data-cache="false"
+                                ><u>{=__('지연사유')}</u></a
+                            >)
+                        </p>
+                        <!--{/}-->
+                        <div style="margin: 10px 0">{...componentGoods}</div>
+                    </div>
+                    <ul class="btn_bx">
+                        <!--{ ? gd_is_plus_shop(c.PLUSSHOP_CODE_USEREXCHANGE) === true && (...userHandleSno > 0 || (...handleSno > 0 && ...handleDetailReasonShowFl == 'y') ) }-->
+                        <li>
+                            <a
+                                href="../mypage/layer_order_refund_reason.php?orderNo={..orderNo}&orderGoodsNo={...sno}&userHandleSno={...userHandleSno}&orderStatus={...orderStatus}"
+                                data-toggle="modal"
+                                data-target="#popupReason"
+                                data-type="post"
+                                data-cache="false"
+                                class="order_etc_btn"
+                            >
+                                <!--{ ? ...userHandleMode == 'b' || ...handleMode == 'b' }-->
+                                {=__('반품사유')}
+                                <!--{ : ...userHandleMode == 'r' || ...handleMode == 'r' }-->
+                                {=__('환불사유')}
+                                <!--{ : ...userHandleMode == 'e' || ...handleMode == 'e' }-->
+                                {=__('교환사유')}
+                                <!--{ : ...userHandleMode == 'c' || ...handleMode == 'c'}-->
+                                {=__('취소사유')}
+                                <!--{ / }-->
+                            </a>
+                        </li>
+                        <!--{ : }-->
+                        <!--{ ? substr(...orderStatus, 0, 1) == 'd' }-->
+                        <li>
+                            <a
+                                href="#"
+                                class="order_ok_btn btn_order_settle"
+                                order-no="{..orderNo}"
+                                order-goodsno="{...sno}"
+                                >{=__('구매확정')}</a
+                            >
+                        </li>
+                        <!--{ / }-->
+                        <!--{ / }-->
+                        <!--{ ? (substr(...orderStatus, 0, 1) == 'd' || substr(...orderStatus, 0, 1) == 's' || substr(...orderStatus, 0, 1) == 'z') && ...invoiceNo }-->
+                        <!--{ ? ...deliveryMethodFl == 'delivery' || ...deliveryMethodFl == 'packet' || !...deliveryMethodFl }-->
+                        <!--{ ? ...deliveryMethodFl != 'delivery' }-->
+                        <li>
+                            <a
+                                class="delivery_trace_btn"
+                                style="max-width: 100px; overflow: hidden"
+                                >{...deliveryMethodFlText}</a
+                            >
+                        </li>
+                        <!--{ / }-->
+
+                        {* 2023-06-12 웹앤모바일 선물하기 상품일 때 배송추적
+                        버튼 미노출 수정 *}
+                        <!--{ ? !...isGiftOrder && !isGiftOrder }-->
+                        <li>
+                            <a
+                                href="../share/delivery_trace.php?invoiceCompanySno={...invoiceCompanySno}&invoiceNo={...invoiceNo}"
+                                class="delivery_trace_btn"
+                                data-invoice-company-sno="{...invoiceCompanySno}"
+                                data-invoice-no="{...invoiceNo}"
+                                target="_blank"
+                                >{=__('배송추적')}</a
+                            >
+                        </li>
+                        <!--{ / }-->
+                        {* 2023-06-12 웹앤모바일 선물하기 상품일 때 배송추적
+                        버튼 미노출 수정 끝 *}
+
+                        <!--{ : }-->
+                        <li>
+                            <a
+                                href="../mypage/layer_order_delivery_method.php?orderNo={..orderNo}&orderGoodsNo={...sno}"
+                                data-toggle="modal"
+                                data-target="#popupDeliveryMethod"
+                                data-type="post"
+                                data-cache="false"
+                                class="delivery_trace_btn"
+                                style="max-width: 100px; overflow: hidden"
+                                >{...deliveryMethodFlText}</a
+                            >
+                        </li>
+                        <!--{ / }-->
+                        <!--{ : }-->
+                        <li>
+                            <a
+                                class="delivery_trace_btn"
+                                style="max-width: 100px; overflow: hidden"
+                                >{...deliveryMethodFlText}</a
+                            >
+                        </li>
+                        <!--{ / }-->
+                        <!--{ ? ...orderStatus == 'd1' }-->
+                        <li>
+                            <a
+                                href="#"
+                                class="delivery_order_btn btn_order_delivery"
+                                order-no="{..orderNo}"
+                                order-goodsno="{...sno}"
+                                >{=__('수취확인')}</a
+                            >
+                        </li>
+                        <!--{ / }-->
+                        <!--{ ? ...viewWriteGoodsReview }-->
+                        <li>
+                            <a
+                                href="../board/write.php?bdId={goodsReviewId}&gboard=r&orderGoodsNo={...sno}&goodsNo={...goodsNo}<!--{ ? guest == 'y' }-->&guest=y<!--{ / }-->"
+                                class="btn btn_y ogl_reviewrite btn_open_layer"
+                                data-toggle="modal"
+                                data-cache="false"
+                                data-target="#popupBoard"
+                                >{=__('리뷰쓰기')}</a
+                            >
+                        </li>
+                        <!--{ / }-->
+
+                        <!--{ ? ...viewWritePlusReview }-->
+                        <li>
+                            <a
+                                href="javascript:gd_popup_plus_review_write('{=..orderNo}',{=...sno}, '{=...goodsNo}')"
+                                class="btn btn_y ogl_reviewrite"
+                                >{=__('리뷰등록')}</a
+                            >
+                        </li>
+                        <!--{/}-->
+                    </ul>
+                </div>
+                <!--{ ? (mode === 'backRegist' && ...canBack == true) || (mode === 'refundRegist' && ...canRefund == true) || (mode === 'exchangeRegist' && ...canExchange == true) }-->
+                <!--{ ? ...userHandleSno == 0 && ...handleSno <= 0 }-->
+                <!--{ ? ...canBack == true || ...canRefund == true || ...canExchange == true }-->
+                <div class="info claim_info">
+                    <div class="claim_left">
+                        <span class="inp_chk">
+                            <input
+                                id="goodsno_{...sno}"
+                                type="checkbox"
+                                value="{...sno}"
+                                name="orderGoodsNo[]"
+                                data-goodsno="{...goodsNo}"
+                                data-order-status="{...orderStatus}"
+                            />
+                            <label for="goodsno_{...sno}">
+                                <!--{ ? mode == 'backRegist' }-->
+                                {=__('반품 신청')}
+                                <!--{ : mode == 'refundRegist'}-->
+                                {=__('환불 신청')}
+                                <!--{ : mode == 'exchangeRegist'}-->
+                                {=__('교환 신청')}
+                                <!--{ / }-->
+                            </label>
+                        </span>
+                    </div>
+                    <div class="claim_right">
+                        <span class="input_content">
+                            <div class="price_info">
+                                <span class="count">
+                                    <button
+                                        type="button"
+                                        class="down claim_goods_cnt"
+                                        title="{=__('감소')}"
+                                    >
+                                        {=__('감소')}
+                                    </button>
+                                    <input
+                                        type="number"
+                                        style="width: 44px"
+                                        class="text"
+                                        title="{=__('수량')}"
+                                        name="claimGoodsCnt[{...sno}]"
+                                        value="{...goodsCnt}"
+                                        min="1"
+                                        max="{...goodsCnt}"
+                                        data-mode="{mode}"
+                                    />
+                                    <button
+                                        type="button"
+                                        class="up claim_goods_cnt"
+                                        title="{=__('증가')}"
+                                    >
+                                        {=__('증가')}
+                                    </button>
+                                </span>
+                            </div>
+                        </span>
+                    </div>
+                </div>
+                <!--{ / }-->
+                <!--{ / }-->
+                <!--{ / }-->
+            </li>
+        </ul>
+        <!--{ / // ? only not '추가 금액'}-->
+        <!--{ : // ? ...isComponentGoods !== '1' else}-->
+            <!--{?...parentOrderGoodsSno}-->
+                <input type="hidden" name="orderGoodsNo[]" value="{...sno}" id="add_goodsno_{...sno}" data-parent-order-goods-sno="{...parentOrderGoodsSno}" />
+                <input type="hidden" name="claimGoodsCnt[{...sno}]" value="{...goodsCnt}" data-mode="{mode}"/>
+            <!--{ / // ?...parentOrderGoodsSno}-->
+        <!--{ / // ? ...isComponentGoods !== '1'}-->
+        <!--{ / }-->
+
+        <!--{ / // end goods loop }-->
+    </div>
+    <!--
+		{ / }
+	{ : // else if ordersByRegisterDay }
+	-->
+
+    <div class="my_goods no">
+        <p>{=__('최근 주문 내역이 없습니다.')}</p>
+    </div>
+    <!--
+	{ / // end if ordersByRegisterDay }
+	-->
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        // 구매취소
+        $(".btn_order_cancel").click(function (e) {
+            e.preventDefault();
+            if (confirm("{=__('주문취소 처리를 하시겠습니까?')}")) {
+                var params = {
+                    mode: "cancelRegist",
+                    orderNo: $(this).attr("order-no"),
+                };
+
+                $.post("../mypage/order_ps.php", params, function (data) {
+                    alert(data.message);
+                    if (data.code == 200) {
+                        location.reload(true);
+                    }
+                });
+            }
+        });
+
+        // 수취확인
+        $(".btn_order_delivery").click(function (e) {
+            e.preventDefault();
+            if (confirm("{=__('수취확인 처리를 하시겠습니까?')}")) {
+                var params = {
+                    mode: "deliveryCompleteRegist",
+                    orderNo: $(this).attr("order-no"),
+                    orderGoodsNo: $(this).attr("order-goodsno"),
+                };
+
+                $.post("../mypage/order_ps.php", params, function (data) {
+                    alert(data.message);
+                    if (data.code == 200) {
+                        location.reload(true);
+                    }
+                });
+            }
+        });
+
+        // 구매확정
+        $(".btn_order_settle").click(function (e) {
+            e.preventDefault();
+            if (confirm("{=__('구매확정 처리를 하시겠습니까?')}")) {
+                var params = {
+                    mode: "settleRegist",
+                    orderNo: $(this).attr("order-no"),
+                    orderGoodsNo: $(this).attr("order-goodsno"),
+                };
+                $.post("../mypage/order_ps.php", params, function (data) {
+                    alert(data.message);
+                    if (data.code == 200) {
+                        location.reload(true);
+                    }
+                });
+            }
+        });
+
+        // 클레임신청 수량 증감
+        $(".claim_goods_cnt").on("click", function () {
+            var selectEl = $(this)
+                .closest(".count")
+                .children('input[name*="claimGoodsCnt"]');
+            var claimGoodsCnt = parseInt(selectEl.val());
+            if (
+                $(this).hasClass("up") &&
+                selectEl.attr("max") > claimGoodsCnt
+            ) {
+                selectEl.val(claimGoodsCnt + 1);
+            } else if (
+                $(this).hasClass("down") &&
+                selectEl.attr("min") < claimGoodsCnt
+            ) {
+                selectEl.val(claimGoodsCnt - 1);
+            }
+        });
+
+        // 클래임신청 수량 초과 체크
+        $('input[name*="claimGoodsCnt"]').on("keyup", function () {
+            var mode = $(this).data("mode");
+            var orginCnt = parseInt($(this).attr("max"));
+            var claimCnt = parseInt($(this).val());
+            switch (mode) {
+                case "refundRegist":
+                    mode = "{=__('환불')}";
+                    break;
+                case "backRegist":
+                    mode = "{=__('반품')}";
+                    break;
+                case "exchangeRegist":
+                    mode = "{=__('교환')}";
+                    break;
+            }
+            if (claimCnt > orginCnt || claimCnt <= 0) {
+                alert(
+                    __(
+                        "%s수량은 주문수량 %s 보다 큰값 또는 0 값을 입력할 수 없습니다.",
+                        [mode, orginCnt]
+                    )
+                );
+                $(this).val(orginCnt);
+            }
+        });
+    });
+</script>
+<script
+    type="text/javascript"
+    src="\{=c.PATH_SKIN}js/gd_board_goods.js"
+    charset="utf-8"
+></script>

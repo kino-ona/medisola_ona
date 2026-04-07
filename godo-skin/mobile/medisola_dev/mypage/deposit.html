@@ -1,0 +1,124 @@
+{*** 예치금 | mypage/deposit.php ***}
+{ # header }
+<div class="deposit">
+	<div class="my_money">
+		<p class="tit">{=__('사용 가능한')} {=gd_display_deposit('name')}</p>
+		<p class="money">{=gd_money_format(gMemberInfo.deposit)}{=gd_display_deposit('unit')}</p>
+	</div>
+	<h3>{=gd_display_deposit('name')} {=__('내역')}</h3>
+	<div class="money_search">
+		<form method="get" name="frmDateSearch" id="frmDateSearch" autocomplete="off">
+			<input type="hidden" name="mode" value="{mode}"/>
+			<fieldset>
+				<legend>{=gd_display_deposit('name')} {=__('내역')}</legend>
+				<div>
+					<div class="inp_sel">{=gd_select_box(null, 'searchPeriod', searchDate, null, selectDate, null, null, 'check_option_inner')}</div>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+	<!--{ ? list }-->
+	<div class="money_history">
+		<table width="100%" cellspacing="0" cellpadding="0" class="table_style1">
+			<caption><span>{=gd_display_deposit('name')} {=__('내역 표')}</span></caption>
+			<colgroup>
+				<col style="width:105px">
+				<col>
+				<col style="width:110px">
+			</colgroup>
+			<thead>
+			<tr>
+				<th scope="col">{=__('일자')}</th>
+				<th scope="col">{=__('내용')}</th>
+				<th scope="col">{=gd_display_deposit('name')}</th>
+			</tr>
+			</thead>
+			<tbody>
+			<!--{ @ list }-->
+			<tr data-order-no="{.handleCd}" data-order-handlesno="{.handleSno}">
+				<td>{.regdate}</td>
+				<td class="content">
+					{.contents} <br />
+					{? .handleDetailReasonShowFl =='y' && .handleReason !=''}
+					<a href="#lyReason" class="c_blue btn_open_layer">[{.handleReason}]</a>
+					{: .handleReason !=''}
+					[{.handleReason}]
+					{/}
+				</td>
+				<td class="<!--{ ? .deposit < 0 }-->minus<!--{ / }-->"><!--{ ? .deposit > 0 }-->+<!--{ / }-->{=gd_money_format(.deposit)}{=gd_display_deposit('unit')}</td>
+			</tr>
+			<!--{ / }-->
+			</tbody>
+		</table>
+		<button type="button" class="deposit_more_btn btn_tbl" data-page="2">{=__('내역 더보기')}</button>
+	</div>
+	
+	<!--{ : }-->
+	<div class="money_history no">
+		<p>
+			<!--{ ? !gGlobal.isFront }-->
+			{=__('%s 내역이 없습니다.', gd_display_deposit('name'))}
+			<!--{ : }-->
+			{=__('조회내역이 없습니다.')}
+			<!--{ / }-->
+		</p>
+	</div>
+	<!--{ / }-->
+</div>
+<div id=lyReason class="layer_wrap dn" data-remote="../mypage/layer_deposit_reason.php"></div>
+
+<script type="text/javascript">
+    <!--
+    $(document).ready(function(){
+        $('.deposit_more_btn.btn_tbl').on('click', function(){
+			gd_get_list($(this).data('page'));
+        });
+
+        // 검색기간 선택
+        if ($('.check_option_inner').length) {
+            $('.check_option_inner').change(function (e) {
+                $('#frmDateSearch').submit();
+            });
+        }
+    });
+
+    function gd_get_list(page) {
+			var searchPeriod = parseInt($('.check_option_inner').val());
+			$.get('./deposit.php', {'page' : page, 'searchPeriod' : searchPeriod}, function (data) {
+				console.log(data);
+            var addDepositList = $(data).find('.money_history tbody tr');
+
+            if (addDepositList.length) {
+                $('.money_history tbody').append(addDepositList);
+
+                $('.deposit_more_btn.btn_tbl').data('page', page + 1);
+            } else {
+                alert("{=__('더이상 %s 내역이 없습니다.', gd_display_deposit('name'))}");
+            }
+        });
+    }
+
+	$(document).on("click",".btn_open_layer",function(){
+
+		var obj = $(this);
+		var target = obj.attr('href');
+		var url = $(target).data('remote');
+		var params = {
+			orderNo: obj.closest('tr').data('order-no'),
+			handleSno: obj.closest('tr').data('order-handlesno')
+		};
+
+		$.post(url, params, function (data) {
+			if (!_.isUndefined(data.code) && data.code == 0) {
+				alert(data.message);
+				return false;
+			}
+			$(target).removeClass('dn').empty().html(data);
+
+		});
+
+	});
+
+    //-->
+</script>
+{ # footer}

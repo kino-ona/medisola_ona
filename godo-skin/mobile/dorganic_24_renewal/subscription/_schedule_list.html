@@ -1,0 +1,151 @@
+{*** 정기결제 신청 목록 | mobile/subscription/_schedule_list.html ***}
+<div class='schedule_list_area'>
+<!--{ @ list }-->
+<div class='schedule_list_rows'>
+   <div class='main_rows'>
+       <div class='cell cell1'>
+            <span class='date'>{=date("Y.m.d", .regStamp)}</span> | 
+            신청번호 : {.uid}
+           <!--{ ? .isStopFl }-->
+           <span class="red_txt">(해지)</span>
+           <!--{ / }-->
+       </div>
+   </div> <!-- main_rows -->
+   <div class='schedule_contents schedule_contents{.index_ + 1}'>
+       <div class='summary_box'>
+            <div class='rows'>
+                <div class='cell cell_title'>결제횟수</div>
+                <div class='cell cell2'>
+                    {=count(.schedule_list)}회<!--{ ? .autoExtend }--><span class='red_txt'>(자동연장)</span><!--{ / }-->
+                    <span class='wbtn1' onclick="wm.layer.popup('../subscription/auto_extend.php?uid={.uid}', 250, 150);">자동연장 관리</span>
+                    <!--{ ? !.isStopFl }-->
+                    <span class="wbtn1" onclick="stopSubscription('{= .uid }')">해지하기</span>
+                    <!--{ / }-->
+                </div>
+             </div>
+             <div class='rows'>
+                <div class='cell cell_title'>결제카드</div>
+                <div class='cell'>
+                    {.cardNm}
+                    <span class='wbtn1' onclick="wm.layer.popup('../subscription/card_change.php?uid={.uid}', 280, 150);">결제카드변경</span>
+                </div>
+            </div> <!-- rows -->
+            <div class='rows'>
+                <div class='cell cell_title'>결제주기</div>
+                <div class='cell cell2'>
+                    {.period[0]}<!--{ ? .period[1] == 'week' }-->주<!--{ : }-->달<!--{ / }--> 마다 
+                </div>
+            </div>
+            <div class='rows'>
+                <div class='cell cell_title'>배송주소</div>
+                <div class='cell cell'>
+                    {.receiverAddress} {.receiverAddressSub}
+                    <a class='wbtn1' href='../subscription/change_address.php?uid={.uid}' target='_blank'>주소변경</a>
+                </div>
+            </div> <!-- rows -->
+       </div> <!-- summary_box -->
+       
+        <!--{ @.schedule_list }-->
+        <table class='schedule_table mb20' cellpadding=0 cellspacing=0 width='100%'> 
+            <tr class='tr_head'>
+                <td width='100' class='td-title'>결제회차</td>
+                <td>{..index_ + 1}회</td>
+             </tr>
+             <tr>
+                <td class='td-title'>처리상태</td>
+                <td>
+                <!--{ ? ..isStop }-->
+                <span class='red_txt'>결제중단</span>
+                <!--{ : }-->
+                <!--{ ? ..isPayed }--><span class='blue_txt'>결제성공</span><!--{ : }-->결제예정<!--{ / }-->
+                <!--{ / }-->
+               </td>
+             </tr>
+             <tr>
+                <td class='td-title'>결제예정일</td>
+                <td>
+                    {=date('Y.m.d', ..schedule_stamp)}
+                    <!--{ ? !..isStop && ! ..isPayed }-->
+                    <span class='wbtn2' onclick="wm.layer.popup('../subscription/change_schedule.php?idx={..idx}', 300, 150, true);">일정변경</span>
+                    <!--{ / }-->
+                </td>
+             </tr>
+             <tr>
+                <td class='td-title'>주문상품</td>
+                <td>{.goodsNm}</td>
+             </tr>
+             <tr>
+                <td class='td-title'>결제금액</td>
+                <td>
+                    <!--{ ? ..order }-->
+                    {=number_format(..order.settlePrice)}
+                    <!--{ : }-->
+                    {= number_format((..orderPrice.totalGoodsPrice - ..dcInfo.totalDcPrice) + ..orderPrice.totalDeliveryCharge )}
+                    <!--{ / }-->원
+                 </td>
+              </tr>
+              <tr>
+                <td class='td-title'>결제주문번호</td>
+                <td>
+                   <!--{ ? ..order }-->
+                    <a href='../mypage/order_view.php?orderNo={..orderNo}' target='_blank' class='wbtn2'>{..orderNo}</a>
+                   <!--{ / }-->
+                   <!--{ ? .cancelPossible }-->
+                   <!--{ ? ! ..isPayed }-->
+                   <!--{ ? ..isStop }-->
+                   <a href='../subscription/indb.php?mode=recover&idx={..idx}' target='ifrmProcess' class='wbtn1' onclick="return confirm('정말 복구 하시겠습니까?');">취소복구</a>
+                   <!--{ : }-->
+                   <a href='../subscription/indb.php?mode=cancel&idx={..idx}' target='ifrmProcess' class='wbtn2' onclick="return confirm('정말 취소하시겠습니까?');">정기결제취소</a>
+                   <!--{ / }-->
+                   <!--{ / }-->
+                   <!--{ / }-->
+                </td>
+              </tr>
+              <tr>
+                <td class='td-title'>주문상태</td>
+                <td>
+                <!--{ ? ..order }--><a href='../mypage/order_view.php?orderNo={..orderNo}' target='_blank'>{..orderStatusStr}</a><!--{ / }-->
+                </td>
+             </tr>
+        </table>
+         <!--{ / }-->
+   </div> <!-- schedule_contents -->
+</div> <!-- schedule_list_rows -->
+<!--{ / }-->
+</div> <!-- schedule_list_area -->
+
+<script>
+    const stopSubscription = async (uid) => {
+
+        if (confirm('해지하시겠습니까?')) {
+            const url = "./indb.php?mode=stopSubscription&uid=" + uid;
+
+            try {
+                const response = await fetch(url);
+
+                if (!response.ok) throw new Error(`에러 발생: ${response.status}`);
+
+                const data = await response.json();
+
+                if (data.ok) {
+                    alert(data.msg);
+                    window.location.reload();
+                }
+
+                // return data;
+            } catch (error) {
+                console.error("데이터 로드 실패:", error);
+            }
+        }
+    }
+
+$(function() {
+   $(".main_rows").click(function() {
+        $obj = $(this).closest(".schedule_list_rows").find(".schedule_contents");
+        if ($obj.css("display") == "none")
+            $obj.fadeIn();
+        else 
+            $obj.fadeOut();
+   });
+});
+</script>

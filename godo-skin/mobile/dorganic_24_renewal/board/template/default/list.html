@@ -1,0 +1,201 @@
+{*** 목록 | board/skin/default/list.php ***}
+<div class="list_default">
+	<div id="boardlist" class="boardlist">
+		<form name="frmList" id="frmList" action="../board/list.php" method="get">
+			<input type="hidden" name="bdId" value="{bdList.cfg.bdId}"/>
+			<input type="hidden" name="memNo" value="{req.memNo}"/>
+			<input type="hidden" name="noheader" value="{req.noheader}"/>
+			<input type="hidden" name="totalPage" value="{bdList.cnt.totalPage}"/>
+			<div class="board_search">
+				<input type="hidden" name="searchField" value="subject_contents"/>
+				<div class="search_input"><input type="search" name="searchWord" value="{=req.searchWord}" placeholder="{=__('검색 단어를 입력해 주세요.')}"/></div>
+				<div class="search_btn"><button type="submit" class="board_search_btn">{=__('검 색')}</button></div>
+			</div>
+		</form>
+		<div class="goods_area">
+			<div>
+				<ul class="notice_list">
+					<!--{ @ bdList.noticeList }-->
+					<li>
+						<a href="javascript:gd_btn_view('{req.bdId}',{.sno} ,'{.auth.view}', `{=__(bdList.cfg.bdNm)}`, `{=.subject}`, {.index_})">
+							<div class="notice_box">
+								<!--{ ? bdList.cfg.bdListImageFl == 'y' && bdList.cfg.bdListNoticeImageDisplayMobile == 'y'}-->
+								<div class="notice_img"><img src="{=gd_isset(.viewListImage, 'img/etc/noimg.png')}" width="90" height="60" alt="{=__('상품이미지')}" title="{=__('상품이미지')}" class="goodsimg"></div>
+								<!--{ / }-->
+								<div class="notice_title">
+									<span class="icon"><img src="{bdList.cfg.iconImageMobile.notice.url}" alt="{=__('공지')}"/></span>
+									<span class="text">
+										{.gapReply}
+										<!--{ ? .groupThread }-->
+										<img src="{bdList.cfg.iconImageMobile.re.url}" alt="{=__('답변')}"/>
+										<!--{ / }-->
+										<!--{ ? .isSecret == 'y' }-->
+										<img src="{bdList.cfg.iconImageMobile.secret.url}" alt="{=__('비밀글')}">
+										<!--{ / }-->
+										<!--{ ? bdList.cfg.bdCategoryFl == 'y' && .category }-->
+										[{.category}]&nbsp;
+										<!--{ / }-->
+										{.subject}
+										<!--{ ? bdList.cfg.bdMemoFl == 'y' && .memoCnt > 0 }-->
+										<span class="c_red">({.memoCnt})</span>
+										<!--{ / }-->
+										<!--{ ? .isFile == 'y' }-->
+										<img src="{bdList.cfg.iconImageMobile.attach_file.url}" alt="{=__('파일첨부 있음')}"/>
+										<!--{ / }-->
+										<!--{ ? .isImage == 'y' }-->
+										<img src="{bdList.cfg.iconImageMobile.attach_img.url}" alt="{=__('이미지첨부 있음')}"/>
+										<!--{ / }-->
+										<!--{ ? .isNew == 'y' }-->
+										<!--{ ? bdList.cfg.iconImageMobile.new.userModify != 1}-->
+										<span class="icon_new">N</span>
+										<!--{ : }-->
+										<img src="{bdList.cfg.iconImageMobile.new.url}" alt="{=__('신규 등록글')}"/>
+										<!--{ / }-->
+										<!--{ / }-->
+										<!--{ ? .isHot == 'y' }-->
+										<!--{ ? bdList.cfg.iconImageMobile.hot.userModify != 1}-->
+										<span class="icon_hot">HOT</span>
+										<!--{ : }-->
+										<img src="{bdList.cfg.iconImageMobile.hot.url}" alt="{=__('인기글')}"/>
+										<!--{ / }-->
+										<!--{ / }-->
+									</span>
+									<!--{ ? bdList.cfg.bdGoodsPtFl == 'y' }-->
+									<div class="goods_assess">
+										<!--{ ? bdList.cfg.bdListColsCount != '4'}-->
+										<span class="rating"><span style="width:{.goodsPtPer}%;">{=__('별')}</span></span>
+										<!--{ : }-->
+										<span class="rating"><span style="width:{.goodsPtPer}%;">{=__('별')}</span></span>
+										<!--{ / }-->
+									</div>
+									<!--{ / }-->
+									<div class="notice_bottom">
+										<span class="notice_data">
+											<span>{.writer}</span><time>{.regDt}</time>
+										</span>
+									</div>
+								</div>
+							</div>
+						</a>
+					</li>
+					<!--{ / }-->
+					<!--{ ? bdList.list }-->
+					<!--{ @ bdList.list }-->
+					<li>
+						<a href="javascript:gd_btn_view('{req.bdId}',{.sno} ,'{.auth.view}', `{=__(bdList.cfg.bdNm)}`, `{=.subject}`, {.index_})">
+							<div class="notice_box">
+								<!--{ ? bdList.cfg.bdListImageFl == 'y' }-->
+								<div class="notice_img"><img src="{=gd_isset(.viewListImage, 'img/etc/noimg.png')}" width="90" height="60" alt="{=__('상품이미지')}" title="{=__('상품이미지')}" class="goodsimg"></div>
+								<!--{ / }-->
+								<div class="notice_title">
+									<span class="text">
+										{.gapReply}
+										<!--{ ? .groupThread }-->
+										<img src="{bdList.cfg.iconImageMobile.re.url}" alt="{=__('답변')}"/>
+										<!--{ / }-->
+										<!--{ ? .isSecret == 'y' }-->
+										<img src="{bdList.cfg.iconImageMobile.secret.url}" alt="{=__('비밀글')}">
+										<!--{ / }-->
+										<!--{ ? bdList.cfg.bdCategoryFl == 'y' && .category }-->
+										[{.category}]&nbsp;
+										<!--{ / }-->
+										{.subject}
+										<!--{ ? bdList.cfg.bdMemoFl == 'y' && .memoCnt > 0 }-->
+										<span class="c_red">({.memoCnt})</span>
+										<!--{ / }-->
+										<!--{ ? .isFile == 'y' }-->
+										<img src="{bdList.cfg.iconImageMobile.attach_file.url}" alt="{=__('파일첨부 있음')}"/>
+										<!--{ / }-->
+										<!--{ ? .isImage == 'y' }-->
+										<img src="{bdList.cfg.iconImageMobile.attach_img.url}" alt="{=__('이미지첨부 있음')}"/>
+										<!--{ / }-->
+										<!--{ ? .isNew == 'y' }-->
+										<!--{ ? bdList.cfg.iconImageMobile.new.userModify != 1}-->
+										<span class="icon_new">N</span>
+										<!--{ : }-->
+										<img src="{bdList.cfg.iconImageMobile.new.url}" alt="{=__('신규 등록글')}"/>
+										<!--{ / }-->
+										<!--{ / }-->
+										<!--{ ? .isHot == 'y' }-->
+										<!--{ ? bdList.cfg.iconImageMobile.hot.userModify != 1}-->
+										<span class="icon_hot">HOT</span>
+										<!--{ : }-->
+										<img src="{bdList.cfg.iconImageMobile.hot.url}" alt="{=__('인기글')}"/>
+										<!--{ / }-->
+										<!--{ / }-->
+									</span>
+									<!--{ ? bdList.cfg.bdGoodsPtFl == 'y' }-->
+									<div class="goods_assess">
+										<!--{ ? bdList.cfg.bdListColsCount != '4'}-->
+										<span class="rating"><span style="width:{.goodsPtPer}%;">{=__('별')}</span></span>
+										<!--{ : }-->
+										<span class="rating"><span style="width:{.goodsPtPer}%;">{=__('별')}</span></span>
+										<!--{ / }-->
+									</div>
+									<!--{ / }-->
+									<div class="notice_bottom">
+										<span class="notice_data">
+											<span>{.writer}</span><time>{.regDt}</time>
+										</span>
+									</div>
+									<div class="notice_number">
+										<span>{=__('추천 수')} : {.recommend}</span>
+										<!--{ ? bdList.cfg.bdMobileHitFl == 'y'}-->
+										<span>{=__('조회 수')} : {.hit}</span>
+										<!--{/}-->
+									</div>
+								</div>
+
+							</div>
+						</a>
+					</li>
+					<!--{ / }-->
+				</ul>
+				<div class="page_btn_box">
+					<button type="button" class="prev_btn" data-page="{req.page - 1}">{=__('이전')}</button>
+					<span class="page_number"><strong>{req.page}</strong> / {bdList.cnt.totalPage}</span>
+					<button type="button" class="next_btn" data-page="{req.page + 1}">{=__('이후')}</button>
+				</div>
+				<!--{ : }-->
+				<div class="no_list">
+					{=__('게시글이 존재하지 않습니다.')}
+				</div>
+				<!--{ / }-->
+			</div>
+		</div>
+	</div>
+	<form id="frmWritePassword">
+		<div class="cite_layer dn js_list_password_layer">
+			<div class="wrap">
+				<h4>{=__('비밀번호 인증')}</h4>
+				<div>
+					<p>{=__('비밀번호를 입력해 주세요.')}</p>
+					<input type="password" name="writerPw" class="text"/>
+					<div class="btn_box"><a href="javascript:void(0)" class="layer_close_btn js_submit ly_pwok_btn">{=__('확인')}</a></div>
+				</div>
+				<button type="button" class="close" title="{=__('닫기')}">{=__('닫기')}</button>
+			</div>
+		</div>
+	</form>
+	<div id="layerDim" class="dn">&nbsp;</div>
+</div>
+<script type="text/javascript" src="\{=c.PATH_MOBILE_SKIN}js/gd_board_list.js" charset="utf-8"></script>
+<script type="text/javascript">
+    <!--
+    $(document).ready(function(){
+        $('.prev_btn').on('click', function() {
+            if ($(this).data('page') > 0) {
+								const url = gd_replace_url_param(location.href, 'page', $('.prev_btn').data('page'));
+                location.href = url;
+            }
+        });
+
+        $('.next_btn').on('click', function() {
+            if ($(this).data('page') <= $('input[name="totalPage"]').val()) {
+								const url = gd_replace_url_param(location.href, 'page', $('.next_btn').data('page'));
+                location.href = url;
+            }
+        });
+    });
+    //-->
+</script>

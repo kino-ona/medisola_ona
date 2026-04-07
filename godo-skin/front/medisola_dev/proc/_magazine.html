@@ -1,0 +1,225 @@
+{*** [위젯] 푸드케어 레터 홈 섹션 | magazine/_home.html ***}
+inner dev
+<section class="mm_sec11">
+    <!-- Title Area -->
+    <div class="m_titleArea wow fadeInUp" data-wow-delay="0s" data-wow-duration="1s">
+        <div class="t01">푸드케어 레터</div>
+        <div class="t02">메디쏠라의 건강 정보와 소식을 만나보세요</div>
+    </div>
+
+    {? hasMagazines}
+    <div class="w1600">
+        <div class="magazine_home_grid">
+            <!-- Featured Article (Large) -->
+            {? featuredMagazine}
+            <div class="magazine_home_featured wow fadeInUp" data-wow-delay="0.1s" data-wow-duration="1s"
+                 onclick="location.href='/magazine/view.php?id={=featuredMagazine.articleId}'" style="cursor:pointer;">
+                {? featuredMagazine.imageUrl}
+                <div class="magazine_home_image">
+                    <img src="{=featuredMagazine.imageUrl}" alt="{=featuredMagazine.subject}" loading="lazy">
+                </div>
+                {/}
+                <div class="magazine_home_content">
+                    <h3>{=featuredMagazine.subject}</h3>
+                    <p>{=featuredMagazine.summary}</p>
+                    <span class="magazine_home_date">{=featuredMagazine.regDate}</span>
+                </div>
+            </div>
+            {/}
+
+            <!-- Secondary Articles (2 smaller cards) -->
+            <div class="magazine_home_secondary">
+                {@ secondaryMagazines}
+                <div class="magazine_home_card wow fadeInUp" data-wow-delay="{? .key_ == 0}0.2s{:}0.3s{/}" data-wow-duration="1s"
+                     onclick="location.href='/magazine/view.php?id={=.articleId}'" style="cursor:pointer;">
+                    {? .imageUrl}
+                    <div class="magazine_home_image">
+                        <img src="{=.imageUrl}" alt="{=.subject}" loading="lazy">
+                    </div>
+                    {/}
+                    <div class="magazine_home_content">
+                        <h4>{=.subject}</h4>
+                        <p>{=.summary}</p>
+                        <span class="magazine_home_date">{=.regDate}</span>
+                    </div>
+                </div>
+                {/}
+            </div>
+        </div>
+
+        <!-- More Button -->
+        <div class="magazine_home_more wow fadeInUp" data-wow-delay="0.4s" data-wow-duration="1s">
+            <a href="/magazine/list.php" class="more">더 보기</a>
+        </div>
+    </div>
+    {/}
+</section>
+
+<style>
+/* Magazine Home Section */
+section.mm_sec11 {
+    padding: 120px 0;
+    background: #fff;
+}
+
+section.mm_sec11 .magazine_home_grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-bottom: 60px;
+}
+
+section.mm_sec11 .magazine_home_featured {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+}
+
+section.mm_sec11 .magazine_home_featured:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+section.mm_sec11 .magazine_home_featured .magazine_home_image {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 50%;
+    overflow: hidden;
+    background: #f0f1f3;
+}
+
+section.mm_sec11 .magazine_home_featured .magazine_home_image img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+section.mm_sec11 .magazine_home_featured .magazine_home_content {
+    padding: 32px;
+}
+
+section.mm_sec11 .magazine_home_featured h3 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+
+section.mm_sec11 .magazine_home_featured p {
+    font-size: 15px;
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 16px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+section.mm_sec11 .magazine_home_secondary {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+section.mm_sec11 .magazine_home_card {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 20px;
+}
+
+section.mm_sec11 .magazine_home_card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+section.mm_sec11 .magazine_home_card .magazine_home_image {
+    position: relative;
+    width: 180px;
+    height: 140px;
+    overflow: hidden;
+    background: #f0f1f3;
+}
+
+section.mm_sec11 .magazine_home_card .magazine_home_image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+section.mm_sec11 .magazine_home_card .magazine_home_content {
+    padding: 20px 20px 20px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+section.mm_sec11 .magazine_home_card h4 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+section.mm_sec11 .magazine_home_card p {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.5;
+    margin-bottom: 12px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+section.mm_sec11 .magazine_home_date {
+    font-size: 13px;
+    color: #999;
+}
+
+section.mm_sec11 .magazine_home_more {
+    text-align: center;
+}
+</style>
+
+<script>
+$(document).ready(function() {
+    // Magazine section clicks
+    $('.mm_sec11 .magazine_home_featured, .mm_sec11 .magazine_home_card').on('click', function() {
+        const title = $(this).find('h3, h4').text().trim();
+        const type = $(this).hasClass('magazine_home_featured') ? 'featured' : 'secondary';
+        if (typeof amplitude !== 'undefined') {
+            amplitude.logEvent('home_magazine_click', {
+                article_title: title,
+                card_type: type
+            });
+        }
+    });
+
+    // Magazine "더 보기" button
+    $('.mm_sec11 .more').on('click', function() {
+        if (typeof amplitude !== 'undefined') {
+            amplitude.logEvent('home_magazine_more_click', {
+                section: 'magazine'
+            });
+        }
+    });
+});
+</script>

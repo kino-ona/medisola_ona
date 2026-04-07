@@ -1,0 +1,58 @@
+{*** 상단 고정 레이어 팝업창 | main/html.php?htmid=popup/top.htm ***}
+<style>
+    #{=popupCode} .mobile_top_banner {
+    width: {=data.mobilePopupSizeW}{=data.mobileSizeTypeW};
+    height: {=data.mobilePopupSizeH}{=data.mobileSizeTypeH};
+    margin-top: {=data.mobilePopupPositionT}px;
+    margin-left: {=data.mobilePopupPositionL}px;
+    background: {=data.mobilePopupBgColor}
+    }
+    #{=popupCode} .mobile_top_banner_ctrl a {
+    <!--{ ? todayUnSee.todayUnSeeFl == 'y'  }-->
+    width: 50%;
+    <!--{ : }-->
+    width: 100%;
+    <!--{ / }-->
+    }
+    <!--{ ? data.mobileContentImgFl == 'y'}-->
+    #{=popupCode} .mobile_top_banner_content img {
+    max-width:{=data.mobilePopupSizeW}{=data.mobileSizeTypeW};
+    }
+    <!--{ / }-->
+    .mobile_top_banner {position:relative;}
+	.mobile_top_banner .mobile_top_banner_content {overflow:auto; width:inherit; height:inherit; }
+    .mobile_top_banner_ctrl {position:absolute; overflow:hidden; width:100%; bottom:0px; }
+    .mobile_top_banner_ctrl a+a {background: #232323; }
+    .mobile_top_banner_ctrl a {width:50%; float:left; padding:5px; background:#333333; text-align:center; color:#ffffff; box-sizing: border-box;}
+</style>
+<div class="mobile_top_banner_area">
+    <div class="mobile_top_banner">
+        <div class="mobile_top_banner_content">
+            {=viewPopupContent}
+        </div>
+    </div>
+    <div class="mobile_top_banner_ctrl">
+        <!--{ ? todayUnSee.todayUnSeeFl == 'y'  }-->
+        <a onclick="gd_popup_top_cookie('{=popupCode}')"><input type="checkbox" name="todayUnSee" style="display:none" onClick="gd_hide_top_popup('1', '{=popupCode}', this);"/>오늘 하루 보이지 않음</a>
+        <!--{ / }-->
+        <a onclick="gd_hide_top_popup('2', '{=popupCode}');">닫기</a>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function(){
+        <!--{ ? data.mobileSizeTypeH == '%' }-->
+        var percentHeight = ($(window).height() * (Number('{=data.mobilePopupSizeH}') / 100)) - $('.mobile_top_banner_ctrl').height();
+        $('#{=popupCode} .mobile_top_banner').css('height', percentHeight + 'px');
+        <!--{ / }-->
+        var topHeight = $('.top_area').height();
+        var height = $('#{=popupCode} .mobile_top_banner').outerHeight(true);
+
+        if (height > topHeight) $('.top_area').height(height + 'px');
+        var headTop = Number($('#header_wrap').css('top').replace('px', ''));
+        if (headHeight <= 0) headHeight = headTop;
+        if (height > topHeight) headTotalHeight = height + headHeight;
+
+        var headRealTop = (headTotalHeight - $(window).scrollTop()) < headHeight ? headHeight : headTotalHeight - $(window).scrollTop();
+        $('#header_wrap').css('top', headRealTop + 'px');
+    });
+</script>

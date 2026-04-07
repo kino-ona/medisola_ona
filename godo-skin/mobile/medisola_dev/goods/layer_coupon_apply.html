@@ -1,0 +1,234 @@
+{*** 쿠폰적용 레이어 | goods/layer_coupon_apply.php ***}
+<div class="layer_coupon_apply">
+	<div class="ly_head">
+		<h2>{=__('쿠폰선택')}</h2>
+	</div>
+	<div class="ly_content ly_ct">
+		<div class="ly_coupon_list">
+			<!--{ @ memberCouponArrData }-->
+			<dl>
+				<dt>
+					<div class="couponcheck">
+						<span class="inp_chk">
+							<!-- <input type="checkbox" id="buy" checked="checked"/><label for="buy" class="blind">{=__('상품선택')}</label> -->
+							<!--{ ? convertMemberCouponPriceArrData.memberCouponAlertMsg[.memberCouponNo] == 'LIMIT_MIN_PRICE' }-->
+							<input type="checkbox" id="check{ .index_ }" disabled="disabled"/>
+
+							<!--{ : }-->
+							<!--{ ? .couponKindType == 'sale' }-->
+							<input type="checkbox" id="check{ .index_ }" name="memberCouponNo[]" data-paytype="{ .couponUseAblePaymentType }" data-price="{ convertMemberCouponPriceArrData.memberCouponSalePrice[.memberCouponNo] }" data-useprice="{ cartUseMemberCouponPriceArrData.memberCouponSalePrice[.memberCouponNo] }" data-type="{ .couponKindType }" data-duplicate="{ .couponApplyDuplicateType }" data-couponstate="{.memberCouponState}" data-couponno="{.couponNo}" value="{ .memberCouponNo }"/>
+							<!--{ : .couponKindType == 'add' }-->
+							<input type="checkbox" id="check{ .index_ }" name="memberCouponNo[]" data-paytype="{ .couponUseAblePaymentType }" data-price="{ convertMemberCouponPriceArrData.memberCouponAddMileage[.memberCouponNo] }" data-useprice="{ cartUseMemberCouponPriceArrData.memberCouponSalePrice[.memberCouponNo] }" data-type="{ .couponKindType }" data-duplicate="{ .couponApplyDuplicateType }" data-couponstate="{.memberCouponState}" data-couponno="{.couponNo}" value="{ .memberCouponNo }"/>
+							<!--{ : .couponKindType == 'delivery' }-->
+							<input type="checkbox" id="check{ .index_ }" name="memberCouponNo[]" data-paytype="{ .couponUseAblePaymentType }" data-price="{ convertMemberCouponPriceArrData.memberCouponDeliveryPrice[.memberCouponNo] }" data-type="{ .couponKindType }" data-duplicate="{ .couponApplyDuplicateType }" value="{ .memberCouponNo }"/>
+							<!--{ / }-->
+							<!--{ / }-->
+						</span>
+					</div>
+					<div class="c_point">
+						{=gd_currency_symbol()}
+						<!--{ ? .couponKindType == 'sale' }-->
+						{=gd_money_format(convertMemberCouponPriceArrData.memberCouponSalePrice[.memberCouponNo])}
+						<!--{ : .couponKindType == 'add' }-->
+						{=gd_money_format(convertMemberCouponPriceArrData.memberCouponAddMileage[.memberCouponNo])}
+						<!--{ : .couponKindType == 'delivery' }-->
+						{=gd_money_format(convertMemberCouponPriceArrData.memberCouponDeliveryPrice[.memberCouponNo])}
+						<!--{ / }-->
+						{=gd_currency_string()}
+					</div>
+					{ convertMemberCouponArrData[.key_].couponKindType }
+					<div>({ .couponNm })</div>
+				</dt>
+				<dd>
+					<!--{ ? convertMemberCouponArrData[.key_].couponMaxBenefit }-->
+					{ convertMemberCouponArrData[.key_].couponMaxBenefit }<br/>
+					<!--{ / }-->
+					<!--{ ? convertMemberCouponArrData[.key_].couponMinOrderPrice }-->
+					{ convertMemberCouponArrData[.key_].couponMinOrderPrice }<br/>
+					<!--{ / }-->
+					<!--{ convertMemberCouponArrData[.key_].couponApplyDuplicateType }--><br/>
+					{ .memberCouponEndDate }
+				</dd>
+			</dl>
+			<!--{ : }-->
+			<div class="no_data">{=__('사용 가능한 쿠폰이 없습니다.')}</div>
+			<!--{ / }-->
+		</div>
+		<div class="btn_box">
+			<span><button id="btnCouponApply" class="ly_coupon_apply_btn">{=__('쿠폰 사용하기')}</button></span>
+		</div>
+	</div>
+	<div class="close_btn">
+		<button type="button" class="lys_close_btn js_coupon_apply_close">{=__('닫기')}</button>
+	</div>
+</div>
+
+<!--{ ? gd_is_login() !== false }-->
+<script type="text/javascript">
+    <!--
+    $(document).ready(function () {
+
+        $('body.portrait').css({overflow: 'hidden'});
+
+        $('.js_coupon_apply_close').on('click', function (e) {
+            $('#popupCouponApply').hide();
+            $('#popupCouponApply').html('');
+        });
+
+        // @todo 적용한 쿠폰이 중복불가 시 쿠폰 변경시 disable 처리 부분 필요
+        $('input:checkbox[name="memberCouponNo[]"]').click(function (e) {
+            if (($(this).prop('checked') == true) && ($(this).data('duplicate') == 'n')) {
+                $('input:checkbox[name="memberCouponNo[]"]').not($(this)).each(function (index) {
+                    $(this).attr("checked", false);
+                    $(this).next('label').removeClass('on');
+                    $(this).attr('disabled', 'disabled');
+                });
+            } else if (($(this).prop('checked') == false) && ($(this).data('duplicate') == 'n')) {
+                $('input:checkbox[name="memberCouponNo[]"]').not($(this)).each(function (index) {
+                    $(this).removeAttr('disabled', 'disabled');
+                });
+            }
+
+            // 장바구니 사용 상태의 쿠폰 선택시 사용여부 레이어
+            if (($(this).prop('checked') == true) && ($(this).data('couponstate') == 'cart')) {
+                var memberCouponNo = $(this).val();
+                var couponPrice = numeral($(this).data('useprice')).format();
+                var couponKindType = $(this).data('type');
+                var couponKindTypeName = '';
+
+                switch (couponKindType) {
+                    case 'sale':
+                        couponKindTypeName = '할인';
+                        break;
+                    case 'add':
+                        couponKindTypeName = '적립';
+                        break;
+                    case 'delivery':
+                        couponKindTypeName = '배송비할인';
+                        break;
+                    case 'deposit':
+                        couponKindTypeName = '예치금지급';
+                        break;
+                }
+
+                if (!confirm(__('장바구니에 담긴 상품에 ' + couponPrice + '원 ' + couponKindTypeName + '으로 이미 적용되어있는 쿠폰입니다.\n 취소 후 이 상품에 적용하시겠습니까?'))) {
+                    return false;
+                }
+
+                $.ajax({
+                    method: "POST",
+                    cache: false,
+                    url: "../goods/goods_ps.php",
+                    data: {
+                        'mode': 'UserCartCouponDel',
+                        'memberCouponNo': memberCouponNo,
+                        'memNo': $("#frmCouponApply>input[name='memNo']").val(),
+                    },
+                    success: function (data) {
+                    },
+                    error: function (data) {
+                    }
+                });
+            }
+
+            var objCouponPrice = gd_coupon_price_sum();
+            //$('#couponSalePrice').text(numeral(objCouponPrice.sale).format());
+            //$('#couponAddPrice').text(numeral(objCouponPrice.add).format());
+        });
+		$('#btnCouponApply').click(function (e) {
+			var couponMileageGiveCheck = false;
+            var couponPaymentTypeCheck = 'n';
+            var couponApplyNoArr = [];
+            var couponNoArr = [];
+            $('input:checkbox[name="memberCouponNo[]"]:checked').each(function (index) {
+                couponApplyNoArr[index] = $(this).val();
+                couponNoArr[index] = $(this).data('couponno');
+                // 결제방식제한쿠폰체크
+                if ($(this).attr('data-paytype') == 'bank') {
+                    couponPaymentTypeCheck = 'y';
+                }
+				if($(this).attr('data-type') == 'add') {
+					couponMileageGiveCheck = true;
+				}
+            });
+            if (couponApplyNoArr.length > 0) {
+                // 쿠폰 사용기간 체크
+                var couponNoString = couponNoArr.join('{c.INT_DIVISION}');
+                var checkCouponType = true;
+                $.ajax({
+                    method: "POST",
+                    cache: false,
+                    async: false,
+                    url: "../goods/goods_ps.php",
+                    data: {mode: 'checkCouponType', couponNo : couponNoString, mileageGiveFl: couponMileageGiveCheck },
+                    success: function (data) {
+                        checkCouponType = data.isSuccess;
+                    },
+                    error: function (e) {
+                    }
+                });
+
+                if(!checkCouponType) {
+                    alert('사용할 수 없는 쿠폰입니다.');
+                    $("#popup-coupon-apply .js-coupon-apply-close").click();
+                    return false;
+                }
+
+                var couponApplyNoString = couponApplyNoArr.join('{c.INT_DIVISION}');
+                $('#option_display_item_{optionKey} input:hidden[name="couponApplyNo[]"]').val(couponApplyNoString);
+                var objCouponPrice = gd_coupon_price_sum();
+                $('#option_display_item_{optionKey} input:hidden[name="couponSalePriceSum[]"]').val(objCouponPrice.sale);
+                $('#option_display_item_{optionKey} input:hidden[name="couponAddPriceSum[]"]').val(objCouponPrice.add);
+                var couponApplyHtml = "<ul><li><button class=\"btn_coupon_cancel coupon_cancel_btn\" type=\"button\" data-key=\"{optionKey}\" alt=\"{=__('쿠폰취소')}\" >{=__('쿠폰취소')}</button></li><li><button class=\"js_coupon_apply coupon_modify_btn\"  data-key=\"{optionKey}\" type=\"button\">{=__('쿠폰변경')}</button></li></ul>";
+                $('#coupon_apply_{optionKey}').html(couponApplyHtml);
+                gd_benefit_calculation("frmView");
+            } else {
+                gd_coupon_cancel('{optionKey}');
+            }
+            if (couponPaymentTypeCheck == 'y') {
+                $('#divAddPay').addClass('dn');
+            } else {
+                $('#divAddPay').removeClass('dn');
+            }
+            //bindBtnOpenLayer();
+            //bindBtnCouponCancel();
+
+            $("#popupCouponApply .js_coupon_apply_close").click();
+            return false;
+        });
+        gd_coupon_apply_setting();
+    });
+    // 쿠폰 적용 내용 초기화 (설정)
+    function gd_coupon_apply_setting() {
+        var couponApplyNoString = '{couponApplyNo}';
+        var couponApplyNoArr = new Array();
+        if (couponApplyNoString) {
+            var couponApplyNoArr = couponApplyNoString.split('{c.INT_DIVISION}');
+        }
+        $.each(couponApplyNoArr, function (index) {
+            $('input:checkbox[name="memberCouponNo[]"][value="' + couponApplyNoArr[index] + '"]').trigger('click');
+        });
+        var objCouponPrice = gd_coupon_price_sum();
+        //$('#couponSalePrice').text(numeral(objCouponPrice.sale).format());
+        //$('#couponAddPrice').text(numeral(objCouponPrice.add).format());
+    }
+    // 선택 쿠폰 금액 계산
+    function gd_coupon_price_sum() {
+        var salePrice = 0;
+        var addPrice = 0;
+        $('input:checkbox[name="memberCouponNo[]"]:checked').each(function (index) {
+            if ($(this).data('type') == 'sale') {
+                salePrice += parseFloat($(this).data('price'));
+            } else if ($(this).data('type') == 'add') {
+                addPrice += parseFloat($(this).data('price'));
+            }
+        });
+        var couponPrice = {
+            'sale': salePrice,
+            'add': addPrice
+        };
+        return couponPrice;
+    }
+    //-->
+</script>
+<!--{ / }-->

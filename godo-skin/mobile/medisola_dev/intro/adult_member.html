@@ -1,0 +1,46 @@
+{*** 인트로 - 성인인증 | intro/intro.php ***}
+{ # share_header }
+{=acecounterScript}
+<div class="adult_member">
+    <!-- 성인인증 로그인 -->
+    <div class="msg">
+        <strong>{=__('%s님, %s 성인인증%s 해 주셔야 %s서비스를 이용하실 수 있습니다.', gMember.memNm, '<span>', '</span>', '<br />')}</strong>
+        <p>{=__('개정된 청소년 관련 법령 및 여성가족부 정책에 따라 %s1년에 한번 성인인증 하도록 변경되었습니다. %s오늘 성인인증 하시면 1년간 별도의 인증 없이 %s서비스를 이용하실 수 있습니다.', '<br />', '<br />', '<br />')}</p>
+    </div>
+    <span class="tit top_line">{=__('인증 수단선택')}</span>
+    <!--{ ? authCellphoneFl  }--> <button class="certification authCellphone">{=__('휴대폰 인증 받기')}</button><!--{ / }-->
+    <!--{ ? ipinFl  }--><button class="certification authIpin" >{=__('아이핀 인증 받기')}</button><!--{ / }-->
+
+    <span class="url">{=domainUrl}</span>
+    <!-- //성인인증 로그인 -->
+</div>
+
+<script type="text/javascript" src="../js/jquery/jquery.serialize.object.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $("button.authIpin").on('click', function(){
+
+            window.open("/member/ipin/ipin_main.php?callType=certAdult&returnUrl={=urlencode(returnUrl)}");
+
+        });
+
+
+        $("button.authCellphone").on('click', function(){
+
+            var protocol = location.protocol;
+            var callbackUrl = "{=domainUrl}/member/authcellphone/dreamsecurity_result.php";
+            window.open(protocol + "//hpauthdream.godo.co.kr/module/Mobile_hpauthDream_Main.php?callType=certAdult&returnUrl={=urlencode(returnUrl)}&shopUrl=" + callbackUrl + "&cpid={=authDataCpCode}");
+        });
+
+        window.addEventListener('message', function (e) {
+            if (e.origin === 'http://hpauthdream.godo.co.kr') {
+                $('#layerSearch').remove();
+            }
+        });
+    });
+
+</script>
+
+{ # share_footer }

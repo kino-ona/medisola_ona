@@ -1,0 +1,27 @@
+<!--{ @list }-->
+	<li class="my_goods" data-goodsno="{.goodsNo}">
+		<div class="info">
+			<div class="itemhead">
+				<div class="thmb img"><img src="{.goodsImageSrc}" alt="{.goodsNm}" title="{.goodsNm}"></div>
+			</div>
+			<div class="itembody">
+				<p class="name">{.goodsNm}</span>
+				<p class="prc">{=__('상품금액')} : <span class="goods_price">
+				 <!--{ ? .soldOut =='y' && soldoutDisplay.soldout_price == 'text'}-->
+                   {=soldoutDisplay.soldout_price_text}
+				<!--{ : }-->
+				<!--{ ? .goodsPriceString !='' }-->
+                       {.goodsPriceString}
+				<!--{ : }-->
+                        {=gd_global_currency_symbol()}{=gd_global_money_format(.oriGoodsPrice)}{=gd_global_currency_string()}
+				<!--{ / }-->
+				<!--{ / }-->
+				</span></p>
+			</div>
+			<div class="btn_bx">
+				<a href="javascript:void(0)" class="ly_select_search_btn1 js_select_confirm">{=__('선택')}</a>
+			</div>
+		</div>
+	</li>
+<!--{/}-->
+

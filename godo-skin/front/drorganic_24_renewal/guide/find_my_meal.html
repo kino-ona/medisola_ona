@@ -1,0 +1,301 @@
+{ # header }
+<script>
+  document.addEventListener("DOMContentLoaded", (event) => {
+    if (window.isEnvDev) {
+      $("body").css("padding-top", 0);
+      $(".preview-title").remove();
+    }
+
+    $("#wrap").css("min-width", 1450);
+    $("#mheader").css("min-width", 1450);
+    $("#container").css("min-width", 1450);
+
+    $("#mheader .mh_inner").css("justify-content", "space-between");
+    $("#mheader .mh_inner > .mh_sec01").css("margin-right", 0);
+    $("#mheader .mh_inner > .mh_sec03").css("margin", 0);
+
+    $("#container #contents")
+      .css("width", "100%")
+      .css("max-width", "unset")
+      .css("margin", 0)
+      .css("padding", 0);
+
+    $("#mfooter").css("margin", 0);
+
+    $("iframe[src='/blank.php']").css("display", "none");
+
+    $("#type_form_outlink").on("click", () => {
+      amplitude.logEvent(
+        window.isEnvDev
+          ? "DEV_findmymeal_survey_out_click"
+          : "findmymeal_survey_out_click"
+      );
+    });
+
+    $("#medi_talktalk_outlink").on("click", () => {
+      amplitude.logEvent(
+        window.isEnvDev
+          ? "DEV_findmymeal_meditalktalk_out_click"
+          : "findmymeal_meditalktalk_out_click"
+      );
+    });
+
+    $("#solamate_outlink").on("click", () => {
+      amplitude.logEvent(
+        window.isEnvDev
+          ? "DEV_findmymeal_solamate_out_click"
+          : "findmymeal_solamate_out_click"
+      );
+    });
+
+    // const headerHeight = $("#mheader .mh_inner").css("height");
+    // if (headerHeight) {
+    //   $("#find_my_meal section .sticky-header").css({
+    //     position: "sticky",
+    //     top: headerHeight,
+    //     padding: "24px 11%",
+    //     margin: "0 -11%",
+    //     width: "50%"
+    //   });
+    // }
+  });
+</script>
+<main id="find_my_meal">
+  <section>
+    <div
+      class="main-image-box flex justify-center"
+      style="
+        visibility: visible;
+        animation-duration: 1.5s;
+        animation-delay: 0s;
+        animation-name: fadeInUp;
+      "
+    >
+      <!-- 메인03 : 이미지 -->
+      <img
+        width="1920"
+        height="720"
+        src="../img/guide/find_my_meal/find_my_meal_main.jpeg"
+        alt="푸드케어, 메디쏠라"
+      />
+    </div>
+  </section>
+  <section id="type_form">
+    <div
+      id="type_form_content"
+      class="main-content-box flex items-center justify-center"
+    >
+      <div class="main-text-box flex flex-col">
+        <div class="text-lg font-semibold color-blue-1">
+          나만의 맞춤 식단 찾기
+        </div>
+        <div class="flex flex-col items-start text-small color-text-1">
+          <div>사용자패턴을 분석해</div>
+          <div>나의 식단고민에 맞는 식단을 추천드려요.</div>
+        </div>
+      </div>
+      <div>
+        <a
+          id="type_form_outlink"
+          href="https://medisola.typeform.com/to/vZ10G8mc"
+          class="relative text-normal text-white font-semibold bg-blue-1"
+        >
+          <span>시작하기</span>
+          <span class="icon-container">
+            {=includeFile('/img/guide/find_my_meal/chevron_right.svg')}
+          </span>
+        </a>
+      </div>
+    </div>
+  </section>
+  <!-- {@ categories} -->
+  <section id="{categories.id}" class="flex justify-center">
+    <!--{? categories.image}-->
+    <div class="category-background-imagebox">
+      <div class="gradient"></div>
+      <img src="{categories.image}" alt="{categories.name.title}" />
+    </div>
+    <!--{/}-->
+    <div class="category-contentbox flex flex-col">
+      <div class="category-header">
+        <div class="sticky-header">
+          <!--{? categories.name.description == null}-->
+          <div class="category-title text-xl font-semibold">
+            {categories.name.title}
+          </div>
+          <!--{:}-->
+          <div class="category-title-container flex items-center">
+            <div class="category-title text-xl font-semibold">
+              {categories.name.title}
+            </div>
+            <div class="category-title-desc flex flex-col font-lightbold">
+              <!--{@ categories.name.description}-->
+              <div class="text-small">{..value_}</div>
+              <!--{/}-->
+            </div>
+          </div>
+          <!--{/}-->
+        </div>
+        <div class="category-main-textbox flex flex-col">
+          <div class="tags flex">
+            <!--{@ tags}-->
+            <div class="tag text-small">{tags.value_}</div>
+            <!--{/}-->
+          </div>
+          <div class="text-xs">
+            <!--{@ description}-->
+            <div>{description.value_}</div>
+            <!--{/}-->
+          </div>
+        </div>
+      </div>
+      <div class="meals-container flex">
+        <!--{@ categories.meals}-->
+        <div class="meals-column flex flex-col flex-grow">
+          <!--{? ..title != null}-->
+          <div class="meals-title text-normal font-semibold">{..title}</div>
+          <!--{/}-->
+          <div class="meals-items flex flex-col">
+            <!--{@ ..items}-->
+            <a href="{...url}">
+              <div class="{...id} meals-item flex items-center">
+                <div class="meals-item-image">
+                  <img src="{...img}" alt="{...title}" />
+                </div>
+                <div class="meals-item-body flex flex-col">
+                  <div class="meals-item-title text-medium font-semibold">
+                    {...title}
+                  </div>
+                  <div class="meals-item-desc flex flex-col text-small">
+                    <!--{@ ...description}-->
+                    <div>{....value_}</div>
+                    <!--{/}-->
+                  </div>
+                </div>
+              </div>
+            </a>
+            <!--{/}-->
+          </div>
+        </div>
+        <!--{/}-->
+      </div>
+    </div>
+  </section>
+  <!-- {/} -->
+  <section id="resources" class="relative flex justify-center">
+    <div class="category-background-imagebox">
+      <div class="gradient"></div>
+      <img
+        src="../img/guide/find_my_meal/resources_background.png"
+        alt="영양상담"
+      />
+    </div>
+    <div class="category-contentbox">
+      <div class="category-header">
+        <div class="sticky-header">
+          <div class="category-title text-xl font-semibold">영양상담</div>
+        </div>
+        <div class="category-main-textbox">
+          <div class="text-xs">
+            <div>어려운 영양관리, 쉽고 편리하게 도와드릴게요.</div>
+            <div>임상영양전문가와 함께하는 메디톡톡으로 상담하실 수 있어요.</div>
+            <div>
+              식단 기록부터 상담 ∙ 소통까지 다양한 사람들과 함께 이야기를 나눌 수
+              있는
+            </div>
+            <div>메디쏠라 커뮤니티도 활용해보세요.</div>
+          </div>
+        </div>
+      </div>
+      <div class="cards flex">
+        <div class="card medi-talktalk">
+          <div class="card-main flex">
+            <div class="card-qr-image">
+              <img
+                width="240"
+                height="240"
+                src="../img/guide/find_my_meal/medi_talktalk_qr_crop.png"
+                alt="메디톡톡 QR"
+              />
+            </div>
+            <div class="card-textbox flex flex-col justify-center">
+              <div class="card-title text-lg font-semibold">메디톡톡</div>
+              <div class="card-desc text-xs">
+                <div>메디쏠라 연구소에서 직접 관리하는</div>
+                <div>1:1 맞춤형 영양상담 서비스</div>
+              </div>
+              <div class="card-item text-xs flex items-center gap-small">
+                <div>
+                  {=includeFile('/img/guide/find_my_meal/medi_talktalk_icon_1.svg')}
+                </div>
+                <div>임상영양 전문가의 <strong>1:1 무료상담</strong></div>
+              </div>
+              <div class="card-item text-xs flex items-center gap-small">
+                <div>
+                  {=includeFile('/img/guide/find_my_meal/medi_talktalk_icon_2.svg')}
+                </div>
+                <div>맞춤영양분석 <strong>리포트 전송</strong></div>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-col">
+            <a
+              id="medi_talktalk_outlink"
+              class="card-link text-normal relative text-center"
+              href="http://m.site.naver.com/15Ul3"
+            >
+              <span>메디톡톡 바로가기</span>
+              <span class="icon-container"
+                >{=includeFile('/img/guide/find_my_meal/chevron_right.svg')}</span
+              >
+            </a>
+          </div>
+        </div>
+        <div class="card solamate">
+          <div class="card-main flex">
+            <div class="card-qr-image">
+              <img
+                width="240"
+                height="240"
+                src="../img/guide/find_my_meal/solamate_qr.png"
+                alt="메디쏠라 QR"
+              />
+            </div>
+            <div class="card-textbox flex flex-col justify-center">
+              <div class="card-title text-lg font-semibold">메디쏠라</div>
+              <div class="card-desc text-xs">
+                <div>쉽고 편리하게 관리하는</div>
+                <div>커뮤니티 기반 영양관리 및 상담 APP</div>
+              </div>
+              <div class="card-item text-xs flex items-center">
+                <div>
+                  {=includeFile('/img/guide/find_my_meal/solamate_icon_1.svg')}
+                </div>
+                <div>쉽고 간편한 <strong>식단기록</strong></div>
+              </div>
+              <div class="card-item text-xs flex items-center">
+                <div>
+                  {=includeFile('/img/guide/find_my_meal/solamate_icon_2.svg')}
+                </div>
+                <div>사람들과 나누는 <strong>이야기</strong></div>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-col">
+            <a
+              id="solamate_outlink"
+              class="card-link relative text-center text-normal"
+              href="https://solamate.onelink.me/Vip8/j60sx3zs?af_qr=true"
+            >
+              <span>메디쏠라 시작하기</span>
+              <span class="icon-container">
+                {=includeFile('/img/guide/find_my_meal/chevron_right.svg')}
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+{ # footer }

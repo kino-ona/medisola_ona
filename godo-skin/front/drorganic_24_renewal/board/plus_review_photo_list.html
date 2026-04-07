@@ -1,0 +1,35 @@
+<!--{ ? data.list}-->
+<div class="photo_wrap">
+    <!--{ @ data.list}-->
+    <div class="photo">
+        <a href="javascript:void(0)">
+            <div class="img">
+                <img src="{=.uploadHeadImage.src}" data-sno="{=.sno}" class="js_pr_btn_image" alt="{=.goodsNm}">
+                <strong>+{=count(.uploadedFile)}</strong>
+            </div>
+            <div class="text">{=.listContents}</div>
+        </a>
+        <a href="../goods/goods_view.php?goodsNo={.goodsNo}" target="_blank">
+            <div class="cont_wrap">
+                <div class="img"><img src="{=.goodsImageSrc}" alt="{=.goodsNm}"></div>
+                <div class="cont">
+                    <strong>{=.goodsNm}</strong>
+                    <ul>
+                        <li><span class="tit">평가</span><span class="con">{=.avgGoodsPt}</span></li>
+                        <li><span class="tit">리뷰</span><span class="con">{=.plusReviewCnt}</span></li>
+                    </ul>
+                </div>
+            </div>
+        </a>
+    </div>
+    <!--{/}-->
+</div>
+<div>
+    {=data.pagination}
+</div>
+<!--{:}-->
+<div class="no_data">
+    작성된 포토리뷰가 없습니다.
+</div>
+<script>$('.plus_review_loading').addClass('dn');</script>
+<!--{/}-->

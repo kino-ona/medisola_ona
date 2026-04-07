@@ -1,0 +1,13 @@
+/* 회원가입 유도 push */
+.simple_join_push {position: fixed; bottom:-157px; left: 50%;width: 420px; margin-left:-210px; border: 1px solid #c5c5c5;background-color: #ffffff; color:#000000 !important;z-index: 150;-webkit-box-shadow: 4px 4px 10px 1px rgba(0,0,0,0.2);-moz-box-shadow: 4px 4px 10px 1px rgba(0,0,0,0.2);box-shadow: 4px 4px 10px 1px rgba(0,0,0,0.2);-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px; box-sizing:border-box; cursor: pointer;}
+.simple_join_push.left {left: 30px;margin: 0;}
+.simple_join_push.right {left: inherit; right: 30px;margin: 0;}
+.simple_join_push .inner {display:table; table-layout:fixed; width:100%;}
+.simple_join_push .inner.type2 {display:block;}
+.simple_join_push .sj_icon_box {width:50px; display:table-cell; vertical-align:middle; padding:20px 0 20px 20px; text-align:center;}
+.simple_join_push .inner.type2 .sj_icon_box {position:absolute; top:50%; left:0; margin-top:-25px; padding:0 17px 0 20px;}
+.simple_join_push .sj_icon_box img {max-width:100%; width:50px;}
+.simple_join_push .sj_img_box {padding:0;}
+.simple_join_push .sj_img_box img {max-width:100%; border-radius:5px;width:100%;}
+.simple_join_push .sj_txt_box {display:table-cell; width:100%; vertical-align:middle; letter-spacing:-0.5px; padding:20px 30px 20px 17px; }
+.simple_join_push .ly_sj_close {position:absolute; top:8px; right:8px; padding: 6px 8px 0px 8px; cursor:pointer;}

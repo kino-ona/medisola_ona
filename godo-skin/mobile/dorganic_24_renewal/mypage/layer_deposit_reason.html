@@ -1,0 +1,26 @@
+{*** 예치금 사유 레이어 | mypage/layer_deposit_reason.php ***}
+<script>
+    $(document).ready(function(){
+        layerContH = $('.layer_cont').outerHeight()
+        $('.layer_cont').css({'top':'50%', 'margin-top':-(layerContH /2)});
+
+        $('.bot_btn button').on('click', function(){
+            $('.layer_wrap').addClass('dn');
+        })
+    });
+</script>
+<div class="layer_cont">
+    <div class="tit"><h4>{=__('환불 상세 정보')}</h4></div>
+    <div class="refund_detail_infor">
+        <ul>
+            <li><strong>{=__('주문일')} : </strong><span>{=data['regDt']}</span></li>
+            <li><strong>{=__('환불사유')} : </strong><span>{=data['handleReason']}</span></li>
+            <li class="gods_tit"><strong>{=__('환불상품')} : </strong><span>{=data['goodsNm']}</span></li>
+        </ul>
+    </div>
+    <div class="refund_detail_txt">
+        {=nl2br(data['handleDetailReason'])}
+    </div>
+    <div class="bot_btn"><button type="button" class="join_ok_btn">확인</button></div>
+</div>
+<!-- // layer_cont -->

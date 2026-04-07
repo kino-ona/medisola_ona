@@ -1,0 +1,114 @@
+{***  플러스 리뷰 상품상세 | board/plus_review_container.php ***}
+<!--{ ? plusReviewConfig.goodsPageReviewFl == 'y'}-->
+<link type="text/css" rel="stylesheet" href="\{=c.PATH_MOBILE_SKIN}css/gd_plus_review.css?ts={=time()}">
+<div id="plusReviewList"  class="plus_review_container" style="display:none">
+    <div class="plus_review_top_box">
+		<dl>
+			<dt>{=__('평가')}</dt>
+			<dd>{=plusReview.info.goodsPt.avg}</dd>
+			<dt>{=__('리뷰수')}</dt>
+			<dd>{=plusReview.info.reviewCount}</dd>
+		</dl>
+		<div class="plus_review_btn"><a href="javascript:void(0)" class="plus_reivew_write_btn js_pr_btn_write" >{=__('리뷰등록')}</a></div>
+    </div>
+    <!--{ ? plusReviewConfig.addFormSearchFl == 'y' }-->
+    <div class="plus_review_add_search">
+        <a href="javascript:void(0);" onclick="gd_search_layer()"><span>{= plusReviewConfig.addFormSearchTitle}</span><span class="arrow"></span></a>
+    </div>
+    <!--{ / }-->
+    <div class="plus_review_list">
+        <ul class="js_pr_list">
+        </ul>
+        <div class="plus_review_more">
+            <button type="button" class="plus_review_more_btn js_pr_btn_page_more">{=__('더보기')}</button>
+        </div>
+    </div>
+</div>
+<script>
+    var totalPage = {=plusReview.cnt.totalPage};
+    var goodsNo = '{=goodsNo}';
+    var mode = '{=req.mode}';
+
+    $(document).ready(function () {
+        var page = 1;
+
+        gd_load_plus_review_list(1);
+        if(mode=='plusreview'){
+            $('[data-target="js_board_goodsreview_view"]').trigger('click');
+            $("html,body").animate({scrollTop: $('.js_pr_list').offset().top - 100})
+        }
+
+        $('.js_pr_btn_write').bind('click',function () {
+            <!--{ ? plusReview.writeErrorMsg}-->
+            alert('{=plusReview.writeErrorMsg}');
+            return false;
+            <!--{:}-->
+            $.ajax({
+                method: "get",
+                url: "../board/plus_review_popup_write.php",
+                data: {mode : 'add',goodsNo : goodsNo},
+                async: false,
+                dataType: 'text'
+            }).success(function (data) {
+                $('#popupBoardWrite').css('background-color','#ffffff').css('overflow','scroll').css('z-index','9999').empty().append(data).show();
+            }).error(function (e) {
+                alert(e.responseText);
+            });
+            <!--{/}-->
+        })
+
+
+        $('.js_pr_btn_page_more').bind('click',function () {
+            page=Number(page)+1;
+            gd_load_plus_review_list(page,$labelValueArry);
+        })
+
+    });
+
+    var gd_load_plus_review_list = function (page,addForm,reload) {
+        $.ajax({
+            url: '../board/plus_review_list.php',
+            data: {goodsNo: goodsNo, page: page,addForm:addForm},
+            method: 'get',
+            type: 'text',
+            cache: false,
+        }).success(function (result) {
+            if(reload){
+                $('.js_pr_list').html(result);
+            }else{
+                $('.js_pr_list').append(result);
+            }
+
+            totalPage = $(result).find('#totalPage').text();
+            if(page >= totalPage){
+                $('.js_pr_btn_page_more').hide();
+            }else{
+                $('.js_pr_btn_page_more').show();
+            }
+        }).error(function (e) {
+//            console.log(e);
+        });
+
+
+    }
+
+    var $labelValueArry = [];
+    var gd_search_layer = function(){
+        var params = {
+            addForm : $labelValueArry,
+        };
+        $('#popupAlikeSearch').modal({
+            remote: '../board/plus_review_search.php',
+            cache: false,
+            params: params,
+            type : 'GET',
+            show: true
+        });
+    }
+    var gd_search_add_form = function(){
+        page=1;
+        gd_load_plus_review_list(page,$labelValueArry,true);
+    }
+</script>
+
+<!--{/}-->

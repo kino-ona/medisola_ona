@@ -1,0 +1,881 @@
+{*** 쇼핑몰 메인본문 | main/251216.html ***} { # header }
+
+<style>
+  div#mheader .top_event {
+    display: block;
+  }
+  .mh_blank {
+    height: 157px;
+  }
+</style>
+<script type="text/javascript" src="../js/mo_js/main_script.js"></script>
+<script>
+  $(document).ready(function () {
+    // 홈 진입
+    amplitude.logEvent('home_view');
+
+    // Top Banner 클릭
+    $('.swiper_sec01 a').on('click', function(event) {
+        const title = $(this).find('.t01').text().trim();
+        amplitude.logEvent('home_banner_click', {title: title, location: 'top'});
+    });
+
+    // Middle Banner 클릭
+    $('.swiper_sec05 a').on('click', function(event) {
+        const title = $(this).closest('.swiper-slide').find('.t01').text().trim().replace(/\n/g, '').replace(/\t/g, ''); 
+        amplitude.logEvent('home_banner_click', {title: title, location: 'middle'});
+    });
+    
+    // 공지사항 클릭
+    $('.sec01_board a').on('click', function(event) {
+        const title = $(this).contents().last().text().trim();
+        amplitude.logEvent('home_notice_click', {title: title});
+    });
+
+    //맞춤형 식단  제안 섹션
+    $('.swiper-slide a.more').on('click', function(event) { 
+        const itemName = $(this).closest('.swiper-slide').find('.t01').text().trim();
+
+        amplitude.logEvent('home_section_item_click', {
+            section_title: '맞춤형 식단 제안',
+            item_type: 'product',
+            item_name: itemName
+        });
+    });
+
+    // Benefit
+    $('.mm_sec07 li a').on('click', function(event) {
+        const bannerTitle = $(this).find('.t01').text().trim();
+        amplitude.logEvent('home_section_item_click', {
+            section_title: 'BENEFIT',
+            item_type: 'link',
+            item_name: bannerTitle
+        });
+    });
+
+    // 솔루션 후기 = more
+    $('.mm_sec08 .m_titleArea a').on('click', function(event) {
+        amplitude.logEvent('home_section_more_click', {
+            section_title: '솔루션 후기',
+        });
+    });
+
+    // 솔루션 후기 = item
+    $('.mm_sec08 .swiper_sec08 li a').on('click', function(event) {
+        const title = $(this).find('.t01').text().trim();
+        const reviewSno = $(this).data('sno');
+        amplitude.logEvent('home_section_item_click', {
+            section_title: '솔루션 후기',
+            item_type: 'review',
+            item_name: reviewSno
+        });
+    });
+
+    // 쏠라 매거진
+    $('.mm_sec10 .swiper-slide a').on('click', function(event) {
+        const sno = $(this).data("sno");
+        amplitude.logEvent('home_section_item_click', {
+            section_title: '쏠라 매거진',
+            item_type: 'magazine',
+            item_name: sno
+        });
+    });
+
+    // 푸드케어 레터 섹션 클릭
+    $('.mm_sec11 .magazine_home_featured, .mm_sec11 .magazine_home_card').on('click', function() {
+        const title = $(this).find('h3, h4').text().trim();
+        const type = $(this).hasClass('magazine_home_featured') ? 'featured' : 'secondary';
+        amplitude.logEvent('home_magazine_click', {
+            article_title: title,
+            card_type: type
+        });
+    });
+
+    // 푸드케어 레터 "더 보기" 버튼
+    $('.mm_sec11 .more').on('click', function() {
+        amplitude.logEvent('home_magazine_more_click', {
+            section: 'magazine'
+        });
+    });
+  });
+</script>
+
+<script>
+  function openPopup() {
+      const iframe = document.getElementById("popup-container");
+      iframe.style.display = "block";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function closePopup() {
+      const iframe = document.getElementById("popup-container");
+      iframe.style.display = "none";
+  }
+</script>
+
+<div
+  id="popup-container"
+  style="
+      display: none;
+      position: absolute;
+      left: 50%;
+      top: 60px;
+      transform: translate(-50%);
+      z-index: 999;
+      width: 1000px;
+      height: 910px;
+      border-radius: 10px;
+      background-color: rgba(0, 0, 0, 0.5);
+      overflow: hidden;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  "
+>
+  <div id="popup-overlay" onclick="closePopup()"></div>
+  <div id="popup-content">
+      <button
+          onclick="closePopup()"
+          style="position: fixed; top: 20px; right: 20px"
+      >
+          <img src="../img/common/layer/btn_layer_close.png" alt="X" />
+      </button>
+      <iframe
+          id="popup-iframe"
+          src="https://start.solamate.co.kr/nbti"
+          frameborder="0"
+          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          style="
+              width: 1000px;
+              height: 910px;
+              border-radius: 10px;
+              overflow: hidden;
+          "
+      ></iframe>
+  </div>
+</div>
+
+<div class="main_content">
+  <section class="mm_sec01">
+    <!-- 메인 상단 배너 -->
+    {=includeWidget('proc/_slider_banner.html', 'bannerCode', '511517418')}
+    <!-- 메인 상단 배너 -->
+    <div class="sec01_board">
+        <a href="/board/list.php?&bdId=solanews">SOLA NEWS</a>
+        <div class="swiper-container swiper_board">
+            <ul class="swiper-wrapper">
+                { @getArticles( 'solanews' , 10 , 999, 'all' ) }
+                <li class="swiper-slide">
+                    <a href="/board/view.php?bdId={.bdId}&sno={.sno}"><span>{.regDate}</span>{.subject}</a>
+                </li>
+                { / }
+            </ul>
+
+            <div class="button_area">
+                <div class="swiper-button-prev swiper-button-prev-board"></div>
+                <div class="swiper-button-next swiper-button-next-board"></div>
+            </div>
+        </div>
+    </div>
+  </section>
+  <!-- //mm_sec01 -->
+
+  <section class="mm_sec02 w1600">
+    <div class="mm_sec02_flex">
+      <div
+        class="m_titleArea wow fadeInUp"
+        data-wow-delay="0s"
+        data-wow-duration="1s"
+        style="
+          visibility: visible;
+          animation-duration: 1s;
+          animation-delay: 0s;
+          animation-name: fadeInUp;
+        "
+      >
+        <!-- 메인02 : 타이틀 -->
+        <div class="t01 nutrient_mtitle">푸드케어 브랜드, 메디쏠라</div>
+        <div class="t02">
+          건강할 때부터, 건강이 걱정될 때까지<br />
+          황금비율의 식사로 건강을 케어해보세요. <br />
+          <br />
+          메디쏠라는 의학전문가-임상영양전문가-AI전문가<br />
+          그리고 식품 전문가가 모여, 기준을 수립하고<br />
+		  증명을 시작했어요. <br />
+          <br />
+          무엇을 어떻게 먹어야 하고 얼마만큼 먹어야 하는지,<br />
+		  <b>어렵게 느껴지시나요? </b> <br />
+          이제, 쉽게 드시기만 하세요! <br />
+          <br />
+          한국인에게 맞는 영양은 필수!<br />
+          유형별로 필요한 모든 영양은 한 끼에 담아두었어요.<br />
+          맞춤형 영양 식단, 선택형 메뉴 <br />
+          "나만을 위한 한끼"를 시작해보세요.<br />
+        </div>
+        <!-- 김진 수정_페이지 변경 전으로 임시 숨김_240306
+		  <a href="/main/html.php?htmid=main/medisola_intro.html" class="more" onclick="amplitude.logEvent('home_section_item_click', {section_title: 'OUR STORY', item_type: 'button', item_name: '메디쏠라 소개'})">
+          <span class="middle_text">OUR STORY {=includeFile('/img/mimg/right.svg')}</span>
+        </a> 
+		-->
+		  
+      </div>
+      <div class="ban">
+        <!-- 메인02 : 이미지 -->
+        <img src="../img/mimg/sec02_ban01.jpg" alt="사진" />
+      </div>
+    </div>
+  </section>
+  <!-- //mm_sec02 -->
+
+  <section class="mm_sec03">
+    <div
+      class="m_titleArea wow fadeInUp"
+      data-wow-delay="0s"
+      data-wow-duration="1.5s"
+      style="
+        visibility: visible;
+        animation-duration: 1s;
+        animation-delay: 0s;
+        animation-name: fadeInUp;
+      "
+    >
+      <!-- 메인03 : 타이틀 -->
+      <div class="t01">똑똑한 맞춤 영양식단</div>
+      <div class="t02">
+        모든 식단은 단2:지3:탄5 및 오메가-3 : 오메가-6의 황금비율으로
+        <br />
+        메디쏠라만의 기준을 한 끼에 담아 완성했어요.
+      </div>
+    </div>
+    <div
+      class="wow fadeInUp"
+      data-wow-delay="0s"
+      data-wow-duration=".5s"
+      style="
+        visibility: visible;
+        animation-duration: 1s;
+        animation-delay: 0s;
+        animation-name: fadeInUp;
+      "
+    >
+      <!-- 메인03 : 이미지 -->
+      <img
+        src="../img/mimg/sec03_ban01_2503_03.jpg"
+        alt="푸드케어, 메디쏠라"
+        style="position: relative; left: 50%; transform: translateX(-50%)"
+      />
+    </div>
+  </section>
+  <!-- //mm_sec03 -->
+
+  <section class="mm_sec04 w1600" style="display: none;">
+    <div
+      class="m_titleArea wow fadeInUp"
+      data-wow-delay="0s"
+      data-wow-duration="1s"
+    >
+      <!-- 메인04 : 타이틀 -->
+      <div class="t01">영양 맞춤형 식단을 소개해요.</div>
+		<div class="t02">메뉴는 직접 선택해보세요!</div>
+    </div>
+    <div class="swiper-container swiper_sec04 cboth">
+      <!-- 메인04 : 탭 메뉴 -->
+      <div class="swiper_sec04_text">
+        <div class="inner">
+          <ul>
+            <li class="swiper_over">프레시식단</li>
+            <!-- 01 -->
+            <li>슈퍼케일웜샐러드</li>
+            <!-- 02 -->
+            <li>그레인300샐러드</li>
+            <!-- 03 -->
+            <li>영양밸런스</li>
+            <!-- 04 -->
+            <li>예비부모</li>
+            <!-- 05 -->
+            <li>당뇨케어</li>
+            <!-- 06 -->
+            <li>신장케어</li>
+            <!-- 07 -->
+            <li>암케어</li>
+            <!-- 08 -->
+            <!-- <li>DASH</li> -->
+            <!-- 09 -->
+            <!-- <li>암케어식</li> -->
+            <!-- 10 -->
+          </ul>
+        </div>
+      </div>
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+          <div class="ban">
+            <!-- 메인04 : 이미지 01 -->
+            <img src="../img/mimg/sec04_ban01.jpg" />
+          </div>
+
+          <!-- 메인04 : 우측 텍스트 01 -->
+          <div class="box">
+            <div class="min_title">아침에 신선하게 배송되는 <br> 영양맞춤 설계 식단</div>
+            <div class="m_titleArea">
+              <div class="t01">프레시 식단</div>
+            </div>
+            <ul class="tag">
+              <li>#영양케어식단</li>
+              <li>#당뇨케어식단</li>
+              <li>#냉장식단</li>
+              <li>#새벽배송</li>
+            </ul>
+
+            <a class="more" href="/goods/goods_view.php?goodsNo=1000000289"
+              ><span>VIEW MORE {=includeFile('/img/mimg/right.svg')}</span></a
+            >
+          </div>
+        </div>
+
+        <div class="swiper-slide">
+          <div class="ban">
+            <!-- 메인04 : 이미지 02 -->
+            <img src="../img/mimg/sec04_ban02_2403.jpg" />
+          </div>
+
+          <!-- 메인04 : 우측 텍스트 02 -->
+          <div class="box">
+            <div class="min_title">슈퍼케일이 들어간 뉴욕스타일 샐러드</div>
+            <div class="m_titleArea">
+              <div class="t01">슈퍼케일 웜 샐러드</div>
+            </div>
+            <ul class="tag">
+              <li>#슈퍼푸드</li>
+              <li>#슈퍼케일</li>
+              <li>#뉴욕스타일</li>
+              <li>#웜샐러드</li>
+              <li>#보관가능</li>
+            </ul>
+
+            <a class="more" href="/goods/goods_view.php?goodsNo=1000000292"
+              ><span>VIEW MORE {=includeFile('/img/mimg/right.svg')}</span></a
+            >
+          </div>
+        </div>
+
+        <div class="swiper-slide">
+          <div class="ban">
+            <!-- 메인04 : 이미지 03 -->
+            <img src="../img/mimg/sec04_ban03_2403.jpg" />
+          </div>
+
+          <!-- 메인04 : 우측 텍스트 03 -->
+          <div class="box">
+            <div class="min_title">칼로리는 부담없이, 영양은 꽉채운</div>
+            <div class="m_titleArea">
+              <div class="t01">그레인300 샐러드</div>
+            </div>
+            <ul class="tag">
+              <li>#가벼운칼로리</li>
+              <li>#가득찬영양</li>
+              <li>#통곡물</li>
+              <li>#프리미엄단백질</li>
+            </ul>
+
+            <a class="more" href="/goods/goods_view.php?goodsNo=1000000291"
+              ><span>VIEW MORE {=includeFile('/img/mimg/right.svg')}</span></a
+            >
+          </div>
+        </div>
+
+        <div class="swiper-slide">
+          <div class="ban">
+            <!-- 메인04 : 이미지 04 -->
+            <img src="../img/mimg/sec04_ban02.jpg" />
+          </div>
+
+          <!-- 메인04 : 우측 텍스트 04 -->
+          <div class="box">
+            <div class="min_title">
+            원하는 메뉴로 선택해보세요!
+            </div>
+            <div class="m_titleArea">
+              <div class="t01">영양밸런스</div>
+            </div>
+            <ul class="tag">
+              <li>#영양맞춤형</li>
+              <li>#메뉴선택형</li>
+              <li>#황금비율</li>
+              <li>#단지탄</li>
+            </ul>
+
+            <a class="more" href="/goods/goods_view.php?goodsNo=1000000280"
+              ><span>VIEW MORE {=includeFile('/img/mimg/right.svg')}</span></a
+            >
+          </div>
+        </div>
+        <div class="swiper-slide">
+          <div class="ban">
+            <!-- 메인04 : 이미지 05 -->
+            <img src="../img/mimg/sec04_ban02.png" />
+          </div>
+
+          <!-- 메인04 : 우측 텍스트 05 -->
+          <div class="box">
+            <div class="min_title">건강한 임신을 준비 중이라면</div>
+            <div class="m_titleArea">
+              <div class="t01">예비부모</div>
+            </div>
+            <ul class="tag">
+              <li>#임신준비</li>
+              <li>#오메가-3</li>
+              <li>#균형잡힌식사</li>
+            </ul>
+
+            <a class="more" href="/goods/goods_view.php?goodsNo=1000000282"
+              ><span>VIEW MORE {=includeFile('/img/mimg/right.svg')}</span></a
+            >
+          </div>
+        </div>
+        <div class="swiper-slide">
+          <div class="ban">
+            <!-- 메인04 : 이미지 06 -->
+            <img src="../img/mimg/sec04_ban09.png" />
+          </div>
+
+          <!-- 메인04 : 우측 텍스트 06 -->
+          <div class="box">
+            <div class="min_title">당은 낮춰도 맛은 더 더한</div>
+            <div class="m_titleArea">
+              <div class="t01">당뇨케어</div>
+            </div>
+            <ul class="tag">
+              <li>#특수의료용도식품</li>
+              <li>#당뇨환자용</li>
+              <li>#당뇨병</li>
+              <li>#식이관리</li>
+              <li>#당뇨식단</li>
+            </ul>
+
+            <a class="more" href="/goods/goods_view.php?goodsNo=1000000286"
+              ><span>VIEW MORE {=includeFile('/img/mimg/right.svg')}</span></a
+            >
+          </div>
+        </div>
+        <div class="swiper-slide">
+          <div class="ban">
+            <!-- 메인04 : 이미지 07 -->
+            <img src="../img/mimg/sec04_ban08.png" />
+          </div>
+
+          <!-- 메인04 : 우측 텍스트 07 -->
+          <div class="box">
+            <div class="min_title">
+              제약이 많은 당신을 위한
+			</div>
+            <div class="m_titleArea">
+              <div class="t01">신장케어</div>
+            </div>
+            <ul class="tag">
+              <li>#특수의료용도식품</li>
+              <li>#투석환자용</li>
+              <li>#신장질환자용</li>
+              <li>#신장식단</li>
+			  <li>#신장관리</li>
+            </ul>
+
+            <a class="more" href="/goods/goods_view.php?goodsNo=1000000287"
+              ><span>VIEW MORE {=includeFile('/img/mimg/right.svg')}</span></a
+            >
+          </div>
+        </div>
+		  
+        <div class="swiper-slide">
+          <div class="ban">
+            <!-- 메인04 : 이미지 08 -->
+            <img src="../img/mimg/sec04_ban10.png" />
+          </div>
+
+          <!-- 메인04 : 우측 텍스트 08 -->
+          <div class="box">
+            <div class="min_title">
+              최적의 영양 섭취를 위한
+            </div>
+            <div class="m_titleArea">
+              <div class="t01">암케어</div>
+            </div>
+            <ul class="tag">
+              <li>#특수의료용도식품</li>
+              <li>#암환자용</li>
+              <li>#핑크리본</li>
+              <li>#SCI급논문</li>
+            </ul>
+
+            <a class="more" href="/goods/goods_view.php?goodsNo=1000000288"
+              ><span>VIEW MORE {=includeFile('/img/mimg/right.svg')}</span></a
+            >
+          </div>
+        </div>		  
+      </div>
+      <div class="swiper-pagination swiper-pagination04"></div>
+    </div>
+  </section>
+	
+  <section class="mm_sec06 w1600">
+    <!-- 메인06 : 탭 상품 -->
+    <div
+      class="m_titleArea wow fadeInUp"
+      data-wow-delay="0s"
+      data-wow-duration="1s"
+    >
+      <!-- 메인06 : 타이틀 -->
+      <div class="t01">맞춤 영양식단 바로가기</div>
+      <div class="t02">나에게 필요한 식단을 한눈에 만나보세요.</div>
+    </div>
+
+    <div class="sec06_prd">
+      {=includeWidget('goods/_goods_display_main.html', 'sno', '14')}
+    </div>
+  </section>
+  <!-- //mm_sec06 -->
+
+  <section class="mm_sec05">
+		<!-- 메인05 : 가로 배너 -->
+		<div class="swiper-container swiper_sec05">
+			<!-- 메인 중간 배너 -->
+      {=includeWidget('proc/_slider_banner.html', 'bannerCode', '3040312042')}
+      <!-- 메인 중간 배너 -->
+		</div>
+	</section>
+
+
+  <section class="mm_sec07 w1600">
+    <!-- 메인07 : 베네핏 -->
+    <div
+      class="m_titleArea wow fadeInUp"
+      data-wow-delay="0s"
+      data-wow-duration="1s"
+    >
+      <!-- 메인07 : 타이틀 -->
+      <div class="t01">BENEFIT</div>
+      <div class="t02">메디쏠라만의 특별함을 확인해 보세요.</div>
+    </div>
+    <ul class="ban">
+      <!-- 메인07 : 배너 -->
+      <li>
+        <a href="/board/view.php?&bdId=calendar&sno=61">
+          <img src="../img/mimg/sec07_ban01.png" alt="식단캘린더" />
+          <div class="inner">
+            <div class="t01">식단캘린더</div>
+            <div class="t02">이달의 식단 확인하기</div>
+          </div>
+        </a>
+      </li>
+      <li>
+        <a href="/board/list.php?bdId=event&period=current">
+          <img src="../img/mimg/sec07_ban02.png" alt="이용방법" />
+          <div class="inner">
+            <div class="t01">이벤트</div>
+            <div class="t02">다양한 이벤트 확인하기</div>
+          </div>
+        </a>
+      </li>
+      <li>
+        <a href="/board/view.php?&bdId=members&sno=5">
+          <img src="../img/mimg/sec07_ban03.png" alt="회원혜택" />
+          <div class="inner">
+            <div class="t01">회원혜택</div>
+            <div class="t02">메디쏠라 회원혜택 만나보기</div>
+          </div>
+        </a>
+      </li>
+    </ul>
+  </section>
+
+  <section class="mm_sec08">
+    <!-- 메인08 : 타이틀 -->
+    <div class="inner w1600">
+      <div
+        class="m_titleArea wow fadeInUp"
+        data-wow-delay="0s"
+        data-wow-duration="1s"
+      >
+        <div class="t01">푸드케어 후기</div>
+        <div class="t02">
+          메디쏠라의 푸드케어를<br />
+          경험하신 분들의 후기를 만나보세요.
+        </div>
+
+        <a class="more" href="/board/plus_review_article.php"
+          ><span>REVIEW {=includeFile('/img/mimg/right.svg')}</span></a
+        >
+      </div>
+
+      <!-- 메인08 : 리뷰 모음 -->
+      <div class="swiper-container swiper_sec08">
+        <ul class="swiper-wrapper">
+          <!--{ @getArticles( 'goodsreview' , 10 , 999 , 'notice' ) }-->
+          <li class="swiper-slide">
+            <div class="top">
+              <a href="/board/plus_review_goods.php?bdId={.bdId}&sno={.sno}" data-sno="{.sno}">
+                <div class="thumb">
+                  <!--{ ? .goodsImageSrc }-->
+                  <img src="{.goodsImageSrc}" />
+                  <!--{ : }-->
+                  <img src="../img/mimg/no_image.png" />
+                  <!--{ / }-->
+                </div>
+                <div class="text">
+                  <div class="t01">{.subject}</div>
+                  <div class="t02">{.contents}</div>
+                  <div class="t03">
+                    {.writer} {=includeFile('/img/mimg/slash.svg')}
+                    <span>{.regDate}</span>
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            <div class="bottom">
+              <a href="../goods/goods_view.php?goodsNo={.goodsNo}">
+                <div class="img">
+                  <!--{ ? .goodsImageSrc }-->
+                  <img src="{.goodsImageSrc}" alt="상품이미지" />
+                  <!--{ / }-->
+                </div>
+                <div class="prd_name">
+                  <span class="count"
+                    ><img src="../img/mimg/point0{.goodsPt}.png"
+                  /></span>
+                  <div class="name">{.goodsNm}</div>
+                  {=includeFile('/img/mimg/right.svg')}
+                </div>
+              </a>
+            </div>
+          </li>
+          <!--{ / }-->
+        </ul>
+        <div class="swiper-scrollbar swiper-scrollbar-sec08"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mm_sec09">
+    <!-- 메인09 : 연구활동 -->
+    <div
+      class="back"
+      style="background-image: url(../img/mimg/PC_main_lab_35.jpg)"
+    >
+      <ul class="inner wow fadeInUp" data-wow-delay="0s" data-wow-duration="1s">
+        <li class="t_box">
+          <div class="t01">고민의 시간</div>
+          <div class="t02">9<span>년</span></div>
+          <div class="t03">
+            [임상영양, 의료, 식품, AI] 전문가 <br />since 2016
+          </div>
+        </li>
+        <li class="t_box">
+          <div class="t01">증명의 누적</div>
+          <div class="t02">21,488<span>회</span></div>
+          <div class="t03">
+            질환자대상 임상연구식 제공 누적 횟수 <br />2025.10 기준
+          </div>
+        </li>
+        <li class="t_box">
+          <div class="t01">다양한 메뉴</div>
+          <div class="t02">96<span>종</span></div>
+          <div class="t03">운영 식단 기준 <br />2025.10 기준</div>
+        </li>
+      </ul>
+      <!-- <a class="more" href="/main/html.php?htmid=main/medistudy.html" onclick="amplitude.logEvent('home_section_more_click', {section_title: 'OUR STUDY'})">
+        <span>OUR STUDY {=includeFile('/img/mimg/right.svg')}</span>
+      </a> -->
+    </div>
+  </section>
+  <section class="mm_sec10">
+    <!-- 메인10 : 타이틀 -->
+    <div
+      class="m_titleArea wow fadeInUp"
+      data-wow-delay="0s"
+      data-wow-duration="1s"
+    >
+      <div class="t01">메디쏠라 뉴스</div>
+      <div class="t02">메디쏠라의 다양한 소식을 만나보세요.</div>
+    </div>
+
+    <!-- 메인10 : 분할 배너 -->
+    <div class="w1600">
+      <div class="inner">
+        <div class="ban">
+          <div class="swiper-container sec10_ban">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide">
+                <a href="/board/view.php?&bdId=solanews&sno=114" data-sno="116">
+                  <img src="/data/contents_image/2025/news/solaMagazine_94.jpg"/>
+                </a>
+              </div>
+              <div class="swiper-slide">
+                <a href="/board/view.php?&bdId=solanews&sno=115" data-sno="115">
+                  <img src="/data/contents_image/2025/news/solaMagazine_93.jpg"/>
+                </a>
+              </div>
+              <div class="swiper-slide">
+                <a href="/board/view.php?&bdId=solanews&sno=114" data-sno="114">
+                  <img src="/data/contents_image/2025/news/solaMagazine_92.jpg"/>
+                </a>
+              </div>
+              <div class="swiper-slide">
+                <a href="/board/view.php?&bdId=solanews&sno=113" data-sno="113">
+                  <img src="/data/contents_image/2025/news/solaMagazine_91.jpg"/>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="text">
+          <div class="swiper-container sec10_text">
+            <div class="swiper-wrapper">
+              <div class="m_titleArea swiper-slide">
+                <div class="t01">
+                  '탄단지 523 영양죽'출시<br />
+                  저당 저나트륨 등도 맞춰
+                </div>
+                <div class="t02">11/29 롯데홈쇼핑 최유라쇼 첫선</div>
+
+                <a class="more" href="/board/view.php?&bdId=solanews&sno=116" data-sno="116"
+                  ><span
+                    >VIEW MORE {=includeFile('/img/mimg/right.svg')}</span
+                  ></a
+                >
+              </div>
+              <div class="m_titleArea swiper-slide">
+                <div class="t01">
+                  'JTBC 서울마라톤'성료 <br />
+                  러닝 전후 영양솔루션 소개
+                </div>
+                <div class="t02">국내 3대 메이저 마라톤 대회</div>
+
+                <a class="more" href="/board/view.php?&bdId=solanews&sno=115" data-sno="115"
+                  ><span
+                    >VIEW MORE {=includeFile('/img/mimg/right.svg')}</span
+                  ></a
+                >
+              </div>
+              <div class="m_titleArea swiper-slide">
+                <div class="t01">
+                  정관장 '개현 본점' 입점<br />
+                  맞춤형 푸드케어 제안
+                </div>
+                <div class="t02">정관장의 새로운 건강 라이프스타일 공간</div>
+
+                <a class="more" href="/board/view.php?&bdId=solanews&sno=114" data-sno="114"
+                  ><span
+                    >VIEW MORE {=includeFile('/img/mimg/right.svg')}</span
+                  ></a
+                >
+              </div>
+              <div class="m_titleArea swiper-slide">
+                <div class="t01">
+                  4년 연속 푸드위크 참가<br />
+                  미래형 푸드케어 제시
+                </div>
+				  <div class="t02">임상 데이터 기반의 영양 솔루션</div>
+
+                <a class="more" href="/board/view.php?&bdId=solanews&sno=113" data-sno="113"
+                  ><span
+                    >VIEW MORE {=includeFile('/img/mimg/right.svg')}</span
+                  ></a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="swiper-button-prev swiper-button-prev-sec10"></div>
+      <div class="swiper-button-next swiper-button-next-sec10"></div>
+    </div>
+  </section>
+
+  <!-- 푸드케어 레터 섹션 (mm_sec11) -->
+  {=includeWidget('magazine/_magazine_home.html')}
+
+	<section class="mm_sec09">
+    <style>
+      .inso_widget_data_1 a img {
+        object-fit: cover;
+      }
+    </style>
+    <div
+      class="m_titleArea wow fadeInUp"
+      data-wow-delay="0s"
+      data-wow-duration="1s"
+    >
+      <div class="t01">#메디쏠라 와 함께</div>
+      <div class="t02">Medisola on Instagram</div>
+    </div>
+    <div style="display: flex; justify-content: center;">
+      <div style="width: 1200px;">
+        {=includeWidget('proc/_insgov2.html', 'sno', '1')}
+      </div>
+    </div>
+	</section>
+	
+  <section class="mm_sec04 w1600 m_off">
+    <!-- 메인04 : 타이틀 -->
+    <div
+      class="m_titleArea wow fadeInUp"
+      data-wow-delay="0s"
+      data-wow-duration="1s"
+    >
+      <div class="t01">키워드 샵</div>
+      <div class="t02">닥터 오가닉 인기 키워드를 한 눈에 쉽게</div>
+    </div>
+
+    <!-- 메인04 : 키워드 -->
+    <div class="keyword">
+      <a href="javascript:;">#클렌징/필링</a>
+      <a href="javascript:;">#토너/미스트</a>
+      <a href="javascript:;">#세럼/에센스/앰플</a>
+      <a href="javascript:;">#로션/에멀전</a>
+      <a href="javascript:;">#크림</a>
+      <a href="javascript:;">#선케어</a>
+      <a href="javascript:;">#건강식품</a>
+      <a href="javascript:;">#홈/라이프</a>
+    </div>
+  </section>
+
+  <section class="mm_sec05 w1600 m_off">
+    <!-- 메인05 : 타임세일 -->
+    <!-- 메인05 : 타이틀 -->
+    <div
+      class="m_titleArea wow fadeInUp"
+      data-wow-delay="0s"
+      data-wow-duration="1s"
+    >
+      <div class="t01">Time Sale</div>
+      <div class="t02">
+        닥터 오가닉<br />
+        빅 타임세일 상품을 만나보세요.
+      </div>
+
+      <a class="more" href="javascript:;"
+        ><span>VIEW MORE {=includeFile('/img/mimg/right.svg')}</span></a
+      >
+    </div>
+
+    {=includeWidget('goods/_goods_display_main.html', 'sno', '15')}
+  </section>
+
+  <section class="mm_sec08 w1600 m_off">
+    <!-- 메인08 : 타이틀 -->
+    <div
+      class="m_titleArea wow fadeInUp"
+      data-wow-delay="0s"
+      data-wow-duration="1s"
+    >
+      <div class="t01">Md's Pick</div>
+      <div class="t02">닥터 오가닉 고객님들의 베스트 리뷰를 확인하세요.</div>
+    </div>
+
+    <!-- 메인08 : 3단 진열 -->
+    <div>{=includeWidget('goods/_goods_display_main.html', 'sno', '16')}</div>
+  </section>
+</div>
+<!-- //main_content -->
+{ # footer }

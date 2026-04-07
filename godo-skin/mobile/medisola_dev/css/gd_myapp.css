@@ -1,0 +1,19 @@
+@charset "utf-8";
+
+/* 앱 설치 권장 팝업 */
+.ly_app_wrap {position:fixed; top:0; left:0; width:100%; height:100%; z-index:1000000;}
+.ly_app_dim {width: 100%; height: 100%; background: rgba(0,0,0,0.8);}
+.ly_app_cont {position:absolute; top:27%; left:50%; width:290px; margin-left:-145px;}
+.ly_app_cont .img_app img {max-width:100%;}
+.ly_app_cont .chk_today {padding:7px 0 0 0;}
+.ly_app_cont .chk_today .label_txt {font-size:13px; color:#fff; padding-left:7px; vertical-align:middle;}
+.ly_app_wrap .input_check_box {position: relative; display:inline-block; cursor:pointer;}
+.ly_app_wrap .input_check_box .check-origin {position: absolute; top:2px; left:1px; z-index: -1;}
+.ly_app_wrap .input_check_box .check-origin:checked+.check-clone {background-position: 0 -18px;}
+.ly_app_wrap .input_check_box .check-clone {display: inline-block; width: 18px; height: 18px; vertical-align: middle; background: url('/data/commonimg/myapp/icon_popup_check.png') 0 0 no-repeat; background-size:cover;}
+.ly_app_wrap .btn_ly_close {display:block; position:absolute; top:-37px; right:0; width:28px; height:28px; text-indent:-9999px; border:none; background:url('/data/commonimg/myapp/icon_popup_cancel.png') no-repeat 0 0; background-size:28px 28px;}
+
+/* 마이앱 상품 추가 할인 */
+.app_notice {display:inline-block; font-size:13px; color:#333; padding:4px 0 5px 0;}
+.app_notice img {width:13px; margin-right:8px; vertical-align: -6px;}
+.app_notice strong {font-size:16px; font-weight:bold; color:#9d4656; vertical-align:-1px; padding-left:2px;}

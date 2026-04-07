@@ -1,0 +1,216 @@
+{*** 상세 | board/view.php ***}
+<div class="view_event">
+	<div class="goods_area">
+		<h3>
+			<!--{ ? bdView.cfg.bdCategoryFl == 'y' && bdView.data.category }-->
+			[{bdView.data.category}]
+			<!--{ / }-->
+			{bdView.data.subject}
+		</h3>
+		<div id="boardContent" class="view_wrap">
+			<div class="view_box">
+				<div class="view_info_box">
+					<div class="view_info">
+						<span class="writer">{bdView.data.writer}</span>
+						<span class="date">{bdView.data.regDt}</span>
+						<!--{ ? bdView.cfg.bdIpFl == 'y' && bdView.data.writerIp }-->
+						<span class="ip">{bdView.data.writerIp}</span>
+						<!--{ / }-->
+						<!--{ ? bdView.cfg.bdReplyStatusFl == 'y'}-->
+						<div>{bdView.data.replyStatusText}</div>
+						<!--{ / }-->
+						<!--{ ? bdView.cfg.bdGoodsPtFl == 'y' }-->
+						<div class="rating"><span style="width:{bdView.data.goodsPt*20}%;">{=__('별')}</span></div>
+						<!--{ / }-->
+					</div>
+					<div class="view_info">
+						<div class="event"><strong>{=__('이벤트 기간')} : </strong> <span>{bdView.data.eventStart} ~ {bdView.data.eventEnd}</span></div>
+					</div>
+					<!--{ ? bdView.data.isFile == 'y' }-->
+					<div class="view_info">
+						<span><img src="img/etc/icon-clip.png" alt="{=__('첨부파일')}"/></span>
+						<strong>{=__('첨부파일')}</strong>
+						<!--{ @ bdView.data.uploadedFile }-->
+						<a href="./download.php?bdId={=bdView.cfg.bdId}&sno={req.sno}&fid={=.fid}">&nbsp;&nbsp;{.name}</a>
+						<!--{ / }-->
+					</div>
+					<!--{/}-->
+					<!--{ ? bdView.cfg.bdLinkFl == 'y' && bdView.data.urlLink }-->
+					<div class="view_info">
+						<span class="urlLink">Link&nbsp;:&nbsp;<a href="{=gd_isset(bdView.data.urlLink)}" target="_blank">{=bdView.data.urlLink}</a></span>
+					</div>
+					<!--{ / }-->
+				</div>
+				<div class="view_body">
+					<!--{? bdView.data.isViewGoodsInfo == 'y' }-->
+					<div class="selected_goods_wrap">
+						<div class="selected_goods">
+							<div class="goods_item_cell cell_img">
+								<div class="goods_img">
+									<a href="../goods/goods_view.php?goodsNo={bdView.data.goodsNo}" target="_blank"><img src="{bdView.data.viewListImage}" alt="{bdView.data.goodsData.goodsNm}"></a>
+								</div>
+							</div>
+							<div class="goods_item_cell cell_info">
+								<a href="../goods/goods_view.php?goodsNo={bdView.data.goodsNo}" target="_blank">{bdView.data.goodsData.goodsNm}</a>
+							</div>
+							<div class="goods_item_cell cell_price">
+								<!--{? bdView.data.goodsData.goodsPriceString}-->
+								{=bdView.data.goodsData.goodsPriceString}
+								<!--{:}-->
+								{=gd_global_currency_symbol()}{=gd_global_money_format(bdView.data.goodsData.goodsPrice)}{=gd_global_currency_string()}
+								<!--{/}-->
+							</div>
+
+						</div>
+					</div>
+					<!--{ / }-->
+					<!--{? bdView.data.isViewOrderInfo == 'y'}-->
+					<!--{@ bdView.data.extraData.arrOrderGoodsData}-->
+					<div class="selected_goods_wrap">
+						<div class="selected_goods">
+							<div class="goods_item_cell cell_img">
+								<div class="goods_img">
+									<a href="../goods/goods_view.php?goodsNo={.goodsNo}" target="_blank"><img src="{.goodsImageSrc}" alt="{.goodsNm}"></a>
+								</div>
+							</div>
+							<div class="goods_item_cell cell_info">
+								<strong class="goods_titlename">{.goodsNm}</strong>
+								<span class="goods_optionname"> {.optionName}</span>
+							</div>
+							<div class="goods_item_cell cell_price">
+								{=gd_global_currency_symbol()}{=gd_global_money_format(.totalGoodsPrice)}{=gd_global_currency_string()}
+							</div>
+						</div>
+					</div>
+					<!--{/}-->
+					<!--{/}-->
+				</div>
+				<div class="contents_holder">{=bdView.data.workedContents}</div>
+			</div>
+			<!--{ ? bdView.cfg.bdMemoFl == 'y' || bdView.cfg.bdRecommendFl == 'y'}-->
+			<div class="view_comment">
+				<div class="comment_count">
+					<!--{ ? bdView.cfg.bdMemoFl == 'y'}-->
+					<span>{=__('%s개의 댓글이 있습니다.', '<strong>' + bdView.data.memoCnt + '</strong>')}</span>
+					<!--{/}-->
+					<!--{? bdView.cfg.bdRecommendFl == 'y' }-->
+					<span id="recommendCount">{=__('추천')} : <strong>{=bdView.data.recommend}</strong></span>
+					<div class="btn_like"><a href="javascript:gd_recommend('{req.bdId}',{req.sno})" class="board_like_btn">{=__('추천하기')}</a></div>
+					<!--{/}-->
+				</div>
+			</div>
+			<!--{/}-->
+			<!--{ ? bdView.cfg.bdMemoFl == 'y' }-->
+			<div class="comment_wrap js_comment_area" data-bdId="{req.bdId}" data-sno="{req.sno}">
+				<!--{ @ bdView.data.memoList }-->
+				<div class="js_data_comment_row" data-memosno="{.sno}" data-memoauth="{.auth}">
+					<div class="comment_info">
+						<div <!--{ ? .groupThread }-->class="rereply_row"<!--{ / }-->>
+						<span class="writer">{.writer}</span>
+						<span class="date">{.regDt}</span>
+					</div>
+					<div class="contents_holder">
+						{.workedMemo}
+					</div>
+					<div class="comment_options">
+						<!--{ ? !.groupThread }-->
+						<button type="button" class="comment_reply_btn js_comment_btn_reply">{=__('댓글에 댓글달기')}</button>
+						<!--{ / }-->
+						<!--{ ? .auth : 'y' : 'c' }-->
+						<button type="button" class="comment_modify_btn js_comment_btn_modify" title="{=__('댓글 수정')}">{=__('댓글 수정')}</button>
+						<button type="button" class="comment_del_btn js_comment_btn_delete" title="{=__('댓글 삭제')}">{=__('댓글 삭제')}</button>
+						<!--{ / }-->
+					</div>
+				</div>
+				<div class="reply_form js_action_form" style="display:none">
+					<!--{ ? !gd_is_login() }-->
+					<dl class="b_guest_info">
+						<dd><input type="text" name="writerNm" placeholder="{=__('이름')}"/></dd>
+						<dd><input type="password" name="password" placeholder="{=__('비밀번호')}"/></dd>
+					</dl>
+					<dl class="b_guest">
+						<dt>
+							<span class="inp_chk">
+								<input type="checkbox" id="infoCollectionAgreeAction{.sno}" data-dpmaxz-eid="11"/>
+								<label for="infoCollectionAgreeAction{.sno}"><strong>({=__('비회원')}) {=__('개인정보 수집항목 동의')}</strong>
+								</label>
+								<a href="javascript:void(0)" onclick="gd_redirect_collection_agree()" target="_blank" class="c_red">{=__('전체보기')}&gt;</a>
+							</span>
+						</dt>
+						<dd><div class="textarea_box"><textarea rows="3">{=bdView.private}</textarea></div></dd>
+					</dl>
+					<!--{ / }-->
+					<div class="b_memo">
+						<div class="comment_input"><textarea class="memo" name="memo" placeholder="{=__('댓글을 작성하세요.')}"></textarea></div>
+						<div class="comment_btn"><button type="button" class="view_comment_btn js_comment_btn_action">{=__('작성 완료')}</button></div>
+					</div>
+				</div>
+			</div>
+			<!--{ / }-->
+
+			<!--{ ? bdView.cfg.auth.memo == 'y' }-->
+			<div class="reply_form js_form_write">
+				<!--{ ? !gd_is_login() }-->
+				<dl class="b_guest_info">
+					<dd><input type="text" name="writerNm" placeholder="{=__('이름')}"/></dd>
+					<dd><input type="password" name="password" placeholder="{=__('비밀번호')}"/></dd>
+				</dl>
+				<dl class="b_guest">
+					<dt>
+						<span class="inp_chk">
+							<input type="checkbox" id="infoCollectionAgreeWrite" data-dpmaxz-eid="11"/>
+							<label for="infoCollectionAgreeWrite"><strong>({=__('비회원')}) {=__('개인정보 수집항목 동의')}</strong>
+							</label>
+							<a href="javascript:void(0)" onclick="gd_redirect_collection_agree()" class="c_red">{=__('전체보기')}&gt;</a>
+						</span>
+					</dt>
+					<dd><div class="textarea_box"><textarea rows="3">{=bdView.private}</textarea></div></dd>
+				</dl>
+				<!--{ / }-->
+				<div class="b_memo">
+					<div class="comment_input"><textarea class="memo" name="memo" placeholder="{=__('댓글을 작성하세요.')}"></textarea></div>
+					<div class="comment_btn"><button type="button" class="view_comment_btn js_comment_btn_write">{=__('작성 완료')}</button></div>
+				</div>
+			</div>
+			<!--{:}-->
+			<div class="reply_form">
+				<!--{ ? gd_is_login() }-->
+				<p class="no_data">{=__('댓글 권한이 없습니다.')}</p>
+				<!--{ : }-->
+				<p class="no_data">{=__('로그인을 하셔야 댓글을 등록하실 수 있습니다.')}</p>
+				<!--{ / }-->
+			</div>
+			<!--{ / }-->
+			<!--{ / }-->
+		</div>
+		<div class="btn_wish_bx">
+			<ul class="btn_bx">
+				<!--{ ? bdView.data.auth.reply : 'y' : 'c' }-->
+				<li><button type="button" class="view_reply_btn" onclick="gd_btn_reply_write('{req.bdId}',{req.sno})">{=__('답글')}</button></li>
+				<!--{ / }-->
+				<!--{ ? bdView.data.auth.modify : 'y' : 'c' }-->
+				<li><button type="button" class="view_modify_btn" onclick="gd_btn_modify_write('{req.bdId}',{req.sno},'{bdView.data.auth.modify}')">{=__('수정')}</button></li>
+				<!--{ / }-->
+				<!--{ ? bdView.data.auth.delete : 'y' : 'c' }-->
+				<li><button type="button" class="view_del_btn" onclick="gd_btn_delete('{req.bdId}',{req.sno},'{bdView.data.auth.delete}')">{=__('삭제')}</button></li>
+				<!--{ / }-->
+			</ul>
+		</div>
+	</div>
+	<!-- 레이어 호출시 딤처리 -->
+	<div id="layerDim" class="dn">&nbsp;</div>
+	<!-- //레이어 호출시 딤처리 -->
+	<!-- 비밀글 클릭시 인증 레이어 -->
+	<div class="cite_layer dn js_password_layer">
+		<div class="wrap">
+			<h4>{=__('비밀번호 인증')}</h4>
+			<div>
+				<p>{=__('글 작성시 설정한 비밀번호를 입력해 주세요.')}</p>
+				<input type="password" name="writerPw" />
+				<div class="btn_box"><a href="javascript:void(0)" class="layer_close_btn js_submit ly_pwok_btn">{=__('확인')}</a></div>
+			</div>
+			<button type="button" class="close" title="{=__('닫기')}">{=__('닫기')}</button>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="\{=c.PATH_MOBILE_SKIN}js/gd_board_view.js" charset="utf-8"></script>

@@ -1,0 +1,140 @@
+{*** [위젯] 정기결제 약관 선택 | goods/_goods_display.php ***}
+<link rel="stylesheet" type="text/css" href='../subscription/css/order.css'>
+<div class='order_subscription'>
+<h3>정기결제 이용약관</h3>
+<div class='term_box'>
+    <div class='inner'>{=nl2br(subCfg.terms)}</div>
+     <div class='terms_agree form_element'>
+        <input type='checkbox' id='agree_subscription' value='1' class="checkbox"><label for='agree_subscription'>정기결제 이용약관에 동의합니다.</label>
+     </div>
+     <div class='cr'></div>
+</div> <!-- terms_box -->
+
+<div class='selection_area'>
+    <div class='area_box area_box1'>
+        <div class='mtitle'>결제일 선택</div>
+        <div class='inner_box'>
+            <div class='rows rows1'>
+                <div class='cell cell1'>결제횟수</div>
+                <div class='cell cell2'>
+                    <select name='deliveryEa' class='deliveryEa'>
+                    <!--{ @subCfg.deliveryEa }-->
+                        <option value='{.value_}'<!--{ ? .value_ == deliveryEa }--> selected<!--{ / }-->>{.value_}회</option>
+                    <!--{ / }-->
+                    </select>
+                </div> <!-- cell -->
+            </div>
+            <div class='rows'>
+                <div class='cell cell1'>결제주기</div>
+                <div class='cell cell2'>
+                <!--{ @subCfg.period }-->
+                    <span class='select_box'>
+                    <!--{ @explode("_", .value_) }-->
+                        <!--{ ? ..index_ == 0 }-->
+                        <input type='radio' name='period' class='period' value='{.value_}'<!--{ ? .value_ ==  period }--> checked<!--{ / }-->>{..value_}<!--{ : ..index_ == 1 }--><!--{ ? ..value_ == 'week' }-->주<!--{ : }-->달<!--{ / }-->에 한번
+                        <!--{ / }-->
+                    <!--{ / }-->
+                </span>
+               <!--{ / }-->
+                </div> <!-- cell -->
+            </div>
+        </div> <!-- inner_box -->
+    </div> <!-- area_box -->
+    <div class='area_box area_box2'>
+        <div class='mtitle'>회차별 배송요약</div>
+        <div class='inner_box'>
+            <table cellpadding=0 cellspacing=0 width='100%' class='schedule_list_table'>
+                <thead>
+                <tr class='tr_head'>
+                    <td width='50'>회차</td>
+                    <td>결제일</td>
+                    <td>배송일</td>
+                    <td>상품금액</td>
+                </tr>
+                </thead>
+                <tbody>
+                 <!--{ @scheduleList }--> 
+                  <tr>
+                      <td>{.index_ + 1}회</td>
+                      <td>{=date("Y.m.d", .stamp)}</td>
+                      <td>{=date("Y.m.d", .delivery_stamp)}</td>
+                      <td>
+                           <!--{ ? .discount }-->
+                            <strike class='consumer'>{=number_format(.price)}</strike>→<span class='goodsPrice'>{=number_format(.price - .discount)}</span>
+                           <!--{ : }-->
+                           <span class='goodsPrice'>{=number_format(.price - .discount)}</span>
+                           <!--{ / }-->
+                      </td>
+                  </tr>
+                 <!--{ / }-->
+               </tbody>
+            </table>
+        </div> <!-- inner_box -->
+    </div> <!-- area_box -->
+</div> <!-- selection_area -->
+<!--{ ? subCfg.orderGuide }-->
+<div class='mtitle mtitle2 mt20'>정기결제 이용안내</div>
+<div class='guide_box'>{=nl2br(subCfg.orderGuide)}</div>
+<!--{ / }-->
+</div> <!-- order_subscription -->
+
+
+<script>
+$(function() {
+    $(".order_subscription .deliveryEa, .order_subscription .period").change(function() {
+        updateScheduleList();
+    });
+});
+
+function updateScheduleList()
+{
+    var ea = $(".order_subscription .deliveryEa").val();
+    var period = $(".order_subscription .period:checked").val();
+    var cartSno = [];
+    $('input[name="cartSno[]"]').each(function(idx){
+       cartSno.push($(this).val());
+    });
+    if (typeof ea != "undefined" && ea != "" && typeof period != "undefined" && period != "") {
+        var html = "";
+        $.ajax({
+             url : "../subscription/ajax.php",
+             type : "post",
+             dataType : "json",
+             data : { mode : "getSchedule", ea : ea, period : period, cartSno : cartSno },
+             async : false, 
+             success : function (data) {
+               if (data.length > 0) {
+                    for (var i = 0; i < data.length; i++) {
+                        var d = data[i];
+                        var price = parseInt(d.price);
+                        if (isNaN(price))
+                            price = 0;
+                            
+                        var discount = parseInt(d.discount);
+                        if (isNaN(discount))
+                            discount = 0;
+                            
+                        html += "<tr>";
+                        html += "<td>" + (i + 1) + "회</td>";
+                        html += "<td>" + d.date + "</td>";
+                        html += "<td>"+ d.delivery_date + "</td>";
+                        html += "<td>";
+                        if (discount > 0)
+                            html += "<strike class='consumer'>" + numeral(price).format() + "</strike>→<span class='goodsPrice'>" + numeral(price - discount).format() + "</span>";
+                        else
+                           html += "<span class='goodsPrice'>" + number(price - discount).format() + "</span>";
+                       html += "</td>";
+                       html += "</tr>";
+                    }
+
+               }
+             },
+             error : function (res) {
+                console.log(res);
+             }
+         });
+         
+         $(".order_subscription .schedule_list_table tbody").html(html);
+     }
+}
+</script>
