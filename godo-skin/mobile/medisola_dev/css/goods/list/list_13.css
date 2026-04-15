@@ -6,7 +6,7 @@
 .goods_prd_item13 .tab_box {padding: 0 16px; margin-bottom: 28px;}
 .goods_prd_item13 .tab_box .tab {display: flex; gap: 8px;}
 .goods_prd_item13 .tab_box .tab li {flex: 1;}
-.goods_prd_item13 .tab_box .tab li a {overflow:hidden; display:block; padding: 10px 16px; font-size:14px; box-sizing:border-box; text-overflow:ellipsis; white-space:nowrap; word-wrap:normal; color:#999999; border: 1px solid #D1D1D1; text-align: center; border-radius: 100px;}
+.goods_prd_item13 .tab_box .tab li a {overflow:hidden; display:block; padding: 10px 0; font-size:14px; box-sizing:border-box; text-overflow:ellipsis; white-space:nowrap; word-wrap:normal; color:#999999; border: 1px solid #D1D1D1; text-align: center; border-radius: 100px;}
 .goods_prd_item13 .tab_box .tab li.on a {background:#DA663F; border-color: #DA663F; color:#fff;}
 .goods_prd_item13 .goods_gallery_item {display:inline-block; vertical-align:top;}
 .goods_prd_item13 .goods_prd_item13_box {padding:10px 5px 10px 5px;}

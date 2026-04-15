@@ -240,9 +240,7 @@
       {=includeFile('/img/mimg/ms_slash.svg')}
       <a href="../member/join_method.php">회원가입</a>
       <!--{ : }-->
-      <a href="../member/logout.php">로그아웃</a>
-      {=includeFile('/img/mimg/ms_slash.svg')}
-      <a href="../mypage/index.php">정보수정</a>
+      <a href="../mypage/index.php">마이페이지</a>
       <!--{ / }-->
     </div>
 
@@ -288,12 +286,14 @@
 
           <!-- 사이드바03 : 마이페이지 -->
           <div class="ms_mypage">
-            <a href="../mypage/index.php">마이페이지</a>
-            <a href="../mypage/order_list.php">주문/배송조회</a>
-            <a href="/order/cart.php">장바구니</a>
             <a href="/service/faq.php">자주 하는 질문</a>
             <a href="/service/qa.php">1:1문의</a>
+            <a href="/board/list.php?&bdId=goodsqa">구매문의</a>
           </div>
+          
+          <!--{ ? gd_is_login() === true }-->
+          <a href="../member/logout.php">로그아웃</a>
+          <!--{ / }-->
         </div>
         <!-- //nav_content_box -->
       </div>
