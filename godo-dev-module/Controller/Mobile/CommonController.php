@@ -14,17 +14,17 @@ class CommonController
     {
         $this->requestUri = \Request::server()->get('REQUEST_URI');
         $this->menuTree = [
-            (\Request::getRemoteAddress() == '183.98.27.142') ? [
-                'id' => 'find_my_meal',
-                'text' => [
-                    'default' => '나만의 식단 플랜'
-                ],
-                'url' => '/guide/diet_quiz.php?goodsNo=1000000445',
-                'active' => false,
-                'new' => true,
-                'columns' => 0,
-                'children' => null
-            ] : null,
+            // (\Request::getRemoteAddress() == '183.98.27.142') ? [
+            //     'id' => 'find_my_meal',
+            //     'text' => [
+            //         'default' => '나만의 식단 플랜'
+            //     ],
+            //     'url' => '/guide/diet_quiz.php?goodsNo=1000000445',
+            //     'active' => false,
+            //     'new' => true,
+            //     'columns' => 0,
+            //     'children' => null
+            // ] : null,
             // [
             //     'id' => 'find_my_meal',
             //     'text' => [
@@ -390,113 +390,113 @@ class CommonController
                     ],
                 ]
             ],
-            [
-                'id' => 'events',
-                'text' => [
-                    'default' => '이벤트'
-                ],
-                'url' => '/board/list.php?bdId=event&period=current',
-                'active' => false,
-                'new' => false,
-                'columns' => 0,
-                'children' => null
-            ],
-            [
-                'id' => 'review_and_magazine',
-                'text' => [
-                    'default' => '스토리'
-                ],
-                'url' => '/board/plus_review_goods.php?bdId=goodsreview&sno=287',
-                'active' => false,
-                'new' => false,
-                'columns' => 1,
-                'children' => [
-                    [
-                        'id' => 'review',
-                        'text' => [
-                            'default' => '리뷰'
-                        ],
-                        'url' => '/board/plus_review_goods.php?bdId=goodsreview&sno=287',
-                        'active' => false,
-                        'new' => false,
-                    ],
-                    [
-                        'id' => 'medisola_news',
-                        'text' => [
-                            'default' => '케어 스토리'
-                        ],
-                        'url' => '/board/list.php?bdId=solanews',
-                        'active' => false,
-                        'new' => false,
-                    ],
-                    [
-                        'id' => 'medisola_magazine',
-                        'text' => [
-                            'default' => '푸드케어 레터'
-                        ],
-                        'url' => '/magazine/list.php',
-                        'active' => false,
-                        'new' => false,
-                    ]
-                ]
-            ],
-            [
-                'id' => 'customer_service',
-                'text' => [
-                    'default' => '고객센터'
-                ],
-                'url' => '/board/list.php?bdId=notice',
-                'active' => false,
-                'new' => false,
-                'columns' => 1,
-                'children' => [
-                    [
-                        'id' => 'notice',
-                        'text' => [
-                            'default' => '공지사항'
-                        ],
-                        'url' => '/board/list.php?bdId=notice',
-                        'active' => false,
-                        'new' => false,
-                    ],
-                    [
-                        'id' => 'monthly_meal_plan',
-                        'text' => [
-                            'default' => '이달의식단'
-                        ],
-                        'url' => '/board/list.php?bdId=calendar',
-                        'active' => false,
-                        'new' => false,
-                    ],
-                    [
-                        'id' => 'solamate',
-                        'text' => [
-                            'default' => '메디쏠라앱'
-                        ],
-                        'url' => '/main/html.php?htmid=board/skin/meditalktalk/solamate',
-                        'active' => false,
-                        'new' => false,
-                    ],
-                    [
-                        'id' => 'member_benefits',
-                        'text' => [
-                            'default' => '회원혜택'
-                        ],
-                        'url' => '/board/view.php?&bdId=members&sno=5',
-                        'active' => false,
-                        'new' => false,
-                    ],
-                    [
-                        'id' => 'faq',
-                        'text' => [
-                            'default' => 'FAQ'
-                        ],
-                        'url' => '/service/faq_list.php',
-                        'active' => false,
-                        'new' => false,
-                    ]
-                ]
-            ]
+            // [
+            //     'id' => 'events',
+            //     'text' => [
+            //         'default' => '이벤트'
+            //     ],
+            //     'url' => '/board/list.php?bdId=event&period=current',
+            //     'active' => false,
+            //     'new' => false,
+            //     'columns' => 0,
+            //     'children' => null
+            // ],
+            // [
+            //     'id' => 'review_and_magazine',
+            //     'text' => [
+            //         'default' => '스토리'
+            //     ],
+            //     'url' => '/board/plus_review_goods.php?bdId=goodsreview&sno=287',
+            //     'active' => false,
+            //     'new' => false,
+            //     'columns' => 1,
+            //     'children' => [
+            //         [
+            //             'id' => 'review',
+            //             'text' => [
+            //                 'default' => '리뷰'
+            //             ],
+            //             'url' => '/board/plus_review_goods.php?bdId=goodsreview&sno=287',
+            //             'active' => false,
+            //             'new' => false,
+            //         ],
+            //         [
+            //             'id' => 'medisola_news',
+            //             'text' => [
+            //                 'default' => '케어 스토리'
+            //             ],
+            //             'url' => '/board/list.php?bdId=solanews',
+            //             'active' => false,
+            //             'new' => false,
+            //         ],
+            //         [
+            //             'id' => 'medisola_magazine',
+            //             'text' => [
+            //                 'default' => '푸드케어 레터'
+            //             ],
+            //             'url' => '/magazine/list.php',
+            //             'active' => false,
+            //             'new' => false,
+            //         ]
+            //     ]
+            // ],
+            // [
+            //     'id' => 'customer_service',
+            //     'text' => [
+            //         'default' => '고객센터'
+            //     ],
+            //     'url' => '/board/list.php?bdId=notice',
+            //     'active' => false,
+            //     'new' => false,
+            //     'columns' => 1,
+            //     'children' => [
+            //         [
+            //             'id' => 'notice',
+            //             'text' => [
+            //                 'default' => '공지사항'
+            //             ],
+            //             'url' => '/board/list.php?bdId=notice',
+            //             'active' => false,
+            //             'new' => false,
+            //         ],
+            //         [
+            //             'id' => 'monthly_meal_plan',
+            //             'text' => [
+            //                 'default' => '이달의식단'
+            //             ],
+            //             'url' => '/board/list.php?bdId=calendar',
+            //             'active' => false,
+            //             'new' => false,
+            //         ],
+            //         [
+            //             'id' => 'solamate',
+            //             'text' => [
+            //                 'default' => '메디쏠라앱'
+            //             ],
+            //             'url' => '/main/html.php?htmid=board/skin/meditalktalk/solamate',
+            //             'active' => false,
+            //             'new' => false,
+            //         ],
+            //         [
+            //             'id' => 'member_benefits',
+            //             'text' => [
+            //                 'default' => '회원혜택'
+            //             ],
+            //             'url' => '/board/view.php?&bdId=members&sno=5',
+            //             'active' => false,
+            //             'new' => false,
+            //         ],
+            //         [
+            //             'id' => 'faq',
+            //             'text' => [
+            //                 'default' => 'FAQ'
+            //             ],
+            //             'url' => '/service/faq_list.php',
+            //             'active' => false,
+            //             'new' => false,
+            //         ]
+            //     ]
+            // ]
         ];
 
         $this->menuTree = array_filter($this->menuTree, function($item) {
