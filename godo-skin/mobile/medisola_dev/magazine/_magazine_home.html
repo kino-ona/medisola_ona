@@ -1,70 +1,57 @@
 {*** [위젯] 푸드케어 레터 홈 섹션 (모바일) | mobile/magazine/_magazine_home.html ***}
 <section class="home-magazine">
-    <div class="magazine_title_area">
-        <div class="t01">푸드케어 레터</div>
-        <div class="t02">영양이담긴식사로,<br>일상속푸드케어를전해요</div>
-    </div>
+	<h2 class="home-contents__title">
+		<span>메디쏠라 이야기</span>
+	</h2>
 
-    {? hasMagazines}
-    <div class="swiper-container home-magazine__swiper">
-        <div class="swiper-wrapper">
-        {@ magazines}
-        <div class="swiper-slide">
-        <div class="magazine_card_mobile" onclick="location.href='/magazine/view.php?id={=.articleId}'">
-            {? .imageUrl}
-            <div class="magazine_image_mobile">
-                <img src="{=.imageUrl}" alt="{=.subject}" loading="lazy">
-            </div>
-            {/}
-            <div class="magazine_content_mobile">
-                <h3>{=.subject}</h3>
-                <p>{=.summary}</p>
-            </div>
-        </div>
-        </div>
-        {/}
-        </div>
-    </div>
+	{? hasMagazines}
+	<div class="swiper-container home-magazine__swiper">
+			<div class="swiper-wrapper">
+			{@ magazines}
+			<div class="swiper-slide">
+			<div class="magazine_card_mobile" onclick="location.href='/magazine/view.php?id={=.articleId}'">
+					{? .imageUrl}
+					<div class="magazine_image_mobile">
+							<h3>{=.subject}</h3>
+							<img src="{=.imageUrl}" alt="{=.subject}" loading="lazy">
+					</div>
+					{/}
+					<!-- <div class="magazine_content_mobile">
+							<h3>{=.subject}</h3>
+							<p>{=.summary}</p>
+					</div> -->
+			</div>
+			</div>
+			{/}
+			</div>
+	</div>
 
-    <div class="home-view-more">
-        <a href="/magazine/list.php">VIEW MORE &gt;</a>
-    </div>
-    {/}
+	<div class="home-view-more">
+			<a href="/magazine/list.php">매거진 더보기 &gt;</a>
+	</div>
+	{/}
 </section>
-
-<style>
-.home-magazine .home-magazine__swiper { padding: 0 20px; overflow: hidden; }
-.home-magazine .home-magazine__swiper .swiper-wrapper { align-items: flex-start; }
-.home-magazine .home-magazine__swiper .swiper-slide { width: calc((100vw - 52px) / 1.85); flex-shrink: 0; }
-.home-magazine .magazine_card_mobile { width: 100%; cursor: pointer; }
-.home-magazine .magazine_card_mobile:active { opacity: 0.7; }
-.home-magazine .magazine_image_mobile { position: relative; width: 100%; padding-bottom: 100%; overflow: hidden; background: #e8e8e6; }
-.home-magazine .magazine_image_mobile img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
-.home-magazine .magazine_content_mobile { padding: 12px 0 0; }
-.home-magazine .magazine_card_mobile h3 { margin: 0 0 4px; font-size: 14px; font-weight: 500; color: #1f1f1f; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-.home-magazine .magazine_content_mobile p { margin: 8px 0 0; font-size: 12px; color: #777; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-</style>
 
 <script type="text/javascript">
 (function() {
-    var $targets = $('.home-magazine__swiper').filter(function() {
-        return !$(this).attr('data-swiper-init');
-    });
+	var $targets = $('.home-magazine__swiper').filter(function() {
+			return !$(this).attr('data-swiper-init');
+	});
 
-    if (!$targets.length || typeof Swiper === 'undefined') {
-        return;
-    }
+	if (!$targets.length || typeof Swiper === 'undefined') {
+			return;
+	}
 
-    $targets.each(function() {
-        $(this).attr('data-swiper-init', 'true');
-        new Swiper(this, {
-            slidesPerView: 1.2,
-            spaceBetween: 12,
-            // freeMode: true,
-            watchOverflow: true,
-            loop: true,
-            centeredSlides: true
-        });
-    });
+	$targets.each(function() {
+	$(this).attr('data-swiper-init', 'true');
+	new Swiper(this, {
+			slidesPerView: 1.25,
+			spaceBetween: 6,
+			// freeMode: true,
+			watchOverflow: true,
+			loop: true,
+			centeredSlides: true
+	});
+	});
 })();
 </script>

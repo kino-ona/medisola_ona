@@ -7,195 +7,225 @@
 <!-- ========== Analytics ========== -->
 <script>
 $(document).ready(function() {
-    amplitude.logEvent('home_view');
+	amplitude.logEvent('home_view');
 
-    // SEC 1: Hero
-    $('.home-hero__overlay, .home-hero__slogan').on('click', function() {
-        amplitude.logEvent('home_hero_click', { area: 'hero' });
-    });
+	// SEC 1: Hero 배너
+	$('.home-hero').on('click', '.home-hero__slide', function() {
+			var n = $(this).data('banner');
+			amplitude.logEvent('home_hero_click', { area: 'banner_slide', slide: n });
+	});
 
-    // SEC 6: Magazine (위젯 자체 JS에서 처리)
+	// SEC 6: Magazine (위젯 자체 JS에서 처리)
 
-    // SEC 7: 케어 스토리
-    if ($('.home-care-story__swiper').length && typeof Swiper !== 'undefined') {
-        new Swiper('.home-care-story__swiper', {
-            slidesPerView: 1,
-            spaceBetween: 0,
-            loop: true,
-            autoplay: { delay: 5000, disableOnInteraction: false },
-            pagination: { el: '.home-care-story__pagination', clickable: true }
-        });
-    }
-    $('.home-care-story__block').on('click', function() {
-        var sno = $(this).data('sno');
-        amplitude.logEvent('home_section_item_click', {
-            section_title: '케어 스토리',
-            item_type: 'award',
-            item_name: sno
-        });
-    });
+	// SEC 7: 케어 스토리
+	if ($('.home-care-story__swiper').length && typeof Swiper !== 'undefined') {
+			new Swiper('.home-care-story__swiper', {
+					slidesPerView: 1,
+					spaceBetween: 0,
+					loop: true,
+					autoplay: { delay: 5000, disableOnInteraction: false },
+					pagination: { el: '.home-care-story__pagination', clickable: true }
+			});
+	}
+	$('.home-care-story__block').on('click', function() {
+			var sno = $(this).data('sno');
+			amplitude.logEvent('home_section_item_click', {
+					section_title: '케어 스토리',
+					item_type: 'award',
+					item_name: sno
+			});
+	});
 });
 </script>
 
 <!-- ========== NBTI Popup ========== -->
 <script>
 function openPopup() {
-    var popup = document.querySelector('.nbti-popup');
-    popup.style.display = 'block';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    jQuery('.m_side').removeClass('open');
+	var popup = document.querySelector('.nbti-popup');
+	popup.style.display = 'block';
+	window.scrollTo({ top: 0, behavior: 'smooth' });
+	jQuery('.m_side').removeClass('open');
 }
 function closePopup() {
-    var popup = document.querySelector('.nbti-popup');
-    popup.style.display = 'none';
+	var popup = document.querySelector('.nbti-popup');
+	popup.style.display = 'none';
 }
 </script>
 
 <div class="nbti-popup">
-    <div class="nbti-popup__overlay" onclick="closePopup()"></div>
-    <div class="nbti-popup__content">
-        <button class="nbti-popup__close" onclick="closePopup()">
-            <img src="../img/common/layer/btn_layer_close.png" alt="닫기" />
-        </button>
-        <iframe class="nbti-popup__iframe"
-            src="https://start.solamate.co.kr/nbti"
-            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen></iframe>
-    </div>
+	<div class="nbti-popup__overlay" onclick="closePopup()"></div>
+	<div class="nbti-popup__content">
+			<button class="nbti-popup__close" onclick="closePopup()">
+					<img src="../img/common/layer/btn_layer_close.png" alt="닫기" />
+			</button>
+			<iframe class="nbti-popup__iframe"
+					src="https://start.solamate.co.kr/nbti"
+					allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+					allowfullscreen></iframe>
+	</div>
 </div>
 
 <!-- ========== Main Content ========== -->
 <div class="home">
-    <!-- SEC 1: Hero - MP4 동영상 (랜덤 가로/세로) + 슬로건 -->
-    <section class="home-hero">
-        <div class="home-hero__video-wrap" id="heroVideoWrap">
-            <video class="home-hero__video" id="heroVideo" autoplay muted loop playsinline></video>
+	<!-- SEC 1: Hero - 메인 배너 Swiper (mainhero_01~03) -->
+	<section class="home-hero">
+		<div class="swiper-container swiper_sec01 home-hero__swiper" data-hero-total="3">
+			<div class="swiper-wrapper">
+				<div class="swiper-slide">
+					<a href="#" class="home-hero__slide" data-banner="1">
+						<span class="home-hero_tip"><span class="hidden">event</span></span>
+						<img src="../img/main/mainhero_01.jpg" alt="메인 프로모션 배너 1" width="720" height="1080" loading="eager" />
+						<p class="home-hero_title">이민정이 추천하는 <br>저염식단 보러가기</p>
+					</a>
+				</div>
+				<div class="swiper-slide">
+					<a href="#" class="home-hero__slide" data-banner="2">
+						<img src="../img/main/mainhero_02.jpg" alt="메인 프로모션 배너 2" width="720" height="1080" loading="lazy" />
+					</a>
+				</div>
+				<div class="swiper-slide">
+					<a href="#" class="home-hero__slide" data-banner="3">
+						<img src="../img/main/mainhero_03.jpg" alt="메인 프로모션 배너 3" width="720" height="1080" loading="lazy" />
+					</a>
+				</div>
+			</div>
+			<div class="swiper-pagination swiper-pagination-sec01"></div>
+		</div>
+	</section>
 
-            <!-- 가로형 오버레이 -->
-            <div class="home-hero__overlay--hz" id="heroOverlayHz">
-                <div class="home-hero__hz-top">메디쏠라와<br>함께하는<br>건강한 일상</div>
-                <div class="home-hero__hz-bottom">지금 어떤 식사를<br>찾고 계신가요?</div>
-            </div>
+	<!-- SEC 2: Quick 메뉴 -->
+	<section class="home-quicklink">
+		<div class="home-quicklink__wrap">
+			<h2 class="hidden">메디쏠라 퀵메뉴 : 이민정픽,식단플랜,신규혜택,영양상담,정기구독</h2>
+			<div class="swiper-container home-quicklink__list">
+				<div class="swiper-wrapper">
+				<a href="#" class="home-quicklink__item swiper-slide">
+					<div class="home-quicklink__image">
+						<img src="../img/main/icon_quick01.svg" alt="이민정 추천" loading="lazy" />
+					</div>
+					<p>이민정 픽</p>
+				</a>
+				<a href="#" class="home-quicklink__item swiper-slide">
+					<div class="home-quicklink__image">
+						<img src="../img/main/icon_quick02.svg" alt="식단플랜" loading="lazy" />
+					</div>
+					<p>식단플랜</p>
+				</a>	
+				<a href="#" class="home-quicklink__item swiper-slide">
+					<div class="home-quicklink__image">
+						<img src="../img/main/icon_quick03.svg" alt="신규혜택" loading="lazy" />
+					</div>
+					<p>신규혜택</p>
+				</a>
+				<a href="#" class="home-quicklink__item swiper-slide">
+					<div class="home-quicklink__image">
+						<img src="../img/main/icon_quick04.svg" alt="영양상담" loading="lazy" />
+					</div>
+					<p>영양상담</p>
+				</a>
+				<a href="#" class="home-quicklink__item swiper-slide">
+					<div class="home-quicklink__image">
+						<img src="../img/main/icon_quick05.svg" alt="정기구독" loading="lazy" />
+					</div>
+					<p>정기구독</p>
+				</a>
+				</div>
+			</div>
+		</div>
+	</section>
 
-            <!-- 세로형 오버레이 -->
-            <div class="home-hero__overlay--vt" id="heroOverlayVt">
-                <div class="home-hero__seq home-hero__seq--1" id="heroSeq1">바쁜 일상 속,<br>놓치는 식사</div>
-                <div class="home-hero__seq home-hero__seq--2" id="heroSeq2">어렵게만 느껴지는<br>영양과 식단</div>
-                <div class="home-hero__seq home-hero__seq--3" id="heroSeq3">메디쏠라는<br>건강과 일상을<br>함께 고민해요</div>
-                <div class="home-hero__seq home-hero__seq--4" id="heroSeq4">지금 어떤 식사를<br>찾고 계신가요?</div>
-            </div>
-        </div>
-        <script>
-        (function() {
-            var isHorizontal = Math.random() < 0.5;
-            var baseUrl = 'https://zcndqpmzgyljpfrbraot.supabase.co/storage/v1/object/public/custom/';
-            var video = document.getElementById('heroVideo');
-            if (!video) return;
+	<!-- SEC 3: 추천 메뉴: 이민정이 선택한 우리 가족 건강 식단 -->
+	<section class="home-recommend">
+		<h2 class="home-contents__title">
+			<span>메디쏠라 식단 추천</span>
+			<a href="#" class="all-view">전체보기</a>
+		</h2>
+		{=includeWidget('goods/_goods_display_main.html','sno','25')}
+	</section>
 
-            // video.src = baseUrl + (isHorizontal ? 'intro_video_horizontal.mp4' : 'intro_video_vertical.mp4');
-            video.src = baseUrl + 'intro_video_vertical.mp4';
+	<!-- SEC 4: 배너 -->
+	{=includeWidget('proc/_slider_banner.html', 'bannerCode', '2345223279')}
 
-            if (isHorizontal) {
-                document.getElementById('heroOverlayHz').classList.add('is-active');
-            } else {
-                document.getElementById('heroOverlayVt').classList.add('is-active');
-                var delays = [500, 1500, 2500, 3500];
-                for (var i = 0; i < delays.length; i++) {
-                    (function(idx) {
-                        setTimeout(function() {
-                            document.getElementById('heroSeq' + (idx + 1)).classList.add('is-visible');
-                        }, delays[idx]);
-                    })(i);
-                }
-            }
-        })();
-        </script>
-    </section>
+	<!-- SEC 5: 기획전 + 상품 일상 속 푸드케어를 전해요 -->
+	<section class="home-promo">
+		<h2 class="home-contents__title">
+			<span>일상 속 푸드케어를 전해요</span>
+		</h2>
+		<div class="home-promo__banner">
+			<div class="promo_banner_title">
+				<span>봄 신메뉴 출시 소식!</span>
+				<p>제철의 맛으로 차린, 봄 한 끼</p>
+			</div>
+			<div class="promo_banner_desc">
+				<a href="#" class="promo_banner_desc_link">더 알아보기 &gt;</a>
+			</div>
+		</div>
+		{=includeWidget('goods/_goods_display_main.html','sno','26')}
+	</section>
+	
+	<!-- SEC 6: 메디쏠라 이야기 (Magazine) -->
+	{=includeWidget('magazine/_magazine_home.html')}
 
-    <!-- SEC 2: Quick 메뉴 -->
-    <section class="home-quicklink">
-        <div class="home-quicklink__wrap">
-            <h2 class="hidden"></h2>
-            <div class="home-quicklink__list">
-                <a href="#" class="home-quicklink__item">
-                    <div class="home-quicklink__image">
-                        <img src="../img/icon/icon_quick01.png" alt="이민정 추천" loading="lazy" />
-                    </div>
-                    <p>이민정 추천</p>
-                </a>
-                <a href="#" class="home-quicklink__item">
-                    <div class="home-quicklink__image">
-                        <img src="../img/icon/icon_quick02.png" alt="리뷰혜택" loading="lazy" />
-                    </div>
-                    <p>리뷰혜택</p>
-                </a>	
-                <a href="#" class="home-quicklink__item">
-                    <div class="home-quicklink__image">
-                        <img src="../img/icon/icon_quick03.png" alt="2+1 추천" loading="lazy" />
-                    </div>
-                    <p>2+1 추천</p>
-                </a>
-                <a href="#" class="home-quicklink__item">
-                    <div class="home-quicklink__image">
-                        <img src="../img/icon/icon_quick04.png" alt="신메뉴" loading="lazy" />
-                    </div>
-                    <p>신메뉴</p>
-                </a>
-                <a href="#" class="home-quicklink__item">
-                    <div class="home-quicklink__image">
-                        <img src="../img/icon/icon_quick05.png" alt="당뇨케어" loading="lazy" />
-                    </div>
-                    <p>당뇨케어</p>
-                </a>
-                <a href="#" class="home-quicklink__item">
-                    <div class="home-quicklink__image">
-                        <img src="../img/icon/icon_quick06.png" alt="지중해식" loading="lazy" />
-                    </div>
-                    <p>지중해식</p>
-                </a>
-                <a href="#" class="home-quicklink__item">
-                    <div class="home-quicklink__image">
-                        <img src="../img/icon/icon_quick07.png" alt="고령친화" loading="lazy" />
-                    </div>
-                    <p>고령친화</p>
-                </a>
-                <a href="#" class="home-quicklink__item">
-                    <div class="home-quicklink__image">
-                        <img src="../img/icon/icon_quick08.png" alt="저속노화" loading="lazy" />
-                    </div>
-                    <p>저속노화</p>
-                </a>
-            </div>
-        </div>
-    </section>
+	<!-- SEC 7: 나만의 맞춤 식단 찾기 -->
 
-    <!-- SEC 3: 추천 메뉴: 이민정이 선택한 우리 가족 건강 식단 -->
-    <section class="home-recommend">
-        {=includeWidget('goods/_goods_display_main.html','sno','25')}
-    </section>
-
-    <!-- SEC 4: 배너 -->
-    {=includeWidget('proc/_slider_banner.html', 'bannerCode', '2345223279')}
-
-    <!-- SEC 5: 기획전 + 상품 -->
-    <section class="home-promo">
-        {=includeWidget('goods/_goods_display_main.html','sno','26')}
-    </section>
-    
-    <!-- SEC 6: 메디쏠라 이야기 (Magazine) -->
-    {=includeWidget('magazine/_magazine_home.html')}
-
-    <!-- SEC 7: 나만의 맞춤 식단 찾기 -->
-
-    <!-- SEC 6: 리뷰 -->
-    <section class="home-menu">
-        <div class="home-menu__header home-section-header">
-            <div class="home-menu__title home-section-title">나에게 맞는 식단,<br>아직 고민 중이신가요?</div>
-            <div class="home-menu__subtitle home-section-subtitle">메디쏠라만의 기준을 담은 한 끼로,<br>나만의 특별한 건강케어 여정에 함께해요</div>
-        </div>
-        {=includeWidget('board/_home_product_review.html', 'tabConfigSno', 'HOME_REVIEW_TAB_01', 'perTabLimit', 3, 'initialVisibleCount', 3,
-        'sectionTitle', '맞춤형 식단 선택형 메뉴')}
-    </section>
+	<!-- SEC 6: 리뷰 -->
+	<section class="home-reviews">
+		<h2 class="home-contents__title">
+			<span>메쏠인들의 솔직한 후기</span>
+			<a href="#" class="all-view">전체보기</a>
+		</h2>
+		<div class="swiper-container home-reviews__swiper" data-hero-total="3">
+			<div class="swiper-wrapper">
+				<div class="swiper-slide">
+					<a href="#" class="home-reviews__slide color-type01" data-banner="1">
+						<p class="home-reviews__title">혈당 관리에 최고!</p>
+						<div class="home-reviews__content">
+							<p class="reviews_desc">당뇨 관리가 필요해서 세브란스 의료진이 참여했다는 말에 반신반의하며 시작했어요. 
+								식단이 너무 맛있어서 이게 관리가 될까 싶었는데, 수치가 안정적으로 유지되는 걸 보고 이젠 정기구독 중입니다.</p>
+							<span class="reviews_name">@gold_mom_82</span>
+						</div>
+					</a>
+				</div>
+				<div class="swiper-slide">
+					<a href="#" class="home-reviews__slide" data-banner="2">
+						<p class="home-reviews__title">바쁠때 한끼 먹으면<br>딱이에요</p>
+						<img src="../img/main/reviews_bnr01.png" alt="메인 리뷰 2" width="240" height="330" loading="lazy" />
+						<div class="home-reviews__content">
+							<span class="reviews_name">@gold_mom_82</span>
+						</div>
+					</a>
+				</div>
+				<div class="swiper-slide">
+					<a href="#" class="home-reviews__slide color-type02" data-banner="3">
+						<p class="home-reviews__title">혈당 관리에 최고!</p>
+						<div class="home-reviews__content">
+							<p class="reviews_desc">당뇨 관리가 필요해서 세브란스 의료진이 참여했다는 말에 반신반의하며 시작했어요. 
+								식단이 너무 맛있어서 이게 관리가 될까 싶었는데, 수치가 안정적으로 유지되는 걸 보고 이젠 정기구독 중입니다.</p>
+							<span class="reviews_name">@gold_mom_82</span>
+						</div>
+					</a>
+				</div>
+				<div class="swiper-slide">
+					<a href="#" class="home-reviews__slide" data-banner="4">
+						<p class="home-reviews__title">바쁠때 한끼 먹으면<br>딱이에요</p>
+						<img src="../img/main/reviews_bnr02.png" alt="메인 리뷰 2" width="240" height="330" loading="lazy" />
+						<div class="home-reviews__content">
+							<span class="reviews_name">@gold_mom_82</span>
+						</div>
+					</a>
+				</div>
+			</div>
+			<!-- <div class="swiper-pagination swiper-pagination-sec01"></div> -->
+		</div>
+	</section>
+	<!-- <section class="home-menu">
+		<div class="home-menu__header home-section-header">
+				<div class="home-menu__title home-section-title">나에게 맞는 식단,<br>아직 고민 중이신가요?</div>
+				<div class="home-menu__subtitle home-section-subtitle">메디쏠라만의 기준을 담은 한 끼로,<br>나만의 특별한 건강케어 여정에 함께해요</div>
+		</div>
+		{=includeWidget('board/_home_product_review.html', 'tabConfigSno', 'HOME_REVIEW_TAB_01', 'perTabLimit', 3, 'initialVisibleCount', 3,
+		'sectionTitle', '맞춤형 식단 선택형 메뉴')}
+	</section> -->
 
 </div>
 <!-- //home -->
