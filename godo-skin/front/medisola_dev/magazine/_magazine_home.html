@@ -1,34 +1,75 @@
 {*** [위젯] 푸드케어 레터 홈 섹션 | front/magazine/_magazine_home.html ***}
-<section class="home-magazine">
+<section class="home-magazine new-magazine">
     {? hasMagazines}
     <div class="magazine_inner">
         <div class="magazine_title_area">
-            <div class="t01">푸드케어 레터</div>
-            <div class="t02">영양이 담긴 식사로,<br>일상 속 푸드케어를 전해요</div>
-            <div class="home-view-more home-view-more--top">
-                <a href="/magazine/list.php">VIEW MORE &gt;</a>
-            </div>
+					<h2 class="home-contents__title">
+						<span>메디쏠라 이야기</span>
+					</h2>
         </div>
-        <div class="magazine_scroll">
+				<div class="swiper-container home-magazine__swiper">
+					<div class="swiper-wrapper">
             {@ magazines}
+						<div class="swiper-slide">
             <div class="magazine_card_mobile" onclick="location.href='/magazine/view.php?id={=.articleId}'">
                 {? .imageUrl}
                 <div class="magazine_image_mobile">
-                    <img src="{=.imageUrl}" alt="{=.subject}" loading="lazy">
+									<img src="{=.imageUrl}" alt="{=.subject}" loading="lazy">
                 </div>
                 {/}
-                <div class="magazine_content_mobile">
-                    <h3>{=.subject}</h3>
-                    <p>{=.summary}</p>
-                </div>
             </div>
+						</div>
             {/}
+					</div>
         </div>
+
+				<div class="home-view-more">
+						<a href="/magazine/list.php">매거진 더보기 &gt;</a>
+				</div>
+
+				<!-- <div class="magazine_scroll">
+					{@ magazines}
+					<div class="magazine_card_mobile" onclick="location.href='/magazine/view.php?id={=.articleId}'">
+							{? .imageUrl}
+							<div class="magazine_image_mobile">
+									<img src="{=.imageUrl}" alt="{=.subject}" loading="lazy">
+							</div>
+							{/}
+							<div class="magazine_content_mobile">
+									<h3>{=.subject}</h3>
+									<p>{=.summary}</p>
+							</div>
+					</div>
+					{/}
+			</div> -->
     </div>
     {/}
 </section>
 
-<script>
+<script type="text/javascript">
+(function() {
+	var $targets = $('.home-magazine__swiper').filter(function() {
+		return !$(this).attr('data-swiper-init');
+	});
+
+	if (!$targets.length || typeof Swiper === 'undefined') {
+		return;
+	}
+
+	$targets.each(function() {
+	$(this).attr('data-swiper-init', 'true');
+	new Swiper(this, {
+		slidesPerView: 5,
+		spaceBetween: 8,
+		// freeMode: true,
+		watchOverflow: true,
+		loop: true,
+		centeredSlides: true
+	});
+	});
+})();
+</script>
+<!-- <script>
 $(document).ready(function() {
     $('.home-magazine .magazine_card_mobile').on('click', function() {
         var title = $(this).find('h3').text().trim();
@@ -39,4 +80,4 @@ $(document).ready(function() {
         }
     });
 });
-</script>
+</script> -->

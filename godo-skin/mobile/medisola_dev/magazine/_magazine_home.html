@@ -9,18 +9,18 @@
 			<div class="swiper-wrapper">
 			{@ magazines}
 			<div class="swiper-slide">
-			<div class="magazine_card_mobile" onclick="location.href='/magazine/view.php?id={=.articleId}'">
-					{? .imageUrl}
-					<div class="magazine_image_mobile">
-							<h3>{=.subject}</h3>
-							<img src="{=.imageUrl}" alt="{=.subject}" loading="lazy">
-					</div>
-					{/}
-					<!-- <div class="magazine_content_mobile">
-							<h3>{=.subject}</h3>
-							<p>{=.summary}</p>
-					</div> -->
-			</div>
+				<div class="magazine_card_mobile" onclick="location.href='/magazine/view.php?id={=.articleId}'">
+						{? .imageUrl}
+						<div class="magazine_image_mobile">
+								<h3>{=.subject}</h3>
+								<img src="{=.imageUrl}" alt="{=.subject}" loading="lazy">
+						</div>
+						{/}
+						<!-- <div class="magazine_content_mobile">
+								<h3>{=.subject}</h3>
+								<p>{=.summary}</p>
+						</div> -->
+				</div>
 			</div>
 			{/}
 			</div>
