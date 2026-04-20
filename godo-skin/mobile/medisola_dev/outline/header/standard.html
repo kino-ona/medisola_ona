@@ -237,10 +237,10 @@
     <div class="ms_login">
       <!--{ ? gd_is_login() === false }-->
       <a href="../member/login.php">로그인</a>
-      {=includeFile('/img/mimg/ms_slash.svg')}
       <a href="../member/join_method.php">회원가입</a>
       <!--{ : }-->
       <a href="../mypage/index.php">마이페이지</a>
+      <a href="../member/logout.php">로그아웃</a>
       <!--{ / }-->
     </div>
 
@@ -254,15 +254,40 @@
             {=includeWidget('proc/_global_select.html')}
           </div>
           <!-- //nav_language -->
+           
+          <!-- 사이드바 02: 퀵메뉴 -->
+          <div class="ms_quick">
+            <a href="/guide/diet_quiz.php?goodsNo=1000000445">
+              <div class="ms_quick_img"><img src="../../img/mimg/icon_gnb_quick01.svg" alt=""></div>
+              식단 플랜
+            </a>
+            <a href="/board/list.php?bdId=event&period=current">
+              <div class="ms_quick_img"><img src="../../img/mimg/icon_gnb_quick02.svg" alt=""></div>
+              이벤트
+            </a>
+            <a href="/magazine/list.php">
+              <div class="ms_quick_img"><img src="../../img/mimg/icon_gnb_quick03.svg" alt=""></div>
+              푸드케어 레터
+            </a>
+            <a href="/board/list.php?bdId=solanews">
+              <div class="ms_quick_img"><img src="../../img/mimg/icon_gnb_quick04.svg" alt=""></div>
+              케어 스토리
+            </a>
+            <a href="/board/plus_review_goods.php?bdId=goodsreview&sno=287">
+              <div class="ms_quick_img"><img src="../../img/mimg/icon_gnb_quick05.svg" alt=""></div>
+              케어 후기
+            </a>
+          </div>
 
-          <!-- 사이드바02 : 카테고리 -->
+          <!-- 사이드바03 : 카테고리 -->
           <div class="ms_cate">
             <ul class="menu_tree">
               <!--{@ menuTree}-->
               <li class="{=.id} <!--{? .active}-->selected<!--{/}--> <!--{? .new === true}-->new-red-dot<!--{/}-->">
-                <a href="{=.url}" class="view">{=.text['default']}</a>
+                <!-- <a href="{=.url}" class="view">{=.text['default']}</a> -->
+                <a href="javascript:;" class="cate">{=.text['default']}</a>
                 <!--{? .children}-->
-                <a href="javascript:;" class="cate"></a>
+                <!-- <a href="javascript:;" class="cate"></a> -->
                 <ul
                   class="<!--{? .columns > 1}-->grid-rows-{=.rows}<!--{/}-->"
                   style="<!--{? .active == false}-->display: none;<!--{/}-->"
@@ -284,16 +309,19 @@
             </ul>
           </div>
 
-          <!-- 사이드바03 : 마이페이지 -->
-          <div class="ms_mypage">
-            <a href="/service/faq.php">자주 하는 질문</a>
-            <a href="/service/qa.php">1:1문의</a>
-            <a href="/board/list.php?&bdId=goodsqa">구매문의</a>
+          <div class="ms_footer">
+            <!-- 사이드바04 : 마이페이지 -->
+            <div class="ms_mypage">
+              <a href="/board/list.php?&bdId=goodsqa">구매문의</a>
+              <a href="/service/faq.php">자주 하는 질문</a>
+              <a href="/board/list.php?bdId=notice">공지사항</a>
+            </div>
+
+            <!-- 사이드바05 : 1:1 영양상담 배너 -->
+            <div class="ms_banner">
+              <a href="#">가장 간편하게, 가장 완벽한 <br>한 끼를 즐기는 방법 <span>더 알아보기</span></a>
+            </div>
           </div>
-          
-          <!--{ ? gd_is_login() === true }-->
-          <a href="../member/logout.php">로그아웃</a>
-          <!--{ / }-->
         </div>
         <!-- //nav_content_box -->
       </div>
