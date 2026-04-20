@@ -707,7 +707,7 @@ padding-top: 156px; margin-bottom: 40px; overflow: visible;
 .home-hero .home-hero__swiper .swiper-pagination-sec01 {
 	position: absolute;
 	left: auto;
-	right: 13%;
+	right: 25%;
 	bottom: 30px;
 	width: auto;
 	margin: 0;
@@ -853,19 +853,52 @@ padding-top: 156px; margin-bottom: 40px; overflow: visible;
 .home-recommend .item_hl_tab_type .goods_tab_cont .goods_tab_box.on {
 	display: block;
 }
+.home-recommend .item_hl_tab_type .goods_tab_cont {
+	width: 100%;          /* 또는 원하는 고정 너비 ex) 1200px */
+	overflow-x: auto;     /* 가로 스크롤 활성화 */
+	overflow-y: hidden;   /* 세로 스크롤 숨김 */
+	-webkit-overflow-scrolling: touch;
+	padding-bottom: 40px;
+}
 .home-recommend .item_hl_tab_type .goods_tab_cont .goods_tab_box > ul {
 	display: flex;
-	gap: 0;
+	flex-wrap: nowrap;
+	gap: 16px;
 	margin: 0;
 	padding: 0;
 	width: max-content;
 }
 .home-recommend .item_hl_tab_type .goods_tab_cont .goods_tab_box > ul > li {
 	flex-shrink: 0;
+	width: 307px !important;
 	padding: 0 !important;
 	box-sizing: border-box !important;
 }
-.home-recommend .item_hl_tab_type .goods_tab_cont {min-height: auto;}
+.home-recommend .item_hl_tab_type .goods_tab_cont .goods_tab_box.home-recommend__native-scroll {
+	overflow-x: auto;
+	overflow-y: hidden;
+	-webkit-overflow-scrolling: touch;
+	scrollbar-width: thin;
+}
+.home-recommend .item_hl_tab_type .goods_tab_cont .goods_tab_box.home-recommend__swiper {
+	padding-bottom: 18px;
+	overflow: hidden;
+}
+.home-recommend .item_hl_tab_type .goods_tab_cont .goods_tab_box .home-recommend__scrollbar {
+	position: static !important;
+	width: 100% !important;
+	height: 3px !important;
+	margin-top: 12px;
+	border-radius: 999px;
+	background: #e8e8e8;
+}
+.home-recommend .item_hl_tab_type .goods_tab_cont .goods_tab_box .home-recommend__scrollbar .swiper-scrollbar-drag {
+	border-radius: 999px;
+	background: #1a1a1a;
+}
+.home-recommend .item_hl_tab_type .goods_tab_cont {
+	min-height: auto;
+}
 .home-recommend .item_hl_tab_type .goods_tab_tit ul {display: flex; flex-direction: column; gap: 8px; margin: 0 0 20px 0;}
 .home-recommend .item_hl_tab_type .goods_tab_tit li {display: flex;}
 .home-recommend .item_hl_tab_type .goods_tab_tit li a {overflow:hidden; display:flex; align-items: center; justify-content: center; padding: 12px 24px; font-size:14px; box-sizing:border-box; text-overflow:ellipsis; white-space:nowrap; word-wrap:normal; color:#999999; border: 1px solid #D1D1D1; text-align: center; border-radius: 100px;}

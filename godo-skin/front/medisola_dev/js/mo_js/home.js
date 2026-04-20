@@ -108,47 +108,51 @@ jQuery(document).ready(function($) {
 	/* ═══════════════════════════════════════
 			SEC 3: 추천 메뉴(includeWidget) Swiper
 			═══════════════════════════════════════ */
-	function initRecommendSwiper() {
-			if (typeof Swiper === 'undefined') return;
+	// function initRecommendSwiper() {
+	// 		if (typeof Swiper === 'undefined') return;
 
-			$('.home-recommend .item_hl_tab_type .goods_tab_cont .goods_tab_box').each(function() {
-					var $box = $(this);
-					var $list = $box.children('ul').first();
-					if (!$list.length) return;
-					var $slides = $list.children('li');
+	// 		$('.home-recommend .item_hl_tab_type .goods_tab_cont .goods_tab_box').each(function() {
+	// 				var $box = $(this);
+	// 				var $list = $box.children('ul').first();
+	// 				if (!$list.length) return;
+	// 				var $slides = $list.children('li');
 
-					$box.addClass('home-recommend__swiper swiper-container');
-					$list.addClass('swiper-wrapper');
-					$slides.addClass('swiper-slide');
-					$slides.css({
-							width: '307px',
-							flexShrink: '0'
-					});
+	// 				$box.addClass('home-recommend__swiper swiper-container');
+	// 				$list.addClass('swiper-wrapper');
+	// 				$slides.addClass('swiper-slide');
+	// 				$slides.css({
+	// 						width: '307px',
+	// 						flexShrink: '0'
+	// 				});
 
-					var swiper = $box.data('recommendSwiper');
-					if (swiper) {
-							swiper.update();
-							return;
-					}
+	// 				var swiper = $box.data('recommendSwiper');
+	// 				if (swiper) {
+	// 						swiper.update();
+	// 						return;
+	// 				}
 
-					swiper = new Swiper(this, {
-							slidesPerView: 'auto',
-							spaceBetween: 16,
-							freeMode: true,
-							allowTouchMove: true,
-							touchRatio: 1,
-							watchOverflow: true,
-							observer: true,
-							observeParents: true
-					});
-					$box.data('recommendSwiper', swiper);
-			});
-	}
+	// 				swiper = new Swiper(this, {
+	// 						slidesPerView: 'auto',
+	// 						spaceBetween: 16,
+	// 						freeMode: true,
+	// 						allowTouchMove: true,
+	// 						touchRatio: 1,
+	// 						watchOverflow: true,
+	// 						observer: true,
+	// 						observeParents: true,
+	// 						pagination: {
+	// 							el: ".swiper-pagination",
+	// 							type: "progressbar", // progress bar 타입 설정
+	// 						},
+	// 				});
+	// 				$box.data('recommendSwiper', swiper);
+	// 		});
+	// }
 
-	initRecommendSwiper();
-	$(document).on('click', '.home-recommend .item_hl_tab_type .goods_tab_tit a', function() {
-			setTimeout(initRecommendSwiper, 0);
-	});
+	// initRecommendSwiper();
+	// $(document).on('click', '.home-recommend .item_hl_tab_type .goods_tab_tit a', function() {
+	// 		setTimeout(initRecommendSwiper, 0);
+	// });
 
 
 	/* ═══════════════════════════════════════
