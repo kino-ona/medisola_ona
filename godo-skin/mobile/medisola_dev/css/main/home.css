@@ -756,3 +756,40 @@ color: var(--color-text);
 	background: url('../../img/main/reviews_icon.svg') no-repeat center center / cover;
 }
 .home-reviews__content .reviews_name {display: block; width: 100%; text-align: left; border-top: 1px solid rgba(217, 217, 217, 0.3); padding-top: 8px; margin-top: 8px;color: rgba(255, 255, 255, 0.8);}
+.home-recommend ._goods_display_main .main_prd_list {
+	font-size: inherit;
+}
+.home-recommend .main_prd_list .tab_box .tab li.on {
+	display: block;
+}
+.home-recommend .main_prd_list .tab_box .tab {
+	display: flex;
+	gap: 6px;
+	margin: 0;
+	padding: 0;
+	width: max-content;
+	margin-bottom: 16px;
+}
+.home-recommend .main_prd_list .tab_box .tab > li {
+	flex-shrink: 0;
+	padding: 0 !important;
+	box-sizing: border-box !important;
+}
+.home-recommend .main_prd_list .goods_list_box > ul {
+	display: flex;
+	flex-wrap: wrap;
+}
+.home-recommend .main_prd_list .tab_box .tab > li a {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid #D1D1D1;
+	font-size: 14px;
+	padding: 10px 16px;
+	border-radius: 999px;
+}
+.home-recommend .main_prd_list .tab_box .tab li.on a {
+	background-color: #DA663F;
+	border-color: #DA663F;
+	color: #fff;
+}

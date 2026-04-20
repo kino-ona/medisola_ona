@@ -74,7 +74,8 @@ jQuery(document).ready(function($) {
 					$heroEl.addClass('hide_nav');
 			} else {
 				heroOptions = {
-						slidesPerView: 1.25,
+						// slidesPerView: 1.25,
+						slidesPerView: 'auto',
 						centeredSlides: true,
 						spaceBetween: 8,
 						loop: true,
