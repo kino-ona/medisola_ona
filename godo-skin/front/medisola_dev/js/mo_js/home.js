@@ -106,52 +106,100 @@ jQuery(document).ready(function($) {
 	}
 
 	/* ═══════════════════════════════════════
-			SEC 3: 추천 메뉴(includeWidget) Swiper
+			SEC 3: 추천 메뉴 가로 스크롤 + 버튼 네비게이션
 			═══════════════════════════════════════ */
-	// function initRecommendSwiper() {
-	// 		if (typeof Swiper === 'undefined') return;
+	/*
+	// ── Swiper 방식 (보류) ──────────────────────────────────────
+	function setupRecommendSwiperMarkup($box) { ... }
+	function initRecommendSwiperForBox($box) { ... }
+	function initRecommendSwiper() { ... }
+	// ────────────────────────────────────────────────────────────
+	*/
 
-	// 		$('.home-recommend .item_hl_tab_type .goods_tab_cont .goods_tab_box').each(function() {
-	// 				var $box = $(this);
-	// 				var $list = $box.children('ul').first();
-	// 				if (!$list.length) return;
-	// 				var $slides = $list.children('li');
+	// function initRecommendScrollForBox($box) {
+	// 		if ($box.data('recScrollReady')) return;
 
-	// 				$box.addClass('home-recommend__swiper swiper-container');
-	// 				$list.addClass('swiper-wrapper');
-	// 				$slides.addClass('swiper-slide');
-	// 				$slides.css({
-	// 						width: '307px',
-	// 						flexShrink: '0'
-	// 				});
+	// 		// ul을 스크롤 뷰포트 div로 감싸기
+	// 		var $list = $box.children('ul').first();
+	// 		if (!$list.length) return;
+	// 		$list.wrap('<div class="rec-scroll-viewport"></div>');
+	// 		var $viewport = $box.find('.rec-scroll-viewport');
 
-	// 				var swiper = $box.data('recommendSwiper');
-	// 				if (swiper) {
-	// 						swiper.update();
-	// 						return;
-	// 				}
-
-	// 				swiper = new Swiper(this, {
-	// 						slidesPerView: 'auto',
-	// 						spaceBetween: 16,
-	// 						freeMode: true,
-	// 						allowTouchMove: true,
-	// 						touchRatio: 1,
-	// 						watchOverflow: true,
-	// 						observer: true,
-	// 						observeParents: true,
-	// 						pagination: {
-	// 							el: ".swiper-pagination",
-	// 							type: "progressbar", // progress bar 타입 설정
-	// 						},
-	// 				});
-	// 				$box.data('recommendSwiper', swiper);
-	// 		});
+	// 		// 컨트롤을 goods_tab_box 안에 추가
+	// 		var $controls = $(
+	// 				'<div class="rec-scroll-controls">' +
+	// 						'<button class="rec-scroll-prev" aria-label="이전"></button>' +
+	// 						'<div class="rec-scroll-track"><div class="rec-scroll-thumb"></div></div>' +
+	// 						'<button class="rec-scroll-next" aria-label="다음"></button>' +
+	// 				'</div>'
+	// 		);
+	// 		$box.append($controls);
+	// 		$box.data('recScrollReady', true);
+	// 		$box.data('recScrollControls', $controls);
+	// 		$box.data('recScrollViewport', $viewport);
+	// 		updateRecommendScrollUI($box);
 	// }
 
-	// initRecommendSwiper();
+	// function updateRecommendScrollUI($box) {
+	// 		var $viewport = $box.data('recScrollViewport');
+	// 		var $controls = $box.data('recScrollControls');
+	// 		if (!$viewport || !$controls) return;
+
+	// 		var scrollEl   = $viewport[0];
+	// 		var scrollLeft = scrollEl.scrollLeft;
+	// 		var maxScroll  = scrollEl.scrollWidth - scrollEl.clientWidth;
+	// 		var trackWidth = $controls.find('.rec-scroll-track').width();
+
+	// 		if (maxScroll > 0) {
+	// 				var ratio     = scrollEl.clientWidth / scrollEl.scrollWidth;
+	// 				var thumbW    = Math.max(trackWidth * ratio, 30);
+	// 				var thumbLeft = (scrollLeft / maxScroll) * (trackWidth - thumbW);
+	// 				$controls.find('.rec-scroll-thumb').css({ width: thumbW + 'px', left: thumbLeft + 'px' });
+	// 		} else {
+	// 				$controls.find('.rec-scroll-thumb').css({ width: '100%', left: 0 });
+	// 		}
+
+	// 		$controls.find('.rec-scroll-prev').toggleClass('is-disabled', scrollLeft <= 0);
+	// 		$controls.find('.rec-scroll-next').toggleClass('is-disabled', scrollLeft >= maxScroll - 1);
+	// }
+
+	// // 버튼 클릭: rec-scroll-viewport를 스크롤
+	// $(document).on('click', '.rec-scroll-prev, .rec-scroll-next', function() {
+	// 		var $box      = $(this).closest('.goods_tab_box');
+	// 		var $viewport = $box.data('recScrollViewport');
+	// 		if (!$viewport) return;
+	// 		var step = 307 + 16;
+	// 		var dir  = $(this).hasClass('rec-scroll-prev') ? -1 : 1;
+	// 		$viewport[0].scrollBy({ left: dir * step, behavior: 'smooth' });
+	// });
+
+	// // 스크롤 시 UI 갱신
+	// $(document).on('scroll', '.rec-scroll-viewport', function() {
+	// 		updateRecommendScrollUI($(this).closest('.goods_tab_box'));
+	// });
+
+	// // 탭 클릭: 활성 탭만 컨트롤 표시
 	// $(document).on('click', '.home-recommend .item_hl_tab_type .goods_tab_tit a', function() {
-	// 		setTimeout(initRecommendSwiper, 0);
+	// 		var tabIdx = $(this).closest('li').index();
+	// 		setTimeout(function() {
+	// 				var $allBoxes = $('.home-recommend .item_hl_tab_type .goods_tab_cont .goods_tab_box');
+
+	// 				// 비활성 탭 컨트롤 숨김 (controls가 goods_tab_box 안에 있어 자동 처리되지만 명시적으로 동기화)
+	// 				$allBoxes.each(function() {
+	// 						var $c = $(this).data('recScrollControls');
+	// 						if ($c) $c.toggle($(this).is(':visible'));
+	// 				});
+
+	// 				// 활성 탭 초기화 및 UI 갱신
+	// 				var $box = $allBoxes.eq(tabIdx);
+	// 				initRecommendScrollForBox($box);
+	// 				updateRecommendScrollUI($box);
+	// 		}, 100);
+	// });
+
+	// // 페이지 로드 시 활성 탭(.on)만 초기화
+	// $('.home-recommend .item_hl_tab_type .goods_tab_cont .goods_tab_box.on').each(function() {
+	// 		initRecommendScrollForBox($(this));
 	// });
 
 
