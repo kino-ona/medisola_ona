@@ -16,9 +16,9 @@ jQuery(document).ready(function () {
     })
 
     jQuery("#wrap .m_side .ms_cate ul a.cate").click(function () {
-        jQuery(this).parent("li").toggleClass("selected");
-        jQuery(this).next("ul").slideToggle();
-        jQuery(this).parents("li").siblings().children("ul").slideUp();
+        jQuery(this).parent("li").addClass("selected");
+        jQuery(this).next("ul").show();
+        jQuery(this).parents("li").siblings().children("ul").hide();
         jQuery(this).parents("li").siblings().removeClass("selected");
     });
 
