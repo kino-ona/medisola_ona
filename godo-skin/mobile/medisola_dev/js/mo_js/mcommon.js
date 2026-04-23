@@ -12,7 +12,9 @@ jQuery(document).ready(function () {
     });
     
     /* 사이드바 - 1:1 영양 상담 배너 */
-    jQuery("#wrap .m_side .ms_cate .health_care").addClass("selected");
+    if (!jQuery("#wrap .m_side .ms_cate > ul > li").hasClass("selected")) {
+        jQuery("#wrap .m_side .ms_cate .health_care").addClass("selected");
+    };
 
     jQuery("#wrap .m_side .ms_banner a").click(function () {
         jQuery(".personalized").show(500).addClass("open");
