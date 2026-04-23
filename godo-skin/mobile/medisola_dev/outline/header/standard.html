@@ -237,9 +237,11 @@
     <div class="ms_login">
       <!--{ ? gd_is_login() === false }-->
       <a href="../member/login.php">로그인</a>
+      <span class="login_bar"></span>
       <a href="../member/join_method.php">회원가입</a>
       <!--{ : }-->
       <a href="../mypage/index.php">마이페이지</a>
+      <span class="login_bar"></span>
       <a href="../member/logout.php">로그아웃</a>
       <!--{ / }-->
     </div>
@@ -257,26 +259,31 @@
            
           <!-- 사이드바 02: 퀵메뉴 -->
           <div class="ms_quick">
-            <a href="/guide/diet_quiz.php?goodsNo=1000000445">
-              <div class="ms_quick_img"><img src="../../img/mimg/icon_gnb_quick01.svg" alt=""></div>
-              식단 플랜
-            </a>
-            <a href="/board/list.php?bdId=event&period=current">
-              <div class="ms_quick_img"><img src="../../img/mimg/icon_gnb_quick02.svg" alt=""></div>
-              이벤트
-            </a>
-            <a href="/magazine/list.php">
-              <div class="ms_quick_img"><img src="../../img/mimg/icon_gnb_quick03.svg" alt=""></div>
-              푸드케어 레터
-            </a>
-            <a href="/board/list.php?bdId=solanews">
-              <div class="ms_quick_img"><img src="../../img/mimg/icon_gnb_quick04.svg" alt=""></div>
-              케어 스토리
-            </a>
-            <a href="/board/plus_review_goods.php?bdId=goodsreview&sno=287">
-              <div class="ms_quick_img"><img src="../../img/mimg/icon_gnb_quick05.svg" alt=""></div>
-              케어 후기
-            </a>
+            <div class="ms_quick_menu">
+              <a href="/guide/diet_quiz.php?goodsNo=1000000445">
+                <div class="ms_quick_img"><img src="../../img/mimg/icon_gnb_quick01.svg" alt=""></div>
+                식단 플랜
+              </a>
+              <a href="/board/list.php?bdId=event&period=current">
+                <div class="ms_quick_img"><img src="../../img/mimg/icon_gnb_quick02.svg" alt=""></div>
+                이벤트
+              </a>
+              <a href="/magazine/list.php">
+                <div class="ms_quick_img"><img src="../../img/mimg/icon_gnb_quick03.svg" alt=""></div>
+                푸드케어 레터
+              </a>
+              <a href="/board/list.php?bdId=solanews">
+                <div class="ms_quick_img"><img src="../../img/mimg/icon_gnb_quick04.svg" alt=""></div>
+                케어 스토리
+              </a>
+              <a href="/board/plus_review_goods.php?bdId=goodsreview&sno=287">
+                <div class="ms_quick_img"><img src="../../img/mimg/icon_gnb_quick05.svg" alt=""></div>
+                케어 후기
+              </a>
+            </div>
+            <div class="ms_member">
+              <a href="https://www.medisola.co.kr/board/view.php?&bdId=members&sno=5">멤버십 등급별 혜택을 누려 보세요!</a>
+            </div>
           </div>
 
           <!-- 사이드바03 : 카테고리 -->
@@ -328,6 +335,44 @@
     <!-- //nav_box -->
   </div>
   <!-- //nav_bg_box -->
+</div>
+
+<!-- 1:1 영양상담 배너 -->
+<div class="personalized">
+  <div class="personalized_header">
+    <em>개인 맞춤형 식단</em>
+    <p>가장 완벽한 한 끼의 여정</p>
+  </div>
+  <div class="personalized_content">
+    <div class="swiper-container">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide personalized_sec_01">
+          <p class="personalized_title">의료진 데이터와<br> AI 아르켄X의 정밀한 만남</p>
+          <p class="personalized_desc">탄·단·지 5:2:3 황금 비율로 당신의 영양을 완성해요.</p>
+        </div>
+        <div class="swiper-slide personalized_sec_02">
+          <span>Step 01</span>
+          <p class="personalized_title">30초 맞춤 진단 진행</p>
+          <p class="personalized_desc">빠른 진단으로 나에게 맞는 식단을 구성해 보세요.</p>
+        </div>
+        <div class="swiper-slide personalized_sec_03">
+          <span>Step 02</span>
+          <p class="personalized_title">전문 영양사의 식단 조리</p>
+          <p class="personalized_desc">식단을 바탕으로 HACCP 시설에서 안전하게 조리해요.</p>
+        </div>
+        <div class="swiper-slide personalized_sec_04">
+          <span>Step 03</span>
+          <p class="personalized_title">매일 아침 문 앞으로 배송</p>
+          <p class="personalized_desc">콜드체인 시스템으로 갓 만든 신선함 그대로 배송돼요.</p>
+        </div>
+      </div>
+      <div class="swiper-pagination"></div>
+    </div>
+  </div>
+  <div class="personalized_footer">
+    <a href="#" class="btn_close">다음에 할게요</a>
+    <a href="https://pf.kakao.com/_axexgxnK" class="btn_submit">영양상담 신청하기</a>
+  </div>
 </div>
 <div class="bg"></div>
 <div id="container">
