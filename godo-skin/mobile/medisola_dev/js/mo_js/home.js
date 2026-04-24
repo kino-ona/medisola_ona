@@ -95,13 +95,13 @@ jQuery(document).ready(function($) {
 	/* ═══════════════════════════════════════
 			SEC 2: Quick 메뉴 Swiper
 			═══════════════════════════════════════ */
-	var $quickEl = $('.home-quicklink .home-quicklink__list');
-	if ($quickEl.length && typeof Swiper !== 'undefined') {
-			new Swiper($quickEl[0], {
-				slidesPerView: 'auto',
-				spaceBetween: 16,
-			});
-	}
+	// var $quickEl = $('.home-quicklink .home-quicklink__list');
+	// if ($quickEl.length && typeof Swiper !== 'undefined') {
+	// 		new Swiper($quickEl[0], {
+	// 			slidesPerView: 'auto',
+	// 			spaceBetween: 16,
+	// 		});
+	// }
 
 
 	/* ═══════════════════════════════════════
@@ -174,6 +174,7 @@ jQuery(document).ready(function($) {
 			slidesPerView: 'auto',
 			watchOverflow: true,
 			speed: 1000,
+			loop: true,
 		});
 
 		

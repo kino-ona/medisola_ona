@@ -205,7 +205,8 @@ span.mh_empty {
 /* 상단02 : 카테고리 */
 #mheader .mh_sec02 {
     height: 96px;
-    box-shadow: 0 5px 8px rgba(0, 0, 0, 0.04);
+    /* box-shadow: 0 5px 8px rgba(0, 0, 0, 0.04); */
+    border-bottom: 1px solid #ECECEC;
     overflow: hidden;
 }
 

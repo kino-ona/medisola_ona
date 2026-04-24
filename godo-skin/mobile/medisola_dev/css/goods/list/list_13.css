@@ -3,26 +3,30 @@
 /*** 탭+상품이동형 | goods/list/list_13.html ***/
 .goods_prd_item13 {width:100%; vertical-align:top; }
 /* 탭 박스 */
-.goods_prd_item13 .tab_box {padding: 0 16px; margin-bottom: 28px;}
-.goods_prd_item13 .tab_box .tab {display: flex; gap: 8px;}
-.goods_prd_item13 .tab_box .tab li {flex: 1;}
-.goods_prd_item13 .tab_box .tab li a {overflow:hidden; display:block; padding: 10px 0; font-size:14px; box-sizing:border-box; text-overflow:ellipsis; white-space:nowrap; word-wrap:normal; color:#999999; border: 1px solid #D1D1D1; text-align: center; border-radius: 100px;}
-.goods_prd_item13 .tab_box .tab li.on a {background:#DA663F; border-color: #DA663F; color:#fff;}
+.goods_prd_item13 .tab_box {padding: 0 12px; margin-bottom: 16px;}
+.goods_prd_item13 .tab_box .tab {display: flex; gap: 6px; overflow-x: auto;}
+/* .goods_prd_item13 .tab_box .tab li {flex: 1;} */
+.goods_prd_item13 .tab_box .tab li a {overflow:hidden; display:block; padding: 10px 15px; font-size:14px; box-sizing:border-box; text-overflow:ellipsis; white-space:nowrap; word-wrap:normal; color:#666; border: 1px solid #D1D1D1; text-align: center; border-radius: 100px;}
+.goods_prd_item13 .tab_box .tab li.on a {background:#444; border-color: #444; color:#fff;}
 .goods_prd_item13 .goods_gallery_item {display:inline-block; vertical-align:top;}
 .goods_prd_item13 .goods_prd_item13_box {padding:10px 5px 10px 5px;}
-.goods_prd_item13 .goods_prd_img {width:100%; padding-bottom:10px; vertical-align:top;}
+.goods_prd_item13 .goods_prd_img {width:100%; margin-bottom:10px !important; vertical-align:top;}
 .goods_prd_item13 .goods_prd_img .img_box {position:relative;}
 .goods_prd_item13 .goods_prd_img .img_box .img {font-size:0; line-height:0; border-radius: 12px; overflow: hidden;}
 .goods_prd_item13 .goods_prd_img .img_box .img img {width:100%; box-sizing:border-box;}
 .goods_prd_item13 .goods_prd_content {vertical-align:top;}
 .goods_prd_item13 .goods_prd_content a {}
-.goods_prd_item13 .goods_prd_content .goods_prd_icon {font-size:16px;}
+.goods_prd_item13 .goods_prd_content .goods_prd_icon {display: flex; margin-top: 8px; gap: 4px;}
+.goods_prd_item13 .goods_prd_content .goods_prd_icon img {vertical-align: top;}
 .goods_prd_item13 .goods_prd_content .goods_prd_soldout {padding:2px 0 2px 0;}
 .goods_prd_item13 .goods_prd_content .goods_prd_soldout img {height:18px;}
 .goods_prd_item13 .goods_prd_content .goods_info_list {}
-.goods_prd_item13 .goods_prd_content .goods_info_list li {padding:1px 0 1px 0; word-break:break-all; color:#3e3d3c; font-size:14px;}
+.goods_prd_item13 .goods_prd_content .goods_list_info .goods_info_list li.prd_name {margin-bottom: 2px; word-break:break-all; color:#222; font-size:14px; font-weight: 600;}
+.goods_prd_item13 .goods_prd_content .goods_list_info .goods_info_list li.item_money_box .sale_per {margin-right: 4px; font-size: 16px; line-height: 1.4; color: #DA663F; font-weight: 600;}
+.goods_prd_item13 .goods_prd_content .goods_list_info .goods_info_list li.item_money_box .m_price {font-size: 16px !important; font-weight: 600 !important; line-height: 1.4; color: #222 !important;}
+.goods_prd_item13 .goods_prd_content .goods_list_info .goods_info_list li.item_money_box .through {font-size: 14px !important;color: #999999 !important;}
 .goods_prd_item13.js_tab_view25 .goods_prd_img {border: none;}
-.goods_prd_item13 .m_prd {margin-bottom: 24px !important; width: 100% !important;}
+.goods_prd_item13 .m_prd {margin-bottom: 0 !important; width: 100% !important;}
 .goods_prd_item13 .m_prd .m_inner {padding: 0;}
 
 /* 브랜드명 */ .goods_prd_item13 .goods_prd_content .goods_info_list li.brand_name {font-weight:bold; color:#999999;}
@@ -39,7 +43,6 @@
 /* 타임 세일(기본가) */ .goods_prd_item13 .goods_prd_content .goods_info_list li.price .c_price {color:#ab3e55;}
 /* 타임 세일(적용가) */ .goods_prd_item13 .goods_prd_content .goods_info_list li.price .c_price .ori_price {color:#ab3e55; text-decoration:line-through;}
 /* 타임 세일(남은기간) */ .goods_prd_item13 .goods_prd_content .goods_info_list li.price .c_price .time_sale_text {color:#3e3d3c; font-size:11px;}
-.goods_prd_item13 .goods_prd_content .goods_list_info .goods_info_list li.item_money_box .through {font-size: 14px !important;color: #999999 !important;}
 
 .goods_prd_item13 .soldout_img {position:absolute; top:0; left:0; display:block; font-size:0; width:100%; height:100%; z-index:10; background-size:100%; background-position:center; background-repeat:no-repeat;}
 .goods_prd_item13 .timesale_img {position:absolute; bottom:0; left:0; width:100%; padding:10px 0 10px 0; background:rgba(0,0,0,.5); z-index:10; color:#ffffff; font-size:12px; text-align:center; box-sizing:border-box;}
@@ -49,5 +52,5 @@
 .goods_prd_item13 .add_currency {color:#717171; font-size:12px; font-weight:normal; text-align:right;}
 
 .goods_prd_item13 .goods_list_box {overflow-x: auto; scroll-behavior: smooth; -ms-overflow-style: none; scrollbar-width: none;}
-.goods_prd_item13 [class^="mainTabGoodsList"] {display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 130%; padding: 0 16px; box-sizing: border-box;}
+.goods_prd_item13 [class^="mainTabGoodsList"] {display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px 8px; width: 130%; padding: 0 16px; box-sizing: border-box;}
 .home-recommend .main_prd_list {padding: 0 !important;}

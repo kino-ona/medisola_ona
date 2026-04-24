@@ -2,6 +2,7 @@
 
 <!-- ========== Resources ========== -->
 <link rel="stylesheet" href="../css/main/home.css" />
+<link rel="stylesheet" href="../css/goods/list/list_13.css" />
 <script type="text/javascript" src="../js/mo_js/home.js"></script>
 
 <!-- ========== Analytics ========== -->
@@ -144,7 +145,12 @@ function closePopup() {
 	</section>
 
 	<!-- SEC 4: 배너 -->
-	{=includeWidget('proc/_slider_banner.html', 'bannerCode', '2345223279')}
+	<div class="home-brandstory">
+		<a href="#">
+			<span>One Plate Meal</span>
+			한국형 지중해식 영양원리
+		</a>
+	</div>
 
 	<!-- SEC 5: 기획전 + 상품 일상 속 푸드케어를 전해요 -->
 	<section class="home-promo">
@@ -167,6 +173,12 @@ function closePopup() {
 	{=includeWidget('magazine/_magazine_home.html')}
 
 	<!-- SEC 7: 나만의 맞춤 식단 찾기 -->
+	<div class="home-how-to-use">
+		<a href="#">
+			<p class="home-how-to-use__title">어떤 식단을<br>골라야할지 모르겠다면? <span>맞춤 식단 찾기 &gt;</span></p>
+			<img src="../img/mimg/banner_how-to-use.jpg" alt="">
+		</a>
+	</div>
 
 	<!-- SEC 6: 리뷰 -->
 	<section class="home-reviews">
@@ -174,48 +186,137 @@ function closePopup() {
 			<span>메쏠인들의 솔직한 후기</span>
 			<a href="#" class="all-view">전체보기</a>
 		</h2>
-		<div class="swiper-container home-reviews__swiper" data-hero-total="3">
+
+		<div class="home-reviews__tabs">
+			<button type="button" class="active" data-tab-key="tab_0">당뇨케어</button>
+			<button type="button" data-tab-key="tab_1">신장투석</button>
+			<button type="button" data-tab-key="tab_2">암케어</button>
+		</div>
+
+		<!-- 당뇨케어 -->
+		<div class="swiper-container home-reviews__swiper active" data-tab-key="tab_0" data-hero-total="4">
 			<div class="swiper-wrapper">
 				<div class="swiper-slide">
-					<a href="#" class="home-reviews__slide color-type01" data-banner="1">
-						<p class="home-reviews__title">혈당 관리에 최고!</p>
+					<div class="home-reviews__slide color-type01" data-banner="1" style="background-color: #DA663F;">
+						<p class="home-reviews__title">당뇨부터 신장 관리까지, <br>합병증 걱정 덜어주는 <br>스마트한 식단 선택!</p>
 						<div class="home-reviews__content">
-							<p class="reviews_desc">당뇨 관리가 필요해서 세브란스 의료진이 참여했다는 말에 반신반의하며 시작했어요. 
-								식단이 너무 맛있어서 이게 관리가 될까 싶었는데, 수치가 안정적으로 유지되는 걸 보고 이젠 정기구독 중입니다.</p>
-							<span class="reviews_name">@gold_mom_82</span>
+							<p class="reviews_desc">건강검진 후 높아진 칼륨 수치와 단백뇨 때문에 신장 건강이 걱정되어 메디쏠라를 시작했습니다. 무엇보다 입맛에 잘 맞고, 집에서 간편하게 영양 관리를 할 수 있어 정말 편리해요. 지인에게 추천할 만큼 만족스럽습니다. 3개월 뒤 더 좋아질 수치를 기대하며 꾸준히 재구매할 예정입니다!</p>
+							<span class="reviews_name">이** 님</span>
 						</div>
-					</a>
+					</div>
 				</div>
 				<div class="swiper-slide">
 					<a href="#" class="home-reviews__slide" data-banner="2">
-						<p class="home-reviews__title">바쁠때 한끼 먹으면<br>딱이에요</p>
+						<p class="home-reviews__title">아프고 나서야<br> 알게 됐어요</p>
 						<img src="../img/main/reviews_bnr01.png" alt="메인 리뷰 2" width="240" height="330" loading="lazy" />
 						<div class="home-reviews__content">
-							<span class="reviews_name">@gold_mom_82</span>
+							<span class="reviews_name">식단 보러가기</span>
 						</div>
 					</a>
 				</div>
 				<div class="swiper-slide">
-					<a href="#" class="home-reviews__slide color-type02" data-banner="3">
-						<p class="home-reviews__title">혈당 관리에 최고!</p>
+					<div class="home-reviews__slide color-type02" data-banner="3" style="background-color: #F2CDB6;">
+						<p class="home-reviews__title">임상으로 증명된 <br>맛있는 당뇨 식단</p>
 						<div class="home-reviews__content">
-							<p class="reviews_desc">당뇨 관리가 필요해서 세브란스 의료진이 참여했다는 말에 반신반의하며 시작했어요. 
-								식단이 너무 맛있어서 이게 관리가 될까 싶었는데, 수치가 안정적으로 유지되는 걸 보고 이젠 정기구독 중입니다.</p>
-							<span class="reviews_name">@gold_mom_82</span>
+							<p class="reviews_desc">당뇨 관리 시 가장 신경 쓰이는 LDL 콜레스테롤 감소 효과가 임상으로 증명되었다고 해서 믿고 선택했습니다. 직접 먹어보니 야채의 풍미와 면의 조화가 훌륭하고, 생각보다 훨씬 든든해서 간식 생각이 전혀 안 나더라고요. 건강과 맛, 두 마리 토끼를 잡아야 하는 임당 산모님들께 강력 추천합니다!</p>
+							<span class="reviews_name">D** 님</span>
 						</div>
-					</a>
+					</div>
 				</div>
 				<div class="swiper-slide">
-					<a href="#" class="home-reviews__slide" data-banner="4">
-						<p class="home-reviews__title">바쁠때 한끼 먹으면<br>딱이에요</p>
-						<img src="../img/main/reviews_bnr02.png" alt="메인 리뷰 2" width="240" height="330" loading="lazy" />
+					<div class="home-reviews__slide" data-banner="4" style="background-color: #853F30;">
+						<p class="home-reviews__title">튀지 않는 혈당,<br> 먹으면서도 마음이<br> 놓여요!</p>
 						<div class="home-reviews__content">
-							<span class="reviews_name">@gold_mom_82</span>
+							<p class="reviews_desc">요즘 당 관리가 안 되어 고민하던 중 메디쏠라를 만났습니다. 직접 먹어보니 혈당이 급격히 튀지 않고 안정적이라 정말 만족스러워요. 저당 범위 내 설계된 식단이라 식사 후에도 불안함 없이 편안합니다. 건강한 식단인데 맛과 안정성까지 다 잡은 느낌이에요!</p>
+							<span class="reviews_name">박** 님</span>
 						</div>
-					</a>
+					</div>
 				</div>
 			</div>
-			<!-- <div class="swiper-pagination swiper-pagination-sec01"></div> -->
+		</div>
+
+		<!-- 신장투석 -->
+		<div class="swiper-container home-reviews__swiper" data-tab-key="tab_1" data-hero-total="4">
+			<div class="swiper-wrapper">
+				<div class="swiper-slide">
+					<div class="home-reviews__slide color-type01" data-banner="1" style="background-color: #7D753C;">
+						<p class="home-reviews__title">이식 후 까다로운 수치 관리, <br>영양사님의 맞춤 솔루션으로 <br>해결했어요!</p>
+						<div class="home-reviews__content">
+							<p class="reviews_desc">투석 때부터 여러 업체를 비교해봤지만, 이식 후 아이의 건강 유지를 위해 결국 메디쏠라를 선택했습니다. 혈액 수치를 바탕으로 영양사님이 직접 아이에게 딱 맞는 식단을 선정해 주신 덕분에 매주 검사 수치가 아주 좋게 나오고 있어요. 간편함과 맛, 영양까지 모두 만족스러운 최고의 선택이었습니다.</p>
+							<span class="reviews_name">장** 님</span>
+						</div>
+					</div>
+				</div>
+				<a href="#" class="swiper-slide">
+					<div class="home-reviews__slide" data-banner="2">
+						<p class="home-reviews__title">투석하는 날도, <br>밥만큼은 편하게</p>
+						<img src="../img/main/reviews_bnr01.png" alt="메인 리뷰 2" width="240" height="330" loading="lazy" />
+						<div class="home-reviews__content">
+							<span class="reviews_name">식단 보러가기</span>
+						</div>
+					</div>
+				</a>
+				<div class="swiper-slide">
+					<div class="home-reviews__slide color-type02" data-banner="3" style="background-color: #DBD9B4;">
+						<p class="home-reviews__title">혈당·혈압 정상 수치 <br>회복, 몸이 달라진 게 <br>느껴져요!</p>
+						<div class="home-reviews__content">
+							<p class="reviews_desc">식욕부진으로 마음고생이 많았는데, 메디쏠라 영양 식단을 만나고 사라졌던 입맛이 돌아왔어요. 부종이 빠지고 혈당과 혈압도 정상 범위로 돌아오니 몸이 제대로 케어받는 기분입니다. 저와 같은 투석 전 환자분들에게 메디쏠라 식단을 진심으로 추천하고 싶어요. 앞으로도 영양사님의 균형 잡힌 식단과 함께할 예정입니다. 감사합니다!</p>
+							<span class="reviews_name">김** 님</span>
+						</div>
+					</div>
+				</div>
+				<div class="swiper-slide">
+					<div class="home-reviews__slide" data-banner="4" style="background-color: #554E2E;">
+						<p class="home-reviews__title">혼자 계신 가족의 <br>신장 4기 식단 고민, <br>메디쏠라로 덜었습니다.</p>
+						<div class="home-reviews__content">
+							<p class="reviews_desc">혼자 계신 신장 4기 가족분께 처음 보내 드렸는데, 함께 먹어보니 아주 싱거운 간이 아니라 건강하게 맛있는 맛이라 놀랐습니다. 까다로운 신장 식단을 이렇게 정성스럽고 맛있게 개발해 주셔서 정말 감사합니다. 믿고 맡길 수 있는 곳을 찾은 것 같아 마음이 놓여요. 앞으로도 잘 부탁드립니다!</p>
+							<span class="reviews_name">최** 님</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 암케어 -->
+		<div class="swiper-container home-reviews__swiper" data-tab-key="tab_2" data-hero-total="4">
+			<div class="swiper-wrapper">
+				<div class="swiper-slide">
+					<div class="home-reviews__slide color-type01" data-banner="1" style="background-color: #586E7B">
+						<p class="home-reviews__title">유명 식단 3곳 비교 <br>결과, 아버지가 선택하신 <br>단 하나의 식단!</p>
+						<div class="home-reviews__content">
+							<p class="reviews_desc">아버지 수술 후 식단 관리를 위해 유명하다는 곳 3곳을 꼼꼼히 비교해 보았습니다. 결론은 메디쏠라의 완승! 입맛 까다로운 아버지께서 여기가 제일 맛있다고 인정하셨어요. 냉동 보관이라 소비기한 걱정 없이 여유 있게 챙겨드릴 수 있고, 식단 구성이 다채로워 질리지 않고 드실 수 있어 정말 만족스럽습니다.</p>
+							<span class="reviews_name">김** 님</span>
+						</div>
+					</div>
+				</div>
+				<a href="#" class="swiper-slide">
+					<div class="home-reviews__slide" data-banner="2">
+						<p class="home-reviews__title">지친 몸에 부담 주지 않는, <br>환자 맞춤 한 끼</p>
+						<img src="../img/main/reviews_bnr01.png" alt="메인 리뷰 2" width="240" height="330" loading="lazy" />
+						<div class="home-reviews__content">
+							<span class="reviews_name">식단 보러가기</span>
+						</div>
+					</div>
+				</a>
+				<div class="swiper-slide">
+					<div class="home-reviews__slide color-type02" data-banner="3" style="background-color: #C3DADE;">
+						<p class="home-reviews__title">미숫가루만 드시던 분이 <br>식사를 시작하셨어요, <br>정말 기적 같은 <br>변화입니다.</p>
+						<div class="home-reviews__content">
+							<p class="reviews_desc">중환자실 퇴원 후 음식을 거의 못 드시던 가족분께 메디쏠라 식단을 선물해 드렸습니다. 음식이 부드럽고 맛이 좋아 정말 잘 드신다는 소식에 얼마나 기뻤는지 몰라요. 다양한 메뉴 구성 덕분에 질리지 않고 꾸준히 드실 수 있어 선물한 보람이 큽니다. 정성 어린 식단을 보내주신 메디쏠라에 진심으로 감사합니다.</p>
+							<span class="reviews_name">손** 님</span>
+						</div>
+					</div>
+				</div>
+				<div class="swiper-slide">
+					<div class="home-reviews__slide" data-banner="4" style="background-color: #40515E;">
+						<p class="home-reviews__title">항암 중 떨어진 입맛, <br>메디쏠라로 다시 찾았습니다</p>
+						<div class="home-reviews__content">
+							<p class="reviews_desc">항암 치료 이후 식사가 어려웠던 아버지께서 메디쏠라 밥은 속이 편하고 맛있다며 다시 주문해달라고 하시네요. 암 환자에게 금기되는 성분은 피하고 필요한 영양소만 골고루 담겨 있어 믿음이 갑니다. 메디쏠라가 식단의 중심을 잡아주니 매 끼니 영양 걱정을 덜 수 있어 앞으로도 계속 이용할 예정입니다.</p>
+							<span class="reviews_name">이** 님</span>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</section>
 	<!-- <section class="home-menu">

@@ -34,3 +34,14 @@
 .goods_prd_item .coupon_img {position:absolute; top:0; right:0; z-index:1;}
 .goods_prd_item .coupon_img img {width:34px;}
 .goods_prd_item .add_currency {color:#717171; font-size:12px; font-weight:normal; text-align:right;}
+
+
+/* main 기획전 */
+.main_prd_list.goods_content26g li[class*="goods_prd_item"] .goods_prd_img {display: block; width: auto; border: none; margin: 0;}
+.main_prd_list.goods_content26g .goods_prd_item {display: flex; gap: 12px; align-items: center; margin-top: 16px; padding: 0; border-top: none;}
+.main_prd_list.goods_content26g .goods_prd_item .goods_prd_content {display: block; padding: 0;}
+.main_prd_list.goods_content26g .goods_prd_item .goods_prd_img .img_box .img img {width: auto; max-width: 74px; border-radius: 6px;}
+.main_prd_list.goods_content26g .goods_prd_content .goods_list_info .goods_info_list li.prd_name {margin-bottom: 4px; font-size: 14px; font-weight: 600; color: #222;}
+.main_prd_list.goods_content26g .goods_prd_content .goods_list_info .goods_info_list li.item_money_box .sale_per { margin-right: 4px; font-size: 16px; font-weight: 600; color: #DF5948;}
+.main_prd_list.goods_content26g .goods_prd_content .goods_list_info .goods_info_list li.item_money_box .m_price { margin-right: 4px; font-size: 16px; font-weight: 600; color: #222;}
+.main_prd_list.goods_content26g .goods_prd_content .goods_list_info .goods_info_list li.item_money_box .through {display: inline-block; color: #999 !important; font-size: 14px !important;}
