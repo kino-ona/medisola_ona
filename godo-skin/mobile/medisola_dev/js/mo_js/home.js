@@ -170,13 +170,38 @@ jQuery(document).ready(function($) {
 		/* ═══════════════════════════════════════
 			Legacy: Review 캐러셀 Swiper Quick fix 용
 			═══════════════════════════════════════ */
-		var reviewSwiperQuickFix = new Swiper('.home-reviews .home-reviews__swiper', {
+	const swiperInstances = {};
+
+	function reviewSwiperQuickFix(tabKey) {
+		if (swiperInstances[tabKey]) {
+			swiperInstances[tabKey].update();
+			return;
+		}
+
+		const $target = $(`.home-reviews .home-reviews__swiper[data-tab-key="${tabKey}"]`);
+
+		swiperInstances[tabKey] = new Swiper($target[0], {
 			slidesPerView: 'auto',
 			watchOverflow: true,
 			speed: 1000,
 			loop: true,
 		});
+	}
 
+	// Tab click
+	$('.home-reviews .home-reviews__tabs button').on('click', function () {
+		const tabKey = $(this).data('tab-key');
+
+		$('.home-reviews .home-reviews__tabs button').removeClass('active');
+		$(this).addClass('active');
+
+		$('.home-reviews .home-reviews__swiper').removeClass('active');
+		$(`.home-reviews .home-reviews__swiper[data-tab-key="${tabKey}"]`).addClass('active');
+
+		reviewSwiperQuickFix(tabKey);
+	});
+
+	$('.home-reviews .home-reviews__tabs button[data-tab-key="tab_0"]').trigger('click');
 		
 
 	/* ═══════════════════════════════════════
