@@ -212,8 +212,8 @@ jQuery(document).ready(function($) {
 		$('.home-reviews .home-reviews__tabs button').removeClass('active');
 		$(this).addClass('active');
 
-		$('.home-reviews .home-reviews__swiper').removeClass('active');
-		$(`.home-reviews .home-reviews__swiper[data-tab-key="${tabKey}"]`).addClass('active');
+		$('.home-reviews .home-reviews__panel').removeClass('active');
+		$(`.home-reviews .home-reviews__panel[data-tab-key="${tabKey}"]`).addClass('active');
 	});
 
 	$('.home-reviews .home-reviews__tabs button[data-tab-key="tab_0"]').trigger('click');

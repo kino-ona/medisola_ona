@@ -179,7 +179,7 @@ audio, canvas, iframe, img, svg, video {vertical-align:middle;}
 
 /* 하단 */
 div#footer_wrap {border-top: 0;}
-#mfooter {position:relative;border:0;padding:120px 0;margin:160px 0 0; background-color: #3d4f98; border-top: 1px solid #ededed;}
+#mfooter {position:relative;border:0;padding:80px 0 100px;margin:160px 0 0; background-color: #3d4f98; border-top: 1px solid #ededed;}
 #mfooter:after,
 #mfooter:before {display:none;}
 #mfooter .inner {display: flex; justify-content: space-between;}
@@ -474,7 +474,8 @@ div#mfooter.new-footer .mf_info div {color: #999999;}
 	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 .new-footer-head .footer-contact {display: flex; flex-direction: column;}
-.new-footer-head .footer-contact > div {display: flex; gap: 8px; font-size: 28px; font-weight: 600; line-height: 1.4;}
+.new-footer-head .footer-contact > div {display: flex; gap: 8px; font-size: 28px; font-weight: 600; line-height: 1.4; justify-content: center;}
+.new-footer-head .footer-contact > div p:last-child:before { content: ''; display: inline-block; width: 1px; height: 12px; margin-right: 8px; background-color: #666; vertical-align: middle;}
 .new-footer-head .footer-contact .footer-contact-time {font-size: 16px; color: #999999;}
 .new-footer-head .footer-role {display: flex; gap: 8px;}
 .new-footer-head .footer-role  a {font-size: 16px;color: #F5F5F5;}
