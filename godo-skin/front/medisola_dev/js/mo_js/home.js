@@ -202,6 +202,23 @@ jQuery(document).ready(function($) {
 	// 		initRecommendScrollForBox($(this));
 	// });
 
+		/* ═══════════════════════════════════════
+			Legacy: Review 캐러셀 Swiper Quick fix 용
+			═══════════════════════════════════════ */
+	// Tab click
+	$('.home-reviews .home-reviews__tabs button').on('click', function () {
+		const tabKey = $(this).data('tab-key');
+
+		$('.home-reviews .home-reviews__tabs button').removeClass('active');
+		$(this).addClass('active');
+
+		$('.home-reviews .home-reviews__swiper').removeClass('active');
+		$(`.home-reviews .home-reviews__swiper[data-tab-key="${tabKey}"]`).addClass('active');
+	});
+
+	$('.home-reviews .home-reviews__tabs button[data-tab-key="tab_0"]').trigger('click');
+		
+
 
 	/* ═══════════════════════════════════════
 			SEC 7: 케어 스토리 Swiper

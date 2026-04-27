@@ -17,11 +17,13 @@
 						<!--{ ? themeInfo.soldOutIconFl == 'y' && ..soldOut =='y' && soldoutDisplay.soldout_overlay != '0' }-->
 						<span class="soldout">SOLD OUT</span>
 						<!--{ / }-->
+						<!--{ ? mainData.sno != '27' }-->
 						<div class="item_icon_box">
 							<!--{ ? themeInfo.iconFl == 'y' }-->
 							{..goodsIcon}
 							<!--{ / }-->
 						</div>
+						<!--{ / }-->
 						<!-- //item_icon_box -->
 
 					
@@ -173,6 +175,15 @@
 				{..goodsColor}
 				<!--{ / }-->
 				<!-- //item_info_cont -->
+
+				<!--{ ? mainData.sno == '27' }-->
+				<div class="item_icon_box">
+					<!--{ ? themeInfo.iconFl == 'y' }-->
+					{..goodsIcon}
+					<!--{ / }-->
+				</div>
+				<!--{ / }-->
+				<!-- //item_icon_box -->
 			</div>
 			<!-- //item_cont -->
         </li>

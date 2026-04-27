@@ -6,6 +6,10 @@
 					<h2 class="home-contents__title">
 						<span>메디쏠라 이야기</span>
 					</h2>
+					<div class="magazine-navigation">
+						<div class="swiper-button-next"></div>
+						<div class="swiper-button-prev"></div>
+					</div>
         </div>
 				<div class="swiper-container home-magazine__swiper">
 					<div class="swiper-wrapper">
@@ -14,6 +18,7 @@
             <div class="magazine_card_mobile" onclick="location.href='/magazine/view.php?id={=.articleId}'">
                 {? .imageUrl}
                 <div class="magazine_image_mobile">
+									<h3>{=.subject}</h3>
 									<img src="{=.imageUrl}" alt="{=.subject}" loading="lazy">
                 </div>
                 {/}
@@ -59,7 +64,7 @@
 	$targets.each(function() {
 	$(this).attr('data-swiper-init', 'true');
 	new Swiper(this, {
-		slidesPerView: 5,
+		slidesPerView: 3,
 		spaceBetween: 8,
 		// freeMode: true,
 		watchOverflow: true,
@@ -68,6 +73,10 @@
 		autoplay: {
 			delay: 2500,
 			disableOnInteraction: false,
+		},
+		navigation: {
+			nextEl: ".magazine-navigation .swiper-button-next",
+			prevEl: ".magazine-navigation .swiper-button-prev",
 		},
 	});
 	});

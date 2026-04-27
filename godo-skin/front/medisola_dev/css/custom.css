@@ -462,3 +462,29 @@ div.mypage_main div.goods_list_cont ul > li .item_cont .item_photo_box .item_lin
 /* 작업소스 미리보기 배너 숨김 + 상단 여백 제거 (live 스킨과 동일 레이아웃) */
 .works-preview > .preview-title { display: none !important; }
 .works-preview { padding-top: 0 !important; }
+
+
+
+/* quick fix - New Footer */
+div#mfooter.new-footer {margin: 0 auto; background-color: #282B2D; color: #fff;}
+div#mfooter.new-footer .mf_info div {color: #999999;}
+.new-footer-head {
+	display: flex; align-items: center; justify-content: space-between; 
+	max-width: 1600px; width: 100%; margin: 0 auto 40px; padding-bottom: 40px;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.new-footer-head .footer-contact {display: flex; flex-direction: column;}
+.new-footer-head .footer-contact > div {display: flex; gap: 8px; font-size: 28px; font-weight: 600; line-height: 1.4;}
+.new-footer-head .footer-contact .footer-contact-time {font-size: 16px; color: #999999;}
+.new-footer-head .footer-role {display: flex; gap: 8px;}
+.new-footer-head .footer-role  a {font-size: 16px;color: #F5F5F5;}
+div#mfooter.new-footer .mf_link {display: flex; gap: 8px; }
+div#mfooter.new-footer .mf_link a {color: #F5F5F5; font-size: 16px;}
+div#mfooter.new-footer .mf_logo {width: 100%;}
+div#mfooter.new-footer .mf_logo img { width: 100%; height: auto; opacity: 0.3;}
+div#mfooter.new-footer .footer-bottom {
+	flex-direction: column;
+	gap: 16px;
+	margin-top: 40px;
+}
+div#mfooter.new-footer .footer-bottom .mf_copy {color: #999999;}
