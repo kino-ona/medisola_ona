@@ -13,67 +13,71 @@
 	<img src="../../img/mimg/mf_quick.png">
 </div>
 
-<div id="mfooter">
+<div id="mfooter" class="new-footer">
 	<div class="inner">
-		<!-- 하단01 : 하단 링크 -->
-		<div class="mf_link">
-			<a href="../service/agreement.php">이용약관</a>
-			{=includeFile('/img/mimg/slash.svg')}
-			<a href="../service/private.php" class="privacy">개인정보처리방침</a>
-			{=includeFile('/img/mimg/slash.svg')}
-			<a href="../service/guide.php">이용안내</a>
+		<!-- 운영시간 -->
+		<div class="mf_contact">
+			<p>고객센터 1577-4180</p>
+			<p>ARS 전화 주문 1688-5623</p>
+			<p class="contact_time">평일 (토,일,공휴일 휴무) 오전 9시~12시, 오후 1시~6시</p>
 		</div>
+
+		<!-- 하단 링크 -->
 		<div class="mf_link">
+			<a href="../service/private.php" class="privacy">개인정보처리방침</a>
+			<a href="../service/agreement.php">이용약관</a>
+			<a href="../service/guide.php">이용안내</a>
 			<a href="https://weare.medisola.co.kr/philosophy">브랜드 스토리</a>
-			{=includeFile('/img/mimg/slash.svg')}
 			<a href="https://weare.medisola.co.kr/">메디쏠라 주식회사</a>
 		</div>
 
-		<!-- 하단02 : 하단 로고 -->
-		<div class="mf_logo"><img src="../../img/mimg/mf_logo.svg" /></div>
+		<div class="mf_link">
+			<a href="/board/list.php?&bdId=notice">공지사항</a>
+			<a href="/service/faq.php">자주묻는질문</a>
+			<a href="/board/list.php?&bdId=goodsreview">구매후기</a>
+			<a href="/board/list.php?&bdId=goodsqa">구매문의</a>
+			<a href="/board/list.php?&bdId=event">이벤트</a>
+		</div>
 
 		<!-- 하단03 : 회사정보 -->
 		<div class="mf_info">
 			<div>
-				상호. {=gMall.companyNm} 
+				{=gMall.companyNm} 
 				{=includeFile('/img/mimg/slash.svg')}
-				CEO. {=gMall.ceoNm}
+				{=gMall.ceoNm}
 			</div>
 			<div>
 				사업자등록번호. {=gMall.businessNo}<a href="#" class="btn_licensee_info" onclick="gd_popup_bizInfo('{=str_replace('-', '', gMall.businessNo)}'); return false;">[사업자정보확인]</a>
 			</div>
 			<div>
-				통신판매업신고번호. {=gMall.onlineOrderSerial}
+				통신판매업신고번호 {=gMall.onlineOrderSerial}
 			</div>
 			<div>
-				개인정보관리책임자. {=gMall.ceoNm}
-			</div>
-			<div>
-				이메일. {=gMall.email}
+				개인정보관리책임자 {=gMall.ceoNm}
 			</div>
 			<div>
 				주소. {=gMall.address} {=gMall.addressSub}
 			</div>
 			<div>
-				Hosting by 엔에이치엔커머스(주)
+				이메일. {=gMall.email}
 			</div>
+			<!-- <div>
+				Hosting by 엔에이치엔커머스(주)
+			</div> -->
 		</div>
 
-		<!-- 하단04 : 운영시간 -->
-		<div class="mf_time">
-			고객센터. 1577-4180
-			<span>평일 (토,일,공휴일 휴무) 오전 9시~12시, 오후 1시~6시</span>
-		</div>
-
-		<!-- 하단05 : 카피라이트 -->
-		<div class="mf_copy">©2022 {=gMall.companyNm}. ALL RIGHTS RESERVED. <br/> designed by morenvy</div>
-
-		<!-- 하단06 : SNS -->
+		<!-- SNS -->
 		<div class="mf_sns">
 			<a href="//www.facebook.com/people/medisola/100071263807660/?mibextid=LQQJ4d" target="_blank"><img src="../../img/mimg/mf_sns01.png" /></a>
 			<a href="//www.instagram.com/medisola" target="_blank"><img src="../../img/mimg/mf_sns02.png" /></a>
 			<a href="//www.youtube.com/channel/UCLJmNysUeksBscc9Xh0EyxQ" target="_blank"><img src="../../img/mimg/mf_sns03.png" /></a>
 		</div>
+
+		<!--  하단 로고 //-->
+		<div class="mf_logo"><a href="/"><img src="../../img/mimg/mf_logo.svg" /></a></div>
+
+		<!-- 카피라이트 -->
+		<div class="mf_copy">©2022 {=gMall.companyNm}. ALL RIGHTS RESERVED.</div>
 	</div>
 </div><!-- //mfooter -->
 

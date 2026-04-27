@@ -1915,3 +1915,25 @@ div.faq_list .boardlist h3 {
 #wrap .personalized.open + .bg {
     display: block;
 }
+
+#mfooter.new-footer {
+    padding: 48px 0;
+    background-color: #282B2D;
+    border-top: none;
+}
+#mfooter.new-footer .inner {
+    padding: 0 12px;
+}
+#mfooter.new-footer .mf_contact {
+    color: #ffffff;
+}
+#mfooter.new-footer .mf_contact :not(.contact_time) {
+    font-size: 20px;
+    font-weight: 600;
+    color: #f5f5f5;
+    line-height: 1.35;
+}
+#mfooter.new-footer .mf_contact .contact_time {
+    font-size: 14px;
+    color: #999999;
+}
