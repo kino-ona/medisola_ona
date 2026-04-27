@@ -53,13 +53,13 @@
 									<!--{ / }-->
 									<li class="item_money_box">
 										<!--{ ? in_array('goodsDiscount', themeInfo.displayField) && ...dcPrice > 0 && ...goodsPriceDisplayFl =='y' }-->
-										<span class="through">{=gd_global_currency_symbol()}{=gd_global_money_format(...goodsPrice)}{=gd_global_currency_string()} {=gd_global_add_currency_display(...goodsPrice)}</span>
 										<!--{ ? in_array('dcRate', themeInfo.displayAddField) && gd_isset(...goodsDcRate) }-->
 										<span class="sale_per">{=...goodsDcRate}%</span>
 										<!--{ / }-->
 										<strong class="m_price">
 											{=gd_global_currency_symbol()}{=gd_global_money_format(...goodsPrice - ...dcPrice)}{=gd_global_currency_string()} {=gd_global_add_currency_display(...goodsPrice - ...dcPrice)}
 										</strong>
+										<span class="through">{=gd_global_currency_symbol()}{=gd_global_money_format(...goodsPrice)}{=gd_global_currency_string()} {=gd_global_add_currency_display(...goodsPrice)}</span>
 										<!--{ ? themeInfo.iconFl == 'y' }-->
 										<div class="goods_prd_icon">{...goodsIcon}</div>
 										<!--{ / }-->

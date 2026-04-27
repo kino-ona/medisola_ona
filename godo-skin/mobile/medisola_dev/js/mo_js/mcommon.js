@@ -10,15 +10,28 @@ jQuery(document).ready(function () {
     jQuery("#wrap .m_side .ms_top .btnClose").click(function () {
         jQuery(".m_side").removeClass("open");
     });
+    
+    /* 사이드바 - 1:1 영양 상담 배너 */
+    if (!jQuery("#wrap .m_side .ms_cate > ul > li").hasClass("selected")) {
+        jQuery("#wrap .m_side .ms_cate .health_care").addClass("selected");
+    };
+
+    jQuery("#wrap .m_side .ms_banner a").click(function () {
+        jQuery(".personalized").show(500).addClass("open");
+    });
+
+    jQuery("#wrap .personalized .personalized_footer .btn_close").click(function () {
+        jQuery(".personalized").removeClass("open");
+    });
 
     jQuery("#wrap .bg").click(function () {
-        jQuery(".m_side").removeClass("open");
+        jQuery(".personalized").removeClass("open");
     })
 
     jQuery("#wrap .m_side .ms_cate ul a.cate").click(function () {
-        jQuery(this).parent("li").toggleClass("selected");
-        jQuery(this).next("ul").slideToggle();
-        jQuery(this).parents("li").siblings().children("ul").slideUp();
+        jQuery(this).parent("li").addClass("selected");
+        jQuery(this).next("ul").show();
+        jQuery(this).parents("li").siblings().children("ul").hide();
         jQuery(this).parents("li").siblings().removeClass("selected");
     });
 
@@ -114,6 +127,17 @@ jQuery(document).ready(function () {
         scrollbar: {
             el: ".swiper-scrollbar-widget",
             dragSize: 120,
+        },
+    });
+
+    var personalized_banner = new Swiper(".personalized_content .swiper-container", {
+        slidesPerView: 1,
+        spaceBetween: 8,
+        watchOverflow: "true",
+        speed: 1000,
+        pagination: {
+            el: '.personalized_content .swiper-pagination',
+            clickable: true,
         },
     });
 
