@@ -183,18 +183,58 @@ function closePopup() {
 	<!-- SEC 6: 리뷰 -->
 	<section class="home-reviews">
 		<h2 class="home-contents__title">
-			<span>메쏠인들의 솔직한 후기</span>
+			<span>지금 가장 걱정되는게 뭔가요?</span>
 			<a href="#" class="all-view">전체보기</a>
 		</h2>
 
 		<div class="home-reviews__tabs">
-			<button type="button" class="active" data-tab-key="tab_0">당뇨케어</button>
-			<button type="button" data-tab-key="tab_1">신장투석</button>
-			<button type="button" data-tab-key="tab_2">암케어</button>
+			<button type="button" class="active" data-tab-key="tab_0">건강케어</button>
+			<button type="button" data-tab-key="tab_1">당뇨케어</button>
+			<button type="button" data-tab-key="tab_2">신장투석</button>
+			<button type="button" data-tab-key="tab_3">암케어</button>
+		</div>
+
+		<!-- 건강케어 -->
+		<div class="swiper-container home-reviews__swiper active" data-tab-key="tab_0" data-hero-total="4">
+			<div class="swiper-wrapper">
+				<div class="swiper-slide">
+					<div class="home-reviews__slide color-type01" data-banner="1" style="background-color: #DA663F;">
+						<p class="home-reviews__title">냉동 도시락의 편견을<br> 완전히 바꿔준 메디쏠라</p>
+						<div class="home-reviews__content">
+							<p class="reviews_desc">잦은 배달 음식에 건강이 걱정되어 반신반의하며 주문했는데, 기대 이상이라 정말 놀랐어요. 영양 식단이라 싱거울 줄 알았더니 간도 딱 적당하고, 큼직하게 들어간 고기와 야채의 식감이 살아있습니다. 이제 배달 음식 대신 메디쏠라로 정착합니다!</p>
+							<span class="reviews_name">C** 님</span>
+						</div>
+					</div>
+				</div>
+				<div class="swiper-slide">
+					<a href="#" class="home-reviews__slide" data-banner="2">
+						<p class="home-reviews__title">아프고 나서야<br> 알게 됐어요 <span>식단 보러가기</span></p>
+						<img src="../img/main/reviews_bnr01.png" alt="메인 리뷰 2" width="240" height="330" loading="lazy" />
+					</a>
+				</div>
+				<div class="swiper-slide">
+					<div class="home-reviews__slide color-type02" data-banner="3" style="background-color: #F2CDB6;">
+						<p class="home-reviews__title">아이도 남편도 좋아하는 <br>온 가족 정착 식단!</p>
+						<div class="home-reviews__content">
+							<p class="reviews_desc">이번 주 벌써 세 번이나 이용했을 정도로 온 가족이 정말 좋아합니다. 특히 저희 가족이 좋아하는 오징어, 연어, 삼치 등 해물 메뉴 퀄리티가 훌륭해 여러 번 재구매하며 즐기고 있어요. 잦은 야근으로 요리할 시간이 부족했는데, 메디쏠라 덕분에 바쁜 일상 속에서도 소중한 가족의 식사를 건강하게 챙길 수 있어 정말 든든합니다.</p>
+							<span class="reviews_name">G** 님</span>
+						</div>
+					</div>
+				</div>
+				<div class="swiper-slide">
+					<div class="home-reviews__slide" data-banner="4" style="background-color: #853F30;">
+						<p class="home-reviews__title">운동은 안 해도 <br>건강은 챙기고 싶을 때, <br>인생 식단을 만났습니다</p>
+						<div class="home-reviews__content">
+							<p class="reviews_desc">검색 끝에 알아낸 메디쏠라, 기대보다 훨씬 훌륭한 퀄리티에 감탄하며 먹고 있습니다. 간이 딱 맞는 저염 식단이라 부담 없고, 든든한 양 덕분에 건강한 식단 관리의 재미를 느끼고 있어요. 맛없는 다이어트식에 지쳤던 분들께 강력 추천하며, 저도 이번 재주문을 시작으로 꾸준히 이용하려 합니다.</p>
+							<span class="reviews_name">A** 님</span>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 
 		<!-- 당뇨케어 -->
-		<div class="swiper-container home-reviews__swiper active" data-tab-key="tab_0" data-hero-total="4">
+		<div class="swiper-container home-reviews__swiper active" data-tab-key="tab_1" data-hero-total="4">
 			<div class="swiper-wrapper">
 				<div class="swiper-slide">
 					<div class="home-reviews__slide color-type01" data-banner="1" style="background-color: #DA663F;">
@@ -233,7 +273,7 @@ function closePopup() {
 		</div>
 
 		<!-- 신장투석 -->
-		<div class="swiper-container home-reviews__swiper" data-tab-key="tab_1" data-hero-total="4">
+		<div class="swiper-container home-reviews__swiper" data-tab-key="tab_2" data-hero-total="4">
 			<div class="swiper-wrapper">
 				<div class="swiper-slide">
 					<div class="home-reviews__slide color-type01" data-banner="1" style="background-color: #7D753C;">
@@ -272,7 +312,7 @@ function closePopup() {
 		</div>
 
 		<!-- 암케어 -->
-		<div class="swiper-container home-reviews__swiper" data-tab-key="tab_2" data-hero-total="4">
+		<div class="swiper-container home-reviews__swiper" data-tab-key="tab_3" data-hero-total="4">
 			<div class="swiper-wrapper">
 				<div class="swiper-slide">
 					<div class="home-reviews__slide color-type01" data-banner="1" style="background-color: #586E7B">
