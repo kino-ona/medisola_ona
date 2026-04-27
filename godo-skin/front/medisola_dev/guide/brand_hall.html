@@ -176,22 +176,28 @@
 	</div>
 </div>
 <script>
-  /* ── 데스크탑: IntersectionObserver 순차 진입 ── */
+  /* ── 데스크탑: IntersectionObserver 순차 진입 ── */  
   const cards = document.querySelectorAll('#pickGrid .pick-card');
-
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
+        // 각 카드 인덱스에 따라 개별 delay 적용
+        const idx = Array.from(cards).indexOf(entry.target);
+        entry.target.style.transitionDelay = `${idx * 0.18}s`;
         entry.target.classList.add('visible');
         observer.unobserve(entry.target);
       }
     });
   }, {
-    threshold: 0.15,
-    rootMargin: '0px 0px -60px 0px'
+    threshold: 0.12,
+    rootMargin: '0px 0px -80px 0px'
   });
 
-  cards.forEach(card => observer.observe(card));
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      cards.forEach(card => observer.observe(card));
+    });
+  });
 </script>
 
 { # footer }
