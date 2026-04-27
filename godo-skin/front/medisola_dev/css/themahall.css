@@ -1,0 +1,573 @@
+@charset "UTF-8";
+
+.sr-only {
+  position: absolute;
+  left: -100%;
+  font-size: 0;
+  color: transparent;
+  text-indent: -9999px;
+}
+/* 테마/브랜드관 스타일 */
+.body-brand-hall #wrap, 
+.body-brand-hall #container {min-width: 100%;}
+.body-brand-hall #container #contents {
+  max-width: 100%;
+  width: 100%;
+  padding: 0 0;
+}
+.brand-hall-wrap {
+  width: 100%;
+}
+.hall-keyvisual {
+  position: relative;
+  width: calc(100% - 80px);
+  padding-left: 40px;
+  padding-right: 40px;
+}
+.hall-keyvisual figure {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+.hall-intro {
+  position: relative;
+  height: 100vh;
+  background: url('../img/themahall/pc-Intro.jpg') center center no-repeat;
+  background-size: cover;
+}
+.hall-intro .obj {
+  position: absolute;
+  border-radius: 50%;
+  border: 3px solid rgba(240,160,130,0.55);
+  overflow: hidden;
+  box-shadow:
+    0 0 0 5px rgba(255,255,255,0.85),
+    0 8px 28px rgba(200,100,60,0.18);
+  background: #fff;
+  /* 둥둥 효과 */
+  animation: floatY 4s ease-in-out infinite;
+}
+.hall-intro .hall-intro .obj img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+/* 각 obj 크기 & 위치 & 애니메이션 딜레이 */
+.hall-intro .obj1 {
+  width: 130px; height: 130px;
+  top: 51%; left: 19%;
+  animation-delay: 0s;
+  animation-duration: 4.2s;
+}
+.hall-intro .obj2 {
+  width: 172px; height: 172px;
+  top: 8%;  left: 66%;
+  animation-delay: 1.3s;
+  animation-duration: 3.8s;
+}
+.hall-intro .obj3 {
+  width: 104px; height: 104px;
+  top: 67%; left: 68%;
+  animation-delay: 0.7s;
+  animation-duration: 5s;
+}
+@keyframes floatY {
+  0%   { transform: translateY(0px)   rotate(0deg); }
+  25%  { transform: translateY(-14px) rotate(1.5deg); }
+  50%  { transform: translateY(-22px) rotate(0deg); }
+  75%  { transform: translateY(-10px) rotate(-1.5deg); }
+  100% { transform: translateY(0px)   rotate(0deg); }
+}
+
+.hall-intro .sparkle {
+  position: absolute;
+  font-size: 18px;
+  color: #e8957a;
+  opacity: 0;
+  animation: sparkleAnim 2s ease-in-out infinite;
+  user-select: none;
+}
+.hall-intro .sparkle:nth-child(1) { top: 21%; left: 36%; animation-delay: 0s; }
+.hall-intro .sparkle:nth-child(2) { top: 48%; left: 8%;  animation-delay: 1.2s; }
+.hall-intro .sparkle:nth-child(3) { top: 80%; left: 80%; animation-delay: 0.6s; }
+@keyframes sparkleAnim {
+  0%, 100% { opacity: 0; transform: scale(0.6) rotate(0deg); }
+  50%       { opacity: 0.8; transform: scale(1.5) rotate(20deg); }
+}
+
+.intro-content {
+  position: absolute;
+  max-width: 1440px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+.intro-content .center-star {
+  width: 32px; height: 32px;
+  margin: 0 auto 20px;
+  opacity: 0;
+  transform: scale(1);
+  animation:
+    starFadeIn 1.4s ease 0.6s forwards,
+    starPulse  2.0s ease-in-out 2s infinite;
+  pointer-events: none;
+}
+.intro-content .center-star img {
+  width: 100%; height: 100%;
+  object-fit: contain;
+  display: block;
+}
+@keyframes starFadeIn {
+  from { opacity: 0; transform: scale(0.7); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes starPulse {
+  0%   { transform: scale(1);    }
+  50%  { transform: scale(1.15); }
+  100% { transform: scale(1);    }
+}
+.intro-content .content-title {
+  margin-bottom: 4px;
+  font-size:40px;
+  font-weight: 600;
+  color: #222222;
+}
+.intro-content .content-desc {
+  font-size: 18px;
+  font-weight: 400;
+  color: #666666;
+}
+.intro-content .content-check {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 510px;
+  margin-top: 40px;
+}
+.intro-content .content-check span {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(242, 205, 182, 0.7);
+  color: #DA663F;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 10px 20px 10px 8px;
+}
+.intro-content .content-check span::before {
+  content: '';
+  display: flex;
+  width: 32px;
+  height: 32px;
+  background: url('../img/themahall/intro-check-icon.png') center center no-repeat;
+  background-size: cover;
+}
+.hall-brandstory {
+  background-color: #FFE4D1;
+  padding: 40px;
+}
+
+.hall-brandstory .brandstory-inner {background-color: #ffffff;border-radius: 30px;padding: 160px 40px 40px;}
+.hall-brandstory .section-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 18px;
+  color: #DA663F;
+  margin-bottom: 24px;
+  font-weight: 500;
+}
+.hall-brandstory .section-label .star-icon {
+  font-size: 16px;
+  line-height: 1;
+}
+.hall-brandstory .brand-title {
+  font-size: clamp(36px, 6vw, 80px);
+  font-weight: 600;
+  text-align: center;
+  letter-spacing: -0.01em;
+  color: #222222;
+  line-height: 1.05;
+  margin-bottom: 24px;
+}
+.hall-brandstory .brand-desc {
+  text-align: center;
+  font-size: clamp(13px, 1.4vw, 16px);
+  color: #666666;
+  line-height: 1.6;
+  font-weight: 3400;
+  margin-bottom: 120px;
+}
+/* ────────────────────────────────
+    CARD GRID — DESKTOP
+──────────────────────────────── */
+.hall-brandstory .card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto auto;
+  gap: 16px;
+  padding-bottom: 80px;
+  max-height: 720px;
+}
+.hall-brandstory .card {
+  border-radius: 30px;
+  padding: 32px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 280px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+.hall-brandstory .card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.12);
+}
+
+/* 체크 아이콘 */
+.hall-brandstory .card-icon {
+  position: absolute;
+  top: 28px;
+  left: 28px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hall-brandstory .card-title {
+  font-size: clamp(16px, 1.6vw, 22px);
+  font-weight: 700;
+  line-height: 1.45;
+  margin-bottom: 10px;
+}
+.hall-brandstory .card-body {
+  font-size: clamp(12px, 1.1vw, 14px);
+  line-height: 1.75;
+  font-weight: 300;
+  opacity: 0.85;
+}
+.hall-brandstory .card-note {
+  margin-top: 8px;
+  font-size: 11px;
+  opacity: 0.6;
+}
+
+/* ── 색상 테마별 ── */
+.hall-brandstory .card--brown {
+  background: #A87756;
+  color: #fff;
+}
+.hall-brandstory .card--brown .card-icon { background: rgba(255,255,255,0.18); }
+.hall-brandstory .card--brown .card-icon svg { stroke: #fff; }
+.hall-brandstory .card--orange {
+  background: #DA663F;
+  color: #fff;
+}
+.hall-brandstory .card--orange .card-icon { background: rgba(255,255,255,0.18); }
+.hall-brandstory .card--orange .card-icon svg { stroke: #fff; }
+.hall-brandstory .card--beige {
+  background:  #F6EFE9;
+  color: #222222;
+}
+.hall-brandstory .card--beige .card-icon { background: rgba(0,0,0,0.07); }
+.hall-brandstory .card--beige .card-icon svg { stroke: #A87756; }
+.hall-brandstory .card--charcoal {
+  background:  #50443E;
+  color: #fff;
+}
+.hall-brandstory .card--charcoal .card-icon { background: rgba(255,255,255,0.12); }
+.hall-brandstory .card--charcoal .card-icon svg { stroke: #fff; }
+
+/* ── 그리드 배치 ── */
+/* 컬럼1: 위(갈색 tall) + 아래(베이지 short) */
+.hall-brandstory .card--c1r1 { grid-column: 1; grid-row: 1; }
+.hall-brandstory .card--c1r2 { grid-column: 1; grid-row: 2; }
+
+/* 컬럼2: 위아래 합쳐서 tall — 오렌지 하나 */
+.hall-brandstory .card--c2 {
+  grid-column: 2;
+  grid-row: 1 / 3;
+  /* min-height: 580px; */
+}
+/* 컬럼3: 위(베이지 short) + 아래(차콜 tall) */
+.hall-brandstory .card--c3r1 { grid-column: 3; grid-row: 1; }
+.hall-brandstory .card--c3r2 { grid-column: 3; grid-row: 2; }
+
+.hall-brandstory .card--c1r2 .card-title,
+.hall-brandstory .card--c3r1 .card-title {color: #624E40}
+.hall-brandstory .card--c1r2 .card-body,
+.hall-brandstory .card--c3r1 .card-body {color: rgba(98, 78, 64, 0.6)}
+
+.hall-family {
+  max-width: 1440px;
+  margin: 160px auto;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+.hall-family .section-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  color:  #7D753C;
+  margin-bottom: 14px;
+  font-weight: 500;
+}
+.hall-family .section-title {
+  text-align: center;
+  font-size: clamp(26px, 3.5vw, 44px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color:  #222222;
+  margin-bottom: 48px;
+}
+/* ──────────────────────────────
+    DESKTOP GRID
+────────────────────────────── */
+.hall-family .pick-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+/* ── 카드 공통 ── */
+.hall-family .pick-card {
+  border-radius: 24px;
+  overflow: hidden;
+  position: relative;
+  min-height: 520px;
+  cursor: pointer;
+
+  /* 진입 전 상태 */
+  opacity: 0;
+  transform: translateY(40px);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+/* JS로 활성화될 때 */
+.hall-family .pick-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* 각 카드별 트랜지션 (순차 효과용) */
+.hall-family .pick-card:nth-child(1) { transition-delay: 0s; }
+.hall-family .pick-card:nth-child(2) { transition-delay: 0.18s; }
+.hall-family .pick-card:nth-child(3) { transition-delay: 0.36s; }
+
+/* 트랜지션은 opacity+transform 따로 지정 */
+.hall-family .pick-card {
+  transition:
+    opacity   0.65s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s ease;
+}
+.hall-family .pick-card:hover {
+  box-shadow: 0 24px 60px rgba(0,0,0,0.18);
+  transform: translateY(-8px);
+}
+.hall-family .pick-card.visible:hover {
+  transform: translateY(-8px);
+}
+/* 이미지 카드 (1, 2번) */
+.hall-family .pick-card--img {
+  background: #ccc center/cover no-repeat;
+}
+.hall-family .pick-card--img.card-blue { background-color: #6a9ed4; }
+.hall-family .pick-card--img.card-tan  { background-color: #b09070; }
+/* 이미지 플레이스홀더 — 실제 운영시 background-image로 교체 */
+.hall-family .card-photo {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+  object-fit: cover;
+  object-position: center top;
+}
+/* 곡선 웨이브 장식 */
+.hall-family .card-wave {
+  position: absolute;
+  bottom: 120px;
+  left: 0; right: 0;
+  height: 120px;
+  pointer-events: none;
+}
+/* 하단 info 박스 */
+.hall-family .card-info {
+  position: absolute;
+  bottom: 20px;
+  left: 16px;
+  right: 16px;
+  background: rgba(34,34,34,0.15);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,255,255, 0.3);
+  border-radius: 24px;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.hall-family .card-info-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.hall-family .card-info-label {
+  font-size: 13px;
+  color: rgba(255,255,255,0.85);
+  font-weight: 400;
+}
+.hall-family .card-info-price {
+  font-size: 22px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.02em;
+}
+.hall-family .card-arrow {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.25s ease;
+}
+.hall-family .card-arrow svg {
+  width: 18px; height: 18px;
+  stroke:  #222222;
+  stroke-width: 2.2;
+  fill: none;
+}
+.hall-family .pick-card:hover .card-arrow {
+  transform: scale(1.1) translateX(2px);
+}
+/* ── 세 번째: 올리브 텍스트 카드 ── */
+.hall-family .pick-card--olive {
+  background: #8a9a3a;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 36px 32px;
+}
+
+/* 배경 곡선 SVG 컨테이너 */
+.hall-family .olive-bg-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  border-radius: 24px;
+}
+/* 드로잉 시작 전: 선 숨김 */
+.hall-family .olive-bg-svg .bg-path {
+  stroke-dasharray: 3000;
+  stroke-dashoffset: 3000;
+}
+/* 카드 visible 시 드로잉 애니메이션 */
+.hall-family .pick-card--olive.visible .bg-path {
+  animation: drawPath 2.2s cubic-bezier(0.4, 0, 0.2, 1) 0.5s forwards;
+}
+@keyframes drawPath {
+  to { stroke-dashoffset: 0; }
+}
+
+/* 별 SVG */
+.hall-family .olive-star-svg {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  width: 54px;
+  height: 54px;
+  transform-origin: 50% 50%;
+  animation: starSpin2 10s linear infinite;
+}
+@keyframes starSpin2 {
+  to { transform: rotate(360deg); }
+}
+
+.hall-family .olive-title {
+  position: relative;
+  font-size: clamp(22px, 2.4vw, 32px);
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.4;
+  letter-spacing: -0.02em;
+}
+.hall-family .olive-sub {
+  position: relative;
+  margin-top: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  color: rgba(255,255,255,0.75);
+  font-weight: 400;
+}
+.hall-family .olive-sub svg {
+  width: 20px; height: 20px;
+  stroke: rgba(255,255,255,0.75);
+  stroke-width: 2;
+  fill: none;
+}
+
+.hall-benefit {
+  max-width: 1440px;
+  margin: 160px auto;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+.hall-benefit .section-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  color:  #668091;
+  margin-bottom: 14px;
+  font-weight: 500;
+}
+.hall-benefit .section-title {
+  text-align: center;
+  font-size: clamp(26px, 3.5vw, 44px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color:  #222222;
+  margin-bottom: 48px;
+}
+.benefit-coupon {
+  display: flex;
+  gap: 24px;
+}
+.benefit-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30px;
+}
+.benefit-bottom a {
+  display: inline-flex;
+  background-color: #000000;
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 600;
+  border-radius: 16px;
+  padding: 16px 40px;
+}
