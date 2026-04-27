@@ -18,8 +18,8 @@
 				<p class="footer-contact-time">평일 : 오전 9시~12시, 오후 1시~6시 토,일,공휴일 : 휴무</p>
 			</div>
 			<div class="footer-role">
-				<p><a href="../service/agreement.php">이용약관</a></p>
 				<p class="privacy"><a href="../service/private.php">개인정보처리방침</a></p>
+				<p><a href="../service/agreement.php">이용약관</a></p>
 				<p><a href="../service/guide.php">이용안내</a></p>
 				<p><a href="https://weare.medisola.co.kr/">메디쏠라 주식회사</a></p>
 				<p><a href="https://weare.medisola.co.kr/philosophy">브랜드 스토리</a></p>
@@ -38,25 +38,21 @@
 				<!-- 하단02 : 회사정보 -->
 				<div class="mf_info" module="Layout_footer">
 					<div>
-						상호. {=gMall.companyNm} 
+						{=gMall.companyNm} 
 						{=includeFile('/img/mimg/slash.svg')}
-						CEO. {=gMall.ceoNm}
-						{=includeFile('/img/mimg/slash.svg')}
+						{=gMall.ceoNm}
 					</div>
 					<div>
 						사업자등록번호. {=gMall.businessNo} <a href="#" class="btn_licensee_info" onclick="gd_popup_bizInfo('{=str_replace('-', '', gMall.businessNo)}'); return false;">[사업자정보확인]</a>
 					</div>
 					<div>
-						통신판매업신고번호. {=gMall.onlineOrderSerial}
-						{=includeFile('/img/mimg/slash.svg')}
-						개인정보관리책임자. {=gMall.privateNm}
-						{=includeFile('/img/mimg/slash.svg')}
-						이메일. <a href="mailto:godo@godo.co.kr" class="btn_email">{=gMall.email}</a>
+						통신판매업신고번호 {=gMall.onlineOrderSerial}
+						개인정보관리책임자 {=gMall.privateNm}
 					</div>
 					<div>
-						주소. {=gMall.address} {=gMall.addressSub}
-						{=includeFile('/img/mimg/slash.svg')}
-						Hosting by 엔에이치엔커머스(주)
+						{=gMall.address} {=gMall.addressSub}
+						<a href="mailto:godo@godo.co.kr" class="btn_email">{=gMall.email}</a>
+						<!-- Hosting by 엔에이치엔커머스(주) -->
 					</div>
 				</div>
 	
@@ -75,7 +71,7 @@
 			<!--  하단 로고 //-->
 			<div class="mf_logo"><a href="/"><img src="../../img/mimg/mf_logo.svg" /></a></div>
 			<!-- 카피라이트 -->
-			<div class="mf_copy" module="Layout_footer">COPYRIGHT ©2022 {=gMall.companyNm}. ALL RIGHTS RESERVED. designed by morenvy</div>
+			<div class="mf_copy" module="Layout_footer">©2022 {=gMall.companyNm}. ALL RIGHTS RESERVED.</div>
 		</div>
 		
 

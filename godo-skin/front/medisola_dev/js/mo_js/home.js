@@ -100,10 +100,27 @@ jQuery(document).ready(function($) {
 												'<span class="sep"> | </span><span class="total">' + pad(totalShown) + '</span></span>';
 							},
 						},
+						navigation: {
+							nextEl: '.swiper-button-next-sec01',
+							prevEl: '.swiper-button-prev-sec01',
+						},
 				};
 			}
-			new Swiper($heroEl[0], heroOptions);
+			var swiper = new Swiper($heroEl[0], heroOptions);
+			
+			var playPauseButton = $('.home-hero .swiper-button-play-pause');
+			playPauseButton.on('click', function() {
+					if (swiper.autoplay.running) {
+							swiper.autoplay.stop();
+							$(this).text('재생');
+					} else {
+							swiper.autoplay.start();
+							$(this).text('정지');
+					}
+			});
 	}
+
+
 
 	/* ═══════════════════════════════════════
 			SEC 3: 추천 메뉴 가로 스크롤 + 버튼 네비게이션

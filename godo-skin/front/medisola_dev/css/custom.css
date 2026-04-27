@@ -477,10 +477,15 @@ div#mfooter.new-footer .mf_info div {color: #999999;}
 .new-footer-head .footer-contact > div {display: flex; gap: 8px; font-size: 28px; font-weight: 600; line-height: 1.4; justify-content: center;}
 .new-footer-head .footer-contact > div p:last-child:before { content: ''; display: inline-block; width: 1px; height: 12px; margin-right: 8px; background-color: #666; vertical-align: middle;}
 .new-footer-head .footer-contact .footer-contact-time {font-size: 16px; color: #999999;}
-.new-footer-head .footer-role {display: flex; gap: 8px;}
+.new-footer-head .footer-role {display: flex; gap: 16px;}
 .new-footer-head .footer-role  a {font-size: 16px;color: #F5F5F5;}
-div#mfooter.new-footer .mf_link {display: flex; gap: 8px; }
+div#mfooter.new-footer .mf_link {display: flex; gap: 24px; }
 div#mfooter.new-footer .mf_link a {color: #F5F5F5; font-size: 16px;}
+div#mfooter.new-footer .mf_link a:after {content: ''; display: inline-block; width: 16px; height: 16px; margin-top: -3px; background:url('../img/mimg/ico_link.svg') no-repeat center center / cover; vertical-align: middle;}
+div#mfooter.new-footer .mf_info {margin: 20px 0;}
+div#mfooter.new-footer .mf_info div {gap: 4px;}
+div#mfooter.new-footer .mf_info div > a.btn_licensee_info {margin: 0; padding: 0; background-color: transparent; color: #999999; font-size: 16px; font-weight: 600;}
+div#mfooter.new-footer .mf_info div > a.btn_email {color: #999999;}
 div#mfooter.new-footer .mf_logo {width: 100%;}
 div#mfooter.new-footer .mf_logo img { width: 100%; height: auto; opacity: 0.3;}
 div#mfooter.new-footer .footer-bottom {
