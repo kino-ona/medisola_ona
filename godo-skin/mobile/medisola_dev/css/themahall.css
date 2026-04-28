@@ -27,7 +27,55 @@
   padding: 0;
   margin: 0;
   width: 100%;
+  border-radius: 24px;
+  overflow: hidden;
 }
+
+.hall-keyvisual .sparkle0 {
+  display: block;
+  position: absolute;
+  font-size: 18px;
+  color: #e8957a;
+  opacity: 0;
+  animation: sparkleAnim0 2s ease-in-out infinite;
+  user-select: none;
+}
+.hall-keyvisual .sparkle0.sp01 {
+  top: 17%; left: 17%;
+  width: 26px; height: 26px; 
+  animation-delay: 0s; 
+  background: url('../img/themahall/graphic01.svg') center center no-repeat;
+}
+.hall-keyvisual .sparkle0.sp02 {
+  width: 26px; height: 26px;
+  top: 35%; right: 24%;  animation-delay: 1.2s; 
+  background: url('../img/themahall/graphic01.svg') center center no-repeat;
+}
+.hall-keyvisual .sparkle0.sp03 {
+  width: 26px; height: 26px;
+  top: 71%; left: 7%; animation-delay: 0.6s; 
+  background: url('../img/themahall/graphic02.svg') center center no-repeat;
+}
+@keyframes sparkleAnim0 {
+  0%, 100% { opacity: 0; transform: scale(0.6) rotate(-30deg); }
+  50%       { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+.hall-keyvisual .desc {
+  position: absolute;
+  left: 50%;
+  bottom: 48px;
+  transform: translateX(-50%);
+  font-size: 20px;
+  color: #222222;
+  text-align: center;
+}
+.hall-keyvisual .visual-logo {
+  position: absolute;
+  left: 50%;
+  top: 48px;
+  transform: translateX(-50%);
+}
+
 .hall-intro {
   position: relative;
   height: 100vh;
