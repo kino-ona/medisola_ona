@@ -13,6 +13,7 @@
 			<div class="footer-contact">
 				<div>
 					<p>고객센터 1577-4180</p>
+					{=includeFile('/img/mimg/ico_bar.svg')}
 					<p>ARS 전화 주문 1688-5623</p>
 				</div>
 				<p class="footer-contact-time">평일 : 오전 9시~12시, 오후 1시~6시 토,일,공휴일 : 휴무</p>
@@ -25,7 +26,7 @@
 				<p><a href="https://weare.medisola.co.kr/philosophy">브랜드 스토리</a></p>
 			</div>
 		</div>
-		<div class="inner w1600">
+		<div class="inner w1600 footer-middle">
 			<div class="mf_left">
 				<ul class="mf_link">
 					<li><a href="/board/list.php?&bdId=notice">공지사항</a></li>
@@ -39,8 +40,8 @@
 				<div class="mf_info" module="Layout_footer">
 					<div>
 						{=gMall.companyNm} 
-						{=includeFile('/img/mimg/slash.svg')}
-						{=gMall.ceoNm}
+						{=includeFile('/img/mimg/ico_bar.svg')}
+						CEO {=gMall.ceoNm}
 					</div>
 					<div>
 						사업자등록번호. {=gMall.businessNo} <a href="#" class="btn_licensee_info" onclick="gd_popup_bizInfo('{=str_replace('-', '', gMall.businessNo)}'); return false;">[사업자정보확인]</a>
@@ -50,8 +51,8 @@
 						개인정보관리책임자 {=gMall.privateNm}
 					</div>
 					<div>
-						{=gMall.address} {=gMall.addressSub}
-						<a href="mailto:godo@godo.co.kr" class="btn_email">{=gMall.email}</a>
+						<i class="mf_ico_pin"></i>{=gMall.address} {=gMall.addressSub}
+						<i class="mf_ico_email"></i><a href="mailto:godo@godo.co.kr" class="btn_email">{=gMall.email}</a>
 						<!-- Hosting by 엔에이치엔커머스(주) -->
 					</div>
 				</div>
@@ -61,9 +62,10 @@
 			<div class="mf_right">
 				<!-- 하단05 : SNS -->
 				<div class="mf_sns">
-					<a href="//www.facebook.com/people/medisola/100071263807660/?mibextid=LQQJ4d" target="_blank"><img src="../../img/mimg/mf_sns01.png" /></a>
-					<a href="//www.instagram.com/medisola" target="_blank"><img src="../../img/mimg/mf_sns02.png" /></a>
-					<a href="//www.youtube.com/channel/UCLJmNysUeksBscc9Xh0EyxQ" target="_blank"><img src="../../img/mimg/mf_sns03.png" /></a>
+					<a href="//www.youtube.com/channel/UCLJmNysUeksBscc9Xh0EyxQ" target="_blank"><img src="../../img/mimg/ico_sns01.svg" alt="메디쏠라 유튜브" /></a>
+					<a href="//www.instagram.com/medisola" target="_blank"><img src="../../img/mimg/ico_sns02.svg" alt="메디쏠라 인스타그램" /></a>
+					<a href="https://pf.kakao.com/_axexgxnK" target="_blank"><img src="../../img/mimg/ico_sns03.svg" alt="메디쏠라 카카오 플러스친구" /></a>
+					<a href="https://blog.naver.com/mediterraneandietlab" target="_blank"><img src="../../img/mimg/ico_sns04.svg" alt="메디쏠라 블로그" /></a>
 				</div>
 			</div>
 		</div>

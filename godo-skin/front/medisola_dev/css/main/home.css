@@ -946,18 +946,19 @@ padding-top: 156px; margin-bottom: 40px !important; overflow: visible;
 .home-promo .home-contents__title span:before {background-color: #668091;}
 .home-promo .home-promo__banner {
 	position: relative; display: flex; flex-direction: column; align-items: center; padding-bottom: 100%;
-	background: url('../../img/main/mainplan_bnr.png') no-repeat center center / cover; border-radius: 12px;overflow: hidden;
+	background: url('../../img/main/mainplan_bnr.jpg') no-repeat center center / cover; border-radius: 12px;overflow: hidden;
 }
 .home-promo .home-promo__banner .promo_banner_title {
-	display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 24px; color: #fff;
+	display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 40px; color: #fff;
 }
-.home-promo .home-promo__banner .promo_banner_title span {display: block; font-size: 14px; font-weight: 600; line-height: 1.4;}
-.home-promo .home-promo__banner .promo_banner_title p {font-size: 24px;font-weight: 600; line-height: 1.4;}
-.home-promo .home-promo__banner .promo_banner_desc {position: absolute; bottom: 24px; left: 0; right: 0; text-align: center;}
+.home-promo .home-promo__banner .promo_banner_title span {display: block; font-size: 16px; font-weight: 600; line-height: 1.5; opacity: 0.8;}
+.home-promo .home-promo__banner .promo_banner_title p {font-size: 34px;font-weight: 600; line-height: 1.4;}
+.home-promo .home-promo__banner .promo_banner_desc {position: absolute; bottom: 40px; left: 0; right: 0; text-align: center;}
 .home-promo .home-promo__banner .promo_banner_desc_link {
-	display: inline-flex; align-items: center; justify-content: center; margin: 0 auto; width: calc(100% - 96px);
-	font-size: 14px; font-weight: 600; line-height: 1.4;color: #fff;
-	background-color: rgba(255, 255, 255, 0.1); border-radius: 999px; padding: 12px 18px; border:1px solid rgba(255, 255, 255, 0.4);
+	display: inline-flex; align-items: center; justify-content: center; margin: 0 auto; width: calc(100% - 80px);
+	font-size: 18px; font-weight: 600; line-height: 1.4;color: #fff;
+	background-color: rgba(255, 255, 255, 0.1); border-radius: 999px; padding: 16px; border:1px solid rgba(255, 255, 255, 0.4); box-sizing: border-box; backdrop-filter: blur(24px)
+
 }
 .home-promo .item_list_type {overflow: visible;}
 .home-promo div.goods_list_cont ul {display: grid;grid-template-columns: 307px 307px 307px; gap: 16px;margin: 0; justify-content: flex-end;}
@@ -966,7 +967,7 @@ padding-top: 156px; margin-bottom: 40px !important; overflow: visible;
 .home-promo div.goods_list_cont ul > li .item_cont .item_info_cont .item_tit_box a .item_name {padding-bottom: 2px !important; font-size: 18px !important;font-weight: 600 !important;}
 .home-promo div.goods_list_cont ul > li .item_cont .item_info_cont {display: flex;flex-direction: column; padding: 0; width: 100%;}
 .home-promo div.goods_list_cont ul > li .item_cont .item_info_cont .item_money_box {display: flex; gap: 4px; text-align: left; align-items: center;}
-.home-promo div.goods_list_cont ul > li .item_cont .item_info_cont .item_money_box .m_price {margin: 0; font-size: 20px !important; line-height: 1.4;}
+.home-promo div.goods_list_cont ul > li .item_cont .item_info_cont .item_money_box .m_price {margin: 0; font-size: 20px !important; line-height: 1.4; font-weight: 600 !important;}
 .home-promo div.goods_list_cont ul > li .item_cont .item_info_cont .item_money_box .sale_per { margin-right: 0; font-size: 20px; line-height: 1.4; color: #DA663F;}
 .home-promo div.goods_list_cont ul > li .item_cont .item_info_cont .item_money_box .through { margin: 0; font-size: 16px !important; color: #999999 !important;}
 .home-promo div.goods_list_cont ul > li .item_cont .item_info_cont .item_money_box .through { margin: 0; font-size: 16px !important; color: #999999 !important;}
@@ -974,16 +975,15 @@ padding-top: 156px; margin-bottom: 40px !important; overflow: visible;
 .home-promo div.goods_list_cont ul > li .item_cont .item_photo_box {margin-bottom: 16px; border-radius: 20px; overflow: hidden;}
 .home-promo div.goods_list_cont ul > li .item_cont .item_info_cont .item_money_box .item_price:nth-child(2) {color: #222222;}
 .home-promo .home-promo__goods {display: flex; flex-direction: column; gap: 48px; justify-content: center; width: calc(100% - 71px); margin-left: auto;}
-.home-promo .promo_banner_desc_text {position: relative;font-size: 24px;color: #222222;text-align: left;}
+.home-promo .promo_banner_desc_text {position: relative;font-size: 24px; font-weight: 600; color: #222222;text-align: left;}
 .home-promo .promo_banner_desc_text::before {
 	content: '';
 	position: absolute;
-	top: 50%;
-	transform: translateY(-50%);
+	bottom: 8px;
 	display: inline-block;
 	width: 100%;
 	height: 1px;
-	background-color: #222222;
+	background-color: #668091;
 }
 .home-promo .promo_banner_desc_text p {display: inline-block;background-color: #ffffff; color: #668091; padding-right: 10px;position: relative;}
 .home-promo .promo_banner_desc_text span {color: #222222;}
@@ -1037,7 +1037,7 @@ padding-top: 156px; margin-bottom: 40px !important; overflow: visible;
 .home-reviews .home-reviews__tabs button.active { background-color: #444; border-color: #444; color: #fff; }
 .home-reviews .home-reviews__panel {display: none;}
 .home-reviews .home-reviews__panel.active {display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;}
-.home-reviews .home-reviews__item { position: relative; height: 500px; padding: 40px; border-radius: 12px; overflow: hidden; box-sizing: border-box; }
+.home-reviews .home-reviews__item { position: relative; height: 500px; padding: 40px; border-radius: 20px; overflow: hidden; box-sizing: border-box; }
 .home-reviews .home-reviews__item img {position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: center;}
 .home-reviews .home-reviews__item .home-reviews__title {position: absolute; top: 40px; left: 40px; font-size: 28px; line-height: 1.4; z-index: 1;color: #fff;}
 .home-reviews__content { position: absolute; bottom: 40px; left: auto; right: auto; width: calc(100% - 80px); font-size: 16px;line-height: 1.5; z-index: 1; color: #fff; }
