@@ -64,6 +64,7 @@
   position: absolute;
   left: 50%;
   bottom: 48px;
+  width: 100%;
   transform: translateX(-50%);
   font-size: 20px;
   color: #222222;
@@ -262,7 +263,7 @@
 ──────────────────────────────── */
 .hall-brandstory .brand-section { padding: 60px 20px 0; }
 
-.hall-brandstory .brand-title { font-size: clamp(30px, 9vw, 48px); }
+.hall-brandstory .brand-title { font-size: calc(100vw * (48/390));}
 
 /* 그리드 숨기고 슬라이더로 전환 */
 .hall-brandstory .card-grid { display: none; }
@@ -366,24 +367,48 @@ to { opacity: 1; transform: translateY(0); }
 .hall-brandstory .card--brown {
   background: #A87756;
   color: #fff;
+  background-image: url('../img/themahall/brand_bg01.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: right top;
 }
 .hall-brandstory .card--brown .card-icon { background: rgba(255,255,255,0.18); }
 .hall-brandstory .card--brown .card-icon svg { stroke: #fff; }
 .hall-brandstory .card--orange {
   background: #DA663F;
   color: #fff;
+  background-image: url('../img/themahall/brand_bg03.png');
+  background-repeat: no-repeat;
+  background-size: 70%;
+  background-position: center top;
 }
 .hall-brandstory .card--orange .card-icon { background: rgba(255,255,255,0.18); }
 .hall-brandstory .card--orange .card-icon svg { stroke: #fff; }
 .hall-brandstory .card--beige {
   background:  #F6EFE9;
   color: #222222;
+  background-image: url('../img/themahall/brand_bg02.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center top;
+}
+.hall-brandstory .card--beige.card--c4 {
+  background:  #F6EFE9;
+  color: #222222;
+  background-image: url('../img/themahall/brand_bg04.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: right top;
 }
 .hall-brandstory .card--beige .card-icon { background: rgba(0,0,0,0.07); }
 .hall-brandstory .card--beige .card-icon svg { stroke: #A87756; }
 .hall-brandstory .card--charcoal {
   background:  #50443E;
   color: #fff;
+  background-image: url('../img/themahall/brand_bg05.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: right top;
 }
 .hall-brandstory .card--charcoal .card-icon { background: rgba(255,255,255,0.12); }
 .hall-brandstory .card--charcoal .card-icon svg { stroke: #fff; }
@@ -394,6 +419,11 @@ to { opacity: 1; transform: translateY(0); }
   margin: 80px auto;
   padding-left: 20px;
   padding-right: 20px;
+}
+.hall-family a {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 .hall-family .section-label {
   display: flex;
@@ -452,10 +482,10 @@ to { opacity: 1; transform: translateY(0); }
 }
 .hall-family .pick-card:hover {
   box-shadow: 0 24px 60px rgba(0,0,0,0.18);
-  transform: translateY(-8px);
+  /* transform: translateY(-8px); */
 }
 .hall-family .pick-card.visible:hover {
-  transform: translateY(-8px);
+  /* transform: translateY(-8px); */
 }
 /* 이미지 카드 (1, 2번) */
 .hall-family .pick-card--img {
@@ -491,6 +521,8 @@ to { opacity: 1; transform: translateY(0); }
   border: 1px solid rgba(255,255,255, 0.3);
   border-radius: 24px;
   padding: 18px 20px;
+}
+.hall-family .card-info a {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -534,6 +566,8 @@ to { opacity: 1; transform: translateY(0); }
 /* ── 세 번째: 올리브 텍스트 카드 ── */
 .hall-family .pick-card--olive {
   background: #8a9a3a;
+}
+.hall-family .pick-card--olive a {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -794,9 +828,9 @@ to { opacity: 1; transform: translateY(0); }
   stroke-dashoffset: 3000;
 }
 .hall-product .product-grid .product-card.visible .bg-path {
-  animation: drawPath 2.2s cubic-bezier(0.4, 0, 0.2, 1) 0.5s forwards;
+  animation: drawPath2 2.2s cubic-bezier(0.4, 0, 0.2, 1) 0.5s forwards;
 }
-@keyframes drawPath {
+@keyframes drawPath2 {
   to { stroke-dashoffset: 0; }
 }
 .hall-product .product-grid .star-svg {
