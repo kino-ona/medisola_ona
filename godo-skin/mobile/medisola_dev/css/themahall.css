@@ -667,3 +667,188 @@ to { opacity: 1; transform: translateY(0); }
   border-radius: 16px;
   padding: 16px 24px;
 }
+
+.hall-how-to-use {
+  margin: 60px 12px 0;
+}
+.hall-how-to-use a {
+  position: relative;
+  display: block;
+  box-sizing: border-box;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.hall-how-to-use .hall-how-to-use__title {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: #222;
+}
+.hall-how-to-use .hall-how-to-use__title span {
+  display: block;
+  margin-top: 4px;
+  font-size: 14px;
+  color: rgba(34, 34, 34, 0.8);
+}
+
+.hall-product {
+  max-width: 1440px;
+  margin: 80px auto;
+}
+.hall-product .section-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 14px;
+  color: #DA663F;
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+.hall-product .section-title {
+  text-align: center;
+  font-size: clamp(26px, 3.5vw, 44px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color:  #222222;
+  margin-bottom: 20px;
+}
+.hall-product .js_main_wrap_30_ .goods_content30g {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: 16px;
+  scrollbar-width: none;
+  display: flex;
+  gap: 14px;
+  cursor: grab;
+}
+.hall-product .js_main_wrap_30_ .goods_content30g::-webkit-scrollbar { display: none; }
+.hall-product .js_main_wrap_30_ .goods_content30g:active { cursor: grabbing; }
+
+.hall-product .js_main_wrap_30_ .goods_content30g li {
+  flex: 0 0 82vw;
+  max-width: 300px;
+  scroll-snap-align: start;
+  margin-bottom: 0 !important;
+}
+.hall-product .js_main_wrap_30_ li[class*="goods_prd_item"] .goods_prd_img {
+  border: none;
+  margin-bottom: 10px;
+}
+.hall-product .js_main_wrap_30_ .goods_prd_item2 .goods_prd_item2_box {
+  padding: 0;
+}
+.hall-product .js_main_wrap_30_ .goods_prd_item2 .goods_prd_img .img_box .img {
+  border-radius: 24px;
+  overflow: hidden;
+}
+.hall-product .js_main_wrap_30_ .goods_prd_content .goods_list_info .goods_info_list li.prd_name {
+  margin-bottom: 2px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.hall-product .js_main_wrap_30_ .goods_prd_content .goods_list_info .goods_info_list li.item_money_box .sale_per {
+  margin-right: 4px;
+  font-size: 16px;
+  color: #DA663F;
+}
+.hall-product .js_main_wrap_30_ .goods_prd_content .goods_list_info .goods_info_list li.item_money_box .m_price {
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  line-height: 1.4;
+}
+.hall-product .js_main_wrap_30_ .goods_prd_content .goods_list_info .goods_info_list li.item_money_box .through {
+  font-size: 14px !important;
+  color: #999999 !important;
+}
+
+.hall-product .product-grid .product-card {
+  position: relative;
+  background: #DA663F;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 20px;
+  height: 300px;
+  box-sizing: border-box;
+  border-radius: 30px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+.hall-product .product-grid .bg-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  border-radius: 24px;
+}
+.hall-product .product-grid .bg-svg .bg-path {
+  stroke-dasharray: 3000;
+  stroke-dashoffset: 3000;
+}
+.hall-product .product-grid .product-card.visible .bg-path {
+  animation: drawPath 2.2s cubic-bezier(0.4, 0, 0.2, 1) 0.5s forwards;
+}
+@keyframes drawPath {
+  to { stroke-dashoffset: 0; }
+}
+.hall-product .product-grid .star-svg {
+  position: absolute;
+  top: 74px;
+  right: 41px;
+  width: 40px;
+  height: 40px;
+  transform-origin: 50% 50%;
+  animation: starSpin2 10s linear infinite;
+  opacity: .7;
+}
+@keyframes starSpin2 {
+  to { transform: rotate(360deg); }
+}
+.hall-product .product-grid .prd-title-wrap {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.hall-product .product-grid .title {
+  position: relative;
+  font-size: clamp(22px, 2.4vw, 30px);
+  font-weight: 500;
+  color: #fff;
+  line-height: 1.4;
+  letter-spacing: -0.02em;
+  text-align: left;
+}
+.hall-product .product-grid .sub {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 400;
+  background: #fff;
+  border-radius: 50%;
+  width: 52px;
+  height: 52px;
+}
+.hall-product .product-grid .sub svg {
+  width: 20px; height: 20px;
+  stroke: #000;
+  stroke-width: 2;
+  fill: none;
+}
+.hall-product .product-grid .product-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.hall-product .product-grid .product-card.visible:hover {
+  box-shadow: 0 24px 60px rgba(0,0,0,0.18);
+  transform: translateY(-8px);
+}
