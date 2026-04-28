@@ -112,10 +112,14 @@ jQuery(document).ready(function($) {
 			playPauseButton.on('click', function() {
 					if (swiper.autoplay.running) {
 							swiper.autoplay.stop();
-							$(this).text('재생');
+							$(this).addClass('button-play');
+							$(this).removeClass('button-pause');
+							$(this).find('.hidden').text('재생');
 					} else {
 							swiper.autoplay.start();
-							$(this).text('정지');
+							$(this).addClass('button-pause');
+							$(this).removeClass('button-play');
+							$(this).find('.hidden').text('정지');
 					}
 			});
 	}
