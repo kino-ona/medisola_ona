@@ -17,7 +17,9 @@
 						<!--{ ? themeInfo.soldOutIconFl == 'y' && ..soldOut =='y' && soldoutDisplay.soldout_overlay != '0' }-->
 						<span class="soldout">SOLD OUT</span>
 						<!--{ / }-->
-						<!--{ ? mainData.sno != '27' }-->
+
+                        <!-- 기본 아이콘 위치 -->
+						<!--{ ? mainData.sno != '28' && mainData.sno != '29' }-->
 						<div class="item_icon_box">
 							<!--{ ? themeInfo.iconFl == 'y' }-->
 							{..goodsIcon}
@@ -176,7 +178,8 @@
 				<!--{ / }-->
 				<!-- //item_info_cont -->
 
-				<!--{ ? mainData.sno == '27' }-->
+                <!-- 메인 추천상품 및 브랜드관 : 아이콘 -->
+				<!--{ ? mainData.sno == '28' || mainData.sno == '29' }-->
 				<div class="item_icon_box">
 					<!--{ ? themeInfo.iconFl == 'y' }-->
 					{..goodsIcon}
@@ -188,6 +191,32 @@
 			<!-- //item_cont -->
         </li>
         <!--{ / }-->
+        <!--{ / }-->
+
+        <!-- 브랜드관 -->
+        <!--{ ? mainData.sno == '29' }-->
+        <li>
+            <div class="product-card">
+                <svg class="bg-svg" viewBox="-180 0 900 450" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+                    <path class="bg-path"
+                        d="M1472.32 142.858C1472.32 142.858 1478.98 449.794 1229.56 375.062C980.139 300.329 898.776 125.512 624.009 249.62C349.241 373.727 -90.9189 2.89957 63.8047 -54.6471C185.112 -99.7684 483.955 364.909 97.151 406.017C-289.653 447.125 -325.667 233.533 -325.667 233.533"
+                        stroke="white" stroke-opacity="0.45" stroke-width="59"
+                        stroke-linecap="round" stroke-linejoin="round"
+                        fill="none"
+                        style="mix-blend-mode:soft-light"
+                    />
+                </svg>
+                <svg class="star-svg" width="66" height="66" viewBox="0 0 66 66" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M35.5898 26.7637L47.2979 15.0557L50.9453 18.7012L39.2246 30.4219H67.0312V35.5781H39.2246L50.9453 47.2988L49.123 49.123L47.2979 50.9463L35.5898 39.2363V66H30.4336V39.2129L18.7012 50.9463L15.0557 47.2988L26.7764 35.5781H1.03125V30.4219H26.7754L15.0557 18.7012L18.7012 15.0557L30.4336 26.7871V0H35.5898V26.7637Z" fill="white" fill-opacity="0.7" style="mix-blend-mode:soft-light"/>
+                </svg>
+                <div class="prd-title-wrap">
+                    <p class="title">메디쏠라 전체식단<br>보러가기</p>
+                    <div class="sub">
+                        <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </div>
+                </div>
+            </div>
+        </li>
         <!--{ / }-->
     </ul>
     <!--{ : }-->

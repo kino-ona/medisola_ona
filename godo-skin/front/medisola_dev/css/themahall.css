@@ -201,12 +201,12 @@
   gap: 4px;
   align-items: center;
   justify-content: center;
-  background-color: rgba(242, 205, 182, 0.7);
+  background-color: #FCF3ED;
   color: #DA663F;
   font-size: 16px;
   font-weight: 600;
   border-radius: 999px;
-  padding: 10px 20px 10px 8px;
+  padding: 8px 20px 8px 8px;
 }
 .intro-content .content-check span::before {
   content: '';
@@ -218,7 +218,7 @@
 }
 .hall-brandstory {
   background-color: #FFE4D1;
-  padding: 40px;
+  padding: 40px 40px 80px 40px;
 }
 
 .hall-brandstory .brandstory-inner {background-color: #ffffff;border-radius: 30px;padding: 160px 40px 40px;}
@@ -358,7 +358,7 @@
 .hall-brandstory .card--c3r1 .card-body {color: rgba(98, 78, 64, 0.6)}
 
 .hall-family {
-  max-width: 1440px;
+  width: 1440px;
   margin: 160px auto;
   padding-left: 40px;
   padding-right: 40px;
@@ -367,20 +367,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  font-size: 13px;
-  letter-spacing: 0.1em;
+  gap: 4px;
+  font-size: 18px;
   color:  #7D753C;
-  margin-bottom: 14px;
+  margin-bottom: 8px;
   font-weight: 500;
 }
 .hall-family .section-title {
   text-align: center;
-  font-size: clamp(26px, 3.5vw, 44px);
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  font-size: clamp(26px, 3.5vw, 34px);
+  font-weight: 600;
   color:  #222222;
-  margin-bottom: 48px;
+  margin-bottom: 40px;
 }
 /* ──────────────────────────────
     DESKTOP GRID
@@ -586,19 +584,17 @@
   align-items: center;
   justify-content: center;
   gap: 6px;
-  font-size: 13px;
-  letter-spacing: 0.1em;
+  font-size: 18px;
   color:  #668091;
-  margin-bottom: 14px;
+  margin-bottom: 8px;
   font-weight: 500;
 }
 .hall-benefit .section-title {
   text-align: center;
-  font-size: clamp(26px, 3.5vw, 44px);
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  font-size: clamp(26px, 3.5vw, 34px);
+  font-weight: 600;
   color:  #222222;
-  margin-bottom: 48px;
+  margin-bottom: 40px;
 }
 .benefit-coupon {
   display: flex;
@@ -618,4 +614,202 @@
   font-weight: 600;
   border-radius: 16px;
   padding: 16px 40px;
+}
+
+.hall-how-to-use {
+  max-width: 1440px;
+  margin: 200px auto 0;
+}
+.hall-how-to-use a {
+  position: relative;
+  display: block;
+  box-sizing: border-box;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.hall-how-to-use .hall-how-to-use__title {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  justify-content: center;
+  padding: 80px;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: #222;
+}
+.hall-how-to-use .hall-how-to-use__title span {
+  font-size: 16px;
+  color: #444;
+}
+
+.hall-product {
+  width: 1440px;
+  margin: 160px auto;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+.hall-product .section-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 18px;
+  color:  #DA663F;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+.hall-product .section-title {
+  text-align: center;
+  font-size: clamp(26px, 3.5vw, 34px);
+  font-weight: 600;
+  color:  #222222;
+  margin-bottom: 40px;
+}
+.hall-product .product-grid .goods_content_29 ul {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 80px 16px;
+  margin: 0;
+}
+.hall-product .product-grid .goods_content_29 ul > li {
+  width: 100% !important;
+  padding: 0;
+  margin: 0;
+}
+.hall-product .product-grid .goods_content_29 ul > li .item_cont .item_info_cont {
+  padding: 0;
+}
+.hall-product .product-grid .goods_content_29 ul > li .item_cont .item_info_cont .item_tit_box,
+.hall-product .product-grid .goods_content_29 ul > li .item_cont .item_info_cont .item_money_box {
+  text-align: left;
+}
+.hall-product .product-grid .goods_content_29 ul > li .item_cont .item_photo_box {
+  margin-bottom: 16px;
+}
+.hall-product .product-grid .goods_content_29 ul > li .item_cont .item_photo_box > a > img {
+  border-radius: 30px;
+}
+.hall-product .product-grid .goods_content_29 ul > li .item_cont .item_info_cont .item_tit_box a .item_name {
+  padding-bottom: 2px;
+  font-size: 18px !important;
+  font-weight: 600 !important;
+  color: #222222 !important;
+  line-height: 1.5;
+}
+.hall-product .product-grid .goods_content_29 ul > li .item_cont .item_info_cont .item_money_box .sale_per {
+  margin-right: 0;
+  line-height: 1.4;
+  font-size: 20px;
+  font-weight: 600;
+  color: #DA663F;
+}
+.hall-product .product-grid .goods_content_29 ul > li .item_cont .item_info_cont .item_money_box .m_price {
+  margin-top: 0;
+  font-size: 20px !important;
+  font-weight: 600 !important;
+  color: #222222 !important;
+  line-height: 1.4;
+}
+.hall-product .product-grid .goods_content_29 ul > li .item_cont .item_info_cont .item_money_box .through {
+  margin-top: 0;
+  font-size: 16px !important;
+  line-height: 1.5;
+  color: #999999 !important;
+}
+.hall-product .product-grid .goods_content_29 ul > li .item_cont .item_info_cont .item_icon_box {
+  margin-top: 12px;
+}
+.hall-product .product-grid .goods_content_29 ul > li .item_cont .item_info_cont .item_icon_box img {
+  padding: 0;
+}
+.hall-product .product-grid .product-card {
+  background: #DA663F;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 40px;
+  height: 469px;
+  box-sizing: border-box;
+  border-radius: 30px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+.hall-product .product-grid .bg-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  border-radius: 24px;
+}
+.hall-product .product-grid .bg-svg .bg-path {
+  stroke-dasharray: 3000;
+  stroke-dashoffset: 3000;
+}
+.hall-product .product-grid .product-card.visible .bg-path {
+  animation: drawPath 2.2s cubic-bezier(0.4, 0, 0.2, 1) 0.5s forwards;
+}
+@keyframes drawPath {
+  to { stroke-dashoffset: 0; }
+}
+.hall-product .product-grid .star-svg {
+  position: absolute;
+  top: 117px;
+  right: 76px;
+  width: 66px;
+  height: 66px;
+  transform-origin: 50% 50%;
+  animation: starSpin2 10s linear infinite;
+  opacity: .7;
+}
+@keyframes starSpin2 {
+  to { transform: rotate(360deg); }
+}
+.hall-product .product-grid .prd-title-wrap {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.hall-product .product-grid .title {
+  position: relative;
+  font-size: clamp(22px, 2.4vw, 30px);
+  font-weight: 500;
+  color: #fff;
+  line-height: 1.4;
+  letter-spacing: -0.02em;
+  text-align: left;
+}
+.hall-product .product-grid .sub {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 400;
+  background: #fff;
+  border-radius: 50%;
+  width: 52px;
+  height: 52px;
+}
+.hall-product .product-grid .sub svg {
+  width: 20px; height: 20px;
+  stroke: #000;
+  stroke-width: 2;
+  fill: none;
+}
+.hall-product .product-grid .product-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.hall-product .product-grid .product-card.visible:hover {
+  box-shadow: 0 24px 60px rgba(0,0,0,0.18);
+  transform: translateY(-8px);
 }

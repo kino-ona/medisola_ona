@@ -100,6 +100,13 @@
 		</div>
 	</div>
 
+	<div class="hall-how-to-use">
+		<a href="#">
+			<p class="hall-how-to-use__title">어떤 식단을 골라야할지 모르겠다면? <span>맞춤 식단 찾기 &gt;</span></p>
+			<img src="../img/mimg/banner_how-to-use.jpg" alt="">
+		</a>
+	</div>
+
 	<div class="hall-family">
 		<div class="family-inner">
 			<p class="section-label">✳ 이민정's Pick</p>
@@ -163,6 +170,17 @@
 		</div>
 	</div>
 
+	<div class="hall-product">
+		<div class="product-inner">
+			<p class="section-label">✳ MEDI SOLA Best 5</p>
+			<h2 class="section-title">메디쏠라가 추천하는 Best 식단</h2>
+			<div class="product-grid">
+				<!-- goods/list/list_01.html -->
+				{=includeWidget('goods/_goods_display_main.html','sno','29')}
+			</div>
+		</div>
+	</div>
+
 	<div class="hall-benefit">
 		<div class="benefit-inner">
 			<p class="section-label">✳ Benefit</p>
@@ -181,7 +199,7 @@
 </div>
 <script>
   /* ── 데스크탑: IntersectionObserver 순차 진입 ── */  
-  const cards = document.querySelectorAll('#pickGrid .pick-card');
+  const cards = document.querySelectorAll('#pickGrid .pick-card, .product-card');
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
