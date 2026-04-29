@@ -129,6 +129,39 @@ jQuery(document).ready(function($) {
 	/* ═══════════════════════════════════════
 			SEC 3: 추천 메뉴 가로 스크롤 + 버튼 네비게이션
 			═══════════════════════════════════════ */
+
+	if ($('.home-recommend .swiper_27').length && typeof Swiper !== 'undefined') {
+    var swiperInstances = [];
+
+    $('.home-recommend .swiper_27').each(function(idx) {
+        var targetEl = this;
+
+        swiperInstances[idx] = new Swiper(targetEl, {
+            slidesPerView: 4,
+						spaceBetween: 16,
+            navigation: {
+                nextEl: '.home-recommend .swiper-button-next',
+                prevEl: '.home-recommend .swiper-button-prev',
+            },
+						scrollbar: {
+							el: ".home-recommend .swiper-scrollbar",
+							hide: false,
+						},
+        });
+
+        var observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.attributeName === 'class' && $(mutation.target).hasClass('on')) {
+                    swiperInstances[idx].update();
+                }
+            });
+        });
+
+        observer.observe(targetEl, { attributes: true });
+    });
+	}
+
+
 	/*
 	// ── Swiper 방식 (보류) ──────────────────────────────────────
 	function setupRecommendSwiperMarkup($box) { ... }
