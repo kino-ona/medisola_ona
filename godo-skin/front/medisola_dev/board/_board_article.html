@@ -1,11 +1,60 @@
 {*** [위젯] 게시글 리스트 | board/_board_article.php ***}
 <!--{?canList == 'y'}-->
-<ul>
+<ul class="board_{bdId}">
     <!--{ @ list }-->
-    <li>
-        <span><!--{ ? .isNew == 'y' }--><img src="{cfg.iconImage.new.url}" alt="{=__('신규 등록글')}"/><!--{ / }--></span>
-        <a href="../board/view.php?bdId={bdId}&sno={.sno}">{.subject}</a>
-    </li>
+        <!--{ ? bdId == 'event' }-->
+        <!-- 이벤트 -->
+        <li>
+            <div class="gallery_cont">
+                <a href="../board/view.php?bdId={bdId}&sno={.sno}">
+                    <div class="board_img">
+                        <img src="{.viewListImage}" class="js_image_load" alt="{.subject}" />
+                    </div>
+                    <div class="gallery_info_cont">
+                        <div class="board_tit">
+                            <strong>
+                                {.subject}
+                                <!--{? bdList.cfg.bdMemoFl == 'y' && .memoCnt>0}-->
+                                ({.memoCnt})
+                                <!--{ / }-->
+                            </strong>
+                        </div>
+                    </div>
+                </a>
+                <!-- //gallery_info_cont -->
+            </div>
+            <!-- //gallery_cont -->
+        </li>
+        <!--{ :? bdId == 'solanews' }-->
+        <!-- 케어 스토리 -->
+        <li>
+            <div class="gallery_cont">
+                <a href="../board/view.php?bdId={bdId}&sno={.sno}">
+                    <div class="board_img">
+                        <img src="{.viewListImage}" class="js_image_load" alt="{.subject}" />
+                    </div>
+                    <div class="gallery_info_cont">
+                        <div class="board_tit">
+                            <strong>
+                                {.subject}
+                                <!--{? bdList.cfg.bdMemoFl == 'y' && .memoCnt>0}-->
+                                ({.memoCnt})
+                                <!--{ / }-->
+                            </strong>
+                        </div>
+                    </div>
+                </a>
+                <!-- //gallery_info_cont -->
+            </div>
+            <!-- //gallery_cont -->
+        </li>
+        <!--{ : }-->
+
+        <li>
+            <span><!--{ ? .isNew == 'y' }--><img src="{cfg.iconImage.new.url}" alt="{=__('신규 등록글')}"/><!--{ / }--></span>
+            <a href="../board/view.php?bdId={bdId}&sno={.sno}">{.subject}</a>
+        </li>
+        <!--{ / }-->
     <!--{ / }-->
 </ul>
 <!--{/}-->

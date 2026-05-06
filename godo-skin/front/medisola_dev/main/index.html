@@ -262,7 +262,21 @@ function closePopup() {
 			</a>
 		</div>
 
-    <!-- SEC 8: 리뷰 -->
+		<!-- SEC 8: 진행중인 이벤트 -->
+		<section class="home-event">
+			<div class="home-event__header">
+				<h2 class="home-contents__title">
+					<span>진행중인 이벤트</span>
+				</h2>
+			</div>
+			<!-- board/_board_article.html -->
+			<div class="home-event__list">
+				{=includeWidget('board/board_article', 'bdId', 'event', 'listCount', 4, 'strCut', 20)}
+			</div>
+		</section>
+
+		
+    <!-- SEC 9: 리뷰 -->
     <section class="home-reviews">
 			<h2 class="home-contents__title">
 				<span>지금 가장 걱정되는게 뭔가요?</span>
@@ -392,57 +406,58 @@ function closePopup() {
 			</div>
     </section>
 
-    <!-- SEC 7: 케어 스토리 -->
-    <!-- <section class="home-care-story">
-        <div class="home-care-story__content">
-            <div class="home-care-story__header home-section-header">
-                <div class="home-care-story__title home-section-title">케어 스토리</div>
-                <div class="home-care-story__subtitle home-section-subtitle">다양한 현장에서<br>케어 활동을 이어가고 있어요</div>
-                <div class="home-view-more home-view-more--top">
-                    <a href="/board/list.php?bdId=solanews">VIEW MORE &gt;</a>
-                </div>
-            </div>
-            <div class="swiper-container home-care-story__swiper">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <a href="/board/view.php?bdId=solanews&sno=119" class="home-care-story__block" data-sno="119">
-                            <div class="home-care-story__image">
-                                <img src="/data/contents_image/2025/news/solaMagazine_97.jpg" alt="2026 퍼스트브랜드 대상" loading="lazy" />
-                            </div>
-                            <div class="home-care-story__text">
-                                <p class="home-care-story__caption">2026 퍼스트 브랜드 대상.<br>4년 연속 대상 수상</p>
-                                <p class="home-care-story__desc">약 45만 명 소비자 참여투표</p>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a href="/board/view.php?bdId=solanews&sno=117" class="home-care-story__block" data-sno="117">
-                            <div class="home-care-story__image">
-                                <img src="/data/contents_image/2025/news/solaMagazine_95.jpg" alt="제28회 과학기술대상" loading="lazy" />
-                            </div>
-                            <div class="home-care-story__text">
-                                <p class="home-care-story__caption">제28회 과학기술대상<br>농림축산식품부 장관표창</p>
-                                <p class="home-care-story__desc">식품 과학기술 분야 수상</p>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a href="/board/view.php?bdId=solanews&sno=116" class="home-care-story__block" data-sno="116">
-                            <div class="home-care-story__image">
-                                <img src="/data/contents_image/2025/news/solaMagazine_94.jpg" alt="탄단지 523 영양죽 출시" loading="lazy" />
-                            </div>
-                            <div class="home-care-story__text">
-                                <p class="home-care-story__caption">탄단지 523 영양죽 출시<br>저당 저나트륨 등도 맞춰</p>
-                                <p class="home-care-story__desc">영양 균형 맞춤 죽 라인</p>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="swiper-button-prev swiper-button-prev-care"></div>
-            <div class="swiper-button-next swiper-button-next-care"></div>
-        </div>
-    </section> -->
+
+    <!-- SEC 10: 케어 스토리 -->
+    <section class="home-care-story">
+			<div class="home-care-story__content">
+				<div class="home-care-story__header home-section-header">
+					<h2 class="home-contents__title">
+						<span>케어 스토리</span>
+						<a href="http://medisola2.godomall.com/board/list.php?bdId=solanews" class="all-view">전체보기</a>
+					</h2>
+				</div>
+				<div class="home-care-story__list">
+					{=includeWidget('board/board_article', 'bdId', 'solanews', 'listCount', 4, 'strCut', 20)}
+					<!-- <div class="swiper-wrapper">
+						<div class="swiper-slide">
+							<a href="/board/view.php?bdId=solanews&sno=119" class="home-care-story__block" data-sno="119">
+								<div class="home-care-story__image">
+									<img src="/data/contents_image/2025/news/solaMagazine_97.jpg" alt="2026 퍼스트브랜드 대상" loading="lazy" />
+								</div>
+								<div class="home-care-story__text">
+									<p class="home-care-story__caption">2026 퍼스트 브랜드 대상.<br>4년 연속 대상 수상</p>
+									<p class="home-care-story__desc">약 45만 명 소비자 참여투표</p>
+								</div>
+							</a>
+						</div>
+						<div class="swiper-slide">
+							<a href="/board/view.php?bdId=solanews&sno=117" class="home-care-story__block" data-sno="117">
+								<div class="home-care-story__image">
+									<img src="/data/contents_image/2025/news/solaMagazine_95.jpg" alt="제28회 과학기술대상" loading="lazy" />
+								</div>
+								<div class="home-care-story__text">
+									<p class="home-care-story__caption">제28회 과학기술대상<br>농림축산식품부 장관표창</p>
+									<p class="home-care-story__desc">식품 과학기술 분야 수상</p>
+								</div>
+							</a>
+						</div>
+						<div class="swiper-slide">
+							<a href="/board/view.php?bdId=solanews&sno=116" class="home-care-story__block" data-sno="116">
+								<div class="home-care-story__image">
+									<img src="/data/contents_image/2025/news/solaMagazine_94.jpg" alt="탄단지 523 영양죽 출시" loading="lazy" />
+								</div>
+								<div class="home-care-story__text">
+									<p class="home-care-story__caption">탄단지 523 영양죽 출시<br>저당 저나트륨 등도 맞춰</p>
+									<p class="home-care-story__desc">영양 균형 맞춤 죽 라인</p>
+								</div>
+							</a>
+						</div>
+					</div> -->
+				</div>
+				<!-- <div class="swiper-button-prev swiper-button-prev-care"></div>
+				<div class="swiper-button-next swiper-button-next-care"></div> -->
+			</div>
+    </section>
 
     <!-- SEC 8: Instagram -->
     <!-- <section class="home-instagram">
