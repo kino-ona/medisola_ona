@@ -269,9 +269,7 @@ function closePopup() {
 					<span>진행중인 이벤트</span>
 				</h2>
 			</div>
-			<!-- board/_board_article.html -->
 			<div class="home-event__list">
-				{=includeWidget('board/board_article', 'bdId', 'event', 'listCount', 4, 'strCut', 20)}
 			</div>
 		</section>
 
@@ -417,7 +415,9 @@ function closePopup() {
 					</h2>
 				</div>
 				<div class="home-care-story__list">
+					<!-- board/_board_article.html -->
 					{=includeWidget('board/board_article', 'bdId', 'solanews', 'listCount', 4, 'strCut', 20)}
+					
 					<!-- <div class="swiper-wrapper">
 						<div class="swiper-slide">
 							<a href="/board/view.php?bdId=solanews&sno=119" class="home-care-story__block" data-sno="119">
